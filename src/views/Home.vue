@@ -2,9 +2,12 @@
 	<div class="home">
 		<h1 class="home__title">clubs.</h1>
 		<p class="home__content">
-			Clubs는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션으로,
-			자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지,
-			그리고 동아리 부원만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
+			Clubs는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
+			<span>
+				으로,
+				자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지,
+				그리고 동아리 부원만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
+			</span>
 		</p>
 		<button class="home__start">시작하기</button>
 	</div>
@@ -52,5 +55,19 @@ export default Vue.extend({});
 	font-size: 35px;
 	padding: 15px 136px;
 	border-radius: 100px;
+}
+
+@media screen and (max-width: 768px) {
+	.home__content {
+		width: 80%;
+		margin: 10% 0;
+		margin-bottom: 20%;
+	}
+	.home__content > span {
+		display: none;
+	}
+	.home__start {
+		padding: 10px 20%;
+	}
 }
 </style>

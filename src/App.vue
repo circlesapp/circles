@@ -2,11 +2,24 @@
 	<div id="app">
 		<div class="menu">
 			<header class="menu__left">
-				<h1 class="menu__left__title">Clubs.</h1>
-				<nav class="menu__left__list">
-					<router-link to="/" class="menu__left__list__item">메인</router-link>
-					<router-link to="/page" class="menu__left__list__item">페이지</router-link>
-					<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
+				<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
+				<h1 class="menu__left__title">clubs.</h1>
+				<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
+					<router-link
+						to="/"
+						class="menu__left__list__item"
+						:class="{'menu__left__list__item-active':currentOption == 0}"
+					>메인</router-link>
+					<router-link
+						to="/page"
+						class="menu__left__list__item"
+						:class="{'menu__left__list__item-active':currentOption == 1}"
+					>페이지</router-link>
+					<router-link
+						to="/community"
+						class="menu__left__list__item"
+						:class="{'menu__left__list__item-active':currentOption == 2}"
+					>커뮤니티</router-link>
 					<div class="menu__left__list__bar" ref="bar"></div>
 				</nav>
 			</header>
@@ -25,17 +38,28 @@ import Vue from "vue";
 export default Vue.extend({
 	data() {
 		return {
-			menuOption: ["home", "page", "community"]
+			menuOption: ["home", "page", "community"],
+			currentOption: 0,
+			showMenu: false
 		};
 	},
 	mounted() {
-		let idx = this.menuOption.indexOf(this.$route.name!) as number;
-		(this.$refs.bar as HTMLDivElement).style.left = `${idx * 120}px`;
+		this.currentOption = this.menuOption.indexOf(
+			this.$route.name!
+		) as number;
+		(this.$refs.bar as HTMLDivElement).style.left = `${this.currentOption *
+			120}px`;
 	},
 	watch: {
 		$route(next, prev) {
-			let idx = this.menuOption.indexOf(next.name) as number;
-			(this.$refs.bar as HTMLDivElement).style.left = `${idx * 120}px`;
+			this.currentOption = this.menuOption.indexOf(next.name) as number;
+			(this.$refs.bar as HTMLDivElement).style.left = `${this
+				.currentOption * 120}px`;
+		}
+	},
+	methods: {
+		toggleMenu() {
+			this.showMenu = !this.showMenu;
 		}
 	}
 });
@@ -86,12 +110,18 @@ export default Vue.extend({
 
 	line-height: 1.5em;
 	letter-spacing: 0.02em;
+
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+::-webkit-scrollbar {
+	display: none;
 }
 #app {
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
 	height: 100vh;
+	overflow: hidden;
 }
 .menu {
 	width: 100%;
@@ -105,6 +135,18 @@ export default Vue.extend({
 	align-items: center;
 
 	z-index: 1000;
+}
+.menu__menubutton {
+	display: none;
+
+	color: white;
+	font-weight: bold;
+
+	border: none;
+	background: none;
+
+	padding: 15px;
+	font-size: 2em;
 }
 .menu__left {
 	display: flex;
@@ -146,7 +188,7 @@ export default Vue.extend({
 
 	background-color: white;
 
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
+	transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 
 .content {
@@ -158,5 +200,44 @@ export default Vue.extend({
 .content__router {
 	width: 100%;
 	height: 100%;
+	overflow-y: scroll;
+}
+@media screen and (max-width: 768px) {
+	.menu__left {
+	}
+	.menu__left__list {
+		position: fixed;
+		margin: 0;
+		top: 0;
+		left: -80vw;
+
+		width: 80vw;
+		height: 100vh;
+		background-color: white;
+		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
+		z-index: 1001;
+
+		flex-direction: column;
+
+        transition: 0.5s;
+	}
+    .menu__left__list-show{
+        left: 0;
+    }
+	.menu__left__list__item {
+		height: auto;
+		width: 100%;
+
+		padding: 10px;
+		color: #538fff;
+		transition: 0.5s;
+	}
+	.menu__left__list__item-active {
+		color: white;
+		background-color: #538fff;
+	}
+	.menu__menubutton {
+		display: block;
+	}
 }
 </style>
