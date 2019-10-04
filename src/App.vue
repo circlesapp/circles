@@ -44,6 +44,12 @@ export default Vue.extend({
 		};
 	},
 	mounted() {
+		let deferredPrompt;
+		window.addEventListener("beforeinstallprompt", (e: any) => {
+			e.preventDefault();
+			deferredPrompt = e;
+			e.prompt();
+		});
 		this.currentOption = this.menuOption.indexOf(
 			this.$route.name!
 		) as number;
@@ -219,11 +225,11 @@ export default Vue.extend({
 
 		flex-direction: column;
 
-        transition: 0.5s;
+		transition: 0.5s;
 	}
-    .menu__left__list-show{
-        left: 0;
-    }
+	.menu__left__list-show {
+		left: 0;
+	}
 	.menu__left__list__item {
 		height: auto;
 		width: 100%;
