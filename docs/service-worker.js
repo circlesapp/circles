@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/FrontEnd/precache-manifest.6401a67560e49d75d16ac5eca0333bf2.js"
+  "/FrontEnd/precache-manifest.a3569703ae8adfd68b778bcc3f8711eb.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "clubs"});

@@ -1,127 +1,162 @@
 <template>
 	<div id="app">
-        <!-- 테스트 용 -->
-		<div class="top1">
-			<div class="top1__left">clubs.</div>
-			<div class="top1__right">
-				<div class="top1__right__item" >페이지</div>
-				<div class="top1__right__item">드라이브</div>
-				<div class="top1__right__item">관리</div>
-                <div class="top__right__bottombar"></div>
-			</div>
+		<div class="menu">
+			<header class="menu__left">
+				<h1 class="menu__left__title">Clubs.</h1>
+				<nav class="menu__left__list">
+					<router-link to="/" class="menu__left__list__item">메인</router-link>
+					<router-link to="/page" class="menu__left__list__item">페이지</router-link>
+					<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
+					<div class="menu__left__list__bar" ref="bar"></div>
+				</nav>
+			</header>
+			<div class="menu__right"></div>
 		</div>
-		<div class="top2">
-			<div class="top2__left"></div>
-			<div class="top2__right">
-				<div class="top2__right__item">타임라인</div>
-				<div class="top2__right__item">수상실적</div>
-				<div class="top2__right__item">부원소개</div>
-				<div class="top2__right__item">예산 공개 개시판</div>
-				<div class="top2__right__item">설문조사</div>
-				<div class="top2__right__item">채용</div>
-			</div>
-		</div>
-		<!-- <router-view /> -->
+		<section class="content">
+			<transition name="router-animation">
+				<router-view class="content__router" />
+			</transition>
+		</section>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.extend({
+	data() {
+		return {
+			menuOption: ["home", "page", "community"]
+		};
+	},
+	mounted() {
+		let idx = this.menuOption.indexOf(this.$route.name!) as number;
+		(this.$refs.bar as HTMLDivElement).style.left = `${idx * 120}px`;
+	},
+	watch: {
+		$route(next, prev) {
+			let idx = this.menuOption.indexOf(next.name) as number;
+			(this.$refs.bar as HTMLDivElement).style.left = `${idx * 120}px`;
+		}
+	}
+});
 </script>
 
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-/* 테스트 용 */
 @font-face {
 	font-family: "AvenirBlack";
 	src: url("./assets/Avenir Black.ttf") format("truetype");
 }
-body {
-	background-color: #f5f7fa;
+@font-face {
+	font-family: "NanumSquareB";
+	src: url("./assets/NanumSquareB.ttf") format("truetype");
 }
-.top1 {
+@font-face {
+	font-family: "NanumSquareEB";
+	src: url("./assets/NanumSquareEB.ttf") format("truetype");
+}
+@font-face {
+	font-family: "NanumSquareR";
+	src: url("./assets/NanumSquareR.ttf") format("truetype");
+}
+.router-animation-enter-active,
+.router-animation-leave-active {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: 1s;
+}
+.router-animation-enter {
+	transform: translateY(100%);
+}
+.router-animation-enter-to {
+	transform: translateY(0);
+}
+.router-animation-leave {
+	transform: translateY(0);
+}
+.router-animation-leave-to {
+	transform: translateY(-100%);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "NanumSquareR";
+
+	line-height: 1.5em;
+	letter-spacing: 0.02em;
+}
+#app {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+}
+.menu {
+	width: 100%;
+	height: 90px;
+
 	background-color: #538fff;
-	height: 94px;
+	color: white;
 
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-between;
 	align-items: center;
+
+	z-index: 1000;
 }
-.top1__left {
+.menu__left {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+.menu__left__title {
+	margin-left: 2vw;
 	font-family: "AvenirBlack";
-	font-size: 38px;
-	color: white;
 	font-weight: 900;
-	margin-left: 2%;
-
-	width: 250px;
+	font-size: 38px;
 }
-.top1__right {
-    position: relative;
-    height: 100%;
+.menu__left__list {
+	position: relative;
 	display: flex;
+	margin-left: 7.6vw;
+	height: 100%;
 }
-.top__right__bottombar{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    width: 120px;
-    background-color: white;
-    opacity: 0;
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.0);
-    bottom: -5px;
-}
-.top1__right__item {
+.menu__left__list__item {
 	width: 120px;
-    height: 100%;
-	font-size: 14px;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 18px;
+	font-weight: 800;
 	color: white;
+	text-decoration: none;
+}
+.menu__left__list__bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.top1__right__item:hover~.top__right__bottombar{
-    opacity: 1;
-    bottom: 0;
-}
-.top1__right__item:nth-child(1):hover~.top__right__bottombar{
-    left: 0px;
-}
-.top1__right__item:nth-child(2):hover~.top__right__bottombar{
-    left: 120px;
-}
-.top1__right__item:nth-child(3):hover~.top__right__bottombar{
-    left: 240px;
-}
-.top2 {
-	background-color: #ffffff;
-	height: 94px;
-
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-}
-.top2__right {
-    height: 100%;
-	margin: calc(2% + 250px);
-	display: flex;
-}
-.top2__right__item {
 	width: 120px;
-    height: 100%;
-	font-size: 14px;
-	color: #9cb2cd;
+	height: 5px;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	background-color: white;
+
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
+}
+
+.content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.content__router {
+	width: 100%;
+	height: 100%;
 }
 </style>
