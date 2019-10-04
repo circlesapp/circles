@@ -20,10 +20,21 @@
 						class="menu__left__list__item"
 						:class="{'menu__left__list__item-active':currentOption == 2}"
 					>커뮤니티</router-link>
+					<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
 					<div class="menu__left__list__bar" ref="bar"></div>
 				</nav>
 			</header>
 			<div class="menu__right"></div>
+		</div>
+		<div class="submenu" :class="{'submenu-show':currentOption != 0}">
+			<div class="submenu__list">
+				<div class="submenu__list__item">타임라인</div>
+				<div class="submenu__list__item">수상실적</div>
+				<div class="submenu__list__item">부원소개</div>
+				<div class="submenu__list__item">예산공지</div>
+				<div class="submenu__list__item">설문조사</div>
+				<div class="submenu__list__item">채용</div>
+			</div>
 		</div>
 		<section class="content">
 			<transition name="router-animation">
@@ -40,14 +51,14 @@ export default Vue.extend({
 		return {
 			menuOption: ["home", "page", "community"],
 			currentOption: 0,
-			showMenu: false
+			showMenu: false,
+			deferredPrompt: null as any
 		};
 	},
 	mounted() {
-		let deferredPrompt;
 		window.addEventListener("beforeinstallprompt", (e: any) => {
 			e.preventDefault();
-			deferredPrompt = e;
+			this.deferredPrompt = e;
 			e.prompt();
 		});
 		this.currentOption = this.menuOption.indexOf(
@@ -66,6 +77,9 @@ export default Vue.extend({
 	methods: {
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
+		},
+		showPWA() {
+			this.deferredPrompt.prompt();
 		}
 	}
 });
@@ -128,6 +142,8 @@ export default Vue.extend({
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
+
+	background-color: #f5f7fa;
 }
 .menu {
 	width: 100%;
@@ -197,6 +213,47 @@ export default Vue.extend({
 	transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 
+.submenu {
+	width: 100%;
+	height: 0;
+
+	background-color: white;
+	color: #9cb2cd;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	transition: 0.5s;
+	overflow: hidden;
+	opacity: 0;
+}
+.submenu-show {
+	opacity: 1;
+	height: 90px;
+}
+.submenu__list {
+	height: 100%;
+	margin-left: calc(9.6vw + 6.75em);
+	display: flex;
+}
+.submenu__list__item {
+    cursor: pointer;
+
+	width: 120px;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 14px;
+	font-weight: 800;
+}
+.menu__left__list__item__pwa {
+	display: none;
+}
+
 .content {
 	position: relative;
 	width: 100%;
@@ -221,7 +278,6 @@ export default Vue.extend({
 		height: 100vh;
 		background-color: white;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
-		z-index: 1001;
 
 		flex-direction: column;
 
@@ -234,9 +290,14 @@ export default Vue.extend({
 		height: auto;
 		width: 100%;
 
+		text-align: center;
+
 		padding: 10px;
 		color: #538fff;
 		transition: 0.5s;
+	}
+	.menu__left__list__item__pwa {
+		display: block;
 	}
 	.menu__left__list__item-active {
 		color: white;

@@ -55,6 +55,17 @@ export default Vue.extend({});
 	font-size: 35px;
 	padding: 15px 136px;
 	border-radius: 100px;
+	outline: none;
+
+    transition: 0.5s;
+}
+.home__start:hover {
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.5);
+    background-color: #538fff;
+    color: white;
+}
+.home__start:active{
+	box-shadow: none;
 }
 
 @media screen and (max-width: 768px) {
