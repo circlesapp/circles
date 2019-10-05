@@ -1,9 +1,9 @@
 <template>
 	<div id="app">
-		<div class="menu">
+		<div class="menu" v-if="currentOption != -1">
 			<header class="menu__left">
 				<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
-				<h1 class="menu__left__title">clubs.</h1>
+				<h1 class="menu__left__title">circles.</h1>
 				<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
 					<router-link
 						to="/"
@@ -26,7 +26,7 @@
 			</header>
 			<div class="menu__right"></div>
 		</div>
-		<div class="submenu" :class="{'submenu-show':currentOption != 0}">
+		<div class="submenu" v-if="currentOption != 0 && currentOption != -1">
 			<div class="submenu__list">
 				<div class="submenu__list__item">타임라인</div>
 				<div class="submenu__list__item">수상실적</div>
@@ -101,6 +101,10 @@ export default Vue.extend({
 @font-face {
 	font-family: "NanumSquareR";
 	src: url("./assets/NanumSquareR.ttf") format("truetype");
+}
+@font-face {
+	font-family: "NanumSquareL";
+	src: url("./assets/NanumSquareL.ttf") format("truetype");
 }
 .router-animation-enter-active,
 .router-animation-leave-active {
@@ -238,7 +242,7 @@ export default Vue.extend({
 	display: flex;
 }
 .submenu__list__item {
-    cursor: pointer;
+	cursor: pointer;
 
 	width: 120px;
 	height: 100%;

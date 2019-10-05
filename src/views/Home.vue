@@ -1,8 +1,8 @@
 <template>
 	<div class="home">
-		<h1 class="home__title">clubs.</h1>
+		<h1 class="home__title">circles.</h1>
 		<p class="home__content">
-			Clubs는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
+			circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
 			<span>
 				으로,
 				자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지,
