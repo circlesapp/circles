@@ -69,6 +69,7 @@ export default Vue.extend({});
 .login__inputwrapper h3 {
 	font-family: "NanumSquareL";
 	font-size: 24px;
+    margin-left: 10px;
 }
 .login__inputwrapper input {
 	width: 100%;

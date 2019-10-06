@@ -8,9 +8,7 @@
 			</h2>
 			<div class="register__inputwrapper">
 				<h3>이용약관</h3>
-				<p
-					class="register__textarea"
-				>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, molestias doloremque consequatur id dicta dolores enim mollitia aliquid, odit nobis suscipit qui quibusdam cum ea voluptate natus temporibus deleniti perspiciatis.</p>
+				<p class="register__textarea">Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, molestias doloremque consequatur id dicta dolores enim mollitia aliquid, odit nobis suscipit qui quibusdam cum ea voluptate natus temporibus deleniti perspiciatis.</p>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
@@ -50,7 +48,7 @@ export default Vue.extend({});
 
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+    justify-content: space-between;
 }
 .register__rowwrapper {
 	width: 100%;
@@ -76,17 +74,16 @@ export default Vue.extend({});
 }
 .register__text span {
 	font-size: 20px;
-	margin-left: 4%;
-	margin-bottom: 1%;
+    	margin-left: 4%;
+    margin-bottom: 1%;
 }
 .register__inputwrapper {
 	padding: 10px;
 }
 .register__inputwrapper h3 {
-	margin-left: 10px;
+    margin-left: 10px;
 	font-family: "NanumSquareL";
 	font-size: 24px;
-	margin-left: 10px;
 }
 .register__inputwrapper input {
 	width: 100%;
@@ -107,7 +104,7 @@ export default Vue.extend({});
 }
 .register__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
-	padding: 22px 20px;
+    padding: 22px 20px;
 }
 .register__inputwrapper input::placeholder {
 	font-family: "NanumSquareR", sans-serif;
@@ -115,11 +112,11 @@ export default Vue.extend({});
 	color: #999999;
 }
 
-.register__textarea {
-	padding: 20px;
+.register__textarea{
+    padding: 20px;
 	margin: 20px 0;
-	border: 1px solid #eeeeee;
-	border-radius: 8px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
 }
 
 .register__button {
