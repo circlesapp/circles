@@ -7,7 +7,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		userToken: "",
-		userInformation: null
+		userInformation: null,
+		club: null as any,
+		mainPath: "http://localhost:3000/"
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -15,6 +17,9 @@ export default new Vuex.Store({
 		},
 		setUserInformation(state, data) {
 			state.userInformation = data;
+		},
+		setClub(state, data) {
+			state.club = data;
 		}
 	},
 	actions: {
@@ -54,6 +59,35 @@ export default new Vuex.Store({
 					})
 					.then(user => {
 						commit("setUserInformation", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		GET_CLUB({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get("http://localhost:3000/club/getClubInformation", {
+						params: {
+							name: data
+						}
+					})
+					.then(user => {
+						commit("setClub", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		GET_CLUB_POSTS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`http://localhost:3000/club/${state.club.name}/post/getPublicPosts`)
+					.then(user => {
 						resolve(user.data.data);
 					})
 					.catch(err => {

@@ -1,11 +1,6 @@
 <template>
 	<div class="timeline">
-		<Post></Post>
-		<Post></Post>
-		<Post></Post>
-		<Post></Post>
-		<Post></Post>
-		<Post></Post>
+		<Post v-for="post in posts" :key="post._id" :data="post"></Post>
 	</div>
 </template>
 
@@ -15,14 +10,27 @@ import Post from "../../components/Post.vue";
 export default Vue.extend({
 	components: {
 		Post
+	},
+	data() {
+		return {
+			posts: []
+		};
+	},
+	created() {
+		this.$store
+			.dispatch("GET_CLUB_POSTS")
+			.then(posts => {
+				this.posts = posts;
+			})
+			.catch(err => {});
 	}
 });
 </script>
 
 <style>
-.timeline{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.timeline {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div class="menu">
+		<div class="menu" v-if="isShowMenuRoute">
 			<header class="menu__left">
 				<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
 				<h1 class="menu__left__title">circles.</h1>
@@ -14,7 +14,7 @@
 			</header>
 			<div class="menu__right"></div>
 		</div>
-		
+
 		<section class="content">
 			<transition name="router-animation">
 				<router-view class="content__router" />
@@ -65,7 +65,6 @@ export default Vue.extend({
 				this.$store
 					.dispatch("GET_USER_PROFILE", token)
 					.then(user => {
-						console.log(this.$store.state.userInformation);
 						this.isLoading = false;
 					})
 					.catch(err => {
@@ -78,6 +77,13 @@ export default Vue.extend({
 	computed: {
 		getUserInformation() {
 			return this.$store.state.userInformation;
+		},
+		isShowMenuRoute() {
+			return (
+				["login", "register", "passwordchange"].indexOf(
+					this.$route.name || ""
+				) == -1
+			);
 		}
 	}
 });

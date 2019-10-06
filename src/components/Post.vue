@@ -3,28 +3,35 @@
 		<h3 class="post__title">
 			<img src="http://benefits.fastfive.co.kr/wp-content/uploads/2019/03/logo_lenovo.jpg" />
 			<p>
-				<span class="clubname">레노버 - Lenovo</span> 이 사진 7장을 업로드했습니다.
+				<span class="clubname">{{data.owner.name}}</span>
+				님이 사진 {{data.imgPath.length}}장을 업로드했습니다.
 				<br />
-				<span class="moment">6 시간 전</span>
+				<span class="moment">{{data.timeString}}</span>
 			</p>
 			<i class="material-icons post__menu">more_horiz</i>
 		</h3>
-		<article class="post__content">ThinkPad 좋아요</article>
-		<article class="post__image">
-			<div class="post__image__mainImage"></div>
-			<div class="post__image__sublist">
-				<div class="post__image__subImage"></div>
-				<div class="post__image__subImage"></div>
+		<article class="post__content">{{data.content}}</article>
+		<article class="post__image" v-if="data.imgPath.length">
+			<div class="post__image__mainImage">
+				<img :src="getMainPath+data.imgPath[0]" alt />
+			</div>
+			<div class="post__image__sublist" v-if="data.imgPath.length > 2">
+				<div class="post__image__subImage">
+					<img :src="getMainPath+data.imgPath[1]" alt />
+				</div>
+				<div class="post__image__subImage">
+					<img :src="getMainPath+data.imgPath[1]" alt />
+				</div>
 			</div>
 		</article>
 		<div class="post__action">
 			<p class="post__action__heart">
 				<i class="material-icons">favorite</i>
-				123
+				{{data.likes.length}}
 			</p>
 			<p class="post__action__comment">
 				<i class="material-icons">insert_comment</i>
-				123
+				{{data.comments.length}}
 			</p>
 		</div>
 	</div>
@@ -32,7 +39,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.extend({
+	props: {
+		data: Object
+	},
+	computed: {
+		getMainPath(): string {
+			return this.$store.state.mainPath;
+		}
+	}
+});
 </script>
 
 <style>
@@ -95,6 +111,10 @@ export default Vue.extend({});
 	margin-right: 10px;
 
 	background-color: #f8fbff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 .post__image__sublist {
 	flex: 1;
@@ -106,9 +126,16 @@ export default Vue.extend({});
 	width: 100%;
 
 	background-color: #f8fbff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
 }
 .post__image__subImage:nth-child(1) {
 	margin-bottom: 10px;
+}
+.post__image img{
+    height: 100%;
 }
 .post__action {
 	display: flex;
@@ -129,12 +156,12 @@ export default Vue.extend({});
 }
 .post__action__heart i {
 	color: #ff4475;
-    font-size: 25px;
-    margin-right: 10px;
+	font-size: 25px;
+	margin-right: 10px;
 }
 .post__action__comment i {
 	color: #538fff;
-    font-size: 25px;
-    margin-right: 10px;
+	font-size: 25px;
+	margin-right: 10px;
 }
 </style>

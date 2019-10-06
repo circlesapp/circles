@@ -11,16 +11,35 @@
 			</div>
 		</div>
 		<div class="page__content">
-			<router-view></router-view>
+			<router-view v-if="!isLoading"></router-view>
 		</div>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
+	components: {
+		LoadingBar
+	},
 	data() {
-		return {};
+		return {
+			isLoading: true
+		};
+	},
+	created() {
+		this.$store
+			.dispatch("GET_CLUB", this.$route.params.club)
+			.then(club => {
+				if (!club) this.$router.push("/");
+				this.isLoading = false;
+			})
+			.catch(err => {
+				this.isLoading = false;
+				this.$router.push("/");
+			});
 	}
 });
 </script>
