@@ -1,22 +1,23 @@
 <template>
 	<div id="app">
-		<div class="menu" v-if="isShowMenuRoute">
-			<header class="menu__left">
-				<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
-				<h1 class="menu__left__title">circles.</h1>
-				<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
-					<router-link to="/" class="menu__left__list__item">메인</router-link>
-					<router-link to="/edcan/page/timeline" class="menu__left__list__item">페이지</router-link>
-					<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
-					<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
-					<div class="menu__left__list__bar" ref="bar"></div>
-				</nav>
-			</header>
-			<div class="menu__right"></div>
-		</div>
-
+		<transition name="menu-animation">
+			<div class="menu" v-if="isShowMenuRoute">
+				<header class="menu__left">
+					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
+					<h1 class="menu__left__title">circles.</h1>
+					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
+						<router-link to="/" class="menu__left__list__item">메인</router-link>
+						<router-link to="/edcan/page/timeline" class="menu__left__list__item">페이지</router-link>
+						<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
+						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
+						<div class="menu__left__list__bar" ref="bar"></div>
+					</nav>
+				</header>
+				<div class="menu__right"></div>
+			</div>
+		</transition>
 		<section class="content">
-			<transition name="router-animation">
+			<transition :name="routerAnimation">
 				<router-view class="content__router" />
 			</transition>
 		</section>
@@ -35,7 +36,11 @@ export default Vue.extend({
 		return {
 			showMenu: false,
 			deferredPrompt: null as any,
-			isLoading: false
+			isLoading: false,
+			routerAnimation: "",
+
+			isMounteRequired: false,
+			idx: 0
 		};
 	},
 	created() {
@@ -47,11 +52,49 @@ export default Vue.extend({
 			this.deferredPrompt = e;
 			e.prompt();
 		});
+		if (this.isMounteRequired) {
+			this.setBarPosition();
+		}
+
+		let routeList = [] as any[];
+		this.$router.beforeEach((to, from, next) => {
+			console.log(routeList);
+			if (
+				routeList.length > 1 &&
+				to.name == routeList[routeList.length - 2]
+			) {
+				this.routerAnimation = "routerdown-animation";
+				routeList.splice(routeList.length - 1, 1);
+				setTimeout(function() {
+					next();
+				}, 15);
+				return;
+			} else {
+				this.routerAnimation = "routerup-animation";
+				routeList.push(to.name);
+				next();
+			}
+		});
 	},
+
 	watch: {
-		$route(next, prev) {}
+		$route(next, prev) {
+			this.idx = ["home", "page"].indexOf(next.name.split("/")[0]);
+			this.isMounteRequired = true;
+			if (this.idx != -1) {
+				if (this.$refs.bar as HTMLDivElement) {
+					this.setBarPosition();
+				} else {
+					this.isMounteRequired = true;
+				}
+			}
+		}
 	},
 	methods: {
+		setBarPosition() {
+			(this.$refs.bar as HTMLDivElement).style.left =
+				120 * this.idx + "px";
+		},
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
 		},
@@ -110,24 +153,52 @@ export default Vue.extend({
 	font-family: "NanumSquareL";
 	src: url("./assets/NanumSquareL.ttf") format("truetype");
 }
-.router-animation-enter-active,
-.router-animation-leave-active {
+.menu-animation-enter-active,
+.menu-animation-leave-active {
+	transition: 0.5s;
+	overflow: hidden;
+}
+.menu-animation-enter,
+.menu-animation-leave-to {
+	height: 0 !important;
+}
+.menu-animation-leave,
+.menu-animation-enter-to {
+	height: 90 !important;
+}
+.routerup-animation-enter-active,
+.routerup-animation-leave-active,
+.routerdown-animation-enter-active,
+.routerdown-animation-leave-active {
 	position: absolute;
 	top: 0;
 	left: 0;
 	transition: 1s;
 }
-.router-animation-enter {
+.routerup-animation-enter {
 	transform: translateY(100%);
 }
-.router-animation-enter-to {
+.routerup-animation-enter-to {
 	transform: translateY(0);
 }
-.router-animation-leave {
+.routerup-animation-leave {
 	transform: translateY(0);
 }
-.router-animation-leave-to {
+.routerup-animation-leave-to {
 	transform: translateY(-100%);
+}
+
+.routerdown-animation-enter {
+	transform: translateY(-100%);
+}
+.routerdown-animation-enter-to {
+	transform: translateY(0);
+}
+.routerdown-animation-leave {
+	transform: translateY(0);
+}
+.routerdown-animation-leave-to {
+	transform: translateY(100%);
 }
 
 * {
@@ -262,6 +333,7 @@ export default Vue.extend({
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	transition: 0.5s;
 }
 .content__router {
 	width: 100%;
@@ -269,8 +341,6 @@ export default Vue.extend({
 	overflow-y: scroll;
 }
 @media screen and (max-width: 768px) {
-	.menu__left {
-	}
 	.menu__left__list {
 		position: fixed;
 		margin: 0;

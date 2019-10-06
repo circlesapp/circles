@@ -15,7 +15,7 @@ export default new Router({
 	routes: [
 		{
 			path: "/",
-			name: "topbar/home",
+			name: "home",
 			component: Home
 		},
 		{
@@ -35,9 +35,9 @@ export default new Router({
 		},
 		{
 			path: "/:club/page",
-            name: "club",
-            component: Page,
-			children: [{ path: "timeline", component: Timeline }]
+			name: "page",
+			component: Page,
+			children: [{ path: "timeline", name: "page/timeline", component: Timeline }]
 		}
 	]
 });
