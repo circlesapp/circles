@@ -1,5 +1,9 @@
 self.__precacheManifest = [
   {
+    "revision": "f2a56a3bef1a85a94f09f8d4ffe5eb46",
+    "url": "/FrontEnd/fonts/NanumSquareL.f2a56a3b.ttf"
+  },
+  {
     "revision": "604fbde1ab75de02e22fb2c57406dbbe",
     "url": "/FrontEnd/service-worker.js"
   },
@@ -12,11 +16,11 @@ self.__precacheManifest = [
     "url": "/FrontEnd/js/chunk-vendors.06e8c2f1.js"
   },
   {
-    "revision": "5b762f73cd943e88018f",
-    "url": "/FrontEnd/js/app.8e99c22e.js"
+    "revision": "33192d3b8d925c03842a",
+    "url": "/FrontEnd/js/app.b0c1eaab.js"
   },
   {
-    "revision": "5750c09d57190fcf2126b45ea8d9afb0",
+    "revision": "43521f9aa6046a94af4d77ce7ea44995",
     "url": "/FrontEnd/index.html"
   },
   {
@@ -36,7 +40,7 @@ self.__precacheManifest = [
     "url": "/FrontEnd/fonts/Avenir Black.d10ab385.ttf"
   },
   {
-    "revision": "5b762f73cd943e88018f",
-    "url": "/FrontEnd/css/app.abe7005a.css"
+    "revision": "33192d3b8d925c03842a",
+    "url": "/FrontEnd/css/app.98fd0928.css"
   }
 ];

@@ -219,7 +219,7 @@ export default Vue.extend({
 
 .submenu {
 	width: 100%;
-	height: 0;
+	height: 90px;
 
 	background-color: white;
 	color: #9cb2cd;
@@ -230,11 +230,6 @@ export default Vue.extend({
 
 	transition: 0.5s;
 	overflow: hidden;
-	opacity: 0;
-}
-.submenu-show {
-	opacity: 1;
-	height: 90px;
 }
 .submenu__list {
 	height: 100%;

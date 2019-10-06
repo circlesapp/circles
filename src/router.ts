@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
+import PasswordChange from "./views/PasswordChange.vue";
 import Page from "./views/Page.vue";
 import Community from "./views/Community.vue";
 
@@ -26,6 +27,11 @@ export default new Router({
 			path: "/register",
 			name: "register",
 			component: Register
+		},
+		{
+			path: "/passwordchange",
+			name: "passwordchange",
+			component: PasswordChange
 		},
 		{
 			path: "/page",

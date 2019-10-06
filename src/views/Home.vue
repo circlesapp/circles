@@ -9,7 +9,7 @@
 				그리고 동아리 부원만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
 			</span>
 		</p>
-		<button class="home__start">시작하기</button>
+		<router-link to="/login" class="home__start">시작하기</router-link>
 	</div>
 </template>
 
@@ -49,6 +49,7 @@ export default Vue.extend({});
 .home__start {
 	cursor: pointer;
 	font-family: "NanumSquareEB";
+    text-decoration: none;
 	border: none;
 	background-color: white;
 	color: #538fff;

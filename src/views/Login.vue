@@ -8,7 +8,7 @@
 			</h2>
 			<div class="login__inputwrapper">
 				<h3>이메일</h3>
-				<input type="text" placeholder="이메일을 입력하세요." />
+				<input type="email" placeholder="이메일을 입력하세요." />
 			</div>
 			<div class="login__inputwrapper">
 				<h3>비밀번호</h3>
@@ -16,7 +16,7 @@
 			</div>
 			<button class="login__button">로그인</button>
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
-			<router-link to="/passwordchange" class="login__option">비밀번호 재설정 ></router-link>
+			<router-link to="/passwordchange" class="login__option"  style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
 		</div>
 	</div>
 </template>
@@ -40,26 +40,28 @@ export default Vue.extend({});
 
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+    justify-content: space-between;
 }
 
 .login__title {
 	font-size: 50px;
-	margin: 5%;
+	margin: 20px;
 	font-family: "AvenirBlack";
 	text-align: center;
 }
 .login__text {
 	font-family: "NanumSquareL";
 	font-size: 38px;
-	margin: 10% 0;
+	margin: 5% 0;
+    margin-bottom: 10%;
 
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 }
 .login__text span {
 	font-size: 20px;
-	margin-left: 2%;
+	margin-left: 4%;
+    margin-bottom: 1%;
 }
 .login__inputwrapper {
 	padding: 10px;
@@ -71,7 +73,8 @@ export default Vue.extend({});
 .login__inputwrapper input {
 	width: 100%;
 
-	padding: 10px;
+	padding: 15px;
+	margin: 20px 0;
 
 	background: none;
 	border: none;
@@ -80,16 +83,22 @@ export default Vue.extend({});
 	font-family: "NanumSquareR", sans-serif;
 	font-size: 24px;
 	color: #273142;
+
+	border: solid 1px #eeeeee;
+	border-radius: 8px;
 }
 .login__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
+    padding: 22px 20px;
 }
 .login__inputwrapper input::placeholder {
+	font-family: "NanumSquareR", sans-serif;
+	font-size: 24px;
 	color: #999999;
 }
 
 .login__button {
-	width: 50%;
+	width: 60%;
 	margin: 10% auto;
 	padding: 5px;
 
@@ -104,6 +113,6 @@ export default Vue.extend({});
 	color: #737c8c;
 	font-size: 24px;
 	text-align: center;
-	margin: 1%;
+	margin: 1.5%;
 }
 </style>
