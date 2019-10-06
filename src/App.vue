@@ -1,59 +1,45 @@
 <template>
 	<div id="app">
-		<div class="menu" v-if="currentOption != -1">
+		<div class="menu">
 			<header class="menu__left">
 				<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
 				<h1 class="menu__left__title">circles.</h1>
 				<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
-					<router-link
-						to="/"
-						class="menu__left__list__item"
-						:class="{'menu__left__list__item-active':currentOption == 0}"
-					>메인</router-link>
-					<router-link
-						to="/page"
-						class="menu__left__list__item"
-						:class="{'menu__left__list__item-active':currentOption == 1}"
-					>페이지</router-link>
-					<router-link
-						to="/community"
-						class="menu__left__list__item"
-						:class="{'menu__left__list__item-active':currentOption == 2}"
-					>커뮤니티</router-link>
+					<router-link to="/" class="menu__left__list__item">메인</router-link>
+					<router-link to="/edcan/page/timeline" class="menu__left__list__item">페이지</router-link>
+					<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
 					<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
 					<div class="menu__left__list__bar" ref="bar"></div>
 				</nav>
 			</header>
 			<div class="menu__right"></div>
 		</div>
-		<div class="submenu" v-if="currentOption != 0 && currentOption != -1">
-			<div class="submenu__list">
-				<div class="submenu__list__item">타임라인</div>
-				<div class="submenu__list__item">수상실적</div>
-				<div class="submenu__list__item">부원소개</div>
-				<div class="submenu__list__item">예산공지</div>
-				<div class="submenu__list__item">설문조사</div>
-				<div class="submenu__list__item">채용</div>
-			</div>
-		</div>
+		
 		<section class="content">
 			<transition name="router-animation">
 				<router-view class="content__router" />
 			</transition>
 		</section>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import LoadingBar from "./components/LoadingBar.vue";
 export default Vue.extend({
+	components: {
+		LoadingBar
+	},
 	data() {
 		return {
-			menuOption: ["home", "page", "community"],
-			currentOption: 0,
 			showMenu: false,
-			deferredPrompt: null as any
+			deferredPrompt: null as any,
+			isLoading: false
 		};
+	},
+	created() {
+		this.loginCheck();
 	},
 	mounted() {
 		window.addEventListener("beforeinstallprompt", (e: any) => {
@@ -61,18 +47,9 @@ export default Vue.extend({
 			this.deferredPrompt = e;
 			e.prompt();
 		});
-		this.currentOption = this.menuOption.indexOf(
-			this.$route.name!
-		) as number;
-		(this.$refs.bar as HTMLDivElement).style.left = `${this.currentOption *
-			120}px`;
 	},
 	watch: {
-		$route(next, prev) {
-			this.currentOption = this.menuOption.indexOf(next.name) as number;
-			(this.$refs.bar as HTMLDivElement).style.left = `${this
-				.currentOption * 120}px`;
-		}
+		$route(next, prev) {}
 	},
 	methods: {
 		toggleMenu() {
@@ -80,6 +57,27 @@ export default Vue.extend({
 		},
 		showPWA() {
 			this.deferredPrompt.prompt();
+		},
+		loginCheck() {
+			let token = localStorage.getItem("clubs.loginToken");
+			if (token) {
+				this.isLoading = true;
+				this.$store
+					.dispatch("GET_USER_PROFILE", token)
+					.then(user => {
+						console.log(this.$store.state.userInformation);
+						this.isLoading = false;
+					})
+					.catch(err => {
+						this.isLoading = false;
+						this.$store.state.userToken = "";
+					});
+			}
+		}
+	},
+	computed: {
+		getUserInformation() {
+			return this.$store.state.userInformation;
 		}
 	}
 });

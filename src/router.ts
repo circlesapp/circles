@@ -5,7 +5,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
 import Page from "./views/Page.vue";
-import Community from "./views/Community.vue";
+import Timeline from "./views/Page/Timeline.vue";
 
 Vue.use(Router);
 
@@ -15,7 +15,7 @@ export default new Router({
 	routes: [
 		{
 			path: "/",
-			name: "home",
+			name: "topbar/home",
 			component: Home
 		},
 		{
@@ -34,14 +34,10 @@ export default new Router({
 			component: PasswordChange
 		},
 		{
-			path: "/page",
-			name: "page",
-			component: Page
-		},
-		{
-			path: "/community",
-			name: "community",
-			component: Community
+			path: "/:club/page",
+            name: "club",
+            component: Page,
+			children: [{ path: "timeline", component: Timeline }]
 		}
 	]
 });

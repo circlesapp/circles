@@ -8,23 +8,71 @@
 			</h2>
 			<div class="login__inputwrapper">
 				<h3>이메일</h3>
-				<input type="email" placeholder="이메일을 입력하세요." />
+				<input name="email" type="email" placeholder="이메일을 입력하세요." v-model="email" />
 			</div>
 			<div class="login__inputwrapper">
 				<h3>비밀번호</h3>
-				<input type="password" placeholder="비밀번호를 입력하세요." />
+				<input
+					name="password"
+					type="password"
+					placeholder="비밀번호를 입력하세요."
+					@keypress="enterPress"
+					v-model="password"
+				/>
 			</div>
-			<button class="login__button">로그인</button>
+			<button class="login__button" @click="login">로그인</button>
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
-			<router-link to="/passwordchange" class="login__option"  style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
+			<router-link to="/passwordchange" class="login__option" style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
 		</div>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import LoadingBar from "../components/LoadingBar.vue";
+export default Vue.extend({
+	components: {
+		LoadingBar
+	},
+	data() {
+		return {
+			email: "",
+			password: "",
+			isLoading: false
+		};
+	},
+	methods: {
+		enterPress(e: any) {
+			if (e.keyCode == 13) this.login();
+		},
+		login() {
+			this.isLoading = true;
+			this.$store
+				.dispatch("LOGIN", {
+					email: this.email,
+					password: this.password
+				})
+				.then(token => {
+					this.isLoading = false;
+					this.$store
+						.dispatch("GET_USER_PROFILE", token)
+						.then(user => {
+							localStorage.setItem("clubs.loginToken", token);
+							this.isLoading = false;
+							this.$router.push("/");
+						})
+						.catch(err => {
+							this.isLoading = false;
+						});
+				})
+				.catch(err => {
+					this.isLoading = false;
+				});
+		}
+	}
+});
 </script>
 
 <style>
@@ -40,7 +88,7 @@ export default Vue.extend({});
 
 	display: flex;
 	flex-direction: column;
-    justify-content: space-between;
+	justify-content: space-between;
 }
 
 .login__title {
@@ -53,7 +101,7 @@ export default Vue.extend({});
 	font-family: "NanumSquareL";
 	font-size: 38px;
 	margin: 5% 0;
-    margin-bottom: 10%;
+	margin-bottom: 10%;
 
 	display: flex;
 	align-items: flex-end;
@@ -61,7 +109,7 @@ export default Vue.extend({});
 .login__text span {
 	font-size: 20px;
 	margin-left: 4%;
-    margin-bottom: 1%;
+	margin-bottom: 1%;
 }
 .login__inputwrapper {
 	padding: 10px;
@@ -69,7 +117,7 @@ export default Vue.extend({});
 .login__inputwrapper h3 {
 	font-family: "NanumSquareL";
 	font-size: 24px;
-    margin-left: 10px;
+	margin-left: 10px;
 }
 .login__inputwrapper input {
 	width: 100%;
@@ -90,7 +138,7 @@ export default Vue.extend({});
 }
 .login__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
-    padding: 22px 20px;
+	padding: 22px 20px;
 }
 .login__inputwrapper input::placeholder {
 	font-family: "NanumSquareR", sans-serif;
@@ -103,6 +151,7 @@ export default Vue.extend({});
 	margin: 10% auto;
 	padding: 5px;
 
+	border: none;
 	border-radius: 100px;
 	background: #273142;
 	color: white;

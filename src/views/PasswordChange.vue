@@ -102,6 +102,7 @@ export default Vue.extend({});
 	margin: 10% auto;
 	padding: 5px;
 
+    border: none;
 	border-radius: 100px;
 	background: #273142;
 	color: white;

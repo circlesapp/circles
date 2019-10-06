@@ -3,28 +3,36 @@
 		<div class="register__wrapper">
 			<h1 class="register__title">circles.</h1>
 			<h2 class="register__text">
-				회원가입
+				회원 가입
 				<span>Join</span>
 			</h2>
 			<div class="register__inputwrapper">
 				<h3>이용약관</h3>
-				<p class="register__textarea">Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, molestias doloremque consequatur id dicta dolores enim mollitia aliquid, odit nobis suscipit qui quibusdam cum ea voluptate natus temporibus deleniti perspiciatis.</p>
+				<p
+					class="register__textarea"
+				>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, molestias doloremque consequatur id dicta dolores enim mollitia aliquid, odit nobis suscipit qui quibusdam cum ea voluptate natus temporibus deleniti perspiciatis.</p>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
 					<h3>이름</h3>
-					<input type="text" placeholder="이름을 입력하세요." />
+					<input type="text" name="name" placeholder="이름을 입력하세요." v-model="name" />
 				</div>
 				<div class="register__inputwrapper" style="margin-left:20px;">
 					<h3>이메일</h3>
-					<input type="email" placeholder="이메일을 입력하세요." />
+					<input type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" />
 				</div>
 			</div>
 			<div class="register__inputwrapper">
 				<h3>비밀번호</h3>
-				<input type="password" placeholder="비밀번호를 입력하세요." />
+				<input
+					type="password"
+					name="password"
+					placeholder="비밀번호를 입력하세요."
+					@keypress="enterPress"
+					v-model="password"
+				/>
 			</div>
-			<button class="register__button">회원가입</button>
+			<button class="register__button" @click="register">회원가입</button>
 		</div>
 	</div>
 </template>
@@ -32,7 +40,34 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.extend({
+	data() {
+		return {
+			email: "",
+			password: "",
+			name: ""
+		};
+	},
+	methods: {
+		enterPress(e: any) {
+			if (e.keyCode == 13) this.register();
+		},
+		register() {
+			this.$store
+				.dispatch("REGISTER", {
+					email: this.email,
+					password: this.password,
+					name: this.name
+				})
+				.then(token => {
+					this.$router.push("/login");
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
+	}
+});
 </script>
 
 <style>
@@ -48,7 +83,7 @@ export default Vue.extend({});
 
 	display: flex;
 	flex-direction: column;
-    justify-content: space-between;
+	justify-content: space-between;
 }
 .register__rowwrapper {
 	width: 100%;
@@ -74,14 +109,14 @@ export default Vue.extend({});
 }
 .register__text span {
 	font-size: 20px;
-    	margin-left: 4%;
-    margin-bottom: 1%;
+	margin-left: 4%;
+	margin-bottom: 1%;
 }
 .register__inputwrapper {
 	padding: 10px;
 }
 .register__inputwrapper h3 {
-    margin-left: 10px;
+	margin-left: 10px;
 	font-family: "NanumSquareL";
 	font-size: 24px;
 }
@@ -104,7 +139,7 @@ export default Vue.extend({});
 }
 .register__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
-    padding: 22px 20px;
+	padding: 22px 20px;
 }
 .register__inputwrapper input::placeholder {
 	font-family: "NanumSquareR", sans-serif;
@@ -112,11 +147,11 @@ export default Vue.extend({});
 	color: #999999;
 }
 
-.register__textarea{
-    padding: 20px;
+.register__textarea {
+	padding: 20px;
 	margin: 20px 0;
-    border: 1px solid #eeeeee;
-    border-radius: 8px;
+	border: 1px solid #eeeeee;
+	border-radius: 8px;
 }
 
 .register__button {
@@ -124,6 +159,7 @@ export default Vue.extend({});
 	margin: 5% auto;
 	padding: 5px;
 
+	border: none;
 	border-radius: 100px;
 	background: #273142;
 	color: white;
