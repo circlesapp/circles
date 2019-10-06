@@ -6,9 +6,9 @@
 					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
 					<h1 class="menu__left__title">circles.</h1>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
-						<router-link to="/" class="menu__left__list__item">메인</router-link>
-						<router-link to="/edcan/page/timeline" class="menu__left__list__item">페이지</router-link>
-						<router-link to="/community" class="menu__left__list__item">커뮤니티</router-link>
+						<router-link to="/" class="menu__left__list__item" :class="{'menu__left__list__item-active':idx == 0}">메인</router-link>
+						<router-link to="/edcan/page/timeline" class="menu__left__list__item" :class="{'menu__left__list__item-active':idx == 1}">페이지</router-link>
+						<router-link to="/community" class="menu__left__list__item" :class="{'menu__left__list__item-active':idx == 2}">커뮤니티</router-link>
 						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
 						<div class="menu__left__list__bar" ref="bar"></div>
 					</nav>
@@ -58,7 +58,6 @@ export default Vue.extend({
 
 		let routeList = [] as any[];
 		this.$router.beforeEach((to, from, next) => {
-			console.log(routeList);
 			if (
 				routeList.length > 1 &&
 				to.name == routeList[routeList.length - 2]
@@ -211,6 +210,7 @@ export default Vue.extend({
 	letter-spacing: 0.02em;
 
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	outline: none;
 }
 ::-webkit-scrollbar {
 	display: none;

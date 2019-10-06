@@ -156,6 +156,7 @@ export default Vue.extend({
 
 .register__button {
 	width: 30%;
+    min-width: 300px;
 	margin: 5% auto;
 	padding: 5px;
 
