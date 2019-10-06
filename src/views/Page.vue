@@ -2,12 +2,12 @@
 	<div class="page">
 		<div class="submenu">
 			<div class="submenu__list">
-				<div class="submenu__list__item">타임라인</div>
-				<div class="submenu__list__item">수상실적</div>
-				<div class="submenu__list__item">부원소개</div>
-				<div class="submenu__list__item">예산공지</div>
-				<div class="submenu__list__item">설문조사</div>
-				<div class="submenu__list__item">채용</div>
+				<router-link to="timeline" class="submenu__list__item">타임라인</router-link>
+				<router-link to="award" class="submenu__list__item">수상실적</router-link>
+				<router-link to="member" class="submenu__list__item">부원소개</router-link>
+				<router-link to="budget" class="submenu__list__item">예산공지</router-link>
+				<router-link to="poll" class="submenu__list__item">설문조사</router-link>
+				<router-link to="applicant" class="submenu__list__item">채용</router-link>
 			</div>
 		</div>
 		<div class="page__content">
@@ -40,6 +40,11 @@ export default Vue.extend({
 				this.isLoading = false;
 				this.$router.push("/");
 			});
+	},
+	computed: {
+		getClub() {
+			return this.$store.state.club;
+		}
 	}
 });
 </script>
@@ -58,7 +63,6 @@ export default Vue.extend({
 	height: 90px;
 
 	background-color: white;
-	color: #9cb2cd;
 	box-shadow: inset 0 1px 0 0 #d7e3f1;
 
 	display: flex;
@@ -85,6 +89,9 @@ export default Vue.extend({
 
 	font-size: 14px;
 	font-weight: 800;
+    
+	color: #9cb2cd;
+    text-decoration: none;
 }
 .submenu__list__item:hover {
 	background-color: #9cb2cd;

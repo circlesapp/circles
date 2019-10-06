@@ -87,8 +87,20 @@ export default new Vuex.Store({
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.get(`http://localhost:3000/club/${state.club.name}/post/getPublicPosts`)
-					.then(user => {
-						resolve(user.data.data);
+					.then(posts => {
+						resolve(posts.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		GET_CLUB_AWARDS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`http://localhost:3000/club/${state.club.name}/award/getPublicAwards`)
+					.then(awards => {
+						resolve(awards.data.data);
 					})
 					.catch(err => {
 						reject(err);
