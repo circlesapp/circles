@@ -1,10 +1,14 @@
 <template>
 	<div class="post">
 		<h3 class="post__title">
-			<img src="http://benefits.fastfive.co.kr/wp-content/uploads/2019/03/logo_lenovo.jpg" />
+			<img
+				:src="data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+			/>
 			<p>
 				<span class="clubname">{{data.owner.name}}</span>
-				님이 사진 {{data.imgPath.length}}장을 업로드했습니다.
+				님이
+				<span v-if="data.imgPath.length">사진 {{data.imgPath.length}}장을 업로드했습니다.</span>
+				<span>글을 업로드했습니다.</span>
 				<br />
 				<span class="moment">{{data.timeString}}</span>
 			</p>
@@ -111,10 +115,10 @@ export default Vue.extend({
 	margin-right: 10px;
 
 	background-color: #f8fbff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 .post__image__sublist {
 	flex: 1;
@@ -126,16 +130,16 @@ export default Vue.extend({
 	width: 100%;
 
 	background-color: #f8fbff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 .post__image__subImage:nth-child(1) {
 	margin-bottom: 10px;
 }
-.post__image img{
-    height: 100%;
+.post__image img {
+	height: 100%;
 }
 .post__action {
 	display: flex;

@@ -3,15 +3,17 @@
 		<div class="submenu">
 			<div class="submenu__list">
 				<router-link to="timeline" class="submenu__list__item">타임라인</router-link>
-				<router-link to="award" class="submenu__list__item">수상실적</router-link>
-				<router-link to="member" class="submenu__list__item">부원소개</router-link>
+				<router-link to="awards" class="submenu__list__item">수상실적</router-link>
+				<router-link to="members" class="submenu__list__item">부원소개</router-link>
 				<router-link to="budget" class="submenu__list__item">예산공지</router-link>
 				<router-link to="poll" class="submenu__list__item">설문조사</router-link>
 				<router-link to="applicant" class="submenu__list__item">채용</router-link>
 			</div>
 		</div>
 		<div class="page__content">
-			<router-view v-if="!isLoading"></router-view>
+			<transition name="routerfade-animation">
+				<router-view v-if="!isLoading"></router-view>
+			</transition>
 		</div>
 		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
@@ -50,6 +52,32 @@ export default Vue.extend({
 </script>
 
 <style>
+.routerfade-animation-enter-active,
+.routerfade-animation-leave-active {
+	transition: 0.5s;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.routerfade-animation-enter {
+	opacity: 0;
+	transform: scale(0.95);
+}
+.routerfade-animation-enter-to {
+	opacity: 1;
+	transform: scale(1);
+}
+.routerfade-animation-leave {
+	opacity: 1;
+	transform: scale(1);
+}
+.routerfade-animation-leave-to {
+	opacity: 0;
+	transform: scale(1.05);
+}
+
 .page {
 	display: flex;
 	flex-direction: column;
@@ -57,6 +85,8 @@ export default Vue.extend({
 .page__content {
 	flex: 1;
 	overflow: scroll;
+
+	position: relative;
 }
 .submenu {
 	width: 100%;

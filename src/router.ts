@@ -6,7 +6,8 @@ import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
 import Page from "./views/Page.vue";
 import Timeline from "./views/Page/Timeline.vue";
-import Award from "./views/Page/Award.vue";
+import Awards from "./views/Page/Awards.vue";
+import Members from "./views/Page/Members.vue";
 
 Vue.use(Router);
 
@@ -38,7 +39,11 @@ export default new Router({
 			path: "/:club/page",
 			name: "page",
 			component: Page,
-			children: [{ path: "timeline", name: "page/timeline", component: Timeline }, { path: "award", name: "page/award", component: Award }]
+			children: [
+				{ path: "timeline", name: "page/timeline", component: Timeline },
+				{ path: "awards", name: "page/awards", component: Awards },
+				{ path: "members", name: "page/members", component: Members }
+			]
 		}
 	]
 });

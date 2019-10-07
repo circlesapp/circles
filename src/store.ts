@@ -106,6 +106,18 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
+		},
+		GET_CLUB_MEMBERS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`http://localhost:3000/club/${state.club.name}/member/getPublicMembers`)
+					.then(members => {
+						resolve(members.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
 		}
 	}
 });

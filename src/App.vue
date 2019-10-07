@@ -14,7 +14,7 @@
 							{{getClub.name || '-'}}
 						</div>
 						<div class="menu__left__list__profile" v-else>
-							<router-link to="/login" @click="showMenu = false">로그인 ></router-link>
+							<router-link to="/login">로그인 ></router-link>
 							<br />
 							<br />
 							<router-link to="/register">계정 만들기 ></router-link>
@@ -369,7 +369,6 @@ export default Vue.extend({
 	font-weight: bold;
 
 	text-align: center;
-
 }
 .menu__left__list__profile * {
 	color: #538fff;
