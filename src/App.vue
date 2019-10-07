@@ -6,6 +6,19 @@
 					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
 					<h1 class="menu__left__title">circles.</h1>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
+						<div class="menu__left__list__profile" v-if="getUserInformation.name">
+							<img :src="getUserImage" alt />
+							<br />
+							{{getUserInformation.name}}
+							<br />
+							{{getClub.name || '-'}}
+						</div>
+						<div class="menu__left__list__profile" v-else>
+							<router-link to="/login" @click="showMenu = false">로그인 ></router-link>
+							<br />
+							<br />
+							<router-link to="/register">계정 만들기 ></router-link>
+						</div>
 						<router-link
 							to="/"
 							class="menu__left__list__item"
@@ -68,7 +81,7 @@ export default Vue.extend({
 		this.idx = ["home", "page"].indexOf(route.name.split("/")[0]);
 		this.setBarPosition();
 
-		let routeList = [] as any[];
+		let routeList = [this.$route.name] as any[];
 		this.$router.beforeEach((to, from, next) => {
 			if (
 				routeList.length > 1 &&
@@ -129,6 +142,18 @@ export default Vue.extend({
 	computed: {
 		getUserInformation() {
 			return this.$store.state.userInformation;
+		},
+		getUserImage() {
+			if (this.$store.state.userInformation.imgPath)
+				return (
+					this.$store.state.mainPath +
+					this.$store.state.userInformation.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		getClub() {
+			return this.$store.state.club;
 		},
 		isShowMenuRoute() {
 			return (
@@ -334,6 +359,28 @@ export default Vue.extend({
 	font-size: 14px;
 	font-weight: 800;
 }
+.menu__left__list__profile {
+	display: none;
+	color: #538fff;
+	text-decoration: none;
+
+	padding: 40px;
+	font-size: 30px;
+	font-weight: bold;
+
+	text-align: center;
+
+}
+.menu__left__list__profile * {
+	color: #538fff;
+	text-decoration: none;
+}
+.menu__left__list__profile img {
+	width: 150px;
+	height: 150px;
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+	border-radius: 100%;
+}
 .menu__left__list__item__pwa {
 	display: none;
 }
@@ -377,6 +424,7 @@ export default Vue.extend({
 
 		padding: 10px;
 		color: #538fff;
+		font-size: 24px;
 		transition: 0.5s;
 	}
 	.menu__left__list__item__pwa {
@@ -385,6 +433,9 @@ export default Vue.extend({
 	.menu__left__list__item-active {
 		color: white;
 		background-color: #538fff;
+	}
+	.menu__left__list__profile {
+		display: block;
 	}
 	.menu__menubutton {
 		display: block;

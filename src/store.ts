@@ -7,8 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		userToken: "",
-		userInformation: null,
-		club: null as any,
+		userInformation: {},
+		club: {} as any,
 		mainPath: "http://localhost:3000/"
 	},
 	mutations: {

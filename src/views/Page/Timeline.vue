@@ -33,4 +33,9 @@ export default Vue.extend({
 	flex-direction: column;
 	align-items: center;
 }
+@media screen and (max-width: 768px) {
+	.timeline {
+		padding: 0 25px;
+	}
+}
 </style>

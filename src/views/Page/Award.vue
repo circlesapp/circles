@@ -4,7 +4,7 @@
 			<img class="award__clubimage" :src="getClubImage" alt />
 			<div>
 				<h3>{{getClub.name}}</h3>
-				<p>선린 인터넷 고등학교</p>
+				<p>{{getClub.school || '-'}}</p>
 			</div>
 		</h2>
 		<div class="award__list">
@@ -38,8 +38,12 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		getClubImage() {
-			// return this.$store.state.mainPath + this.$store.state.club.imgPath;
-			return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.$store.state.club.imgPath)
+				return (
+					this.$store.state.mainPath + this.$store.state.club.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		}
 	}
 });
@@ -96,7 +100,7 @@ export default Vue.extend({
 @media screen and (max-width: 768px) {
 	.award__list__item {
 		flex-basis: 100%;
-		margin-right: 0;
+		margin-left: 0 !important;
 	}
 }
 </style>

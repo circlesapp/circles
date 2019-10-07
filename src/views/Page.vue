@@ -71,6 +71,7 @@ export default Vue.extend({
 
 	transition: 0.5s;
 	overflow: hidden;
+	overflow-x: scroll;
 }
 .submenu__list {
 	height: 100%;
@@ -89,12 +90,17 @@ export default Vue.extend({
 
 	font-size: 14px;
 	font-weight: 800;
-    
+
 	color: #9cb2cd;
-    text-decoration: none;
+	text-decoration: none;
 }
 .submenu__list__item:hover {
 	background-color: #9cb2cd;
 	color: white;
+}
+@media screen and (max-width: 768px) {
+	.submenu__list {
+		margin: 0;
+	}
 }
 </style>
