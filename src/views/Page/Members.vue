@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import MemberBox from "../../components/MemberBox.vue";
+import MemberBox from "../../components/Page/MemberBox.vue";
 export default Vue.extend({
     name : "Members",
 	components: {

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Post from "../../components/Post.vue";
+import Post from "../../components/Page/Post.vue";
 export default Vue.extend({
     name : "Timeline",
 	components: {

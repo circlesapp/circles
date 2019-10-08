@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AwardBox from "../../components/AwardBox.vue";
+import AwardBox from "../../components/Page/AwardBox.vue";
 export default Vue.extend({
     name : "Awards",
 	components: {

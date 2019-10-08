@@ -8,6 +8,7 @@ import Page from "./views/Page.vue";
 import Timeline from "./views/Page/Timeline.vue";
 import Awards from "./views/Page/Awards.vue";
 import Members from "./views/Page/Members.vue";
+import Budgets from "./views/Page/Budgets.vue";
 
 Vue.use(Router);
 
@@ -42,7 +43,8 @@ export default new Router({
 			children: [
 				{ path: "timeline", name: "page/timeline", component: Timeline },
 				{ path: "awards", name: "page/awards", component: Awards },
-				{ path: "members", name: "page/members", component: Members }
+				{ path: "members", name: "page/members", component: Members },
+				{ path: "budgets", name: "page/budgets", component: Budgets }
 			]
 		}
 	]
