@@ -7,17 +7,21 @@
 					<h1 class="menu__left__title">circles.</h1>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
 						<div class="menu__left__list__profile" v-if="getUserInformation.name">
-							<img :src="getUserImage" alt />
-							<br />
-							{{getUserInformation.name}}
-							<br />
-							{{getClub.name || '-'}}
-						</div>
-						<div class="menu__left__list__profile" v-else>
-							<router-link to="/login">로그인 ></router-link>
-							<br />
-							<br />
-							<router-link to="/register">계정 만들기 ></router-link>
+							<div class="menu__left__profile__information">
+								<div class="information__wrapper">
+									<img :src="getUserImage" alt />
+									<div>
+										<h3 class="name">{{getUserInformation.name}}</h3>
+										<p class="email">{{getUserInformation.email}}</p>
+									</div>
+								</div>
+								<div class="arrow">></div>
+							</div>
+							<div class="menu__left__profile__club">{{getClub.name || '-'}}</div>
+							<div class="menu__left__profile__rank">
+								<div class="left">직위</div>
+								<div class="right">{{getRank}}</div>
+							</div>
 						</div>
 						<router-link
 							to="/"
@@ -38,7 +42,26 @@
 						<div class="menu__left__list__bar" ref="bar"></div>
 					</nav>
 				</header>
-				<div class="menu__right"></div>
+				<div class="menu__right" v-if="getUserInformation.name">
+					<img :src="getUserImage" @click="toggleProfile" />
+					<div class="menu__right__profile" v-if="showProfile">
+						<div class="menu__right__profile__information">
+							<div class="information__wrapper">
+								<img :src="getUserImage" alt />
+								<div>
+									<h3 class="name">{{getUserInformation.name}}</h3>
+									<p class="email">{{getUserInformation.email}}</p>
+								</div>
+							</div>
+							<div class="arrow">></div>
+						</div>
+						<div class="menu__right__profile__club">{{getClub.name || '-'}}</div>
+						<div class="menu__right__profile__rank">
+							<div class="left">직위</div>
+							<div class="right">{{getRank}}</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</transition>
 		<section class="content">
@@ -54,13 +77,14 @@
 import Vue from "vue";
 import LoadingBar from "./components/LoadingBar.vue";
 export default Vue.extend({
-    name : "App",
+	name: "App",
 	components: {
 		LoadingBar
 	},
 	data() {
 		return {
 			showMenu: false,
+			showProfile: false,
 			deferredPrompt: null as any,
 			isLoading: false,
 			routerAnimation: "",
@@ -121,6 +145,9 @@ export default Vue.extend({
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
 		},
+		toggleProfile() {
+			this.showProfile = !this.showProfile;
+		},
 		showPWA() {
 			this.deferredPrompt.prompt();
 		},
@@ -162,6 +189,15 @@ export default Vue.extend({
 					this.$route.name || ""
 				) == -1
 			);
+		},
+		getRank() {
+			if (this.$store.state.club.name) {
+				return this.$store.state.club.members.find(
+					(x: any) => x.user == this.$store.state.userInformation._id
+				).rank;
+			} else {
+				return "-";
+			}
 		}
 	}
 });
@@ -327,6 +363,134 @@ export default Vue.extend({
 	transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 
+.menu__left__list__item__pwa {
+	display: none;
+}
+.menu__left__list__profile {
+	padding: 25px;
+}
+.menu__left__list__profile * {
+	color: #273142;
+	text-decoration: none;
+}
+.menu__left__profile__information {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.menu__left__profile__information .information__wrapper {
+	display: flex;
+	align-items: center;
+}
+.menu__left__profile__information img {
+	width: 60px !important;
+	height: 60px !important;
+	margin-right: 30px;
+	border-radius: 100%;
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+}
+.menu__left__profile__information .name {
+	font-family: "NanumSquareEB";
+	font-size: 20px;
+}
+.menu__left__profile__information .email {
+	font-family: "NanumSquareL";
+	font-size: 16px;
+}
+.menu__left__profile__information .arrow {
+	font-family: "NanumSquareEB";
+	font-size: 20px;
+}
+
+.menu__left__profile__club {
+	margin-top: 30px;
+	text-align: right;
+	font-family: "NanumSquareL";
+	font-size: 20px;
+}
+.menu__left__profile__rank {
+	display: flex;
+	justify-content: space-between;
+}
+.menu__left__profile__rank .left {
+	font-family: "NanumSquareB";
+	font-size: 20px;
+}
+.menu__left__profile__rank .right {
+	font-family: "NanumSquareL";
+	font-size: 20px;
+}
+
+.menu__right {
+}
+.menu__right > img {
+	width: 34px;
+	height: 34px;
+	margin-right: 30px;
+	border-radius: 100%;
+	background-color: #f5f7fa;
+}
+.menu__right__profile {
+	position: fixed;
+	right: 0;
+	top: 70px;
+	width: 380px;
+	border-radius: 4px;
+	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
+
+	padding: 25px;
+	background-color: white;
+	color: #273142;
+	z-index: 3000;
+}
+.menu__right__profile__information {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.menu__right__profile__information .information__wrapper {
+	display: flex;
+	align-items: center;
+}
+.menu__right__profile__information img {
+	width: 49px;
+	height: 49px;
+	margin-right: 30px;
+	border-radius: 100%;
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+}
+.menu__right__profile__information .name {
+	font-family: "NanumSquareEB";
+	font-size: 20px;
+}
+.menu__right__profile__information .email {
+	font-family: "NanumSquareL";
+	font-size: 16px;
+}
+.menu__right__profile__information .arrow {
+	font-family: "NanumSquareEB";
+	font-size: 20px;
+}
+
+.menu__right__profile__club {
+	margin-top: 30px;
+	text-align: right;
+	font-family: "NanumSquareL";
+	font-size: 20px;
+}
+.menu__right__profile__rank {
+	display: flex;
+	justify-content: space-between;
+}
+.menu__right__profile__rank .left {
+	font-family: "NanumSquareB";
+	font-size: 20px;
+}
+.menu__right__profile__rank .right {
+	font-family: "NanumSquareL";
+	font-size: 20px;
+}
+
 .submenu {
 	width: 100%;
 	height: 90px;
@@ -359,30 +523,6 @@ export default Vue.extend({
 	font-size: 14px;
 	font-weight: 800;
 }
-.menu__left__list__profile {
-	display: none;
-	color: #538fff;
-	text-decoration: none;
-
-	padding: 40px;
-	font-size: 30px;
-	font-weight: bold;
-
-	text-align: center;
-}
-.menu__left__list__profile * {
-	color: #538fff;
-	text-decoration: none;
-}
-.menu__left__list__profile img {
-	width: 150px;
-	height: 150px;
-	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
-	border-radius: 100%;
-}
-.menu__left__list__item__pwa {
-	display: none;
-}
 
 .content {
 	position: relative;
@@ -394,10 +534,13 @@ export default Vue.extend({
 .content__router {
 	width: 100%;
 	height: 100%;
-    	transition: 1s;
+	transition: 1s;
 	overflow-y: scroll;
 }
 @media screen and (max-width: 768px) {
+	.menu__right {
+		display: none;
+	}
 	.menu__left__list {
 		position: fixed;
 		margin: 0;

@@ -65,13 +65,11 @@ export default Vue.extend({
 			} else {
 				this.sortKey = key;
 			}
-			console.log(this.sortKey, this.sortBy);
 		}
 	},
 	computed: {
 		getOrderedBudgets(): any {
 			if (this.sortKey == "") {
-				console.log(this.budgets);
 				return this.budgets;
 			} else {
 				return this.budgets.sort((a: any, b: any): any => {
@@ -88,6 +86,7 @@ export default Vue.extend({
 <style>
 .budgettablebox {
 	width: 100%;
+    min-width: 1400px;
 
 	background-color: white;
 	color: #9cb2cd;
