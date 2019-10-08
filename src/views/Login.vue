@@ -33,6 +33,7 @@
 import Vue from "vue";
 import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
+    name : "Login",
 	components: {
 		LoadingBar
 	},

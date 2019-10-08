@@ -17,6 +17,7 @@
 import Vue from "vue";
 import AwardBox from "../../components/AwardBox.vue";
 export default Vue.extend({
+    name : "Awards",
 	components: {
 		AwardBox
 	},

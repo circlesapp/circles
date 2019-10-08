@@ -8,6 +8,7 @@
 import Vue from "vue";
 import Post from "../../components/Post.vue";
 export default Vue.extend({
+    name : "Timeline",
 	components: {
 		Post
 	},

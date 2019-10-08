@@ -8,6 +8,7 @@
 import Vue from "vue";
 import MemberBox from "../../components/MemberBox.vue";
 export default Vue.extend({
+    name : "Members",
 	components: {
 		MemberBox
 	},

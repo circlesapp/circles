@@ -23,6 +23,7 @@
 import Vue from "vue";
 import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
+    name : "Page",
 	components: {
 		LoadingBar
 	},
@@ -39,8 +40,8 @@ export default Vue.extend({
 				this.isLoading = false;
 			})
 			.catch(err => {
-				this.isLoading = false;
 				this.$router.push("/");
+				this.isLoading = false;
 			});
 	},
 	computed: {

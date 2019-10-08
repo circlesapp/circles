@@ -54,6 +54,7 @@
 import Vue from "vue";
 import LoadingBar from "./components/LoadingBar.vue";
 export default Vue.extend({
+    name : "App",
 	components: {
 		LoadingBar
 	},
@@ -207,7 +208,6 @@ export default Vue.extend({
 	position: absolute;
 	top: 0;
 	left: 0;
-	transition: 1s;
 }
 .routerup-animation-enter {
 	transform: translateY(100%);
@@ -394,6 +394,7 @@ export default Vue.extend({
 .content__router {
 	width: 100%;
 	height: 100%;
+    	transition: 1s;
 	overflow-y: scroll;
 }
 @media screen and (max-width: 768px) {
