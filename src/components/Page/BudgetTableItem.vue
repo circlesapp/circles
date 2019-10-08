@@ -1,14 +1,13 @@
 <template>
 	<tr class="budgettableitem">
-		<td>{{data.number}}</td>
-		<td>품목</td>
-		<td>규격</td>
-		<td>단가</td>
-		<td>수량</td>
-		<td>배송료</td>
-		<td>금액</td>
-		<td>URL</td>
-		<td>마감</td>
+		<td>{{data.item}}</td>
+		<td>{{data.size}}</td>
+		<td>{{data.price}}</td>
+		<td>{{data.quantity}}</td>
+		<td>{{data.shipping}}</td>
+		<td>{{data.total}}</td>
+		<td>{{data.url}}</td>
+		<td>{{data.date}}</td>
 	</tr>
 </template>
 

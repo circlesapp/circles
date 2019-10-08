@@ -2,7 +2,7 @@
 	<div class="memberbox">
 		<img
 			class="memberbox__img"
-			:src="data.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+			:src="getMainPath+data.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
 			alt
 		/>
 		<h3>{{data.name}}</h3>
@@ -15,6 +15,11 @@ import Vue from "vue";
 export default Vue.extend({
 	props: {
 		data: Object
+	},
+	computed: {
+		getMainPath(): string {
+			return this.$store.state.mainPath;
+		}
 	}
 });
 </script>
@@ -61,6 +66,6 @@ export default Vue.extend({
 	text-align: center;
 	color: #202841;
 
-    margin-top: 20px;
+	margin-top: 20px;
 }
 </style>

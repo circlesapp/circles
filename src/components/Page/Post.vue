@@ -2,7 +2,7 @@
 	<div class="post">
 		<h3 class="post__title">
 			<img
-				:src="data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+				:src="getMainPath+data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
 			/>
 			<p>
 				<span class="clubname">{{data.owner.name}}</span>

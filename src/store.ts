@@ -118,6 +118,18 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
+		},
+		GET_CLUB_BUDGETS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`http://localhost:3000/club/${state.club.name}/budget/getPublicBudgets`)
+					.then(budgets => {
+						resolve(budgets.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
 		}
 	}
 });
