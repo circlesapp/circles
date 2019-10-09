@@ -1,14 +1,29 @@
 <template>
 	<div class="applicant__main">
-		<router-link tag="div" to="applicant/application" class="applicant__main__item">
+		<div class="applicant__main__item" v-if="isJoinCurrentClub">
+			<i class="material-icons">done</i>
+			<h2>{{getUserInformation.name}} 님</h2>
+			<p>
+				이미 가입한
+				<br />동아리 입니다.
+			</p>
+		</div>
+		<router-link
+			v-else
+			tag="div"
+			:to="{name:'page/applicant/application'}"
+			class="applicant__main__item"
+		>
 			<i class="material-icons">description</i>
-			<h2>지원서 작성</h2>
+			<h2>지원서 {{getIsModificationText}}</h2>
 			<p>
 				동아리 지원을 위한
-				<br />지원서를 작성합니다.
+				<br />
+				지원서를 {{getIsModificationText}}합니다.
 			</p>
+			<div class="modification" v-if="isModification">지원서 수정 ></div>
 		</router-link>
-		<router-link tag="div" to="applicant/recorder" class="applicant__main__item">
+		<router-link tag="div" :to="{name:'page/applicant/recorder'}" class="applicant__main__item">
 			<i class="material-icons">record_voice_over</i>
 			<h2>페이저 수신기</h2>
 			<p>
@@ -16,7 +31,7 @@
 				<br />페이저 수신기입니다.
 			</p>
 		</router-link>
-		<router-link tag="div" to="applicant/result" class="applicant__main__item">
+		<router-link tag="div" :to="{name:'page/applicant/result'}" class="applicant__main__item">
 			<i class="material-icons">assignment_turned_in</i>
 			<h2>결과 확인</h2>
 			<p>
@@ -29,7 +44,56 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.extend({
+	data() {
+		return {
+			isModification: false
+		};
+	},
+	created() {
+		if (this.getUserToken) {
+			this.$store
+				.dispatch("GET_MY_APPLICANT")
+				.then(applicant => {
+					this.isModification = true;
+				})
+				.catch(err => {});
+		}
+	},
+	watch: {
+		getUserToken() {
+			if (!this.isJoinCurrentClub)
+				this.$store
+					.dispatch("GET_MY_APPLICANT")
+					.then(applicant => {
+						this.isModification = true;
+					})
+					.catch(err => {});
+		}
+	},
+	computed: {
+		isJoinCurrentClub() {
+			try {
+				return (
+					this.$store.state.userInformation.clubs.indexOf(
+						this.$store.state.club._id
+					) != -1
+				);
+			} catch (e) {
+				return false;
+			}
+		},
+		getUserToken() {
+			return this.$store.state.userToken;
+		},
+		getIsModificationText(): string {
+			return this.isModification ? "수정" : "작성";
+		},
+		getUserInformation() {
+			return this.$store.state.userInformation;
+		}
+	}
+});
 </script>
 
 <style>
@@ -41,9 +105,10 @@ export default Vue.extend({});
 	padding: 30px;
 }
 .applicant__main__item {
+	position: relative;
 	flex: 1;
 	margin: 30px;
-	padding: 80px 20px;
+	padding: 100px 20px;
 	border-radius: 22px;
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
 	background-color: white;
@@ -75,6 +140,13 @@ export default Vue.extend({});
 	word-break: keep-all;
 	max-width: 500px;
 	text-align: center;
+}
+.modification {
+	position: absolute;
+	bottom: 40px;
+	font-family: "NanumSquareB";
+	font-size: 24px;
+	text-decoration: underline;
 }
 @media screen and (max-width: 1279px) {
 	.applicant__main__item {

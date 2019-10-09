@@ -13,7 +13,7 @@ import Budgets from "./views/Page/Budgets.vue";
 import Polls from "./views/Page/Polls.vue";
 import Applicant from "./views/Page/Applicant.vue";
 import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
-import Application from "./views/Page/Applicant.vue";
+import Application from "./views/Page/Applicant/Application.vue";
 import Recorder from "./views/Page/Applicant/Recorder.vue";
 import Result from "./views/Page/Applicant/Result.vue";
 
@@ -58,7 +58,7 @@ export default new Router({
 					name: "page/applicant",
 					component: Applicant,
 					children: [
-						{ path: "", name: "page/applicant", component: ApplicantMain },
+						{ path: "", name: "page/applicant/main", component: ApplicantMain },
 						{ path: "application", name: "page/applicant/application", component: Application },
 						{ path: "recorder", name: "page/applicant/recorder", component: Recorder },
 						{ path: "result", name: "page/applicant/result", component: Result }

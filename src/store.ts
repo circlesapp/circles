@@ -13,6 +13,7 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		setUserToken(state, data) {
+			console.log(data);
 			state.userToken = data;
 		},
 		setUserInformation(state, data) {
@@ -43,6 +44,56 @@ export default new Vuex.Store({
 					.then(user => {
 						commit("setUserToken", user.data.data);
 						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		GET_MY_APPLICANT({ state, commit }) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`http://localhost:3000/club/${state.club.name}/applicant/getMyApplicant`, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		APPLICANT({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				console.log(state.userToken);
+				axios
+					.post(`http://localhost:3000/club/${state.club.name}/applicant/apply`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		APPLICANT_MODIFICATION({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				console.log(state.userToken);
+				axios
+					.post(`http://localhost:3000/club/${state.club.name}/applicant/modification`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
 					})
 					.catch(err => {
 						reject(err);

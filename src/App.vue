@@ -22,6 +22,7 @@
 								<div class="left">직위</div>
 								<div class="right">{{getRank}}</div>
 							</div>
+							<div class="menu__left__profile__logout" @click="logout">로그아웃</div>
 						</div>
 						<router-link
 							to="/"
@@ -60,6 +61,7 @@
 							<div class="left">직위</div>
 							<div class="right">{{getRank}}</div>
 						</div>
+						<div class="memenu__right__profile__logout" @click="logout">로그아웃</div>
 					</div>
 				</div>
 			</div>
@@ -103,7 +105,9 @@ export default Vue.extend({
 			e.prompt();
 		});
 		let route: any = this.$route;
-		this.idx = ["home", "page","community"].indexOf(route.name.split("/")[0]);
+		this.idx = ["home", "page", "community"].indexOf(
+			route.name.split("/")[0]
+		);
 		this.setBarPosition();
 
 		let routeList = [this.$route.name] as any[];
@@ -128,7 +132,9 @@ export default Vue.extend({
 
 	watch: {
 		$route(next, prev) {
-			this.idx = ["home", "page","community"].indexOf(next.name.split("/")[0]);
+			this.idx = ["home", "page", "community"].indexOf(
+				next.name.split("/")[0]
+			);
 			this.isMounteRequired = true;
 			if (this.idx != -1) {
 				if (this.$refs.bar as HTMLDivElement) {
@@ -158,6 +164,7 @@ export default Vue.extend({
 				this.$store
 					.dispatch("GET_USER_PROFILE", token)
 					.then(user => {
+						this.$store.state.userToken = token;
 						this.isLoading = false;
 					})
 					.catch(err => {
@@ -165,6 +172,11 @@ export default Vue.extend({
 						this.$store.state.userToken = "";
 					});
 			}
+		},
+		logout() {
+			localStorage.removeItem("clubs.loginToken");
+			this.$store.state.userToken = "";
+			this.$store.state.userInformation = {};
 		}
 	},
 	computed: {
@@ -192,9 +204,14 @@ export default Vue.extend({
 		},
 		getRank() {
 			if (this.$store.state.club.name) {
-				return this.$store.state.club.members.find(
-					(x: any) => x.user == this.$store.state.userInformation._id
-				).rank;
+				try {
+					return this.$store.state.club.members.find(
+						(x: any) =>
+							x.user == this.$store.state.userInformation._id
+					).rank;
+				} catch (e) {
+					return "-";
+				}
 			} else {
 				return "-";
 			}
@@ -367,7 +384,7 @@ export default Vue.extend({
 	display: none;
 }
 .menu__left__list__profile {
-    display: none;
+	display: none;
 	padding: 25px;
 }
 .menu__left__list__profile * {

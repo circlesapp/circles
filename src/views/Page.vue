@@ -2,17 +2,17 @@
 	<div class="page">
 		<div class="submenu">
 			<div class="submenu__list">
-				<router-link to="timeline" class="submenu__list__item">타임라인</router-link>
-				<router-link to="awards" class="submenu__list__item">수상실적</router-link>
-				<router-link to="members" class="submenu__list__item">부원소개</router-link>
-				<router-link to="budgets" class="submenu__list__item">예산공지</router-link>
-				<router-link to="poll" class="submenu__list__item">설문조사</router-link>
-				<router-link to="applicant" class="submenu__list__item">채용</router-link>
+				<router-link :to="{name:'page/timeline'}" class="submenu__list__item">타임라인</router-link>
+				<router-link :to="{name:'page/awards'}" class="submenu__list__item">수상실적</router-link>
+				<router-link :to="{name:'page/members'}" class="submenu__list__item">부원소개</router-link>
+				<router-link :to="{name:'page/budgets'}" class="submenu__list__item">예산공지</router-link>
+				<router-link :to="{name:'page/polls'}" class="submenu__list__item">설문조사</router-link>
+				<router-link :to="{name:'page/applicant/main'}" class="submenu__list__item">채용</router-link>
 			</div>
 		</div>
-		<div class="page__content">
+		<div class="page__content" ref="page__content">
 			<transition name="routerfade-animation">
-				<router-view v-if="!isLoading"></router-view>
+				<router-view class="page__content__router" v-if="!isLoading"></router-view>
 			</transition>
 		</div>
 		<LoadingBar v-if="isLoading"></LoadingBar>
@@ -23,7 +23,7 @@
 import Vue from "vue";
 import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
-    name : "Page",
+	name: "Page",
 	components: {
 		LoadingBar
 	},
@@ -43,6 +43,11 @@ export default Vue.extend({
 				this.$router.push("/");
 				this.isLoading = false;
 			});
+	},
+	watch: {
+		$route() {
+			(this.$refs.page__content as HTMLDivElement).scrollTop = 0;
+		}
 	},
 	computed: {
 		getClub() {
@@ -85,8 +90,7 @@ export default Vue.extend({
 }
 .page__content {
 	flex: 1;
-	overflow: scroll;
-
+	overflow-y: scroll;
 	position: relative;
 }
 .submenu {
