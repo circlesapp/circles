@@ -95,6 +95,8 @@ export default Vue.extend({
 .budgettablebox th {
 	padding: 20px;
     position: relative;
+    user-select: none;
+    cursor: pointer;
 }
 .budgettablebox .head span {
     position: absolute;

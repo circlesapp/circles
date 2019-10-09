@@ -7,22 +7,29 @@
 		<td>{{data.shipping}}</td>
 		<td>{{data.total}}</td>
 		<td>{{data.url}}</td>
-		<td>{{data.date}}</td>
+		<td>{{getDate}}</td>
 	</tr>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-    props:{
-        data : Object
-    }
+	props: {
+		data: Object
+	},
+	computed: {
+		getDate() {
+			return new Date(this.data.date)
+				.toISOString()
+				.slice(0, 10)
+		}
+	}
 });
 </script>
 
 <style>
 .budgettableitem td {
 	padding: 20px;
-    text-align: center;
+	text-align: center;
 }
 </style>

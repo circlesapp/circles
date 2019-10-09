@@ -5,10 +5,17 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
 import Page from "./views/Page.vue";
+import Community from "./views/Community.vue";
 import Timeline from "./views/Page/Timeline.vue";
 import Awards from "./views/Page/Awards.vue";
 import Members from "./views/Page/Members.vue";
 import Budgets from "./views/Page/Budgets.vue";
+import Polls from "./views/Page/Polls.vue";
+import Applicant from "./views/Page/Applicant.vue";
+import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
+import Application from "./views/Page/Applicant.vue";
+import Recorder from "./views/Page/Applicant/Recorder.vue";
+import Result from "./views/Page/Applicant/Result.vue";
 
 Vue.use(Router);
 
@@ -44,8 +51,25 @@ export default new Router({
 				{ path: "timeline", name: "page/timeline", component: Timeline },
 				{ path: "awards", name: "page/awards", component: Awards },
 				{ path: "members", name: "page/members", component: Members },
-				{ path: "budgets", name: "page/budgets", component: Budgets }
+				{ path: "budgets", name: "page/budgets", component: Budgets },
+				{ path: "polls", name: "page/polls", component: Polls },
+				{
+					path: "applicant",
+					name: "page/applicant",
+					component: Applicant,
+					children: [
+						{ path: "", name: "page/applicant", component: ApplicantMain },
+						{ path: "application", name: "page/applicant/application", component: Application },
+						{ path: "recorder", name: "page/applicant/recorder", component: Recorder },
+						{ path: "result", name: "page/applicant/result", component: Result }
+					]
+				}
 			]
+		},
+		{
+			path: "/:club/community",
+			name: "community",
+			component: Community
 		}
 	]
 });

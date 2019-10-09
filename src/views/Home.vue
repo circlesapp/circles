@@ -12,7 +12,7 @@
 		<router-link to="/login" class="home__start">시작하기</router-link>
 	</div>
 	<div class="home__login" v-else>
-		<div class="home__login__content">
+		<router-link tag="div" to="/edcan/page/timeline" class="home__login__content">
 			<div>
 				<i class="material-icons">description</i>
 				<h2>동아리 페이지</h2>
@@ -24,8 +24,8 @@
 				채용 공고, 그리고 예산안의 공개 및
 				작성이 가능합니다.
 			</p>
-		</div>
-		<div class="home__login__content">
+		</router-link>
+		<router-link tag="div" to="/edcan/community" class="home__login__content">
 			<div>
 				<i class="material-icons">group</i>
 				<h2>동아리 커뮤니티</h2>
@@ -37,7 +37,7 @@
 				투표 및 설문조사, 회비 관리, 채용 관리,
 				부원간 채팅 등의 기능이 포함되어 있습니다.
 			</p>
-		</div>
+		</router-link>
 	</div>
 </template>
 
@@ -106,7 +106,7 @@ export default Vue.extend({
 
 .home__login {
 	display: flex;
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 
 	padding: 50px;
 }
@@ -124,6 +124,12 @@ export default Vue.extend({
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+
+	transition: 0.5s;
+	cursor: pointer;
+}
+.home__login__content:hover {
+	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.1);
 }
 .home__login__content i {
 	font-size: 150px;
@@ -137,8 +143,8 @@ export default Vue.extend({
 	font-family: "NanumSquareR";
 	font-size: 26px;
 	color: #868686;
-    word-break: keep-all;
-    max-width: 500px;
+	word-break: keep-all;
+	max-width: 500px;
 }
 
 @media screen and (max-width: 768px) {
@@ -153,12 +159,12 @@ export default Vue.extend({
 	.home__start {
 		padding: 10px 20%;
 	}
-    .home__login{
-        padding: 20px;
-    }
-    .home__login__content{
-        flex-basis: 100%;
-        margin: 20px;
-    }
+	.home__login {
+		padding: 20px;
+	}
+	.home__login__content {
+		flex-basis: 100%;
+		margin: 20px;
+	}
 }
 </style>

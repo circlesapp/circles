@@ -34,7 +34,7 @@
 							:class="{'menu__left__list__item-active':idx == 1}"
 						>페이지</router-link>
 						<router-link
-							to="/community"
+							to="/edcan/community"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
@@ -103,7 +103,7 @@ export default Vue.extend({
 			e.prompt();
 		});
 		let route: any = this.$route;
-		this.idx = ["home", "page"].indexOf(route.name.split("/")[0]);
+		this.idx = ["home", "page","community"].indexOf(route.name.split("/")[0]);
 		this.setBarPosition();
 
 		let routeList = [this.$route.name] as any[];
@@ -128,7 +128,7 @@ export default Vue.extend({
 
 	watch: {
 		$route(next, prev) {
-			this.idx = ["home", "page"].indexOf(next.name.split("/")[0]);
+			this.idx = ["home", "page","community"].indexOf(next.name.split("/")[0]);
 			this.isMounteRequired = true;
 			if (this.idx != -1) {
 				if (this.$refs.bar as HTMLDivElement) {
@@ -367,6 +367,7 @@ export default Vue.extend({
 	display: none;
 }
 .menu__left__list__profile {
+    display: none;
 	padding: 25px;
 }
 .menu__left__list__profile * {
@@ -421,8 +422,6 @@ export default Vue.extend({
 	font-size: 20px;
 }
 
-.menu__right {
-}
 .menu__right > img {
 	width: 34px;
 	height: 34px;
