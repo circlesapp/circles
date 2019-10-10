@@ -43,27 +43,31 @@
 						<div class="menu__left__list__bar" ref="bar"></div>
 					</nav>
 				</header>
-				<div class="menu__right" v-if="getUserInformation.name">
-					<img :src="getUserImage" @click="toggleProfile" />
-					<div class="menu__right__profile" v-if="showProfile">
-						<div class="menu__right__profile__information">
-							<div class="information__wrapper">
-								<img :src="getUserImage" alt />
-								<div>
-									<h3 class="name">{{getUserInformation.name}}</h3>
-									<p class="email">{{getUserInformation.email}}</p>
+				<transition name="fade">
+					<div class="menu__right" v-if="getUserInformation.name">
+						<img :src="getUserImage" @click="toggleProfile" />
+						<transition name="fade">
+							<div class="menu__right__profile" v-if="showProfile">
+								<div class="menu__right__profile__information">
+									<div class="information__wrapper">
+										<img :src="getUserImage" alt />
+										<div>
+											<h3 class="name">{{getUserInformation.name}}</h3>
+											<p class="email">{{getUserInformation.email}}</p>
+										</div>
+									</div>
+									<div class="arrow">></div>
 								</div>
+								<div class="menu__right__profile__club">{{getClub.name || '-'}}</div>
+								<div class="menu__right__profile__rank">
+									<div class="left">직위</div>
+									<div class="right">{{getRank}}</div>
+								</div>
+								<div class="menu__right__profile__logout" @click="logout">로그아웃</div>
 							</div>
-							<div class="arrow">></div>
-						</div>
-						<div class="menu__right__profile__club">{{getClub.name || '-'}}</div>
-						<div class="menu__right__profile__rank">
-							<div class="left">직위</div>
-							<div class="right">{{getRank}}</div>
-						</div>
-						<div class="menu__right__profile__logout" @click="logout">로그아웃</div>
+						</transition>
 					</div>
-				</div>
+				</transition>
 			</div>
 		</transition>
 		<section class="content">
@@ -152,7 +156,7 @@ export default Vue.extend({
 			this.showMenu = !this.showMenu;
 		},
 		toggleProfile() {
-            this.showProfile = !this.showProfile;
+			this.showProfile = !this.showProfile;
 		},
 		showPWA() {
 			this.deferredPrompt.prompt();
@@ -175,6 +179,7 @@ export default Vue.extend({
 		},
 		logout() {
 			localStorage.removeItem("clubs.loginToken");
+			this.showProfile = false;
 			this.$store.state.userToken = "";
 			this.$store.state.userInformation = {};
 		}
@@ -261,7 +266,7 @@ export default Vue.extend({
 	position: absolute;
 	top: 0;
 	left: 0;
-    transition: 1s;
+	transition: 1s;
 }
 .routerup-animation-enter {
 	transform: translateY(100%);
@@ -288,6 +293,20 @@ export default Vue.extend({
 .routerdown-animation-leave-to {
 	transform: translateY(100%);
 }
+.fade-enter-active,
+.fade-leave-active {
+	transition: 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+	transform: translateX(10%);
+}
+.fade-enter-to,
+.fade-leave {
+	opacity: 1;
+	transform: translateX(0);
+}
 
 * {
 	margin: 0;
@@ -301,12 +320,12 @@ export default Vue.extend({
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	outline: none;
 }
-i{
-    user-select: none;
+i {
+	user-select: none;
 }
-::selection{
-    background-color: #f5f7fa;
-    color: #273142;
+::selection {
+	background-color: #f5f7fa;
+	color: #273142;
 }
 ::-webkit-scrollbar {
 	display: none;
@@ -446,8 +465,8 @@ i{
 	font-family: "NanumSquareL";
 	font-size: 20px;
 }
-.menu__left__profile__logout{
-    cursor: pointer;
+.menu__left__profile__logout {
+	cursor: pointer;
 }
 
 .menu__right > img {
@@ -459,7 +478,7 @@ i{
 }
 .menu__right__profile {
 	position: fixed;
-	right: 0;
+	right: 10px;
 	top: 70px;
 	width: 380px;
 	border-radius: 4px;
@@ -517,8 +536,8 @@ i{
 	font-family: "NanumSquareL";
 	font-size: 20px;
 }
-.menu__right__profile__logout{
-    cursor: pointer;
+.menu__right__profile__logout {
+	cursor: pointer;
 }
 
 .submenu {
@@ -565,6 +584,7 @@ i{
 	width: 100%;
 	height: 100%;
 	overflow-y: scroll;
+	transition: 1s;
 }
 @media screen and (max-width: 768px) {
 	.menu__right {

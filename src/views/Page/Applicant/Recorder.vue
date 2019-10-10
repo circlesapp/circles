@@ -95,13 +95,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import VueSocketIOExt from "vue-socket.io-extended";
-import io from "socket.io-client";
+// import VueSocketIOExt from "vue-socket.io-extended";
+// import io from "socket.io-client";
 
-export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
-	sockets: {},
-	created() {}
-});
+// export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
+// 	sockets: {},
+// 	created() {}
+// });
+export default Vue.extend({});
 </script>
 <style>
 .recorder {
@@ -188,7 +189,7 @@ export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
 	.recorder__right {
 		margin-left: 0;
 		margin-top: 50px;
-        margin-bottom: 50px;
+		margin-bottom: 50px;
 	}
 	.recorder__list__item {
 		width: 100%;
@@ -197,11 +198,11 @@ export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
 	}
 }
 @media screen and (max-width: 768px) {
-    .recorder__right{
-        padding: 40px 60px;
-    }
+	.recorder__right {
+		padding: 40px 60px;
+	}
 	.recorder {
-        padding: 40px;
-    }
+		padding: 40px;
+	}
 }
 </style>

@@ -30,7 +30,6 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
-			console.log("reload");
 			this.$store
 				.dispatch("GET_CLUB_POSTS")
 				.then(posts => {

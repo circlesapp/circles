@@ -108,7 +108,7 @@ export default Vue.extend({
 				.catch(err => console.log(err));
 		},
 		pressEnter(e: any) {
-			if (e.keyCode == 13 && e.ctrlKey) {
+			if (e.keyCode == 10 && e.ctrlKey) {
 				this.changeContentSave();
 			}
 		}
