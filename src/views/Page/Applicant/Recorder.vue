@@ -1,0 +1,183 @@
+<template>
+	<div class="recorder">
+		<div class="recorder__left">
+			<div class="recorder__item">
+				<div>
+					<p>20611</p>
+					<h3>박종훈</h3>
+				</div>
+				<div class="recorder__item__information">현재 면접자</div>
+			</div>
+			<div class="recorder__item">
+				<div>
+					<p>20611</p>
+					<h3>박종훈</h3>
+				</div>
+				<div class="recorder__item__information">다음 면접자</div>
+			</div>
+		</div>
+		<div class="recorder__right">
+			<div class="recorder__list">
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item recorder__list__item-highlight">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+				<div class="recorder__list__item">
+					<span>1</span>
+					<span>20611</span>
+					<span>박종훈</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import VueSocketIOExt from "vue-socket.io-extended";
+import io from "socket.io-client";
+
+export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
+	sockets: {},
+	created() {}
+});
+</script>
+<style>
+.recorder {
+	display: flex;
+	padding: 50px;
+}
+.recorder__left {
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+.recorder__item {
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+
+	border-radius: 22px;
+	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
+
+	padding: 40px 50px;
+}
+.recorder__item h3 {
+	font-family: "NanumSquareB";
+	font-size: 69px;
+}
+.recorder__item p {
+	font-family: "NanumSquareL";
+	font-size: 40px;
+}
+.recorder__item:nth-child(1) {
+	margin-bottom: 50px;
+	color: white;
+	background-color: #538fff;
+}
+.recorder__item:nth-child(2) {
+	color: #9cb2cd;
+	background-color: white;
+}
+.recorder__item__information {
+	align-self: flex-start;
+	font-family: "NanumSquareL";
+	font-size: 40px;
+}
+.recorder__right {
+	flex: 3;
+	padding: 60px 100px;
+	display: flex;
+	margin-left: 50px;
+
+	background-color: white;
+	border-radius: 22px;
+	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
+}
+.recorder__list {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: space-between;
+}
+.recorder__list__item {
+	width: 40%;
+	margin: 8px 0;
+	font-family: "NanumSquareL";
+	font-size: 40px;
+	color: #9cb2cd;
+	display: flex;
+	justify-content: space-between;
+}
+.recorder__list__item-highlight {
+	font-family: "NanumSquareB" !important;
+	font-weight: bold;
+	font-size: 40px;
+	color: #538fff;
+}
+</style>

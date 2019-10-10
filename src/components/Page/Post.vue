@@ -28,7 +28,7 @@
 				v-if="getUserInformation._id ==data.owner._id"
 			>more_horiz</i>
 		</h3>
-		<article class="post__content" v-if="!isModifPost">{{data.content}}</article>
+		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
 		<textarea class="post__content" @keypress="pressEnter" v-model="modifContent" v-else />
 		<article class="post__image" v-if="data.imgPath.length">
 			<div class="post__image__mainImage">
@@ -73,7 +73,8 @@ export default Vue.extend({
 			modifContent: ""
 		};
 	},
-	created() {},
+	created() {
+    },
 	methods: {
 		toggleOption() {
 			this.isShowOption = !this.isShowOption;
@@ -105,12 +106,12 @@ export default Vue.extend({
 					this.$emit("isChange", false);
 				})
 				.catch(err => console.log(err));
-        },
-        pressEnter(e:any){
-            if(e.keyCode == 13){
-                this.changeContentSave()
-            }
-        }
+		},
+		pressEnter(e: any) {
+			if (e.keyCode == 13 && e.ctrlKey) {
+				this.changeContentSave();
+			}
+		}
 	},
 	computed: {
 		getMainPath(): string {
@@ -118,7 +119,7 @@ export default Vue.extend({
 		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
-		}
+        }
 	}
 });
 </script>

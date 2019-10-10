@@ -43,7 +43,6 @@ export default Vue.extend({
 </script>
 
 <style>
-.timeline-enter,
 .timeline-leave-to {
 	opacity: 0;
     transform: translateX(20%);

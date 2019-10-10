@@ -6,10 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		userToken: "",
+		userToken: ``,
 		userInformation: {},
 		club: {} as any,
-		mainPath: "http://localhost:3000/"
+		mainPath: `http://localhost:3000/`
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -24,12 +24,12 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		LOGIN({ commit }, data) {
+		LOGIN({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post("http://localhost:3000/auth/login", data)
+					.post(`${state.mainPath}auth/login`, data)
 					.then(user => {
-						commit("setUserToken", user.data.data);
+						commit(`setUserToken`, user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -37,12 +37,12 @@ export default new Vuex.Store({
 					});
 			});
 		},
-		REGISTER({ commit }, data) {
+		REGISTER({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post("http://localhost:3000/auth/register", data)
+					.post(`${state.mainPath}auth/register`, data)
 					.then(user => {
-						commit("setUserToken", user.data.data);
+						commit(`setUserToken`, user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -53,7 +53,7 @@ export default new Vuex.Store({
 		GET_MY_APPLICANT({ state, commit }) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`http://localhost:3000/club/${state.club.name}/applicant/getMyApplicant`, {
+					.get(`${state.mainPath}club/${state.club.name}/applicant/getMyApplicant`, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -69,7 +69,7 @@ export default new Vuex.Store({
 		POST_DELETE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post(`http://localhost:3000/club/${state.club.name}/post/delete`, data, {
+					.post(`${state.mainPath}club/${state.club.name}/post/delete`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -85,7 +85,7 @@ export default new Vuex.Store({
 		POST_MODIFICATION({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post(`http://localhost:3000/club/${state.club.name}/post/modification`, data, {
+					.post(`${state.mainPath}club/${state.club.name}/post/modification`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -102,7 +102,7 @@ export default new Vuex.Store({
 			return new Promise<any>((resolve, reject) => {
 				console.log(state.userToken);
 				axios
-					.post(`http://localhost:3000/club/${state.club.name}/applicant/apply`, data, {
+					.post(`${state.mainPath}club/${state.club.name}/applicant/apply`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -119,7 +119,7 @@ export default new Vuex.Store({
 			return new Promise<any>((resolve, reject) => {
 				console.log(state.userToken);
 				axios
-					.post(`http://localhost:3000/club/${state.club.name}/applicant/modification`, data, {
+					.post(`${state.mainPath}club/${state.club.name}/applicant/modification`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -135,13 +135,13 @@ export default new Vuex.Store({
 		GET_USER_PROFILE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post("http://localhost:3000/auth/getProfile", null, {
+					.post(`${state.mainPath}auth/getProfile`, null, {
 						headers: {
 							Authorization: data
 						}
 					})
 					.then(user => {
-						commit("setUserInformation", user.data.data);
+						commit(`setUserInformation`, user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -152,13 +152,13 @@ export default new Vuex.Store({
 		GET_CLUB({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get("http://localhost:3000/club/getClubInformation", {
+					.get(`${state.mainPath}club/getClubInformation`, {
 						params: {
 							name: data
 						}
 					})
 					.then(user => {
-						commit("setClub", user.data.data);
+						commit(`setClub`, user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -169,7 +169,7 @@ export default new Vuex.Store({
 		GET_CLUB_POSTS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`http://localhost:3000/club/${state.club.name}/post/getPublicPosts`)
+					.get(`${state.mainPath}club/${state.club.name}/post/getPublicPosts`)
 					.then(posts => {
 						resolve(posts.data.data);
 					})
@@ -181,7 +181,7 @@ export default new Vuex.Store({
 		GET_CLUB_AWARDS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`http://localhost:3000/club/${state.club.name}/award/getPublicAwards`)
+					.get(`${state.mainPath}club/${state.club.name}/award/getPublicAwards`)
 					.then(awards => {
 						resolve(awards.data.data);
 					})
@@ -193,7 +193,7 @@ export default new Vuex.Store({
 		GET_CLUB_MEMBERS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`http://localhost:3000/club/${state.club.name}/member/getPublicMembers`)
+					.get(`${state.mainPath}club/${state.club.name}/member/getPublicMembers`)
 					.then(members => {
 						resolve(members.data.data);
 					})
@@ -205,7 +205,7 @@ export default new Vuex.Store({
 		GET_CLUB_BUDGETS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`http://localhost:3000/club/${state.club.name}/budget/getPublicBudgets`)
+					.get(`${state.mainPath}club/${state.club.name}/budget/getPublicBudgets`)
 					.then(budgets => {
 						resolve(budgets.data.data);
 					})
