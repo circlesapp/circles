@@ -61,7 +61,7 @@
 							<div class="left">직위</div>
 							<div class="right">{{getRank}}</div>
 						</div>
-						<div class="memenu__right__profile__logout" @click="logout">로그아웃</div>
+						<div class="menu__right__profile__logout" @click="logout">로그아웃</div>
 					</div>
 				</div>
 			</div>
@@ -152,7 +152,7 @@ export default Vue.extend({
 			this.showMenu = !this.showMenu;
 		},
 		toggleProfile() {
-			this.showProfile = !this.showProfile;
+            this.showProfile = !this.showProfile;
 		},
 		showPWA() {
 			this.deferredPrompt.prompt();
@@ -261,6 +261,7 @@ export default Vue.extend({
 	position: absolute;
 	top: 0;
 	left: 0;
+    transition: 1s;
 }
 .routerup-animation-enter {
 	transform: translateY(100%);
@@ -299,6 +300,13 @@ export default Vue.extend({
 
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	outline: none;
+}
+i{
+    user-select: none;
+}
+::selection{
+    background-color: #f5f7fa;
+    color: #273142;
 }
 ::-webkit-scrollbar {
 	display: none;
@@ -438,6 +446,9 @@ export default Vue.extend({
 	font-family: "NanumSquareL";
 	font-size: 20px;
 }
+.menu__left__profile__logout{
+    cursor: pointer;
+}
 
 .menu__right > img {
 	width: 34px;
@@ -506,6 +517,9 @@ export default Vue.extend({
 	font-family: "NanumSquareL";
 	font-size: 20px;
 }
+.menu__right__profile__logout{
+    cursor: pointer;
+}
 
 .submenu {
 	width: 100%;
@@ -550,7 +564,6 @@ export default Vue.extend({
 .content__router {
 	width: 100%;
 	height: 100%;
-	transition: 1s;
 	overflow-y: scroll;
 }
 @media screen and (max-width: 768px) {
