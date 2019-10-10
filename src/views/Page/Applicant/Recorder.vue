@@ -158,16 +158,17 @@ export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
 }
 .recorder__list {
+	overflow: scroll;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-content: space-between;
+	align-content: flex-start;
 }
 .recorder__list__item {
 	width: 40%;
-	margin: 8px 0;
+	margin: 8px 40px;
 	font-family: "NanumSquareL";
 	font-size: 40px;
 	color: #9cb2cd;
@@ -179,5 +180,28 @@ export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
 	font-weight: bold;
 	font-size: 40px;
 	color: #538fff;
+}
+@media screen and (max-width: 1600px) {
+	.recorder {
+		flex-direction: column;
+	}
+	.recorder__right {
+		margin-left: 0;
+		margin-top: 50px;
+        margin-bottom: 50px;
+	}
+	.recorder__list__item {
+		width: 100%;
+		margin: 8px 0;
+		margin-right: 100px;
+	}
+}
+@media screen and (max-width: 768px) {
+    .recorder__right{
+        padding: 40px 60px;
+    }
+	.recorder {
+        padding: 40px;
+    }
 }
 </style>
