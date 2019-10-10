@@ -1,6 +1,14 @@
 <template>
 	<div class="timeline">
-		<Post v-for="post in posts" :key="post._id" :data="post"></Post>
+		<transition-group name="timeline" tag="div" class="timeline__wrapper">
+			<Post
+				class="timeline__post"
+				v-for="post in posts"
+				:key="post._id"
+				:data="post"
+				@isChange="reload"
+			></Post>
+		</transition-group>
 	</div>
 </template>
 
@@ -8,7 +16,7 @@
 import Vue from "vue";
 import Post from "../../components/Page/Post.vue";
 export default Vue.extend({
-    name : "Timeline",
+	name: "Timeline",
 	components: {
 		Post
 	},
@@ -18,21 +26,45 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store
-			.dispatch("GET_CLUB_POSTS")
-			.then(posts => {
-				this.posts = posts;
-			})
-			.catch(err => {});
+		this.reload();
+	},
+	methods: {
+		reload() {
+			console.log("reload");
+			this.$store
+				.dispatch("GET_CLUB_POSTS")
+				.then(posts => {
+					this.posts = posts;
+				})
+				.catch(err => {});
+		}
 	}
 });
 </script>
 
 <style>
+.timeline-enter,
+.timeline-leave-to {
+	opacity: 0;
+    transform: translateX(20%);
+}
+.timeline-leave-active {
+	position: absolute;
+}
+
 .timeline {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	justify-content: center;
+}
+.timeline__wrapper {
+    position: relative;
+	width: 100%;
+	max-width: 760px;
+    margin-bottom: 25px;
+}
+.timeline__post {
+	transition: all 1s;
+	display: inline-block;
 }
 @media screen and (max-width: 768px) {
 	.timeline {

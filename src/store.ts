@@ -66,6 +66,38 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		POST_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`http://localhost:3000/club/${state.club.name}/post/delete`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		POST_MODIFICATION({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`http://localhost:3000/club/${state.club.name}/post/modification`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		APPLICANT({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				console.log(state.userToken);

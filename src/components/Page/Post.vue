@@ -1,5 +1,15 @@
 <template>
-	<div class="post">
+	<div class="post" :class="{'post-modif':isModifPost}">
+		<div class="post__option" v-if="isShowOption">
+			<p @click="modifPost" v-if="!isModifPost">
+				<i class="material-icons">create</i>
+				<span>수정</span>
+			</p>
+			<p class="delete" @click="deletePost">
+				<i class="material-icons">delete</i>
+				<span>삭제</span>
+			</p>
+		</div>
 		<h3 class="post__title">
 			<img
 				:src="getMainPath+data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
@@ -12,9 +22,14 @@
 				<br />
 				<span class="moment">{{data.timeString}}</span>
 			</p>
-			<i class="material-icons post__menu">more_horiz</i>
+			<i
+				class="material-icons post__menu"
+				@click="toggleOption"
+				v-if="getUserInformation._id ==data.owner._id"
+			>more_horiz</i>
 		</h3>
-		<article class="post__content">{{data.content}}</article>
+		<article class="post__content" v-if="!isModifPost">{{data.content}}</article>
+		<textarea class="post__content" @keypress="pressEnter" v-model="modifContent" v-else />
 		<article class="post__image" v-if="data.imgPath.length">
 			<div class="post__image__mainImage">
 				<img :src="getMainPath+data.imgPath[0]" alt />
@@ -28,7 +43,11 @@
 				</div>
 			</div>
 		</article>
-		<div class="post__action">
+		<div class="post__modifaction" v-if="isModifPost">
+			<span style="color:#e02020;" @click="modifPost">취소</span>
+			<span style="color:#538fff;" @click="changeContentSave">확인</span>
+		</div>
+		<div class="post__action" v-else>
 			<p class="post__action__heart">
 				<i class="material-icons">favorite</i>
 				{{data.likes.length}}
@@ -47,9 +66,58 @@ export default Vue.extend({
 	props: {
 		data: Object
 	},
+	data() {
+		return {
+			isShowOption: false,
+			isModifPost: false,
+			modifContent: ""
+		};
+	},
+	created() {},
+	methods: {
+		toggleOption() {
+			this.isShowOption = !this.isShowOption;
+		},
+		deletePost() {
+			this.$store
+				.dispatch("POST_DELETE", {
+					_id: this.data._id
+				})
+				.then(data => {
+					this.$emit("isChange", false);
+				})
+				.catch(err => console.log(err));
+		},
+		modifPost() {
+			this.modifContent = this.data.content;
+			this.isShowOption = false;
+			this.isModifPost = !this.isModifPost;
+		},
+		changeContentSave() {
+			this.$store
+				.dispatch("POST_MODIFICATION", {
+					_id: this.data._id,
+					content: this.modifContent
+				})
+				.then(data => {
+					this.isShowOption = false;
+					this.isModifPost = false;
+					this.$emit("isChange", false);
+				})
+				.catch(err => console.log(err));
+        },
+        pressEnter(e:any){
+            if(e.keyCode == 13){
+                this.changeContentSave()
+            }
+        }
+	},
 	computed: {
 		getMainPath(): string {
 			return this.$store.state.mainPath;
+		},
+		getUserInformation(): any {
+			return this.$store.state.userInformation;
 		}
 	}
 });
@@ -58,15 +126,43 @@ export default Vue.extend({
 <style>
 .post {
 	width: 100%;
-	max-width: 760px;
 	height: auto;
 
 	padding: 25px;
-	margin: 25px;
+	margin-top: 30px;
 
 	background-color: white;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+
+	position: relative;
+}
+.post-modif {
+	border: 1px solid #538fff;
+}
+.post__option {
+	position: absolute;
+	right: 30px;
+	top: 60px;
+	background-color: white;
+	border-radius: 4px;
+	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
+	font-family: "NanumSquareB";
+	font-size: 15px;
+}
+.post__option i {
+	font-size: 30px;
+}
+.post__option p {
+	cursor: pointer;
+	width: 160px;
+	margin: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.post__option .delete {
+	color: #e02020;
 }
 .post__title {
 	position: relative;
@@ -105,6 +201,14 @@ export default Vue.extend({
 	font-size: 14px;
 	line-height: 1.43;
 }
+textarea.post__content {
+	border: none;
+	background-color: none;
+	border-radius: 8px;
+	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
+	padding: 10px;
+	width: 100%;
+}
 .post__image {
 	display: flex;
 	height: 400px;
@@ -140,6 +244,13 @@ export default Vue.extend({
 }
 .post__image img {
 	height: 100%;
+}
+.post__modifaction {
+	text-align: right;
+}
+.post__modifaction span {
+	margin-left: 20px;
+	cursor: pointer;
 }
 .post__action {
 	display: flex;
