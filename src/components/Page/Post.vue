@@ -25,7 +25,7 @@
 			<i
 				class="material-icons post__menu"
 				@click="toggleOption"
-				v-if="getUserInformation._id ==data.owner._id"
+				v-if="getUserInformation._id == data.owner._id"
 			>more_horiz</i>
 		</h3>
 		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
@@ -73,8 +73,7 @@ export default Vue.extend({
 			modifContent: ""
 		};
 	},
-	created() {
-    },
+	created() {},
 	methods: {
 		toggleOption() {
 			this.isShowOption = !this.isShowOption;
@@ -119,7 +118,7 @@ export default Vue.extend({
 		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
-        }
+		}
 	}
 });
 </script>

@@ -3,7 +3,7 @@
 		<div class="passwordchange__wrapper">
 			<h1 class="passwordchange__title">circles.</h1>
 			<h2 class="passwordchange__text">
-				비밀번호 변경
+				비밀번호 재설정
 				<span>Password Reset</span>
 			</h2>
 			<div class="passwordchange__inputwrapper">

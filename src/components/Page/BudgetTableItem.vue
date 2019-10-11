@@ -32,4 +32,7 @@ export default Vue.extend({
 	padding: 20px;
 	text-align: center;
 }
+.budgettableitem td{
+	font-family: "NanumSquareEB";
+}
 </style>

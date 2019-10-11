@@ -4,35 +4,59 @@
 			<tr class="head">
 				<th @click="orderBy('item')">
 					품목
-					<span :class="{'order-active':sortKey == 'item','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'item','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('size')">
 					규격
-					<span :class="{'order-active':sortKey == 'size','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'size','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('price')">
 					단가
-					<span :class="{'order-active':sortKey == 'price','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'price','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('quantity')">
 					수량
-					<span :class="{'order-active':sortKey == 'quantity','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'quantity','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('shopping')">
 					배송료
-					<span :class="{'order-active':sortKey == 'shopping','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'shopping','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('total')">
 					금액
-					<span :class="{'order-active':sortKey == 'total','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'total','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('url')">
 					URL
-					<span :class="{'order-active':sortKey == 'url','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'url','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('date')">
 					마감
-					<span :class="{'order-active':sortKey == 'date','order-rotate':sortBy}">▽</span>
+					<i
+						class="material-icons"
+						:class="{'order-active':sortKey == 'date','order-rotate':sortBy}"
+					>arrow_downward</i>
 				</th>
 			</tr>
 		</thead>
@@ -86,35 +110,35 @@ export default Vue.extend({
 <style>
 .budgettablebox {
 	width: 100%;
-    min-width: 1400px;
+	min-width: 1400px;
 
 	background-color: white;
-	color: #9cb2cd;
 	font-family: "NanumSquareEB";
+	color: #9cb2cd;
 }
 .budgettablebox th {
 	padding: 20px;
-    position: relative;
-    user-select: none;
-    cursor: pointer;
+	position: relative;
+	user-select: none;
+	cursor: pointer;
 }
-.budgettablebox .head span {
-    position: absolute;
-    right: 10%;
+.budgettablebox .head i {
+	position: absolute;
+	right: 10%;
 
 	opacity: 0;
-	transition: 0.5s;
+	transition: 0.2s;
 }
 
-.budgettablebox .head th:hover span {
+.budgettablebox .head th:hover i {
 	opacity: 0.5;
 }
-.budgettablebox .head span.order-active {
-    display: inline-block;
+.budgettablebox .head i.order-active {
+	display: inline-block;
 	opacity: 1 !important;
 	transform: rotate(180deg);
 }
-.budgettablebox .head span.order-rotate {
+.budgettablebox .head i.order-rotate {
 	transform: rotate(0deg);
 }
 </style>

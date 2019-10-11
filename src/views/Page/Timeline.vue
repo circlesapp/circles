@@ -61,7 +61,7 @@ export default Vue.extend({
     margin-bottom: 25px;
 }
 .timeline__post {
-	transition: all 1s;
+	transition: all 0.5s;
 	display: inline-block;
 }
 @media screen and (max-width: 768px) {

@@ -60,7 +60,7 @@ export default Vue.extend({
 <style>
 .routerfade-animation-enter-active,
 .routerfade-animation-leave-active {
-	transition: 0.5s;
+	transition: 0.3s !important;
 	position: absolute;
 	left: 0;
 	top: 0;

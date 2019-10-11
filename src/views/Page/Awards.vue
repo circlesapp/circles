@@ -8,7 +8,14 @@
 			</div>
 		</h2>
 		<div class="award__list">
-			<AwardBox class="award__list__item" v-for="award in awards" :data="award" :key="award._id"></AwardBox>
+			<AwardBox
+				class="award__list__item"
+				v-for="award in awards"
+				:data="award"
+				:key="award._id"
+				:admin="isAdmin"
+			></AwardBox>
+			<div class="award__list__item award__list__item__create" @click="appendAwards">+</div>
 		</div>
 	</div>
 </template>
@@ -17,13 +24,13 @@
 import Vue from "vue";
 import AwardBox from "../../components/Page/AwardBox.vue";
 export default Vue.extend({
-    name : "Awards",
+	name: "Awards",
 	components: {
 		AwardBox
 	},
 	data() {
 		return {
-			awards: []
+			awards: [] as any
 		};
 	},
 	created() {
@@ -33,6 +40,17 @@ export default Vue.extend({
 				this.awards = awards;
 			})
 			.catch(err => {});
+	},
+	methods: {
+		appendAwards() {
+			this.awards.push({
+				title: "",
+				subtitle: "",
+				target: [],
+				level: "",
+				isCreated: true
+			});
+		}
 	},
 	computed: {
 		getClub() {
@@ -45,6 +63,16 @@ export default Vue.extend({
 				);
 			else
 				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		isAdmin() {
+			if (this.$store.state.club.ranks) {
+				let rank = this.$store.state.club.ranks.find(
+					(rank: any) =>
+						rank.user == this.$store.state.userInformation._id
+				);
+				if (rank) return rank.isAdmin;
+				else return false;
+			} else return false;
 		}
 	}
 });
@@ -98,7 +126,37 @@ export default Vue.extend({
 .award__list__item:nth-child(2n) {
 	margin-left: 20px;
 }
+.award__list__item__create {
+	cursor: pointer;
+
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+	/* border: 5px dotted #9cb2cd; */
+    /* border: 1px solid #9cb2cd; */
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+
+	color: #9cb2cd;
+	font-size: 40px;
+
+	transition: 0.5s;
+	transform: scale(0.99);
+}
+.award__list__item__create:hover {
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.3);
+	transform: scale(1);
+}
+
 @media screen and (max-width: 768px) {
+	.award {
+		padding: 30px;
+	}
+	.award__list__item,
+	.award__club {
+		padding: 35px;
+	}
 	.award__list__item {
 		flex-basis: 100%;
 		margin-left: 0 !important;
