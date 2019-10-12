@@ -7,12 +7,12 @@
 				<span>Password Reset</span>
 			</h2>
 			<div class="passwordchange__inputwrapper">
-				<h3>이메일</h3>
-				<input type="email" placeholder="이메일을 입력하세요." />
+				<h3>이메일 주소</h3>
+				<input type="email" placeholder="이메일 주소를 입력하세요." />
 			</div>
 			<div class="passwordchange__wrapper">
 				<p class="passwordchange__content">
-					가입시 입력한 메일로
+					가입시 입력한 이메일로
 					<br />비밀번호 재설정이 가능합니다
 				</p>
 				<button class="passwordchange__button">검증</button>
