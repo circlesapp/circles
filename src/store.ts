@@ -50,16 +50,47 @@ export default new Vuex.Store({
 					});
 			});
 		},
-		GET_MY_APPLICANT({ state, commit }) {
+		GET_USER_PROFILE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`${state.mainPath}club/${state.club.name}/applicant/getMyApplicant`, {
+					.post(`${state.mainPath}auth/getProfile`, null, {
 						headers: {
-							Authorization: state.userToken
+							Authorization: data
 						}
 					})
-					.then(applicant => {
-						resolve(applicant.data.data);
+					.then(user => {
+						commit(`setUserInformation`, user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+
+		GET_CLUB({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`${state.mainPath}club/getClubInformation`, {
+						params: {
+							name: data
+						}
+					})
+					.then(user => {
+						commit(`setClub`, user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		GET_CLUB_POSTS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`${state.mainPath}club/${state.club.name}/post/getPublicPosts`)
+					.then(posts => {
+						resolve(posts.data.data);
 					})
 					.catch(err => {
 						reject(err);
@@ -98,6 +129,22 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_MY_APPLICANT({ state, commit }) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`${state.mainPath}club/${state.club.name}/applicant/getMyApplicant`, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		APPLICANT({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				console.log(state.userToken);
@@ -117,7 +164,6 @@ export default new Vuex.Store({
 		},
 		APPLICANT_MODIFICATION({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
-				console.log(state.userToken);
 				axios
 					.post(`${state.mainPath}club/${state.club.name}/applicant/modification`, data, {
 						headers: {
@@ -132,58 +178,28 @@ export default new Vuex.Store({
 					});
 			});
 		},
-		GET_USER_PROFILE({ state, commit }, data) {
-			return new Promise<any>((resolve, reject) => {
-				axios
-					.post(`${state.mainPath}auth/getProfile`, null, {
-						headers: {
-							Authorization: data
-						}
-					})
-					.then(user => {
-						commit(`setUserInformation`, user.data.data);
-						resolve(user.data.data);
-					})
-					.catch(err => {
-						reject(err);
-					});
-			});
-		},
-		GET_CLUB({ state, commit }, data) {
-			return new Promise<any>((resolve, reject) => {
-				axios
-					.get(`${state.mainPath}club/getClubInformation`, {
-						params: {
-							name: data
-						}
-					})
-					.then(user => {
-						commit(`setClub`, user.data.data);
-						resolve(user.data.data);
-					})
-					.catch(err => {
-						reject(err);
-					});
-			});
-		},
-		GET_CLUB_POSTS({ state, commit }, data) {
-			return new Promise<any>((resolve, reject) => {
-				axios
-					.get(`${state.mainPath}club/${state.club.name}/post/getPublicPosts`)
-					.then(posts => {
-						resolve(posts.data.data);
-					})
-					.catch(err => {
-						reject(err);
-					});
-			});
-		},
 		GET_CLUB_AWARDS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.get(`${state.mainPath}club/${state.club.name}/award/getPublicAwards`)
 					.then(awards => {
 						resolve(awards.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		AWARD({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/award/create`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(award => {
+						resolve(award.data.data);
 					})
 					.catch(err => {
 						reject(err);
