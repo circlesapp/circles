@@ -14,6 +14,7 @@
 				:data="award"
 				:key="award._id"
 				:admin="isAdmin"
+				@isUpdated="reload"
 			></AwardBox>
 			<div class="award__list__item award__list__item__create" @click="appendAwards">+</div>
 		</div>
@@ -34,14 +35,17 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store
-			.dispatch("GET_CLUB_AWARDS")
-			.then(awards => {
-				this.awards = awards;
-			})
-			.catch(err => {});
+		this.reload();
 	},
 	methods: {
+		reload() {
+			this.$store
+				.dispatch("GET_CLUB_AWARDS")
+				.then(awards => {
+					this.awards = awards;
+				})
+				.catch(err => {});
+		},
 		appendAwards() {
 			this.awards.push({
 				title: "",
@@ -132,7 +136,7 @@ export default Vue.extend({
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
 	/* border: 5px dotted #9cb2cd; */
-    /* border: 1px solid #9cb2cd; */
+	/* border: 1px solid #9cb2cd; */
 	display: flex;
 
 	justify-content: center;

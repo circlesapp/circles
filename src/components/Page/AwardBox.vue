@@ -10,7 +10,7 @@
 				<span v-for="user in data.target" :key="user.name">{{user.name}}</span>
 			</p>
 			<p v-else>
-				<input type="text" v-model="data.subtitle" placeholder="부문"/>&nbsp;&nbsp;
+				<input type="text" v-model="data.subtitle" placeholder="부문" />&nbsp;&nbsp;
 				<span v-for="(user,idx) in data.target" :key="idx">
 					<input
 						style="width:4em;"
@@ -18,7 +18,7 @@
 						v-model="data.target[idx].name"
 						@keyup="pressEnter($event,idx)"
 						:ref="idx == data.target.length-1 ? 'last' : ''"
-                        placeholder="이름"
+						placeholder="이름"
 					/>
 				</span>
 				<span class="awardbox__appendTarget" @click="appendTarget">+</span>
@@ -26,8 +26,9 @@
 		</div>
 		<h3 v-if="!data.isCreated">{{data.level}}</h3>
 		<h3 v-else>
-			<input type="text" style="text-align:right;" v-model="data.level"  placeholder="상격"/>
+			<input type="text" style="text-align:right;" v-model="data.level" placeholder="상격" />
 		</h3>
+		<span class="awardbox__create" v-if="data.isCreated" @click="create">생성</span>
 	</div>
 </template>
 
@@ -55,6 +56,15 @@ export default Vue.extend({
 		pressEnter(e: any, idx: number) {
 			if (this.data.target.length - 1 == idx && e.keyCode == 13)
 				this.appendTarget();
+		},
+		create() {
+			this.data.target = ["5d9dbb0ed5f662594472181a"] //FIXME:
+			this.$store 
+				.dispatch("AWARD", this.data)
+				.then(award => {
+					this.$emit("isUpdated", false);
+				})
+				.catch(err => {});
 		}
 	}
 });
@@ -69,6 +79,8 @@ export default Vue.extend({
 	display: flex;
 	align-items: center;
 	padding: 50px;
+
+	position: relative;
 }
 .awardbox input {
 	width: 100px;
@@ -77,7 +89,6 @@ export default Vue.extend({
 	color: inherit;
 	border: none;
 	background-color: none;
-
 }
 .awardbox-created {
 	border: 1px solid #7293bd;
@@ -108,5 +119,17 @@ export default Vue.extend({
 }
 .awardbox__appendTarget {
 	cursor: pointer;
+}
+.awardbox__create {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+
+	cursor: pointer;
+	color: white !important;
+	font-size: 20px !important;
+	background-color: #becfe4;
+	border-radius: 4px;
+	padding: 5px 20px;
 }
 </style>

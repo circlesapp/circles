@@ -193,7 +193,7 @@ export default new Vuex.Store({
 		AWARD({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post(`${state.mainPath}club/${state.club.name}/award/create`, data, {
+					.post(`${state.mainPath}club/${state.club.name}/award/write`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
