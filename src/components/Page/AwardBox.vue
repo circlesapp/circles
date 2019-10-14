@@ -11,15 +11,24 @@
 			</p>
 			<p v-else>
 				<input type="text" v-model="data.subtitle" placeholder="부문" />&nbsp;&nbsp;
-				<span v-for="(user,idx) in data.target" :key="idx">
+				<span class="awardbox__user" v-for="(user,idx) in data.target" :key="idx">
 					<input
 						style="width:4em;"
 						type="text"
 						v-model="data.target[idx].name"
-						@keyup="pressEnter($event,idx)"
+						@keydown="pressKey($event,idx)"
 						:ref="idx == data.target.length-1 ? 'last' : ''"
 						placeholder="이름"
+						@focus="focusInputIndex = idx"
+						@blur="focusOut(idx)"
 					/>
+					<div class="awardbox__userautocomplete" v-if="idx == focusInputIndex">
+						<li
+							v-for="(member, i) in getSearchMember(idx)"
+							:key="member._id"
+							:class="{'active':currentSelectIndex == i}"
+						>{{member.name}}</li>
+					</div>
 				</span>
 				<span class="awardbox__appendTarget" @click="appendTarget">+</span>
 			</p>
@@ -39,7 +48,21 @@ export default Vue.extend({
 		data: Object,
 		admin: Boolean
 	},
-	created() {},
+	data() {
+		return {
+			focusInputIndex: -1,
+			currentSelectIndex: 0,
+			members: []
+		};
+	},
+	created() {
+		this.$store
+			.dispatch("GET_CLUB_MEMBERS")
+			.then(members => {
+				this.members = members;
+			})
+			.catch(err => {});
+	},
 	methods: {
 		appendTarget() {
 			this.data.target.push({
@@ -53,20 +76,57 @@ export default Vue.extend({
 				}
 			});
 		},
-		pressEnter(e: any, idx: number) {
-			if (this.data.target.length - 1 == idx && e.keyCode == 13)
-				this.appendTarget();
+		pressKey(e: any, idx: number) {
+			if (this.currentSelectIndex > this.getSearchMember(idx).length - 1)
+				this.currentSelectIndex = this.getSearchMember(idx).length - 1;
+			switch (e.keyCode) {
+				case 13:
+					if (this.currentSelectIndex != -1) {
+						this.data.target[idx].name = (this.members[
+							this.currentSelectIndex
+						] as any).name;
+						this.data.target[idx].user = (this.members[
+							this.currentSelectIndex
+						] as any)._id;
+						this.focusInputIndex = -1;
+					}
+					break;
+				case 38:
+					if (this.currentSelectIndex > 0) this.currentSelectIndex--;
+					break;
+				case 40:
+					if (
+						this.currentSelectIndex <
+						this.getSearchMember(idx).length - 1
+					)
+						this.currentSelectIndex++;
+					break;
+			}
+		},
+		focusOut(idx:number) {
+            if(!this.data.target[idx].user){
+                this.data.target[idx].name = ""
+                this.data.target[idx].user = ""
+            }
+			this.currentSelectIndex = 0;
+			this.focusInputIndex = -1;
+		},
+		getSearchMember(idx: number): any[] {
+			return this.members.filter((x: any) => {
+				return x.name.indexOf(this.data.target[idx].name) != -1;
+			});
 		},
 		create() {
-			this.data.target = ["5d9dbb0ed5f662594472181a"] //FIXME:
-			this.$store 
+            this.data.target = this.data.target.map((x: any) => x.user);
+			this.$store
 				.dispatch("AWARD", this.data)
 				.then(award => {
 					this.$emit("isUpdated", false);
 				})
 				.catch(err => {});
 		}
-	}
+	},
+	computed: {}
 });
 </script>
 <style>
@@ -131,5 +191,32 @@ export default Vue.extend({
 	background-color: #becfe4;
 	border-radius: 4px;
 	padding: 5px 20px;
+}
+.awardbox__user {
+	display: inline-block;
+	position: relative;
+}
+.awardbox__userautocomplete {
+	width: 80px;
+	height: auto;
+	max-height: 200px;
+	overflow-y: scroll;
+	border-radius: 4px;
+	border: 1px solid #7293bd;
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+	background-color: white;
+	list-style: none;
+	position: absolute;
+}
+.awardbox__userautocomplete li {
+	list-style: none;
+	font-size: 18px;
+	padding: 5px;
+	text-align: center;
+	cursor: pointer;
+}
+.awardbox__userautocomplete li.active {
+	background-color: #7293bd;
+	color: white;
 }
 </style>

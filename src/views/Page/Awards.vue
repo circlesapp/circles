@@ -16,7 +16,7 @@
 				:admin="isAdmin"
 				@isUpdated="reload"
 			></AwardBox>
-			<div class="award__list__item award__list__item__create" @click="appendAwards">+</div>
+			<div class="award__list__item award__list__item__create" v-if="!isAdmin" @click="appendAwards">+</div>
 		</div>
 	</div>
 </template>
