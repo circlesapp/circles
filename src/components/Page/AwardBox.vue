@@ -77,8 +77,8 @@ export default Vue.extend({
 			});
 		},
 		pressKey(e: any, idx: number) {
-			if (this.currentSelectIndex > this.getSearchMember(idx).length - 1)
-				this.currentSelectIndex = this.getSearchMember(idx).length - 1;
+			if (e.keyCode == 32 && e.ctrlKey) return (this.focusInputIndex = idx);
+			let len = this.getSearchMember(idx).length - 1;
 			switch (e.keyCode) {
 				case 13:
 					if (this.currentSelectIndex != -1) {
@@ -95,19 +95,18 @@ export default Vue.extend({
 					if (this.currentSelectIndex > 0) this.currentSelectIndex--;
 					break;
 				case 40:
-					if (
-						this.currentSelectIndex <
-						this.getSearchMember(idx).length - 1
-					)
+					if (this.currentSelectIndex < len)
 						this.currentSelectIndex++;
 					break;
 			}
+			if (this.currentSelectIndex > len)
+				this.currentSelectIndex = len == -1 ? 0 : len;
 		},
-		focusOut(idx:number) {
-            if(!this.data.target[idx].user){
-                this.data.target[idx].name = ""
-                this.data.target[idx].user = ""
-            }
+		focusOut(idx: number) {
+			if (!this.data.target[idx].user) {
+				this.data.target[idx].name = "";
+				this.data.target[idx].user = "";
+			}
 			this.currentSelectIndex = 0;
 			this.focusInputIndex = -1;
 		},
@@ -117,7 +116,7 @@ export default Vue.extend({
 			});
 		},
 		create() {
-            this.data.target = this.data.target.map((x: any) => x.user);
+			this.data.target = this.data.target.map((x: any) => x.user);
 			this.$store
 				.dispatch("AWARD", this.data)
 				.then(award => {
