@@ -128,6 +128,22 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
+        },
+        POST_TOGGLE_LIKE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/post/toggleLike`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(result => {
+						resolve(result.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
 		},
 		GET_MY_APPLICANT({ state, commit }) {
 			return new Promise<any>((resolve, reject) => {

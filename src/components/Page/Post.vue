@@ -48,8 +48,8 @@
 			<span style="color:#538fff;" @click="changeContentSave">확인</span>
 		</div>
 		<div class="post__action" v-else>
-			<p class="post__action__heart">
-				<i class="material-icons">favorite</i>
+			<p class="post__action__heart" @click="toggleLike">
+				<i class="material-icons">{{isLike ?'favorite' : 'favorite_border'}}</i>
 				{{data.likes.length}}
 			</p>
 			<p class="post__action__comment">
@@ -110,6 +110,16 @@ export default Vue.extend({
 			if (e.keyCode == 10 && e.ctrlKey) {
 				this.changeContentSave();
 			}
+		},
+		toggleLike() {
+			this.$store
+				.dispatch("POST_TOGGLE_LIKE", {
+					_id: this.data._id
+				})
+				.then(() => {
+					this.$emit("isChange", false);
+				})
+				.catch(err => {});
 		}
 	},
 	computed: {
@@ -118,6 +128,13 @@ export default Vue.extend({
 		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
+		},
+		isLike(): boolean {
+			if (this.getUserInformation)
+				return (
+					this.data.likes.indexOf(this.getUserInformation._id) != -1
+				);
+			else return false;
 		}
 	}
 });
