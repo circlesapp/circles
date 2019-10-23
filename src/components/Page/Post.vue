@@ -285,11 +285,14 @@ textarea.post__content {
 	font-weight: 500;
 
 	color: #202841;
+
+    cursor: pointer;
 }
 .post__action__heart i {
 	color: #ff4475;
 	font-size: 25px;
 	margin-right: 10px;
+
 }
 .post__action__comment i {
 	color: #538fff;
