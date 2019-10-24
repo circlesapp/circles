@@ -128,8 +128,8 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
-        },
-        POST_TOGGLE_LIKE({ state, commit }, data) {
+		},
+		POST_TOGGLE_LIKE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.post(`${state.mainPath}club/${state.club.name}/post/toggleLike`, data, {
@@ -210,6 +210,22 @@ export default new Vuex.Store({
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.post(`${state.mainPath}club/${state.club.name}/award/write`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(award => {
+						resolve(award.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		AWARD_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/award/delete`, data, {
 						headers: {
 							Authorization: state.userToken
 						}

@@ -1,5 +1,5 @@
 <template>
-	<div class="awardbox" :class="{'awardbox-created':data.isCreated}">
+	<div class="awardbox" :class="{'awardbox-created':data.isCreated}" @contextmenu="$emit('contextmenu',$event)">
 		<div>
 			<h2 v-if="!data.isCreated">{{data.title}}</h2>
 			<h2 v-else>
@@ -52,7 +52,8 @@ export default Vue.extend({
 		return {
 			focusInputIndex: -1,
 			currentSelectIndex: 0,
-			members: []
+			members: [],
+			showContextMenu: false
 		};
 	},
 	created() {
@@ -77,7 +78,8 @@ export default Vue.extend({
 			});
 		},
 		pressKey(e: any, idx: number) {
-			if (e.keyCode == 32 && e.ctrlKey) return (this.focusInputIndex = idx);
+			if (e.keyCode == 32 && e.ctrlKey)
+				return (this.focusInputIndex = idx);
 			let len = this.getSearchMember(idx).length - 1;
 			switch (e.keyCode) {
 				case 13:

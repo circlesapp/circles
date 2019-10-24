@@ -1,5 +1,9 @@
 <template>
-	<div class="award">
+	<div class="award" @click="showContextMenu = false">
+		<div class="award__contextmenu" v-if="showContextMenu" ref="contextmenu">
+			<div class="award__contextmenu__item delete" @click="remove()">삭제</div>
+			<div class="award__contextmenu__item">수정</div>
+		</div>
 		<h2 class="award__club">
 			<img class="award__clubimage" :src="getClubImage" alt />
 			<div>
@@ -15,6 +19,7 @@
 				:key="award._id"
 				:admin="isAdmin"
 				@isUpdated="reload"
+				@contextmenu="createContextMenu($event,award._id)"
 			></AwardBox>
 			<div class="award__list__item award__list__item__create" v-if="!isAdmin" @click="appendAwards">+</div>
 		</div>
@@ -31,7 +36,9 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			awards: [] as any
+			awards: [] as any,
+			showContextMenu: false,
+			currentId: ""
 		};
 	},
 	created() {
@@ -54,6 +61,25 @@ export default Vue.extend({
 				level: "",
 				isCreated: true
 			});
+		},
+		createContextMenu(e: MouseEvent, _id: string) {
+			e.preventDefault();
+			this.showContextMenu = true;
+			this.currentId = _id;
+			this.$nextTick(() => {
+				let contextmenu: any = this.$refs.contextmenu;
+				contextmenu.style.left = e.x + "px";
+				contextmenu.style.top = e.y + "px";
+			});
+		},
+		remove() {
+			if (this.currentId)
+				this.$store
+					.dispatch("AWARD_DELETE", { _id: this.currentId })
+					.then(award => {
+						this.reload();
+					})
+					.catch(err => {});
 		}
 	},
 	computed: {
@@ -97,6 +123,37 @@ export default Vue.extend({
 
 	margin-bottom: 20px;
 }
+
+.award__contextmenu {
+	position: fixed;
+
+	width: 100px;
+	height: auto;
+
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+	background-color: white;
+
+	z-index: 100;
+}
+.award__contextmenu__item {
+	cursor: pointer;
+	padding: 10px;
+	color: #273142;
+
+	text-align: center;
+}
+.award__contextmenu__item.delete {
+	color: #e02020;
+}
+.award__contextmenu__item:hover {
+	background-color: #9cb2cd;
+	color: white;
+}
+.award__contextmenu__item.delete:hover {
+	background-color: #e02020;
+}
+
 .award__club div {
 	margin-left: 50px;
 }
