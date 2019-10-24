@@ -21,7 +21,7 @@
 				@isUpdated="reload"
 				@contextmenu="createContextMenu($event,award._id)"
 			></AwardBox>
-			<div class="award__list__item award__list__item__create" v-if="!isAdmin" @click="appendAwards">+</div>
+			<div class="award__list__item award__list__item__create" v-if="isAdmin" @click="appendAwards">+</div>
 		</div>
 	</div>
 </template>
@@ -96,11 +96,17 @@ export default Vue.extend({
 		},
 		isAdmin() {
 			if (this.$store.state.club.ranks) {
-				let rank = this.$store.state.club.ranks.find(
-					(rank: any) =>
-						rank.user == this.$store.state.userInformation._id
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
 				);
-				if (rank) return rank.isAdmin;
+				if (user)
+					return this.$store.state.club.ranks.find(
+						(rank: any) => rank.name == user.rank
+					).isAdmin;
 				else return false;
 			} else return false;
 		}
