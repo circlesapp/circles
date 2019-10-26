@@ -56,9 +56,9 @@ export default new Router({
 				{
 					path: "applicant",
 					name: "page/applicant",
-					component: Applicant,
+                    component: Applicant,
 					children: [
-						{ path: "", name: "page/applicant/main", component: ApplicantMain },
+						{ path: "", name: "page/applicant/main", component: ApplicantMain, },
 						{ path: "application", name: "page/applicant/application", component: Application },
 						{ path: "recorder", name: "page/applicant/recorder", component: Recorder },
 						{ path: "result", name: "page/applicant/result", component: Result }
