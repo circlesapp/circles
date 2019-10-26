@@ -64,13 +64,15 @@ export default Vue.extend({
 		},
 		createContextMenu(e: MouseEvent, _id: string) {
 			e.preventDefault();
-			this.showContextMenu = true;
-			this.currentId = _id;
-			this.$nextTick(() => {
-				let contextmenu: any = this.$refs.contextmenu;
-				contextmenu.style.left = e.x + "px";
-				contextmenu.style.top = e.y + "px";
-			});
+			if (this.isAdmin) {
+				this.showContextMenu = true;
+				this.currentId = _id;
+				this.$nextTick(() => {
+					let contextmenu: any = this.$refs.contextmenu;
+					contextmenu.style.left = e.x + "px";
+					contextmenu.style.top = e.y + "px";
+				});
+			}
 		},
 		remove() {
 			if (this.currentId)

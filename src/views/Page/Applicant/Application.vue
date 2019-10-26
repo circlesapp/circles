@@ -67,9 +67,9 @@ export default Vue.extend({
 	created() {
 		if (this.getUserInformation.name) {
 			this.name = this.getUserInformation.name;
-		}
-		if (this.getUserInformation.email) {
 			this.email = this.getUserInformation.email;
+		} else {
+			this.$router.back();
 		}
 		if (this.getUserToken) {
 			this.$store

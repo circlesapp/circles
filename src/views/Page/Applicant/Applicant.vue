@@ -8,6 +8,14 @@
 				<br />동아리 입니다.
 			</p>
 		</div>
+        <div class="applicant__main__item applicant__main__item-disable" v-else-if="!getUserToken">
+			<i class="material-icons">description</i>
+			<h2>지원서 작성</h2>
+			<p>
+				로그인 후
+				<br />이용 가능합니다.
+			</p>
+		</div>
 		<router-link
 			v-else
 			tag="div"
@@ -120,6 +128,10 @@ export default Vue.extend({
 
 	transition: 0.5s;
 	cursor: pointer;
+}
+.applicant__main__item-disable{
+	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.08);
+    background-color: #f6f6f6;
 }
 .applicant__main__item:hover {
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.1);

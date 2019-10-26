@@ -35,6 +35,7 @@
 							:class="{'menu__left__list__item-active':idx == 1}"
 						>페이지</router-link>
 						<router-link
+							v-if="isAdmin"
 							to="/edcan/community"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
@@ -220,6 +221,25 @@ export default Vue.extend({
 			} else {
 				return "-";
 			}
+		},
+		isAdmin() {
+			if (
+				this.$store.state.club.ranks &&
+				this.$store.state.userInformation._id
+			) {
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
+				);
+				if (user)
+					return this.$store.state.club.ranks.find(
+						(rank: any) => rank.name == user.rank
+					).isAdmin;
+				else return false;
+			} else return false;
 		}
 	}
 });
