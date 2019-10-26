@@ -20,6 +20,10 @@
 					v-model="password"
 				/>
 			</div>
+			<p class="login__alert" v-if="errorAlert">
+				<i class="material-icons">error</i>
+				{{errorAlert}}
+			</p>
 			<button class="login__button" @click="login">로그인</button>
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
 			<router-link to="/passwordchange" class="login__option" style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
@@ -33,7 +37,7 @@
 import Vue from "vue";
 import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
-    name : "Login",
+	name: "Login",
 	components: {
 		LoadingBar
 	},
@@ -41,7 +45,9 @@ export default Vue.extend({
 		return {
 			email: "",
 			password: "",
-			isLoading: false
+			isLoading: false,
+
+			errorAlert: ""
 		};
 	},
 	methods: {
@@ -66,10 +72,12 @@ export default Vue.extend({
 						})
 						.catch(err => {
 							this.isLoading = false;
+							this.errorAlert = err.response.data.message;
 						});
 				})
 				.catch(err => {
 					this.isLoading = false;
+					this.errorAlert = err.response.data.message;
 				});
 		}
 	}
@@ -92,6 +100,17 @@ export default Vue.extend({
 	justify-content: space-between;
 }
 
+.login__alert {
+	color: #dd4433;
+	font-family: NanumSquareL;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.login__alert i {
+	margin-right: 10px;
+}
 .login__title {
 	font-size: 50px;
 	margin: 20px;
