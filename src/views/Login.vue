@@ -72,12 +72,13 @@ export default Vue.extend({
 						})
 						.catch(err => {
 							this.isLoading = false;
-							this.errorAlert = err.response.data.message;
+							this.errorAlert =
+								err.response.data.message || "서버 에러";
 						});
 				})
 				.catch(err => {
 					this.isLoading = false;
-					this.errorAlert = err.response.data.message;
+					this.errorAlert = err.response.data.message || "서버 에러";
 				});
 		}
 	}
