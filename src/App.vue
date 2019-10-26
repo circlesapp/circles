@@ -35,7 +35,7 @@
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
-						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA">앱 설치</div>
+						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA" v-if="deferredPrompt">앱 설치</div>
 						<div class="menu__left__list__bar" ref="bar"></div>
 					</nav>
 				</header>
@@ -637,6 +637,11 @@ i {
     .menu__left__list__circles{
         display: flex;
 
+    }
+}
+@media all and (display-mode: standalone) {
+    .menu__left__list__item__pwa{
+        display: none;
     }
 }
 </style>
