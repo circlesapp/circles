@@ -6,23 +6,18 @@
 					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
 					<h1 class="menu__left__title">circles.</h1>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
-						<div class="menu__left__list__profile" v-if="getUserInformation.name">
-							<div class="menu__left__profile__information">
-								<div class="information__wrapper">
-									<img :src="getUserImage" alt />
-									<div>
-										<h3 class="name">{{getUserInformation.name}}</h3>
-										<p class="email">{{getUserInformation.email}}</p>
-									</div>
+						<div class="menu__left__list__circles">
+							<img src="./assets/circles_logo.png" alt />
+							<h1>circles.</h1>
+						</div>
+						<div class="menu__left__list__profile" v-if="getUserInformation.name" style="color:black;">
+							<div class="information__wrapper">
+								<img :src="getUserImage" alt />
+								<div>
+									<h3 class="name">{{getUserInformation.name}}</h3>
+									<p class="clubs">{{getClub.name}} {{getRank}}</p>
 								</div>
-								<div class="arrow">></div>
 							</div>
-							<div class="menu__left__profile__club">{{getClub.name || '-'}}</div>
-							<div class="menu__left__profile__rank">
-								<div class="left">직위</div>
-								<div class="right">{{getRank}}</div>
-							</div>
-							<div class="menu__left__profile__logout" @click="logout">로그아웃</div>
 						</div>
 						<router-link
 							to="/"
@@ -430,63 +425,50 @@ i {
 .menu__left__list__item__pwa {
 	display: none;
 }
-.menu__left__list__profile {
-	display: none;
-	padding: 25px;
-}
-.menu__left__list__profile * {
-	color: #273142;
-	text-decoration: none;
-}
-.menu__left__profile__information {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.menu__left__profile__information .information__wrapper {
-	display: flex;
-	align-items: center;
-}
-.menu__left__profile__information img {
-	width: 60px !important;
-	height: 60px !important;
-	margin-right: 30px;
-	border-radius: 100%;
-	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
-}
-.menu__left__profile__information .name {
-	font-family: "NanumSquareEB";
-	font-size: 20px;
-}
-.menu__left__profile__information .email {
-	font-family: "NanumSquareL";
-	font-size: 16px;
-}
-.menu__left__profile__information .arrow {
-	font-family: "NanumSquareEB";
-	font-size: 20px;
-}
 
-.menu__left__profile__club {
-	margin-top: 30px;
-	text-align: right;
-	font-family: "NanumSquareL";
-	font-size: 20px;
+.menu__left__list__circles {
+	display: none;
+    align-items: center;
+	color: #273142;
+
+    padding-left: 15px;
+    padding-top: 20px;
+
 }
-.menu__left__profile__rank {
+.menu__left__list__circles img {
+	width: 120px;
+    height: 120px;
+}
+.menu__left__list__circles h1{
+    font-size: 50px;
+    font-family: Avenir;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.menu__left__list__profile{
+    display: none;
+}
+.menu__left__list__profile .information__wrapper {
 	display: flex;
-	justify-content: space-between;
+	align-items: center;
+
+	padding: 40px;
 }
-.menu__left__profile__rank .left {
-	font-family: "NanumSquareB";
+.menu__left__list__profile .information__wrapper img {
+	width: 70px;
+	height: 70px;
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+	background-color: white;
+	border-radius: 100%;
+	margin-right: 20px;
+}
+.menu__left__list__profile .information__wrapper .name {
+	font-family: NanumSquareEB;
+	font-size: 24px;
+}
+.menu__left__list__profile .information__wrapper .clubs {
+	font-family: NanumSquareL;
 	font-size: 20px;
-}
-.menu__left__profile__rank .right {
-	font-family: "NanumSquareL";
-	font-size: 20px;
-}
-.menu__left__profile__logout {
-	cursor: pointer;
 }
 
 .menu__right > img {
@@ -629,28 +611,32 @@ i {
 		left: 0;
 	}
 	.menu__left__list__item {
+		display: block;
+
 		height: auto;
 		width: 100%;
 
-		text-align: center;
-
-		padding: 10px;
-		color: #538fff;
+		padding: 20px 40px;
+		color: #273142;
 		font-size: 24px;
 		transition: 0.5s;
+
+		text-align: left;
 	}
 	.menu__left__list__item__pwa {
 		display: block;
 	}
-	.menu__left__list__item-active {
-		color: white;
-		background-color: #538fff;
-	}
 	.menu__left__list__profile {
 		display: block;
 	}
+
 	.menu__menubutton {
 		display: block;
 	}
+
+    .menu__left__list__circles{
+        display: flex;
+
+    }
 }
 </style>

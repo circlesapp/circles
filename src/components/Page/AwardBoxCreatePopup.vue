@@ -1,0 +1,255 @@
+<template>
+	<div class="award__createpopup">
+		<div class="award__createpopup__content">
+			<h3>수상 실적 등록</h3>
+			<div class="award__createpopup__content__inputs">
+				<div class="inputfield">
+					<h4>대회명</h4>
+					<input v-model="title" class="inputfield__input" type="text" placeholder="대회명을 입력하세요" />
+				</div>
+				<div class="inputfield">
+					<h4>부문</h4>
+					<input v-model="subtitle" class="inputfield__input" type="text" placeholder="부문을 입력하세요" />
+				</div>
+				<div class="inputfield">
+					<h4>등급</h4>
+					<input v-model="level" class="inputfield__input" type="text" placeholder="등급을 입력하세요" />
+				</div>
+				<div class="inputfield">
+					<h4>참가자</h4>
+					<div class="inputfield__input inputfield__inputuser" type="text">
+						<span v-for="member in target" :key="member._id">{{member.name}},</span>
+						<input
+							v-model="searchTarget"
+							placeholder="참가자를 입력하세요"
+							type="text"
+							class="inputfield__input__userfield"
+							@keydown="userInputKeyPress"
+						/>
+						<div class="inputfield__input__userfield__autocomplete">
+							<div
+								class="member"
+								:class="{'member-active':targetCurrentIndex == idx}"
+								v-for="(member,idx) in getNotJoinMembers"
+								:key="member._id"
+							>
+								<img :src="$store.state.mainPath+member.imgPath" alt />
+								{{member.name}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="award__createpopup__content__actions">
+				<button class="create" @click="create">등록</button>
+				<button class="cancel" @click="$emit('isUpdated', false)">취소</button>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
+	data() {
+		return {
+			members: [],
+			title: "",
+			subtitle: "",
+			level: "",
+			target: [] as any[],
+
+			targetCurrentIndex: 0,
+			searchTarget: "" as string
+		};
+	},
+	created() {
+		this.$store
+			.dispatch("GET_CLUB_MEMBERS")
+			.then(members => {
+				this.members = members;
+			})
+			.catch(err => {});
+	},
+	methods: {
+		userInputKeyPress(e: any) {
+			if (this.targetCurrentIndex >= this.getNotJoinMembers.length)
+				this.targetCurrentIndex = this.getNotJoinMembers.length;
+			switch (e.keyCode) {
+				case 13:
+					let member = this.getNotJoinMembers[
+						this.targetCurrentIndex
+					];
+					if (member) this.target.push(member);
+					break;
+				case 8:
+					if (this.searchTarget == "") {
+						this.target.pop();
+					}
+					break;
+				case 38:
+					if (this.targetCurrentIndex > 0) this.targetCurrentIndex--;
+					break;
+				case 40:
+					if (
+						this.targetCurrentIndex <
+						this.getNotJoinMembers.length - 1
+					)
+						this.targetCurrentIndex++;
+					break;
+			}
+		},
+		create() {
+			this.$store
+				.dispatch("AWARD", {
+					title: this.title,
+					subtitle: this.subtitle,
+					level: this.level,
+					target: this.target.map(x => x._id)
+				})
+				.then(award => {
+					this.$emit("isUpdated", false);
+				})
+				.catch(err => {});
+		}
+	},
+	computed: {
+		getNotJoinMembers(): any[] {
+			return this.members.filter(
+				(member: any) =>
+					this.target.findIndex(x => member._id == x._id) == -1 &&
+					member.name.indexOf(this.searchTarget) != -1
+			);
+		}
+	}
+});
+</script>
+
+<style>
+.award__createpopup {
+	position: fixed;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	background-color: rgba(0, 0, 0, 0.45);
+
+	overflow: scroll;
+
+	z-index: 2000;
+}
+.award__createpopup__content {
+	background-color: white;
+	border-radius: 39px;
+
+	width: 100%;
+	max-width: 800px;
+
+	padding: 40px;
+	margin: 10px;
+}
+.award__createpopup__content h3 {
+	font-family: NanumSquareB;
+	font-size: 30px;
+	color: #2e2e2e;
+	margin-bottom: 20px;
+}
+.award__createpopup__content__inputs {
+	display: flex;
+	flex-wrap: wrap;
+}
+.award__createpopup__content .inputfield {
+	padding: 10px;
+	width: 100%;
+}
+.award__createpopup__content .inputfield h4 {
+	font-family: NanumSquareL;
+	font-size: 24px;
+	font-weight: none;
+    margin-bottom: 10px;
+}
+.award__createpopup__content .inputfield .inputfield__input {
+	border-radius: 8px;
+	border: solid 1px #eeeeee;
+	padding: 10px 20px;
+	font-size: 24px;
+	width: 100%;
+	position: relative;
+}
+.inputfield__inputuser {
+	display: flex;
+	flex-wrap: wrap;
+	width: auto;
+}
+.inputfield__input__userfield {
+	font-size: 24px;
+	border: none;
+	background: none;
+	min-width: 100px;
+}
+.inputfield__input__userfield__autocomplete {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 100%;
+
+	width: 100%;
+
+	background-color: white;
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+}
+.inputfield__input__userfield__autocomplete .member {
+	display: flex;
+	align-items: center;
+
+	padding: 10px 20px;
+}
+.inputfield__input__userfield__autocomplete .member-active,
+.inputfield__input__userfield__autocomplete .member:hover {
+	background-color: #eeeeee;
+}
+.inputfield__input__userfield__autocomplete img {
+	height: 1em;
+	margin-right: 10px;
+	border-radius: 100%;
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+}
+.inputfield__input__userfield:focus
+	+ .inputfield__input__userfield__autocomplete {
+	display: block;
+	z-index: 2000;
+}
+.award__createpopup__content .inputfield input::placeholder,
+.inputfield__input__userfield::placeholder {
+	color: #999999;
+}
+.award__createpopup__content__actions {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+.award__createpopup__content__actions * {
+	flex: 1;
+	border-radius: 31.5px;
+	border: none;
+	background: none;
+	font-size: 24px;
+	padding: 10px;
+	margin: 10px;
+	cursor: pointer;
+}
+.award__createpopup__content__actions .create {
+	background-color: #538fff;
+	color: white;
+}
+.award__createpopup__content__actions .cancel {
+	border: 1px solid #eeeeee;
+	color: #9cb2cd;
+}
+</style>

@@ -2,7 +2,6 @@
 	<div class="award" @click="showContextMenu = false">
 		<div class="award__contextmenu" v-if="showContextMenu" ref="contextmenu">
 			<div class="award__contextmenu__item delete" @click="remove()">삭제</div>
-			<div class="award__contextmenu__item">수정</div>
 		</div>
 		<h2 class="award__club">
 			<img class="award__clubimage" :src="getClubImage" alt />
@@ -17,28 +16,32 @@
 				v-for="award in awards"
 				:data="award"
 				:key="award._id"
-				:admin="isAdmin"
-				@isUpdated="reload"
 				@contextmenu="createContextMenu($event,award._id)"
 			></AwardBox>
 			<div class="award__list__item award__list__item__create" v-if="isAdmin" @click="appendAwards">+</div>
 		</div>
+		<AwardBoxCreatePopup @isUpdated="reload" v-if="isShowAwardCreatePopup"></AwardBoxCreatePopup>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import AwardBox from "../../components/Page/AwardBox.vue";
+import AwardBoxCreatePopup from "../../components/Page/AwardBoxCreatePopup.vue";
 export default Vue.extend({
 	name: "Awards",
 	components: {
-		AwardBox
+		AwardBox,
+		AwardBoxCreatePopup
 	},
 	data() {
 		return {
 			awards: [] as any,
 			showContextMenu: false,
-			currentId: ""
+			isShowAwardCreatePopup: false,
+			currentId: "",
+
+			members: []
 		};
 	},
 	created() {
@@ -46,6 +49,7 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
+			this.isShowAwardCreatePopup = false;
 			this.$store
 				.dispatch("GET_CLUB_AWARDS")
 				.then(awards => {
@@ -54,13 +58,7 @@ export default Vue.extend({
 				.catch(err => {});
 		},
 		appendAwards() {
-			this.awards.push({
-				title: "",
-				subtitle: "",
-				target: [],
-				level: "",
-				isCreated: true
-			});
+			this.isShowAwardCreatePopup = true;
 		},
 		createContextMenu(e: MouseEvent, _id: string) {
 			e.preventDefault();
@@ -217,7 +215,6 @@ export default Vue.extend({
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.3);
 	transform: scale(1);
 }
-
 @media screen and (max-width: 768px) {
 	.award {
 		padding: 30px;

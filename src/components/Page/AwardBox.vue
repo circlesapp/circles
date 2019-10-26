@@ -1,43 +1,17 @@
 <template>
-	<div class="awardbox" :class="{'awardbox-created':data.isCreated}" @contextmenu="$emit('contextmenu',$event)">
+	<div
+		class="awardbox"
+		:class="{'awardbox-created':data.isCreated}"
+		@contextmenu="$emit('contextmenu',$event)"
+	>
 		<div>
-			<h2 v-if="!data.isCreated">{{data.title}}</h2>
-			<h2 v-else>
-				<input style="width:100%" type="text" v-model="data.title" placeholder="대회명" />
-			</h2>
-			<p v-if="!data.isCreated">
+			<h2>{{data.title}}</h2>
+			<p>
 				{{data.subtitle}}&nbsp;&nbsp;
 				<span v-for="user in data.target" :key="user.name">{{user.name}}</span>
 			</p>
-			<p v-else>
-				<input type="text" v-model="data.subtitle" placeholder="부문" />&nbsp;&nbsp;
-				<span class="awardbox__user" v-for="(user,idx) in data.target" :key="idx">
-					<input
-						style="width:4em;"
-						type="text"
-						v-model="data.target[idx].name"
-						@keydown="pressKey($event,idx)"
-						:ref="idx == data.target.length-1 ? 'last' : ''"
-						placeholder="이름"
-						@focus="focusInputIndex = idx"
-						@blur="focusOut(idx)"
-					/>
-					<div class="awardbox__userautocomplete" v-if="idx == focusInputIndex">
-						<li
-							v-for="(member, i) in getSearchMember(idx)"
-							:key="member._id"
-							:class="{'active':currentSelectIndex == i}"
-						>{{member.name}}</li>
-					</div>
-				</span>
-				<span class="awardbox__appendTarget" @click="appendTarget">+</span>
-			</p>
 		</div>
-		<h3 v-if="!data.isCreated">{{data.level}}</h3>
-		<h3 v-else>
-			<input type="text" style="text-align:right;" v-model="data.level" placeholder="상격" />
-		</h3>
-		<span class="awardbox__create" v-if="data.isCreated" @click="create">생성</span>
+		<h3>{{data.level}}</h3>
 	</div>
 </template>
 
@@ -46,7 +20,6 @@ import Vue from "vue";
 export default Vue.extend({
 	props: {
 		data: Object,
-		admin: Boolean
 	},
 	data() {
 		return {
@@ -55,79 +28,7 @@ export default Vue.extend({
 			members: [],
 			showContextMenu: false
 		};
-	},
-	created() {
-		this.$store
-			.dispatch("GET_CLUB_MEMBERS")
-			.then(members => {
-				this.members = members;
-			})
-			.catch(err => {});
-	},
-	methods: {
-		appendTarget() {
-			this.data.target.push({
-				name: "",
-				user: ""
-			});
-			this.$nextTick(() => {
-				let last = this.$refs.last as HTMLInputElement[];
-				if (last) {
-					last[0].focus();
-				}
-			});
-		},
-		pressKey(e: any, idx: number) {
-			if (e.keyCode == 32 && e.ctrlKey)
-				return (this.focusInputIndex = idx);
-			let len = this.getSearchMember(idx).length - 1;
-			switch (e.keyCode) {
-				case 13:
-					if (this.currentSelectIndex != -1) {
-						this.data.target[idx].name = (this.members[
-							this.currentSelectIndex
-						] as any).name;
-						this.data.target[idx].user = (this.members[
-							this.currentSelectIndex
-						] as any)._id;
-						this.focusInputIndex = -1;
-					}
-					break;
-				case 38:
-					if (this.currentSelectIndex > 0) this.currentSelectIndex--;
-					break;
-				case 40:
-					if (this.currentSelectIndex < len)
-						this.currentSelectIndex++;
-					break;
-			}
-			if (this.currentSelectIndex > len)
-				this.currentSelectIndex = len == -1 ? 0 : len;
-		},
-		focusOut(idx: number) {
-			if (!this.data.target[idx].user) {
-				this.data.target[idx].name = "";
-				this.data.target[idx].user = "";
-			}
-			this.currentSelectIndex = 0;
-			this.focusInputIndex = -1;
-		},
-		getSearchMember(idx: number): any[] {
-			return this.members.filter((x: any) => {
-				return x.name.indexOf(this.data.target[idx].name) != -1;
-			});
-		},
-		create() {
-			this.data.target = this.data.target.map((x: any) => x.user);
-			this.$store
-				.dispatch("AWARD", this.data)
-				.then(award => {
-					this.$emit("isUpdated", false);
-				})
-				.catch(err => {});
-		}
-	},
-	computed: {}
+	}
 });
 </script>
 <style>
