@@ -36,7 +36,7 @@
 					</div>
 				</div>
 			</div>
-			<img :src="getUserImage" />
+			<img :src="getImgPath(getClub.imgPath)" />
 		</div>
 		<div class="home__login__list"></div>
 	</div>
@@ -235,8 +235,6 @@ export default Vue.extend({
 
 	width: 100%;
 }
-.home__login__profile__selectclub__list {
-}
 .home__login__profile__selectclub__list__item img {
 	height: 1.5em;
 	width: 1.5em;
@@ -252,9 +250,9 @@ export default Vue.extend({
 .home__login__profile__selectclub__list__item-active {
 	background-color: #eeeeee;
 }
-.home__login__profile__selectclub__list__item-current{
-    background-color: #538fff;
-    color: white;
+.home__login__profile__selectclub__list__item-current {
+	background-color: #538fff;
+	color: white;
 }
 @media screen and (max-width: 768px) {
 	.home__content {
