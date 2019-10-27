@@ -29,13 +29,16 @@
 							type="text"
 							class="inputfield__input__userfield"
 							@keydown="userInputKeyPress"
+							@blur="hideTargets"
+							@focus="showTargets = true"
 						/>
-						<div class="inputfield__input__userfield__autocomplete">
+						<div class="inputfield__input__userfield__autocomplete" v-if="showTargets">
 							<div
 								class="member"
 								:class="{'member-active':targetCurrentIndex == idx}"
 								v-for="(member,idx) in getNotJoinMembers"
 								:key="member._id"
+								@click="appendTargetItem(idx)"
 							>
 								<img :src="$store.state.mainPath+member.imgPath" alt />
 								{{member.name}}
@@ -64,7 +67,8 @@ export default Vue.extend({
 			target: [] as any[],
 
 			targetCurrentIndex: 0,
-			searchTarget: "" as string
+			searchTarget: "" as string,
+			showTargets: false
 		};
 	},
 	created() {
@@ -81,13 +85,7 @@ export default Vue.extend({
 				this.targetCurrentIndex = this.getNotJoinMembers.length;
 			switch (e.keyCode) {
 				case 13:
-					let member = this.getNotJoinMembers[
-						this.targetCurrentIndex
-					];
-					if (member){
-                        this.searchTarget = ""
-                        this.target.push(member);
-                    }
+					this.appendTargetItem(this.targetCurrentIndex);
 					break;
 				case 8:
 					if (this.searchTarget == "") {
@@ -119,8 +117,20 @@ export default Vue.extend({
 				})
 				.catch(err => {});
 		},
+		appendTargetItem(idx: number) {
+			let member = this.getNotJoinMembers[idx];
+			if (member) {
+				this.searchTarget = "";
+				this.target.push(member);
+			}
+		},
 		removeTargetItem(idx: number) {
 			this.target.splice(idx, 1);
+		},
+		hideTargets() {
+			setTimeout(() => {
+				this.showTargets = false;
+			}, 100);
 		}
 	},
 	computed: {
@@ -204,7 +214,6 @@ export default Vue.extend({
 	min-width: 100px;
 }
 .inputfield__input__userfield__autocomplete {
-	display: none;
 	position: absolute;
 	left: 0;
 	top: 100%;
@@ -219,6 +228,7 @@ export default Vue.extend({
 	align-items: center;
 
 	padding: 10px 20px;
+    cursor: pointer;
 }
 .inputfield__input__userfield__autocomplete .member-active,
 .inputfield__input__userfield__autocomplete .member:hover {
@@ -229,11 +239,6 @@ export default Vue.extend({
 	margin-right: 10px;
 	border-radius: 100%;
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
-}
-.inputfield__input__userfield:focus
-	+ .inputfield__input__userfield__autocomplete {
-	display: block;
-	z-index: 2000;
 }
 .award__createpopup__content .inputfield input::placeholder,
 .inputfield__input__userfield::placeholder {
