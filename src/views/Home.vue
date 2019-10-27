@@ -12,32 +12,33 @@
 		<router-link to="/login" class="home__start">시작하기</router-link>
 	</div>
 	<div class="home__login" v-else>
-		<router-link tag="div" to="/edcan/page/timeline" class="home__login__content">
+		<div class="home__login__profile">
 			<div>
-				<i class="material-icons">description</i>
-				<h2>동아리 페이지</h2>
+				<h1>{{getUserInformation.name}}</h1>
+				<p>{{getClub.name}} {{getRank}}</p>
 			</div>
-			<p>
-				circle. 에디터를 통해 쉽고 빠르게
-				동아리를 홍보하는 페이지를 제작하여
-				간편한 홍보 게시물, 수상 실적, 부원 소개,
-				채용 공고, 그리고 예산안의 공개 및
-				작성이 가능합니다.
-			</p>
-		</router-link>
-		<router-link tag="div" to="/edcan/community" class="home__login__content">
-			<div>
-				<i class="material-icons">group</i>
-				<h2>동아리 커뮤니티</h2>
+			<div class="home__login__profile__selectclub">
+				<input
+					@keydown="userInputKeyPress"
+					v-model="searchClub"
+					type="text"
+					class="home__login__profile__selectclub__search"
+				/>
+				<div class="home__login__profile__selectclub__list">
+					<div
+						class="home__login__profile__selectclub__list__item"
+						:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
+						v-for="(club,idx) in getClubs"
+						:key="club._id"
+					>
+						<img :src="getImgPath(club.imgPath)" alt />
+						{{club.name}}
+					</div>
+				</div>
 			</div>
-			<p>
-				동아리 부원만을 위한 내부 커뮤니티로,
-				동아리 전용 클라우드 스토리지, 출결 관리,
-				주소록, 캘린더, To-do 리스트 및 과제 관리,
-				투표 및 설문조사, 회비 관리, 채용 관리,
-				부원간 채팅 등의 기능이 포함되어 있습니다.
-			</p>
-		</router-link>
+			<img :src="getUserImage" />
+		</div>
+		<div class="home__login__list"></div>
 	</div>
 </template>
 
@@ -45,9 +46,77 @@
 import Vue from "vue";
 export default Vue.extend({
 	name: "Home",
+	data() {
+		return {
+			searchClub: "",
+			targetCurrentIndex: 0
+		};
+	},
+	methods: {
+		getImgPath(imgPath: string) {
+			if (imgPath) return this.$store.state.mainPath + imgPath;
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		userInputKeyPress(e: any) {
+			if (this.targetCurrentIndex >= this.getClubs.length)
+				this.targetCurrentIndex = this.getClubs.length;
+			switch (e.keyCode) {
+				case 13:
+					let club = this.getClubs[this.targetCurrentIndex];
+					this.$store
+						.dispatch("GET_CLUB", club.name)
+						.then(club => {
+							if (!club) this.$router.push("/");
+						})
+						.catch(err => {
+							this.$router.push("/");
+						});
+					break;
+				case 38:
+					if (this.targetCurrentIndex > 0) this.targetCurrentIndex--;
+					break;
+				case 40:
+					if (this.targetCurrentIndex < this.getClubs.length - 1)
+						this.targetCurrentIndex++;
+					break;
+			}
+		}
+	},
 	computed: {
+		getClub() {
+			return this.$store.state.club;
+		},
 		getUserInformation() {
 			return this.$store.state.userInformation;
+		},
+		getRank() {
+			if (this.$store.state.club.name) {
+				try {
+					return this.$store.state.club.members.find(
+						(x: any) =>
+							x.user == this.$store.state.userInformation._id
+					).rank;
+				} catch (e) {
+					return "-";
+				}
+			} else {
+				return "-";
+			}
+		},
+		getUserImage() {
+			if (this.$store.state.userInformation.imgPath)
+				return (
+					this.$store.state.mainPath +
+					this.$store.state.userInformation.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		getClubs(): any[] {
+			return this.getUserInformation.clubs.filter(
+				(club: any) => club.name.indexOf(this.searchClub) != -1
+			);
 		}
 	}
 });
@@ -104,49 +173,89 @@ export default Vue.extend({
 	box-shadow: none;
 }
 
-.home__login {
-	display: flex;
-	flex-wrap: wrap;
-
-	padding: 50px;
-}
-.home__login__content {
-	flex: 1;
-	flex-basis: 43%;
-
-	border-radius: 47px;
-	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
-	background-color: white;
-
-	margin: 50px;
-	padding: 50px;
+.home__login__profile {
+	height: 250px;
+	background-color: #538fff;
+	color: white;
 
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 
-	transition: 0.5s;
-	cursor: pointer;
+	padding: 0 60px;
+	padding-bottom: 60px;
+	position: relative;
 }
-.home__login__content:hover {
-	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.1);
+.home__login__profile h1 {
+	font-family: NanumSquareEB;
+	font-size: 50px;
 }
-.home__login__content i {
-	font-size: 150px;
-	color: #538fff;
+.home__login__profile p {
+	font-family: NanumSquareL;
+	font-size: 30px;
 }
-.home__login__content h2 {
-	font-family: "NanumSquareEB";
-	font-size: 45px;
+.home__login__profile img {
+	width: 120px;
+	height: 120px;
+
+	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+	background-color: white;
+	border-radius: 100%;
 }
-.home__login__content p {
+.home__login__list {
+	position: relative;
+	top: -60px;
+	height: 100%;
+	background-color: white;
+	border-radius: 25px;
+	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
+	margin: 0 60px;
+}
+
+.home__login__profile__selectclub {
+	position: absolute;
+	right: 70px;
+	top: 170px;
+
+	background-color: white;
+	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
+	z-index: 2000;
+	border-radius: 25px;
+
+	overflow: hidden;
+}
+.home__login__profile__selectclub__search {
+	outline: none;
+	border: none;
+	background: none;
 	font-family: "NanumSquareR";
-	font-size: 26px;
-	color: #868686;
-	word-break: keep-all;
-	max-width: 500px;
-}
+	font-size: 24px;
+	padding: 15px;
+	border: solid 1px #eeeeee;
 
+	width: 100%;
+}
+.home__login__profile__selectclub__list {
+}
+.home__login__profile__selectclub__list__item img {
+	height: 1.5em;
+	width: 1.5em;
+	margin-right: 10px;
+}
+.home__login__profile__selectclub__list__item {
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	font-size: 24px;
+	color: #273142;
+}
+.home__login__profile__selectclub__list__item-active {
+	background-color: #eeeeee;
+}
+.home__login__profile__selectclub__list__item-current{
+    background-color: #538fff;
+    color: white;
+}
 @media screen and (max-width: 768px) {
 	.home__content {
 		width: 80%;
@@ -161,10 +270,6 @@ export default Vue.extend({
 	}
 	.home__login {
 		padding: 20px;
-	}
-	.home__login__content {
-		flex-basis: 100%;
-		margin: 20px;
 	}
 }
 </style>

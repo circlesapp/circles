@@ -25,22 +25,27 @@
 							:class="{'menu__left__list__item-active':idx == 0}"
 						>메인</router-link>
 						<router-link
-							to="/edcan/page/timeline"
+							:to="`/${getClub.name}/page/timeline`"
 							class="menu__left__list__item"
+							v-if="getClub.name"
 							:class="{'menu__left__list__item-active':idx == 1}"
 						>페이지</router-link>
 						<router-link
 							v-if="isAdmin"
-							to="/edcan/community"
+							:to="`/${getClub.name}/page/community`"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
-						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA" v-if="deferredPrompt">앱 설치</div>
+						<div
+							class="menu__left__list__item menu__left__list__item__pwa"
+							@click="showPWA"
+							v-if="deferredPrompt"
+						>앱 설치</div>
 						<div class="menu__left__list__bar" ref="bar"></div>
 					</nav>
 				</header>
 				<transition name="fade">
-					<div class="menu__right" v-if="getUserInformation.name">
+					<div class="menu__right" v-if="getUserInformation.name && isShowProfile">
 						<img :src="getUserImage" @click="toggleProfile" />
 						<transition name="fade">
 							<div class="menu__right__profile" v-if="showProfile">
@@ -235,6 +240,9 @@ export default Vue.extend({
 					).isAdmin;
 				else return false;
 			} else return false;
+		},
+		isShowProfile() {
+			return this.$route.name != "home";
 		}
 	}
 });
@@ -428,25 +436,24 @@ i {
 
 .menu__left__list__circles {
 	display: none;
-    align-items: center;
+	align-items: center;
 	color: #273142;
 
-    padding-left: 15px;
-    padding-top: 20px;
-
+	padding-left: 15px;
+	padding-top: 20px;
 }
 .menu__left__list__circles img {
 	width: 120px;
-    height: 120px;
+	height: 120px;
 }
-.menu__left__list__circles h1{
-    font-size: 50px;
-    font-family: Avenir;
-    font-weight: bold;
-    margin-bottom: 20px;
+.menu__left__list__circles h1 {
+	font-size: 50px;
+	font-family: Avenir;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
-.menu__left__list__profile{
-    display: none;
+.menu__left__list__profile {
+	display: none;
 }
 .menu__left__list__profile .information__wrapper {
 	display: flex;
@@ -634,14 +641,13 @@ i {
 		display: block;
 	}
 
-    .menu__left__list__circles{
-        display: flex;
-
-    }
+	.menu__left__list__circles {
+		display: flex;
+	}
 }
 @media all and (display-mode: standalone) {
-    .menu__left__list__item__pwa{
-        display: none;
-    }
+	.menu__left__list__item__pwa {
+		display: none;
+	}
 }
 </style>
