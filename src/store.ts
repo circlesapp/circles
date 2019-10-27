@@ -50,6 +50,18 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_ALL_CLUB({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`${state.mainPath}club/getAllClubs`)
+					.then(user => {
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_USER_PROFILE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios

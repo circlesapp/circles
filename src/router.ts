@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Search from "./views/Search.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
@@ -27,6 +28,11 @@ export default new Router({
 			path: "/",
 			name: "home",
 			component: Home
+		},
+		{
+			path: "/search",
+			name: "search",
+			component: Search
 		},
 		{
 			path: "/login",
@@ -56,9 +62,9 @@ export default new Router({
 				{
 					path: "applicant",
 					name: "page/applicant",
-                    component: Applicant,
+					component: Applicant,
 					children: [
-						{ path: "", name: "page/applicant/main", component: ApplicantMain, },
+						{ path: "", name: "page/applicant/main", component: ApplicantMain },
 						{ path: "application", name: "page/applicant/application", component: Application },
 						{ path: "recorder", name: "page/applicant/recorder", component: Recorder },
 						{ path: "result", name: "page/applicant/result", component: Result }
