@@ -18,10 +18,14 @@
 				<div class="inputfield">
 					<h4>참가자</h4>
 					<div class="inputfield__input inputfield__inputuser" type="text">
-						<span v-for="member in target" :key="member._id">{{member.name}},</span>
+						<span class="inputfield__input__member" v-for="(member,idx) in target" :key="member._id">
+							<img :src="$store.state.mainPath+member.imgPath" alt />
+							{{member.name}}
+							<i class="material-icons" @click="removeTargetItem(idx)">clear</i>
+						</span>
 						<input
 							v-model="searchTarget"
-							placeholder="참가자를 입력하세요"
+							:placeholder="target.length ? '' :'참가자를 입력하세요'"
 							type="text"
 							class="inputfield__input__userfield"
 							@keydown="userInputKeyPress"
@@ -80,7 +84,10 @@ export default Vue.extend({
 					let member = this.getNotJoinMembers[
 						this.targetCurrentIndex
 					];
-					if (member) this.target.push(member);
+					if (member){
+                        this.searchTarget = ""
+                        this.target.push(member);
+                    }
 					break;
 				case 8:
 					if (this.searchTarget == "") {
@@ -111,6 +118,9 @@ export default Vue.extend({
 					this.$emit("isUpdated", false);
 				})
 				.catch(err => {});
+		},
+		removeTargetItem(idx: number) {
+			this.target.splice(idx, 1);
 		}
 	},
 	computed: {
@@ -172,7 +182,7 @@ export default Vue.extend({
 	font-family: NanumSquareL;
 	font-size: 24px;
 	font-weight: none;
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .award__createpopup__content .inputfield .inputfield__input {
 	border-radius: 8px;
@@ -251,5 +261,29 @@ export default Vue.extend({
 .award__createpopup__content__actions .cancel {
 	border: 1px solid #eeeeee;
 	color: #9cb2cd;
+}
+
+.inputfield__input__member {
+	border-radius: 4px;
+	background-color: #eeeeee;
+	color: #2e2e2e;
+	font-size: 18px;
+	padding: 4px 10px;
+	padding-right: 0;
+
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+.inputfield__input__member img {
+	width: 1.2em;
+	height: 1.2em;
+	margin-right: 10px;
+}
+.inputfield__input__member i {
+	cursor: pointer;
+	font-size: 0.7em;
+	padding: 5px;
+	padding-right: 10px;
 }
 </style>

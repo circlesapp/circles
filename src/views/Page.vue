@@ -98,7 +98,6 @@ export default Vue.extend({
 	height: 90px;
 
 	background-color: white;
-	box-shadow: inset 0 1px 0 0 #d7e3f1;
 
 	display: flex;
 	justify-content: space-between;
