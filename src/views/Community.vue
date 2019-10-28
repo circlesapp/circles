@@ -10,7 +10,10 @@
 				<router-link to="assignment" class="submenu__list__item">과제관리</router-link>
 				<router-link to="budgets" class="submenu__list__item">예산관리</router-link>
 				<router-link to="application" class="submenu__list__item">채용관리</router-link>
-				<router-link to="shortener" class="submenu__list__item">Circles<br>Shortener</router-link>
+				<router-link to="shortener" class="submenu__list__item">
+					Circles
+					<br />Shortener
+				</router-link>
 				<router-link to="site" class="submenu__list__item">사이트관리</router-link>
 			</div>
 		</div>
@@ -27,7 +30,7 @@
 import Vue from "vue";
 import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
-    name : "Community",
+	name: "Community",
 	components: {
 		LoadingBar
 	},
@@ -110,7 +113,7 @@ export default Vue.extend({
 }
 .submenu__list {
 	height: 100%;
-	margin-left: calc(9.6vw + 8em);
+	margin-left: calc(120px + 8em);
 	display: flex;
 }
 .submenu__list__item {

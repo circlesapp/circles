@@ -4,11 +4,11 @@
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
 					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
-					<h1 class="menu__left__title">circles.</h1>
+					<router-link tag="h1" class="menu__left__title" to="/">circles.</router-link>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
 						<div class="menu__left__list__circles">
 							<img src="./assets/circles_logo.png" alt />
-							<h1>circles.</h1>
+							<router-link tag="h1" to="/">circles.</router-link>
 						</div>
 						<div class="menu__left__list__profile" v-if="getUserInformation.name" style="color:black;">
 							<div class="information__wrapper">
@@ -32,7 +32,7 @@
 						>페이지</router-link>
 						<router-link
 							v-if="isAdmin"
-							:to="`/${getClub.name}/page/community`"
+							:to="`/${getClub.name}/community`"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
@@ -322,8 +322,8 @@ export default Vue.extend({
 .fade-enter-active,
 .fade-leave-active {
 	transition: 0.5s;
-    position: absolute;
-    right: 0;
+	position: absolute;
+	right: 0;
 }
 .fade-enter,
 .fade-leave-to {
@@ -380,7 +380,7 @@ i {
 
 	z-index: 1000;
 
-    position: relative;
+	position: relative;
 }
 .menu__menubutton {
 	display: none;
@@ -400,15 +400,17 @@ i {
 	height: 100%;
 }
 .menu__left__title {
-	margin-left: 2vw;
+	margin-left: 40px;
 	font-family: "AvenirBlack";
 	font-weight: 900;
 	font-size: 38px;
+
+    cursor: pointer;
 }
 .menu__left__list {
 	position: relative;
 	display: flex;
-	margin-left: 7.6vw;
+	margin-left: 80px;
 	height: 100%;
 }
 .menu__left__list__item {
@@ -485,16 +487,16 @@ i {
 	font-size: 20px;
 }
 
-.menu__right i{
-    margin-right: 30px;
-    font-size: 40px;
-    color: white;
-    text-decoration: none;
+.menu__right i {
+	margin-right: 40px;
+	font-size: 40px;
+	color: white;
+	text-decoration: none;
 }
 .menu__right > img {
 	width: 34px;
 	height: 34px;
-	margin-right: 30px;
+	margin-right: 40px;
 	border-radius: 100%;
 	background-color: #f5f7fa;
 }
@@ -612,6 +614,9 @@ i {
 	.menu__right {
 		display: none;
 	}
+    .menu__left__title{
+        margin-left: 10px;
+    }
 	.menu__left__list {
 		position: fixed;
 		margin: 0;

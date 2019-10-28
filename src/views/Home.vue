@@ -31,6 +31,7 @@
 							:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
 							v-for="(club,idx) in getClubs"
 							:key="club._id"
+							@click="selectClub(idx)"
 						>
 							<img :src="getImgPath(club.imgPath)" alt />
 							{{club.name}}
@@ -67,15 +68,7 @@ export default Vue.extend({
 				this.targetCurrentIndex = this.getClubs.length;
 			switch (e.keyCode) {
 				case 13:
-					let club = this.getClubs[this.targetCurrentIndex];
-					this.$store
-						.dispatch("GET_CLUB", club.name)
-						.then(club => {
-							if (!club) this.$router.push("/");
-						})
-						.catch(err => {
-							this.$router.push("/");
-						});
+					this.selectClub(this.targetCurrentIndex);
 					break;
 				case 38:
 					if (this.targetCurrentIndex > 0) this.targetCurrentIndex--;
@@ -85,6 +78,17 @@ export default Vue.extend({
 						this.targetCurrentIndex++;
 					break;
 			}
+		},
+		selectClub(idx: number) {
+			let club = this.getClubs[idx];
+			this.$store
+				.dispatch("GET_CLUB", club.name)
+				.then(club => {
+					if (!club) this.$router.push("/");
+				})
+				.catch(err => {
+					this.$router.push("/");
+				});
 		}
 	},
 	computed: {
@@ -253,17 +257,19 @@ export default Vue.extend({
 
 	width: 100%;
 }
-.home__login__profile__selectclub__list__item img {
-	height: 1.5em;
-	width: 1.5em;
-	margin-right: 10px;
-}
 .home__login__profile__selectclub__list__item {
 	display: flex;
 	align-items: center;
 	padding: 15px;
 	font-size: 24px;
 	color: #273142;
+
+	cursor: pointer;
+}
+.home__login__profile__selectclub__list__item img {
+	height: 1.5em;
+	width: 1.5em;
+	margin-right: 10px;
 }
 .home__login__profile__selectclub__list__item-active {
 	background-color: #eeeeee;

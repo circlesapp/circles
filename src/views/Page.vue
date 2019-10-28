@@ -109,7 +109,7 @@ export default Vue.extend({
 }
 .submenu__list {
 	height: 100%;
-	margin-left: calc(9.6vw + 8em);
+	margin-left: calc(120px + 8em);
 	display: flex;
 }
 .submenu__list__item {
