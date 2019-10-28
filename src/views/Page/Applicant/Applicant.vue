@@ -8,7 +8,7 @@
 				<br />동아리 입니다.
 			</p>
 		</div>
-        <div class="applicant__main__item applicant__main__item-disable" v-else-if="!getUserToken">
+		<div class="applicant__main__item applicant__main__item-disable" v-else-if="!getUserToken">
 			<i class="material-icons">description</i>
 			<h2>지원서 작성</h2>
 			<p>
@@ -83,8 +83,8 @@ export default Vue.extend({
 		isJoinCurrentClub() {
 			try {
 				return (
-					this.$store.state.userInformation.clubs.indexOf(
-						this.$store.state.club._id
+					this.$store.state.userInformation.clubs.findIndex(
+						(x: any) => x._id == this.$store.state.club._id
 					) != -1
 				);
 			} catch (e) {
@@ -129,9 +129,9 @@ export default Vue.extend({
 	transition: 0.5s;
 	cursor: pointer;
 }
-.applicant__main__item-disable{
+.applicant__main__item-disable {
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.08);
-    background-color: #f6f6f6;
+	background-color: #f6f6f6;
 }
 .applicant__main__item:hover {
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.1);

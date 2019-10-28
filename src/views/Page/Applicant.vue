@@ -1,9 +1,8 @@
 <template>
 	<div class="applicant">
-        <transition name="routerfade-animation">
-
-		<router-view class="applicant__router"></router-view>
-        </transition>
+		<transition name="routerfade-animation">
+			<router-view class="applicant__router"></router-view>
+		</transition>
 	</div>
 </template>
 <script lang="ts">
