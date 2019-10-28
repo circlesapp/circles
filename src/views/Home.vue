@@ -284,8 +284,5 @@ export default Vue.extend({
 	.home__start {
 		padding: 10px 20%;
 	}
-	.home__login {
-		padding: 20px;
-	}
 }
 </style>

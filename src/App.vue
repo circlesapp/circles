@@ -68,6 +68,9 @@
 							</div>
 						</transition>
 					</div>
+					<router-link to="/search" class="menu__right" v-else>
+						<i class="material-icons">search</i>
+					</router-link>
 				</transition>
 			</div>
 		</transition>
@@ -319,6 +322,8 @@ export default Vue.extend({
 .fade-enter-active,
 .fade-leave-active {
 	transition: 0.5s;
+    position: absolute;
+    right: 0;
 }
 .fade-enter,
 .fade-leave-to {
@@ -374,6 +379,8 @@ i {
 	align-items: center;
 
 	z-index: 1000;
+
+    position: relative;
 }
 .menu__menubutton {
 	display: none;
@@ -478,6 +485,12 @@ i {
 	font-size: 20px;
 }
 
+.menu__right i{
+    margin-right: 30px;
+    font-size: 40px;
+    color: white;
+    text-decoration: none;
+}
 .menu__right > img {
 	width: 34px;
 	height: 34px;
