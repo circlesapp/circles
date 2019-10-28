@@ -257,6 +257,10 @@ export default Vue.extend({
 
 	width: 100%;
 }
+.home__login__profile__selectclub__list{
+    height: 100%;
+    overflow-y: scroll;
+}
 .home__login__profile__selectclub__list__item {
 	display: flex;
 	align-items: center;
