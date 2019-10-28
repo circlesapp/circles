@@ -197,7 +197,7 @@ export default Vue.extend({
 		padding: 20px 0;
 	}
 	.search__list__item {
-		flex-basis: 100%;
+        width: 90%;
 	}
 }
 </style>
