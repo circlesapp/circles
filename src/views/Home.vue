@@ -17,26 +17,29 @@
 				<h1>{{getUserInformation.name}}</h1>
 				<p>{{getClub.name}} {{getRank}}</p>
 			</div>
-			<div class="home__login__profile__selectclub">
-				<input
-					@keydown="userInputKeyPress"
-					v-model="searchClub"
-					type="text"
-					class="home__login__profile__selectclub__search"
-				/>
-				<div class="home__login__profile__selectclub__list">
-					<div
-						class="home__login__profile__selectclub__list__item"
-						:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
-						v-for="(club,idx) in getClubs"
-						:key="club._id"
-					>
-						<img :src="getImgPath(club.imgPath)" alt />
-						{{club.name}}
+			<transition name="clubselect">
+				<div class="home__login__profile__selectclub" v-if="isClubSelectShow">
+					<input
+						@keydown="userInputKeyPress"
+						v-model="searchClub"
+						type="text"
+						class="home__login__profile__selectclub__search"
+					/>
+					<div class="home__login__profile__selectclub__list">
+						<div
+							class="home__login__profile__selectclub__list__item"
+							:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
+							v-for="(club,idx) in getClubs"
+							:key="club._id"
+						>
+							<img :src="getImgPath(club.imgPath)" alt />
+							{{club.name}}
+						</div>
 					</div>
 				</div>
-			</div>
-			<img :src="getImgPath(getClub.imgPath)" />
+			</transition>
+
+			<img :src="getImgPath(getClub.imgPath)" @click="isClubSelectShow=!isClubSelectShow" />
 		</div>
 		<div class="home__login__list"></div>
 	</div>
@@ -49,7 +52,8 @@ export default Vue.extend({
 	data() {
 		return {
 			searchClub: "",
-			targetCurrentIndex: 0
+			targetCurrentIndex: 0,
+			isClubSelectShow: false
 		};
 	},
 	methods: {
@@ -123,6 +127,19 @@ export default Vue.extend({
 </script>
 
 <style>
+.clubselect-enter-active,
+.clubselect-leave-active {
+	transition: 0.5s;
+}
+.clubselect-enter,
+.clubselect-leave-to {
+	height: 0px !important;
+}
+.clubselect-enter-to,
+.clubselect-leave {
+	height: 400px !important;
+}
+
 .home {
 	width: 100%;
 	height: 100%;
@@ -216,6 +233,7 @@ export default Vue.extend({
 	position: absolute;
 	right: 70px;
 	top: 170px;
+	height: 400px;
 
 	background-color: white;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);

@@ -12,7 +12,7 @@
 			<router-link
 				:to="`/${club.name}/page/timeline`"
 				class="search__list__item"
-				v-for="club in getFilterClub"
+				v-for="club in filterClub"
 				:key="club._id"
 			>
 				<img :src="getImgPath(club.imgPath)" alt />
@@ -26,10 +26,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import _ from "lodash";
 export default Vue.extend({
 	data() {
 		return {
 			clubs: [] as any[],
+			filterClub: [] as any[],
+			searchTimer: 0 as number,
 			search: ""
 		};
 	},
@@ -38,6 +41,7 @@ export default Vue.extend({
 			.dispatch("GET_ALL_CLUB")
 			.then(clubs => {
 				this.clubs = clubs;
+				this.filterClub = clubs;
 			})
 			.catch(err => {});
 	},
@@ -48,11 +52,16 @@ export default Vue.extend({
 				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		}
 	},
-	computed: {
-		getFilterClub(): any[] {
-			return this.clubs.filter(
-				(club: any) => club.name.indexOf(this.search) != -1
-			);
+	watch: {
+		search() {
+			if (this.searchTimer) {
+				clearTimeout(this.searchTimer);
+			}
+			this.searchTimer = setTimeout(() => {
+				this.filterClub = this.clubs.filter(
+					(club: any) => club.name.indexOf(this.search) != -1
+				);
+			}, 300);
 		}
 	}
 });
@@ -60,26 +69,25 @@ export default Vue.extend({
 
 <style>
 .clubs-move {
-	transition: 0.4s;
+	transition: 0.5s;
 }
 .clubs-enter-active,
 .clubs-leave-active {
-	transition: 0.4s;
+	transition: 0.5s;
+}
+.clubs-leave-active {
+	position: absolute;
 }
 .clubs-enter,
 .clubs-leave-to {
+	transform: translateY(100vh) scale(0);
 	opacity: 0;
 }
 .clubs-enter-to,
 .clubs-leave {
 	opacity: 1;
 }
-.clubs-leave-active {
-	position: absolute;
-}
 
-.search {
-}
 .search__main {
 	height: 300px;
 	background-color: #538fff;
