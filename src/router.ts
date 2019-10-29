@@ -17,6 +17,7 @@ import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
 import Application from "./views/Page/Applicant/Application.vue";
 import Recorder from "./views/Page/Applicant/Recorder.vue";
 import Result from "./views/Page/Applicant/Result.vue";
+import Page404 from "./views/Page404.vue";
 
 Vue.use(Router);
 
@@ -76,6 +77,11 @@ export default new Router({
 			path: "/:club/community",
 			name: "community",
 			component: Community
+		},
+		{
+			path: "/*",
+			name: "page404",
+			component: Page404
 		}
 	]
 });

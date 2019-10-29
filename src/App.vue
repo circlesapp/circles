@@ -206,7 +206,7 @@ export default Vue.extend({
 		},
 		isShowMenuRoute() {
 			return (
-				["login", "register", "passwordchange"].indexOf(
+				["login", "register", "passwordchange","page404"].indexOf(
 					this.$route.name || ""
 				) == -1
 			);
