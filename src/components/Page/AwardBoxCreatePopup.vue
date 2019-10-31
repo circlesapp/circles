@@ -1,7 +1,10 @@
 <template>
 	<div class="award__createpopup">
 		<div class="award__createpopup__content">
-            <i class="material-icons award__createpopup__content__clear" @click="$emit('isUpdated', false)">clear</i>
+			<i
+				class="material-icons award__createpopup__content__clear"
+				@click="$emit('isUpdated', false)"
+			>clear</i>
 			<h3>수상 실적 등록</h3>
 			<div class="award__createpopup__content__inputs">
 				<div class="inputfield">
@@ -165,13 +168,13 @@ export default Vue.extend({
 
 	z-index: 2000;
 }
-.award__createpopup__content__clear{
-    position: absolute;
-    right: 40px;
-    top: 40px;
-    font-size: 32px;
-    
-    cursor: pointer;
+.award__createpopup__content__clear {
+	position: absolute;
+	right: 40px;
+	top: 40px;
+	font-size: 32px;
+
+	cursor: pointer;
 }
 .award__createpopup__content {
 	background-color: white;
@@ -183,7 +186,7 @@ export default Vue.extend({
 	padding: 40px;
 	margin: 10px;
 
-    position: relative;
+	position: relative;
 }
 .award__createpopup__content h3 {
 	font-family: NanumSquareB;
@@ -239,7 +242,7 @@ export default Vue.extend({
 	align-items: center;
 
 	padding: 10px 20px;
-    cursor: pointer;
+	cursor: pointer;
 }
 .inputfield__input__userfield__autocomplete .member-active,
 .inputfield__input__userfield__autocomplete .member:hover {
