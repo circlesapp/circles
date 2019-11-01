@@ -10,7 +10,7 @@
 				<span>삭제</span>
 			</p>
 		</div>
-		<h3 class="post__title">
+		<h3 class="post__title" v-if="!isCreate">
 			<img
 				:src="getMainPath+data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
 			/>
@@ -25,12 +25,13 @@
 			<i
 				class="material-icons post__menu"
 				@click="toggleOption"
-				v-if="getUserInformation._id == data.owner._id"
+				v-if="getPermissionModifAndDelete"
 			>more_horiz</i>
 		</h3>
+		<h3 v-else class="post__title create">글 작성하기</h3>
 		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
 		<textarea class="post__content" @keypress="pressEnter" v-model="modifContent" v-else />
-		<article class="post__image" v-if="data.imgPath.length">
+		<article class="post__image" v-if="!isCreate&&(data ? data.imgPath.length : false)">
 			<div class="post__image__mainImage">
 				<img :src="getMainPath+data.imgPath[0]" alt />
 			</div>
@@ -44,10 +45,12 @@
 			</div>
 		</article>
 		<div class="post__modifaction" v-if="isModifPost">
-			<span style="color:#e02020;" @click="modifPost">취소</span>
-			<span style="color:#538fff;" @click="changeContentSave">확인</span>
+			<div>
+				<span style="color:#e02020;" @click="modifPost">취소</span>
+				<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
+			</div>
 		</div>
-		<div class="post__action" v-else>
+		<div class="post__action" v-else-if="!isCreate">
 			<p class="post__action__heart" @click="toggleLike">
 				<i class="material-icons">{{isLike ?'favorite' : 'favorite_border'}}</i>
 				{{data.likes.length}}
@@ -64,7 +67,8 @@
 import Vue from "vue";
 export default Vue.extend({
 	props: {
-		data: Object
+		data: Object,
+		isCreate: Boolean
 	},
 	data() {
 		return {
@@ -73,7 +77,11 @@ export default Vue.extend({
 			modifContent: ""
 		};
 	},
-	created() {},
+	created() {
+		if (this.isCreate) {
+			this.isModifPost = true;
+		}
+	},
 	methods: {
 		toggleOption() {
 			this.isShowOption = !this.isShowOption;
@@ -94,17 +102,29 @@ export default Vue.extend({
 			this.isModifPost = !this.isModifPost;
 		},
 		changeContentSave() {
-			this.$store
-				.dispatch("POST_MODIFICATION", {
-					_id: this.data._id,
-					content: this.modifContent
-				})
-				.then(data => {
-					this.isShowOption = false;
-					this.isModifPost = false;
-					this.$emit("isChange", false);
-				})
-				.catch(err => console.log(err));
+			if (this.isCreate) {
+				this.$store
+					.dispatch("POST_WRITE", {
+						content: this.modifContent
+					})
+					.then(data => {
+						this.modifContent = "";
+						this.$emit("isChange", false);
+					})
+					.catch(err => console.log(err));
+			} else {
+				this.$store
+					.dispatch("POST_MODIFICATION", {
+						_id: this.data._id,
+						content: this.modifContent
+					})
+					.then(data => {
+						this.isShowOption = false;
+						this.isModifPost = false;
+						this.$emit("isChange", false);
+					})
+					.catch(err => console.log(err));
+			}
 		},
 		pressEnter(e: any) {
 			if (e.keyCode == 10 && e.ctrlKey) {
@@ -129,12 +149,38 @@ export default Vue.extend({
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
 		},
+		getClub(): any {
+			return this.$store.state.club;
+		},
 		isLike(): boolean {
 			if (this.getUserInformation)
 				return (
 					this.data.likes.indexOf(this.getUserInformation._id) != -1
 				);
 			else return false;
+		},
+		getPermissionModifAndDelete(): boolean {
+			if (this.getUserInformation._id == this.data.owner._id) return true;
+			else {
+				if (this.getClub.ranks) {
+					if (
+						this.getClub.owner ==
+						this.$store.state.userInformation._id
+					)
+						return true;
+					let user = this.getClub.members.find((member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					});
+					if (user) {
+						let permission = this.getClub.ranks.find(
+							(rank: any) => rank.name == user.rank
+						).permission;
+						return permission.indexOf(3) != -1;
+					} else return false;
+				} else return false;
+			}
 		}
 	}
 });
@@ -189,6 +235,11 @@ export default Vue.extend({
 
 	font-size: 14px;
 	font-weight: normal;
+}
+.post__title.create {
+	color: #538fff;
+	margin-left: 5px;
+	font-size: 20px;
 }
 .post__title .clubname {
 	font-weight: 600;
@@ -286,13 +337,12 @@ textarea.post__content {
 
 	color: #202841;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 .post__action__heart i {
 	color: #ff4475;
 	font-size: 25px;
 	margin-right: 10px;
-
 }
 .post__action__comment i {
 	color: #538fff;

@@ -17,6 +17,7 @@ import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
 import Application from "./views/Page/Applicant/Application.vue";
 import Recorder from "./views/Page/Applicant/Recorder.vue";
 import Result from "./views/Page/Applicant/Result.vue";
+import Calendar from "./views/Community/Calendar.vue";
 import Page404 from "./views/Page404.vue";
 
 Vue.use(Router);
@@ -76,7 +77,8 @@ export default new Router({
 		{
 			path: "/:club/community",
 			name: "community",
-			component: Community
+			component: Community,
+			children: [{ path: "calendar", name: "community/calendar", component: Calendar }]
 		},
 		{
 			path: "/*",

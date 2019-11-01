@@ -109,6 +109,22 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		POST_WRITE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/post/write`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		POST_DELETE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios

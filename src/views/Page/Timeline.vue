@@ -1,14 +1,17 @@
 <template>
 	<div class="timeline">
-		<transition-group name="timeline" tag="div" class="timeline__wrapper">
-			<Post
-				class="timeline__post"
-				v-for="post in posts"
-				:key="post._id"
-				:data="post"
-				@isChange="reload"
-			></Post>
-		</transition-group>
+		<div class="timeline__wrapper">
+			<Post class="timeline__post" v-if="getPermissionCreate" :isCreate="true" @isChange="reload"></Post>
+			<transition-group name="timeline">
+				<Post
+					class="timeline__post"
+					v-for="post in posts"
+					:key="post._id"
+					:data="post"
+					@isChange="reload"
+				></Post>
+			</transition-group>
+		</div>
 	</div>
 </template>
 
@@ -37,31 +40,60 @@ export default Vue.extend({
 				})
 				.catch(err => {});
 		}
+	},
+	computed: {
+		getClub(): any {
+			return this.$store.state.club;
+		},
+		getPermissionCreate(): boolean {
+			if (this.getClub.ranks) {
+                if(this.getClub.owner == this.$store.state.userInformation._id) return true;
+				let user = this.getClub.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
+				if (user) {
+					let permission = this.getClub.ranks.find(
+						(rank: any) => rank.name == user.rank
+					).permission;
+					return permission.indexOf(1) != -1;
+				} else return false;
+			} else return false;
+		}
 	}
 });
 </script>
 
 <style>
-.timeline-leave-to {
-	opacity: 0;
-    transform: translateX(20%);
+.timeline-move {
+	transition: 0.5s;
+}
+.timeline-enter-active,
+.timeline-leave-active {
+	transition: 0.5s;
 }
 .timeline-leave-active {
 	position: absolute;
 }
-
+.timeline-enter,
+.timeline-leave-to {
+	transform: scale(0);
+	opacity: 0;
+}
+.timeline-enter-to,
+.timeline-leave {
+	opacity: 1;
+}
 .timeline {
 	display: flex;
 	justify-content: center;
 }
 .timeline__wrapper {
-    position: relative;
+	position: relative;
 	width: 100%;
 	max-width: 760px;
-    margin-bottom: 25px;
+	margin-bottom: 25px;
 }
 .timeline__post {
-	transition: all 0.5s;
 	display: inline-block;
 }
 @media screen and (max-width: 768px) {

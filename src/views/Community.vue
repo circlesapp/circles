@@ -2,19 +2,7 @@
 	<div class="community">
 		<div class="submenu">
 			<div class="submenu__list">
-				<router-link to="drive" class="submenu__list__item">스토리지</router-link>
-				<router-link to="attendance" class="submenu__list__item">출결관리</router-link>
-				<router-link to="members" class="submenu__list__item">부원관리</router-link>
-				<router-link to="calender" class="submenu__list__item">캘린더</router-link>
-				<router-link to="todo" class="submenu__list__item">To-Do 리스트</router-link>
-				<router-link to="assignment" class="submenu__list__item">과제관리</router-link>
-				<router-link to="budgets" class="submenu__list__item">예산관리</router-link>
-				<router-link to="application" class="submenu__list__item">채용관리</router-link>
-				<router-link to="shortener" class="submenu__list__item">
-					Circles
-					<br />Shortener
-				</router-link>
-				<router-link to="site" class="submenu__list__item">사이트관리</router-link>
+				<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
 			</div>
 		</div>
 		<div class="community__content">
