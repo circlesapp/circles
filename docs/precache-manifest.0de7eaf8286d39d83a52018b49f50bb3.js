@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "284774d9e7fb6fd99446fbd0ea875ff2",
-    "url": "/FrontEnd/fonts/NanumSquareB.284774d9.ttf"
+    "revision": "b0dcfde6dd89f2990b16ce6ac6808533",
+    "url": "/FrontEnd/fonts/NanumSquareR.b0dcfde6.ttf"
   },
   {
     "revision": "15ea26fe0d385acf090c",
@@ -32,8 +32,8 @@ self.__precacheManifest = [
     "url": "/FrontEnd/js/app.4269bfbb.js"
   },
   {
-    "revision": "b0dcfde6dd89f2990b16ce6ac6808533",
-    "url": "/FrontEnd/fonts/NanumSquareR.b0dcfde6.ttf"
+    "revision": "284774d9e7fb6fd99446fbd0ea875ff2",
+    "url": "/FrontEnd/fonts/NanumSquareB.284774d9.ttf"
   },
   {
     "revision": "aae290e8e9bfe136aaa5c8c41ee03d6c",
@@ -44,12 +44,12 @@ self.__precacheManifest = [
     "url": "/FrontEnd/logo_192.png"
   },
   {
-    "revision": "604fbde1ab75de02e22fb2c57406dbbe",
-    "url": "/FrontEnd/service-worker.js"
-  },
-  {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/FrontEnd/robots.txt"
+  },
+  {
+    "revision": "604fbde1ab75de02e22fb2c57406dbbe",
+    "url": "/FrontEnd/service-worker.js"
   },
   {
     "revision": "353cccf6ccb3b25cc7bf478a6858fe18",
