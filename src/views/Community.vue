@@ -2,6 +2,7 @@
 	<div class="community">
 		<div class="submenu">
 			<div class="submenu__list">
+				<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
 				<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
 			</div>
 		</div>
@@ -28,20 +29,33 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store
-			.dispatch("GET_CLUB", this.$route.params.club)
-			.then(club => {
-				if (!club) this.$router.push("/");
-				this.isLoading = false;
-			})
-			.catch(err => {
-				this.$router.push("/");
-				this.isLoading = false;
-			});
+		if (this.getToken) this.getMembers();
+	},
+	watch: {
+		getToken() {
+			this.getMembers();
+		}
+	},
+	methods: {
+		getMembers() {
+			this.$store
+				.dispatch("GET_CLUB", this.$route.params.club)
+				.then(club => {
+					if (!club) this.$router.push("/");
+					this.isLoading = false;
+				})
+				.catch(err => {
+					this.$router.push("/");
+					this.isLoading = false;
+				});
+		}
 	},
 	computed: {
 		getClub() {
 			return this.$store.state.club;
+		},
+		getToken() {
+			return this.$store.state.userToken;
 		}
 	}
 });

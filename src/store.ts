@@ -278,6 +278,22 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_CLUB_DETAIL_MEMBERS({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/member/getDetailMembers`, null, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(members => {
+						resolve(members.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_CLUB_BUDGETS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
