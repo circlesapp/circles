@@ -4,6 +4,7 @@
 			<div class="submenu__list">
 				<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
 				<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
+				<router-link :to="{name:'community/application'}" class="submenu__list__item">채용관리</router-link>
 			</div>
 		</div>
 		<div class="community__content">
