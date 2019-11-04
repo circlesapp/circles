@@ -53,9 +53,9 @@ export default Vue.extend({
 					return member.user == this.$store.state.userInformation._id;
 				});
 				if (user) {
-					let permission = this.getClub.ranks.find(
-						(rank: any) => rank.id == user.rank
-					).permission;
+					let permission = this.getClub.ranks
+						.find((rank: any) => rank.id == user.rank)
+						.permission.map((x: any) => parseInt(x));
 					return permission.indexOf(1) != -1;
 				} else return false;
 			} else return false;

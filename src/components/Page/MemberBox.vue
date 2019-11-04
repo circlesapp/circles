@@ -2,7 +2,7 @@
 	<div class="memberbox">
 		<img
 			class="memberbox__img"
-			:src="getMainPath+data.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+			:src="data.imgPath ? getMainPath+data.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
 			alt
 		/>
 		<h3>{{data.name}}</h3>

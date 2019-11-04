@@ -12,7 +12,7 @@
 		</div>
 		<h3 class="post__title" v-if="!isCreate">
 			<img
-				:src="getMainPath+data.owner.imgPath || 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+				:src="data.owner.imgPath ? getMainPath+data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
 			/>
 			<p>
 				<span class="clubname">{{data.owner.name}}</span>

@@ -99,7 +99,11 @@ export default new Vuex.Store({
 		GET_CLUB_POSTS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.get(`${state.mainPath}club/${state.club.name}/post/getPublicPosts`)
+					.get(`${state.mainPath}club/${state.club.name}/post/getPublicPosts`, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
 					.then(posts => {
 						resolve(posts.data.data);
 					})

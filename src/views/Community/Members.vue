@@ -190,14 +190,17 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store
+        this.reload()
+	},
+	methods: {
+        reload(){
+            		this.$store
 			.dispatch("GET_CLUB_DETAIL_MEMBERS")
 			.then(members => {
 				this.members = members;
 			})
 			.catch(err => {});
-	},
-	methods: {
+        },
 		orderBy(key: string) {
 			if (this.sortKey == key) {
 				this.sortBy = !this.sortBy;
@@ -212,7 +215,6 @@ export default Vue.extend({
 				permission: []
 			});
 			this.currentRank = this.getClub.ranks.length - 1;
-			console.log(this.getClub.ranks);
 		},
 		removeRank(idx: number) {
 			this.currentRank = 0;
@@ -231,7 +233,7 @@ export default Vue.extend({
 					})
 				})
 				.then(club => {
-					console.log(club);
+                    this.reload()
 				})
 				.catch(err => console.log(err));
 		}
@@ -337,8 +339,6 @@ export default Vue.extend({
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 
 	padding: 30px;
-}
-.communityMembers__controlPanel .rankEditor {
 }
 .communityMembers__controlPanel .rankEditor__wrapper {
 	margin: 20px 0;
@@ -507,8 +507,6 @@ export default Vue.extend({
 }
 
 @media screen and (max-width: 1279px) {
-	.communityMembers {
-	}
 	.communityMembers__wrapper {
 		flex-wrap: wrap;
 	}
