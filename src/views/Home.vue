@@ -220,6 +220,8 @@ export default Vue.extend({
 	font-size: 30px;
 }
 .home__login__profile img {
+	cursor: pointer;
+    
 	width: 120px;
 	height: 120px;
 
@@ -264,6 +266,7 @@ export default Vue.extend({
 .home__login__profile__selectclub__list {
 	height: 100%;
 	overflow-y: scroll;
+	padding-bottom: 100px;
 }
 .home__login__profile__selectclub__list__item {
 	display: flex;
