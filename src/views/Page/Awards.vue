@@ -105,7 +105,7 @@ export default Vue.extend({
 				);
 				if (user)
 					return this.$store.state.club.ranks.find(
-						(rank: any) => rank.name == user.rank
+						(rank: any) => rank.id == user.rank
 					).isAdmin;
 				else return false;
 			} else return false;

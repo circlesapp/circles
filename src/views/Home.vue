@@ -101,10 +101,14 @@ export default Vue.extend({
 		getRank() {
 			if (this.$store.state.club.name) {
 				try {
-					return this.$store.state.club.members.find(
+					return this.$store.state.club.ranks.find(
 						(x: any) =>
-							x.user == this.$store.state.userInformation._id
-					).rank;
+							this.$store.state.club.members.find(
+								(x: any) =>
+									x.user ==
+									this.$store.state.userInformation._id
+							).rank == x.id
+					).name;
 				} catch (e) {
 					return "-";
 				}
@@ -257,9 +261,9 @@ export default Vue.extend({
 
 	width: 100%;
 }
-.home__login__profile__selectclub__list{
-    height: 100%;
-    overflow-y: scroll;
+.home__login__profile__selectclub__list {
+	height: 100%;
+	overflow-y: scroll;
 }
 .home__login__profile__selectclub__list__item {
 	display: flex;

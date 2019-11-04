@@ -47,13 +47,14 @@ export default Vue.extend({
 		},
 		getPermissionCreate(): boolean {
 			if (this.getClub.ranks) {
-                if(this.getClub.owner == this.$store.state.userInformation._id) return true;
+				if (this.getClub.owner == this.$store.state.userInformation._id)
+					return true;
 				let user = this.getClub.members.find((member: any) => {
 					return member.user == this.$store.state.userInformation._id;
 				});
 				if (user) {
 					let permission = this.getClub.ranks.find(
-						(rank: any) => rank.name == user.rank
+						(rank: any) => rank.id == user.rank
 					).permission;
 					return permission.indexOf(1) != -1;
 				} else return false;

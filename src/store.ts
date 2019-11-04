@@ -13,7 +13,6 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		setUserToken(state, data) {
-			console.log(data);
 			state.userToken = data;
 		},
 		setUserInformation(state, data) {
@@ -117,8 +116,8 @@ export default new Vuex.Store({
 							Authorization: state.userToken
 						}
 					})
-					.then(applicant => {
-						resolve(applicant.data.data);
+					.then(post => {
+						resolve(post.data.data);
 					})
 					.catch(err => {
 						reject(err);
@@ -133,8 +132,8 @@ export default new Vuex.Store({
 							Authorization: state.userToken
 						}
 					})
-					.then(applicant => {
-						resolve(applicant.data.data);
+					.then(post => {
+						resolve(post.data.data);
 					})
 					.catch(err => {
 						reject(err);
@@ -149,8 +148,8 @@ export default new Vuex.Store({
 							Authorization: state.userToken
 						}
 					})
-					.then(applicant => {
-						resolve(applicant.data.data);
+					.then(post => {
+						resolve(post.data.data);
 					})
 					.catch(err => {
 						reject(err);
@@ -189,11 +188,42 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_CLUB_APPLICANT({ state, commit }) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/applicant/getClubApplications`, null, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applications => {
+						resolve(applications.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		APPLICANT({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
-				console.log(state.userToken);
 				axios
 					.post(`${state.mainPath}club/${state.club.name}/applicant/apply`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		APPLICANT_ACCEPT({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/applicant/accept`, data, {
 						headers: {
 							Authorization: state.userToken
 						}
@@ -300,6 +330,22 @@ export default new Vuex.Store({
 					.get(`${state.mainPath}club/${state.club.name}/budget/getPublicBudgets`)
 					.then(budgets => {
 						resolve(budgets.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		CLUB_MODIFICATION({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/admin/modification`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(club => {
+						resolve(club.data.data);
 					})
 					.catch(err => {
 						reject(err);

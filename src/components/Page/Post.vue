@@ -175,7 +175,7 @@ export default Vue.extend({
 					});
 					if (user) {
 						let permission = this.getClub.ranks.find(
-							(rank: any) => rank.name == user.rank
+							(rank: any) => rank.id == user.rank
 						).permission;
 						return permission.indexOf(3) != -1;
 					} else return false;

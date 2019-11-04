@@ -206,7 +206,7 @@ export default Vue.extend({
 		},
 		isShowMenuRoute() {
 			return (
-				["login", "register", "passwordchange","page404"].indexOf(
+				["login", "register", "passwordchange", "page404"].indexOf(
 					this.$route.name || ""
 				) == -1
 			);
@@ -214,10 +214,14 @@ export default Vue.extend({
 		getRank() {
 			if (this.$store.state.club.name) {
 				try {
-					return this.$store.state.club.members.find(
+					return this.$store.state.club.ranks.find(
 						(x: any) =>
-							x.user == this.$store.state.userInformation._id
-					).rank;
+							this.$store.state.club.members.find(
+								(x: any) =>
+									x.user ==
+									this.$store.state.userInformation._id
+							).rank == x.id
+					).name;
 				} catch (e) {
 					return "-";
 				}
@@ -239,7 +243,7 @@ export default Vue.extend({
 				);
 				if (user)
 					return this.$store.state.club.ranks.find(
-						(rank: any) => rank.name == user.rank
+						(rank: any) => rank.id == user.rank
 					).isAdmin;
 				else return false;
 			} else return false;
@@ -405,7 +409,7 @@ i {
 	font-weight: 900;
 	font-size: 38px;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 .menu__left__list {
 	position: relative;
@@ -614,9 +618,9 @@ i {
 	.menu__right {
 		display: none;
 	}
-    .menu__left__title{
-        margin-left: 10px;
-    }
+	.menu__left__title {
+		margin-left: 10px;
+	}
 	.menu__left__list {
 		position: fixed;
 		margin: 0;

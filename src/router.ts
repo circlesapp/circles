@@ -11,7 +11,6 @@ import Timeline from "./views/Page/Timeline.vue";
 import Awards from "./views/Page/Awards.vue";
 import Members from "./views/Page/Members.vue";
 import Budgets from "./views/Page/Budgets.vue";
-import Polls from "./views/Page/Polls.vue";
 import Applicant from "./views/Page/Applicant.vue";
 import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
 import Application from "./views/Page/Applicant/Application.vue";
@@ -62,7 +61,6 @@ export default new Router({
 				{ path: "awards", name: "page/awards", component: Awards },
 				{ path: "members", name: "page/members", component: Members },
 				{ path: "budgets", name: "page/budgets", component: Budgets },
-				{ path: "polls", name: "page/polls", component: Polls },
 				{
 					path: "applicant",
 					name: "page/applicant",
