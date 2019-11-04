@@ -34,8 +34,8 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="communityApplication__controlPanel">
-				<div class="userwrapper" v-if="applicants.length">
+			<div class="communityApplication__controlPanel" v-if="applicants.length">
+				<div class="userwrapper">
 					<div class="titlewrapper">
 						<h2 class="name">{{applicants[currentApplicant].owner.name}}</h2>
 						<h3 class="subcontent">{{applicants[currentApplicant].email}}</h3>
@@ -46,7 +46,7 @@
 					<p class="content subcontent">{{applicants[currentApplicant].content}}</p>
 				</div>
 				<div class="action">
-					<div class="reject">거절</div>
+					<div class="reject" @click="reject">거절</div>
 					<div class="accept" @click="accept">승인</div>
 				</div>
 			</div>
@@ -88,6 +88,17 @@ export default Vue.extend({
 			this.$store
 				.dispatch(
 					"APPLICANT_ACCEPT",
+					this.applicants[this.currentApplicant]
+				)
+				.then(applicant => {
+					this.reload();
+				})
+				.catch(err => console.log(err));
+		},
+		reject() {
+			this.$store
+				.dispatch(
+					"APPLICANT_REJECT",
 					this.applicants[this.currentApplicant]
 				)
 				.then(applicant => {
@@ -220,6 +231,7 @@ export default Vue.extend({
 .communityApplication__controlPanel .reject {
 	border: none;
 	outline: none;
+	cursor: pointer;
 	background-color: #e02020;
 	color: white;
 

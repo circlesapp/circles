@@ -240,6 +240,22 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		APPLICANT_REJECT({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/applicant/reject`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		APPLICANT_MODIFICATION({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
