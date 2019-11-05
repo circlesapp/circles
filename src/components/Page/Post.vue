@@ -28,9 +28,14 @@
 				v-if="getPermissionModifAndDelete"
 			>more_horiz</i>
 		</h3>
-		<h3 v-else class="post__title create">글 작성하기</h3>
 		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
-		<textarea class="post__content" @keypress="pressEnter" v-model="modifContent" v-else />
+		<textarea
+			class="post__content create"
+			placeholder="글 작성하기"
+			@keypress="pressEnter"
+			v-model="modifContent"
+			v-else
+		/>
 		<article class="post__image" v-if="!isCreate&&(data ? data.imgPath.length : false)">
 			<div class="post__image__mainImage">
 				<img :src="getMainPath+data.imgPath[0]" alt />
@@ -46,6 +51,13 @@
 		</article>
 		<div class="post__modifaction" v-if="isModifPost">
 			<div>
+				<span class="post__modifaction__image">
+					<label>
+						<input type="file" name="img" multiple @change="onImageChange" />
+						<span>이미지 선택</span>
+						<span v-for="(image,idx) in getImages" :key="idx" class="imagename">{{image.name}}</span>
+					</label>
+				</span>
 				<span style="color:#e02020;" @click="modifPost">취소</span>
 				<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
 			</div>
@@ -55,10 +67,29 @@
 				<i class="material-icons">{{isLike ?'favorite' : 'favorite_border'}}</i>
 				{{data.likes.length}}
 			</p>
-			<p class="post__action__comment">
+			<p class="post__action__comment" @click="toggleComments">
 				<i class="material-icons">insert_comment</i>
-				{{data.comments.length}}
+				{{comments.length ? comments.length : data.comments.length}}
 			</p>
+		</div>
+		<div class="post__comments" v-if="!isModifPost && isShowComments">
+			<div class="post__comments__editwrapper">
+				<input type="text" v-model="comment" @keydown="pressEnterCommnet" />
+				<button @click="createComment">작성</button>
+			</div>
+			<div class="post__comments__list">
+				<div class="post__comments__list__item" v-for="comment in comments" :key="comment._id">
+					<h4>
+						<img
+							:src="comment.owner.imgPath ? getMainPath+comment.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+							alt
+						/>
+						{{comment.owner.name}}
+					</h4>
+					<p>{{comment.message}}</p>
+					<i class="material-icons" @click="removeComment(comment._id)">clear</i>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -74,7 +105,12 @@ export default Vue.extend({
 		return {
 			isShowOption: false,
 			isModifPost: false,
-			modifContent: ""
+			modifContent: "",
+			comment: "",
+            comments: [],
+			isShowComments: false,
+			images: [],
+			base64images: []
 		};
 	},
 	created() {
@@ -85,6 +121,22 @@ export default Vue.extend({
 	methods: {
 		toggleOption() {
 			this.isShowOption = !this.isShowOption;
+		},
+		toggleComments() {
+			this.isShowComments = !this.isShowComments;
+			if (this.isShowComments && this.comments) {
+				this.commentReload();
+			}
+		},
+		commentReload() {
+			this.$store
+				.dispatch("POST_COMMENT", {
+					_id: this.data._id
+				})
+				.then(data => {
+					this.comments = data.reverse();
+				})
+				.catch(err => console.log(err));
 		},
 		deletePost() {
 			this.$store
@@ -103,15 +155,32 @@ export default Vue.extend({
 		},
 		changeContentSave() {
 			if (this.isCreate) {
-				this.$store
-					.dispatch("POST_WRITE", {
-						content: this.modifContent
-					})
-					.then(data => {
-						this.modifContent = "";
-						this.$emit("isChange", false);
-					})
-					.catch(err => console.log(err));
+				if (this.images) {
+					this.encodeBase64ImageFiles(this.images)
+						.then(base64images => {
+							this.$store
+								.dispatch("POST_WRITE", {
+									content: this.modifContent,
+									img: base64images
+								})
+								.then(data => {
+									this.modifContent = "";
+									this.$emit("isChange", false);
+								})
+								.catch(err => console.log(err));
+						})
+						.catch(err => console.log(err));
+				} else {
+					this.$store
+						.dispatch("POST_WRITE", {
+							content: this.modifContent
+						})
+						.then(data => {
+							this.modifContent = "";
+							this.$emit("isChange", false);
+						})
+						.catch(err => console.log(err));
+				}
 			} else {
 				this.$store
 					.dispatch("POST_MODIFICATION", {
@@ -131,6 +200,34 @@ export default Vue.extend({
 				this.changeContentSave();
 			}
 		},
+		pressEnterCommnet(e: any) {
+			if (e.keyCode == 13) {
+				this.createComment();
+			}
+		},
+		createComment() {
+			this.$store
+				.dispatch("POST_COMMENT_WRITE", {
+					_id: this.data._id,
+					message: this.comment
+				})
+				.then(() => {
+					this.comment = "";
+					this.commentReload();
+				})
+				.catch(err => {});
+		},
+		removeComment(id: string) {
+			this.$store
+				.dispatch("POST_COMMENT_DELETE", {
+					_id: id,
+					_postid: this.data._id
+				})
+				.then(() => {
+					this.commentReload();
+				})
+				.catch(err => {});
+		},
 		toggleLike() {
 			this.$store
 				.dispatch("POST_TOGGLE_LIKE", {
@@ -140,9 +237,35 @@ export default Vue.extend({
 					this.$emit("isChange", false);
 				})
 				.catch(err => {});
+		},
+		onImageChange(e: any) {
+			this.images = e.target.files;
+			this.encodeBase64ImageFiles(this.images);
+		},
+		encodeBase64ImageFile(image: File): Promise<string> {
+			return new Promise<string>((resolve, reject) => {
+				let reader = new FileReader();
+				reader.readAsDataURL(image);
+				reader.onload = (event: any) => {
+					resolve(event.target.result);
+				};
+				reader.onerror = error => {
+					reject(error);
+				};
+			});
+		},
+		encodeBase64ImageFiles(images: File[]) {
+			let buffer: Promise<string>[] = [];
+			[...images].forEach(image => {
+				buffer.push(this.encodeBase64ImageFile(image));
+			});
+			return Promise.all(buffer);
 		}
 	},
 	computed: {
+		getImages(): File[] {
+			return [...this.images];
+		},
 		getMainPath(): string {
 			return this.$store.state.mainPath;
 		},
@@ -236,11 +359,6 @@ export default Vue.extend({
 	font-size: 14px;
 	font-weight: normal;
 }
-.post__title.create {
-	color: #538fff;
-	margin-left: 5px;
-	font-size: 20px;
-}
 .post__title .clubname {
 	font-weight: 600;
 }
@@ -268,6 +386,9 @@ export default Vue.extend({
 	margin: 25px 0;
 	font-size: 14px;
 	line-height: 1.43;
+}
+.post__content.create {
+	margin: 10px 0;
 }
 textarea.post__content {
 	border: none;
@@ -316,6 +437,12 @@ textarea.post__content {
 .post__modifaction {
 	text-align: right;
 }
+.post__modifaction__image input {
+	display: none;
+}
+.post__modifaction__image .imagename {
+	font-size: 10px;
+}
 .post__modifaction span {
 	margin-left: 20px;
 	cursor: pointer;
@@ -348,5 +475,71 @@ textarea.post__content {
 	color: #538fff;
 	font-size: 25px;
 	margin-right: 10px;
+}
+
+.post__comments__editwrapper {
+	display: flex;
+	width: 100%;
+
+	font-family: NanumSquareL;
+	font-size: 20px;
+	margin: 20px 0;
+}
+.post__comments__editwrapper input {
+	background-color: none;
+	border: none;
+	font-family: NanumSquareL;
+	font-size: 14px;
+	padding: 5px;
+	flex: 7;
+	border-bottom: 1px solid #919eab;
+}
+.post__comments__editwrapper button {
+	flex: 1;
+
+	border: none;
+	color: white;
+	border-radius: 100px;
+	background-color: #538fff;
+	margin-left: 20px;
+}
+
+.post__comments__list__item {
+	padding: 10px;
+	font-size: 14px;
+	border-top: 1px solid #eeeeee;
+	position: relative;
+}
+.post__comments__list__item:first-child {
+	border-top: none;
+}
+.post__comments__list__item h4 {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+
+	font-family: "NanumSquareB";
+	font-size: 16px;
+	font-weight: normal;
+	color: #202841;
+}
+.post__comments__list__item img {
+	width: 1.5em;
+	height: 1.5em;
+
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+	border-radius: 100%;
+
+	margin-right: 10px;
+}
+.post__comments__list__item p {
+	color: #202841;
+}
+.post__comments__list__item i {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	font-size: 16px;
+	color: #e02020;
 }
 </style>

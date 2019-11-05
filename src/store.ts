@@ -176,6 +176,54 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		POST_COMMENT({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/post/getPublicPostComments`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(result => {
+						resolve(result.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		POST_COMMENT_WRITE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/post/comment/write`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(result => {
+						resolve(result.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		POST_COMMENT_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/post/comment/delete`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(result => {
+						resolve(result.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_MY_APPLICANT({ state, commit }) {
 			return new Promise<any>((resolve, reject) => {
 				axios

@@ -133,6 +133,16 @@
 										:disabled="getClub.ranks[currentRank].isAdmin"
 									/>
 									<span></span>
+									지원서 수락 권한
+								</label>
+								<label>
+									<input
+										type="checkbox"
+										v-model="getClub.ranks[currentRank].permission"
+										value="32"
+										:disabled="getClub.ranks[currentRank].isAdmin"
+									/>
+									<span></span>
 									지원서 삭제 권한
 								</label>
 								<label class="admin">
@@ -190,17 +200,17 @@ export default Vue.extend({
 		};
 	},
 	created() {
-        this.reload()
+		this.reload();
 	},
 	methods: {
-        reload(){
-            		this.$store
-			.dispatch("GET_CLUB_DETAIL_MEMBERS")
-			.then(members => {
-				this.members = members;
-			})
-			.catch(err => {});
-        },
+		reload() {
+			this.$store
+				.dispatch("GET_CLUB_DETAIL_MEMBERS")
+				.then(members => {
+					this.members = members;
+				})
+				.catch(err => {});
+		},
 		orderBy(key: string) {
 			if (this.sortKey == key) {
 				this.sortBy = !this.sortBy;
@@ -233,7 +243,7 @@ export default Vue.extend({
 					})
 				})
 				.then(club => {
-                    this.reload()
+					this.reload();
 				})
 				.catch(err => console.log(err));
 		}
