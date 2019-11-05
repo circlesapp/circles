@@ -186,6 +186,7 @@ export default Vue.extend({
 			this.showProfile = false;
 			this.$store.state.userToken = "";
 			this.$store.state.userInformation = {};
+			this.$router.replace("/");
 		}
 	},
 	computed: {

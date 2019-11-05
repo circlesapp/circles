@@ -107,7 +107,7 @@ export default Vue.extend({
 			isModifPost: false,
 			modifContent: "",
 			comment: "",
-            comments: [],
+			comments: [],
 			isShowComments: false,
 			images: [],
 			base64images: []

@@ -17,32 +17,48 @@
 				<h1>{{getUserInformation.name}}</h1>
 				<p>{{getClub.name}} {{getRank}}</p>
 			</div>
-			<transition name="clubselect">
-				<div class="home__login__profile__selectclub" v-if="isClubSelectShow">
-					<input
-						@keydown="userInputKeyPress"
-						v-model="searchClub"
-						type="text"
-						class="home__login__profile__selectclub__search"
-					/>
-					<div class="home__login__profile__selectclub__list">
-						<div
-							class="home__login__profile__selectclub__list__item"
-							:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
-							v-for="(club,idx) in getClubs"
-							:key="club._id"
-							@click="selectClub(idx)"
-						>
-							<img :src="getImgPath(club.imgPath)" alt />
-							{{club.name}}
-						</div>
+
+			<img :src="getImgPath(getClub.imgPath)" />
+		</div>
+		<div class="home__login__list">
+			<div class="home__login__list__applicant">
+				<h2>신청한 동아리</h2>
+				<span class="time"></span>
+				<ul>
+					<router-link
+						tag="li"
+						:to="`/${applicant.club.name}/page/applicant/application`"
+						class="home__login__list__applicant__item"
+						v-for="applicant in getUserInformation.applicants"
+						:key="applicant._id"
+					>
+						<span>{{applicant.club.name}}</span>
+						<span>{{new Date(applicant.createAt).toLocaleDateString()}}</span>
+					</router-link>
+				</ul>
+			</div>
+			<div class="home__login__profile__selectclub">
+				<h2>가입한 동아리</h2>
+				<input
+					@keydown="userInputKeyPress"
+					v-model="searchClub"
+					type="text"
+					class="home__login__profile__selectclub__search"
+				/>
+				<div class="home__login__profile__selectclub__list">
+					<div
+						class="home__login__profile__selectclub__list__item"
+						:class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
+						v-for="(club,idx) in getClubs"
+						:key="club._id"
+						@click="selectClub(idx)"
+					>
+						<img :src="getImgPath(club.imgPath)" alt />
+						{{club.name}}
 					</div>
 				</div>
-			</transition>
-
-			<img :src="getImgPath(getClub.imgPath)" @click="isClubSelectShow=!isClubSelectShow" />
+			</div>
 		</div>
-		<div class="home__login__list"></div>
 	</div>
 </template>
 
@@ -53,8 +69,7 @@ export default Vue.extend({
 	data() {
 		return {
 			searchClub: "",
-			targetCurrentIndex: 0,
-			isClubSelectShow: false
+			targetCurrentIndex: 0
 		};
 	},
 	methods: {
@@ -135,19 +150,6 @@ export default Vue.extend({
 </script>
 
 <style>
-.clubselect-enter-active,
-.clubselect-leave-active {
-	transition: 0.5s;
-}
-.clubselect-enter,
-.clubselect-leave-to {
-	height: 0px !important;
-}
-.clubselect-enter-to,
-.clubselect-leave {
-	height: 400px !important;
-}
-
 .home {
 	width: 100%;
 	height: 100%;
@@ -221,7 +223,7 @@ export default Vue.extend({
 }
 .home__login__profile img {
 	cursor: pointer;
-    
+
 	width: 120px;
 	height: 120px;
 
@@ -229,44 +231,52 @@ export default Vue.extend({
 	background-color: white;
 	border-radius: 100%;
 }
+
 .home__login__list {
+	display: flex;
+
 	position: relative;
 	top: -60px;
-	height: 100%;
+	height: calc(100vh - 350px);
 	background-color: white;
 	border-radius: 25px;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 	margin: 0 60px;
+	padding: 50px;
 }
 
 .home__login__profile__selectclub {
-	position: absolute;
-	right: 70px;
-	top: 170px;
-	height: 400px;
+	flex: 1;
 
-	background-color: white;
-	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
-	z-index: 2000;
-	border-radius: 25px;
+	display: flex;
+	flex-direction: column;
 
-	overflow: hidden;
+	margin-left: 60px;
+}
+.home__login__profile__selectclub h2 {
+	font-family: NanumSquareB;
+	font-size: 30px;
 }
 .home__login__profile__selectclub__search {
+	margin-top: 20px;
+	margin-bottom: 10px;
+
 	outline: none;
 	border: none;
 	background: none;
 	font-family: "NanumSquareR";
-	font-size: 24px;
+	font-size: 20px;
 	padding: 15px;
 	border: solid 1px #eeeeee;
 
 	width: 100%;
+	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }
 .home__login__profile__selectclub__list {
-	height: 100%;
+	flex: 1;
 	overflow-y: scroll;
-	padding-bottom: 100px;
+
+	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.05);
 }
 .home__login__profile__selectclub__list__item {
 	display: flex;
@@ -289,7 +299,42 @@ export default Vue.extend({
 	background-color: #538fff;
 	color: white;
 }
+
+.home__login__list__applicant {
+	flex: 1;
+}
+.home__login__list__applicant h2 {
+	font-family: NanumSquareB;
+	font-size: 30px;
+}
+.home__login__list__applicant ul {
+	list-style: none;
+	margin-top: 20px;
+	font-family: NanumSquareL;
+	font-size: 30px;
+}
+.home__login__list__applicant__item {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+
+	cursor: pointer;
+}
 @media screen and (max-width: 768px) {
+	.home__login__list {
+		margin: 0 20px;
+		flex-direction: column;
+		height: auto;
+		padding: 40px;
+	}
+	.home__login__profile__selectclub {
+		margin-left: 0;
+		margin-top: 60px;
+	}
+	.home__login__profile__selectclub__list {
+		max-height: 400px;
+		overflow-y: scroll;
+	}
 	.home__content {
 		width: 80%;
 		margin: 10% 0;

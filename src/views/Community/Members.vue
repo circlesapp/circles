@@ -139,7 +139,7 @@
 									<input
 										type="checkbox"
 										v-model="getClub.ranks[currentRank].permission"
-										value="32"
+										value="33"
 										:disabled="getClub.ranks[currentRank].isAdmin"
 									/>
 									<span></span>
