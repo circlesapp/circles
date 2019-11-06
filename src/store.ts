@@ -320,6 +320,54 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_CLUB_CALENDAR({ state, commit }) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`${state.mainPath}club/${state.club.name}/calendar/getPublicCalendars`, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applications => {
+						resolve(applications.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		CALENDAR({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/calendar/write`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		CALENDAR_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/calendar/delete`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(applicant => {
+						resolve(applicant.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_CLUB_AWARDS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
