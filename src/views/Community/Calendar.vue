@@ -15,24 +15,30 @@
 			ref="calendar"
 		>
 			<div class="calendar__content__create" v-if="isCreatePopup" ref="createPopup">
-				<input type="text" v-model="sc" />
+				<input type="text" v-model="content" ref="createPopupInput" />
 				<button @click="createSc">일정 생성</button>
 			</div>
-			<div class="calendar__content__day" v-for="(day,idx) in getDays" :key="idx" ref="calendarItem" @click="isCreatePopup = false">
+			<div
+				class="calendar__content__day"
+				v-for="(day,idx) in getDays"
+				:key="idx"
+				ref="calendarItem"
+				@click="isCreatePopup = false"
+			>
 				<transition name="barAnimation">
 					<div
 						v-for="(sc,idx) in (lineData[idx] ? lineData[idx] : [])"
-						:key="idx"
+						:key="sc.content+calendars.length"
 						class="calendar__content__day__bar"
-						:style="`width: ${sc.width * calendarItemWidth+sc.width*1.5-1}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
-					></div>
+						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
+					>{{calendars[idx].content}}</div>
 				</transition>
 				<transition name="barAnimation">
 					<div
-						v-for="(sc,idx) in (tmpLineData[idx] ? tmpLineData[idx] : [])"
-						:key="idx"
+						v-for="(sc) in (tmpLineData[idx] ? tmpLineData[idx] : [])"
+						:key="sc.content+calendars.length"
 						class="calendar__content__day__bar calendar__content__day__bar-create"
-						:style="`width: ${sc.width * calendarItemWidth+sc.width*1.5-1}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
+						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
 					></div>
 				</transition>
 				<span :class="{'calendar__content__day-today': day == currentDay}">{{day == 0 ? '' : day}}</span>
@@ -69,7 +75,12 @@ export default Vue.extend({
 			colors: ["#ff4475", "#538fff", "#ff9a01"],
 
 			isCreatePopup: false,
-			sc: ""
+
+			content: "",
+			start: new Date() as Date,
+			end: new Date() as Date,
+
+			calendars: []
 		};
 	},
 	mounted() {
@@ -84,12 +95,30 @@ export default Vue.extend({
 			this.getSize();
 		});
 		this.getSize();
-
-		this.drawLine(5, 0, 3, 1);
-		this.drawLine(2, 1, 4, 1);
-		this.drawLine(1, 2, 3, 2);
+		this.reload();
 	},
 	methods: {
+		reload() {
+			this.$store.dispatch("GET_CLUB_CALENDAR").then(calendars => {
+				this.lineData = [];
+				this.tmpLineData = [];
+				calendars.forEach((calendar: any) => {
+					let start =
+						new Date(calendar.start).getDate() +
+						this.startDay.getDay();
+					let end =
+						new Date(calendar.end).getDate() +
+						this.startDay.getDay();
+					this.drawLine(
+						(start - 1) % 7,
+						Math.floor((start - 1) / 7),
+						end % 7,
+						Math.floor((end - 1) / 7)
+					);
+				});
+				this.calendars = calendars;
+			});
+		},
 		getSize() {
 			let calendar = (this.$refs
 				.calendar as HTMLDivElement).getBoundingClientRect();
@@ -103,27 +132,55 @@ export default Vue.extend({
 			this.calendarItemHeight = item.clientHeight;
 		},
 		onClick(e: MouseEvent | TouchEvent) {
-			this.getSize();
-			this.startPointX =
-				((e as MouseEvent).clientX ||
-					(e as TouchEvent).touches[0].clientX) - this.calendarLeft;
-			this.startPointY =
-				((e as MouseEvent).clientY ||
-					(e as TouchEvent).touches[0].clientY) - this.calendarTop;
-			let position = this.getPosition(this.startPointX, this.startPointY);
-			this.startPointX = position[0];
-			this.startPointY = position[1];
-			this.isClick = true;
+			if (!this.isCreatePopup) {
+				this.getSize();
+				this.startPointX =
+					((e as MouseEvent).clientX ||
+						(e as TouchEvent).touches[0].clientX) -
+					this.calendarLeft;
+				this.startPointY =
+					((e as MouseEvent).clientY ||
+						(e as TouchEvent).touches[0].clientY) -
+					this.calendarTop;
+				let position = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
+				this.isClick = true;
+			}
 		},
 		onClickUp(e: MouseEvent) {
-			this.isClick = false;
-			this.isCreatePopup = true;
-			this.$nextTick(() => {
-				let createPopup = this.$refs.createPopup as HTMLDivElement;
-				createPopup.style.left = this.endPointX + "px";
-				createPopup.style.top = this.endPointY + "px";
-				console.log(this.endPointX);
-			});
+			if (!this.isCreatePopup) {
+				this.isClick = false;
+				this.isCreatePopup = true;
+				this.$nextTick(() => {
+					let createPopup = this.$refs.createPopup as HTMLDivElement;
+					let createPopupInput = this.$refs
+						.createPopupInput as HTMLDivElement;
+					createPopup.style.left = this.endPointX + "px";
+					createPopup.style.top = this.endPointY + "px";
+					createPopupInput.focus();
+
+					let startPosition = this.getPosition(
+						this.startPointX,
+						this.startPointY
+					);
+					let endPosition = this.getPosition(
+						this.endPointX,
+						this.endPointY
+					);
+					this.start = new Date(
+						this.year,
+						this.month,
+						this.getDays[startPosition[1] * 7 + startPosition[0]]
+					);
+					this.end = new Date(
+						this.year,
+						this.month,
+						this.getDays[endPosition[1] * 7 + endPosition[0]]
+					);
+				});
+			}
 		},
 		onClickDrag(e: MouseEvent | TouchEvent) {
 			if (this.isClick) {
@@ -135,14 +192,21 @@ export default Vue.extend({
 					((e as MouseEvent).clientY ||
 						(e as TouchEvent).touches[0].clientY) -
 					this.calendarTop;
-				let position = this.getPosition(this.endPointX, this.endPointY);
+				let startPosition = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
+				let endPosition = this.getPosition(
+					this.endPointX,
+					this.endPointY
+				);
 
 				this.tmpLineData = [];
 				this.drawLine(
-					this.startPointX,
-					this.startPointY,
-					position[0] + 1,
-					position[1],
+					startPosition[0],
+					startPosition[1],
+					endPosition[0] + 1,
+					endPosition[1],
 					true
 				);
 			}
@@ -197,7 +261,19 @@ export default Vue.extend({
 				this.colorIndex = (this.colorIndex + 1) % 3;
 			}
 		},
-		createSc() {}
+		createSc() {
+			console.log(this.start.toLocaleString(), this.end.toLocaleString());
+			this.$store
+				.dispatch("CALENDAR", {
+					content: this.content,
+					start: this.start,
+					end: this.end
+				})
+				.then(calendar => {
+					this.reload();
+				})
+				.catch(err => console.log(err));
+		}
 	},
 	computed: {
 		getDays(): any[] {
@@ -291,6 +367,11 @@ export default Vue.extend({
 	transition: 0.5s;
 
 	z-index: 10;
+
+	text-align: right;
+	color: white;
+	font-size: 14px;
+	padding-right: 5px;
 }
 .calendar__content__day__bar-create {
 	background-color: #1ed400;
@@ -308,22 +389,31 @@ export default Vue.extend({
 
 	z-index: 100;
 
-    transition: 0.5s;
+	transition: 0.5s;
+
+	overflow: hidden;
+
+	white-space: nowrap;
 }
 .calendar__content__create input {
-    border: none;
-    font-size: 20px;
-    padding: 10px;
+	border: none;
+	font-size: 20px;
+	padding: 10px;
 }
 .calendar__content__create button {
 	border: none;
-	background-color: #538fff;
-	color: white;
+	background-color: white;
+	color: #538fff;
 
 	font-family: "NanumSquareB";
 	font-size: 20px;
 
-    padding: 10px;
-    border-radius: 10px;
+	padding: 10px;
+	border-radius: 10px;
+
+	transition: 0.2s;
+}
+.calendar__content__create button:active {
+	opacity: 0.5;
 }
 </style>
