@@ -30,7 +30,7 @@
 					v-model="password"
 				/>
 			</div>
-			<button class="register__button" @click="register">회원가입</button>
+			<button class="register__button" @click="register">계정 만들기</button>
 		</div>
 	</div>
 </template>
