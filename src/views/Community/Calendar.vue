@@ -27,11 +27,11 @@
 			>
 				<transition name="barAnimation">
 					<div
-						v-for="(sc,idx) in (lineData[idx] ? lineData[idx] : [])"
+						v-for="(sc) in (lineData[idx] ? lineData[idx] : [])"
 						:key="sc.content+calendars.length"
 						class="calendar__content__day__bar"
 						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
-					>{{calendars[idx].content}}</div>
+					>{{sc.content}}</div>
 				</transition>
 				<transition name="barAnimation">
 					<div
@@ -39,7 +39,7 @@
 						:key="sc.content+calendars.length"
 						class="calendar__content__day__bar calendar__content__day__bar-create"
 						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
-					></div>
+					>CREATE</div>
 				</transition>
 				<span :class="{'calendar__content__day-today': day == currentDay}">{{day == 0 ? '' : day}}</span>
 			</div>
@@ -103,6 +103,7 @@ export default Vue.extend({
 				this.lineData = [];
 				this.tmpLineData = [];
 				calendars.forEach((calendar: any) => {
+					this.calendars = calendars;
 					let start =
 						new Date(calendar.start).getDate() +
 						this.startDay.getDay();
@@ -113,10 +114,11 @@ export default Vue.extend({
 						(start - 1) % 7,
 						Math.floor((start - 1) / 7),
 						end % 7,
-						Math.floor((end - 1) / 7)
+						Math.floor((end - 1) / 7),
+						false,
+						calendar.content
 					);
 				});
-				this.calendars = calendars;
 			});
 		},
 		getSize() {
@@ -222,7 +224,8 @@ export default Vue.extend({
 			startY: number,
 			endX: number,
 			endY: number,
-			tmpMode: boolean = false
+			tmpMode: boolean = false,
+			content: string = ""
 		) {
 			let lineHeight = [0, 0, 0, 0, 0];
 			for (let i = startY; i <= endY; i++) {
@@ -255,8 +258,10 @@ export default Vue.extend({
 								? endX - startJ
 								: 7 - (startY == i ? startJ : 0),
 						height: lineHeight[i],
-						color: this.colors[this.colorIndex]
+						color: this.colors[this.colorIndex],
+						content
 					});
+					console.log(this.calendars);
 				}
 				this.colorIndex = (this.colorIndex + 1) % 3;
 			}
