@@ -9,16 +9,16 @@
 						<th style="width:40%;" @click="orderBy('user.name')">
 							이름
 							<i
-								class="material-icons"
+								class="mdi mdi-arrow-down"
 								:class="{'order-active':sortKey == 'user.name','order-rotate':sortBy}"
-							>arrow_downward</i>
+							></i>
 						</th>
 						<th style="width:50%;" @click="orderBy('rank')">
 							역할
 							<i
-								class="material-icons"
+								class="mdi mdi-arrow-down"
 								:class="{'order-active':sortKey == 'rank','order-rotate':sortBy}"
-							>arrow_downward</i>
+							></i>
 						</th>
 					</tr>
 				</thead>
@@ -28,7 +28,7 @@
 						<td>{{member.user.name}}</td>
 						<td>
 							{{getRankString(member.rank)}}
-							<i class="material-icons" v-if="member.rank == 'admin'">vpn_key</i>
+							<i class="mdi mdi-key" v-if="member.rank == 'admin'"></i>
 						</td>
 					</tr>
 				</tbody>
