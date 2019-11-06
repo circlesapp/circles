@@ -157,6 +157,9 @@ export default Vue.extend({
 	justify-content: center;
 	align-items: center;
 
+	width: 100vw;
+	height: 100vh;
+
 	top: 0;
 	bottom: 0;
 	left: 0;

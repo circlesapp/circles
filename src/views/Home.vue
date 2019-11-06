@@ -21,7 +21,10 @@
 			<img :src="getImgPath(getClub.imgPath)" />
 		</div>
 		<div class="home__login__list">
-			<div class="home__login__list__applicant">
+			<div
+				class="home__login__list__applicant"
+				:class="{'home__login__list__applicant-disable':getUserInformation.applicants.length == 0}"
+			>
 				<h2>신청한 동아리</h2>
 				<span class="time"></span>
 				<ul>
@@ -37,7 +40,10 @@
 					</router-link>
 				</ul>
 			</div>
-			<div class="home__login__profile__selectclub">
+			<div
+				class="home__login__profile__selectclub"
+				:class="{'home__login__profile__selectclub-disable':getUserInformation.applicants.length == 0}"
+			>
 				<h2>가입한 동아리</h2>
 				<input
 					@keydown="userInputKeyPress"
@@ -96,6 +102,7 @@ export default Vue.extend({
 		},
 		selectClub(idx: number) {
 			let club = this.getClubs[idx];
+			this.targetCurrentIndex = idx;
 			this.$store
 				.dispatch("GET_CLUB", club.name)
 				.then(club => {
@@ -319,12 +326,12 @@ export default Vue.extend({
 
 	cursor: pointer;
 }
-.home__login__list__applicant__item span{
-    font-family: NanumSquareR;
+.home__login__list__applicant__item span {
+	font-family: NanumSquareR;
 }
-.home__login__list__applicant__item .date{
-    font-family: NanumSquareL;
-    color: #757575;
+.home__login__list__applicant__item .date {
+	font-family: NanumSquareL;
+	color: #757575;
 }
 @media screen and (max-width: 768px) {
 	.home__login__list {
@@ -351,6 +358,12 @@ export default Vue.extend({
 	}
 	.home__start {
 		padding: 10px 20%;
+	}
+	.home__login__profile__selectclub-disable {
+		margin-top: 0px;
+	}
+	.home__login__list__applicant-disable {
+		display: none;
 	}
 }
 </style>

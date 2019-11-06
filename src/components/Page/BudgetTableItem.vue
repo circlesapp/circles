@@ -1,10 +1,16 @@
 <template>
-	<tr class="budgettableitem">
+	<tr
+		class="budgettableitem"
+		@contextmenu="$emit('contextmenu',{
+        e: $event,
+        id: data._id
+    })"
+	>
 		<td>{{data.item}}</td>
 		<td>{{data.size}}</td>
 		<td>{{data.price}}</td>
 		<td>{{data.quantity}}</td>
-		<td>{{data.shipping}}</td>
+		<td>{{data.shopping}}</td>
 		<td>{{data.total}}</td>
 		<td>{{data.url}}</td>
 		<td>{{getDate}}</td>
@@ -19,9 +25,7 @@ export default Vue.extend({
 	},
 	computed: {
 		getDate() {
-			return new Date(this.data.date)
-				.toISOString()
-				.slice(0, 10)
+			return new Date(this.data.date).toISOString().slice(0, 10);
 		}
 	}
 });
@@ -32,7 +36,7 @@ export default Vue.extend({
 	padding: 20px;
 	text-align: center;
 }
-.budgettableitem td{
+.budgettableitem td {
 	font-family: "NanumSquareEB";
 }
 </style>

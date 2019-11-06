@@ -18,7 +18,11 @@
 				:key="award._id"
 				@contextmenu="createContextMenu($event,award._id)"
 			></AwardBox>
-			<div class="award__list__item award__list__item__create" v-if="isAdmin" @click="appendAwards">+</div>
+			<div
+				class="award__list__item award__list__item__create"
+				v-if="isCreateAble"
+				@click="appendAwards"
+			>+</div>
 		</div>
 		<AwardBoxCreatePopup @isUpdated="reload" v-if="isShowAwardCreatePopup"></AwardBoxCreatePopup>
 	</div>
@@ -62,7 +66,7 @@ export default Vue.extend({
 		},
 		createContextMenu(e: MouseEvent, _id: string) {
 			e.preventDefault();
-			if (this.isAdmin) {
+			if (this.isCreateAble) {
 				this.showContextMenu = true;
 				this.currentId = _id;
 				this.$nextTick(() => {
@@ -94,7 +98,7 @@ export default Vue.extend({
 			else
 				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
-		isAdmin() {
+		isCreateAble() {
 			if (this.$store.state.club.ranks) {
 				let user = this.$store.state.club.members.find(
 					(member: any) => {
@@ -104,9 +108,14 @@ export default Vue.extend({
 					}
 				);
 				if (user)
-					return this.$store.state.club.ranks.find(
-						(rank: any) => rank.id == user.rank
-					).isAdmin;
+					return (
+						this.$store.state.club.ranks.find(
+							(rank: any) => rank.id == user.rank
+						).isAdmin ||
+						this.$store.state.club.ranks
+							.find((rank: any) => rank.id == user.rank)
+							.permission.indexOf(11) != -1
+					);
 				else return false;
 			} else return false;
 		}

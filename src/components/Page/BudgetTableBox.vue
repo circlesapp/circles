@@ -52,7 +52,7 @@
 					>arrow_downward</i>
 				</th>
 				<th @click="orderBy('date')">
-					마감
+					비고
 					<i
 						class="material-icons"
 						:class="{'order-active':sortKey == 'date','order-rotate':sortBy}"
@@ -61,7 +61,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<BudgetTableItem v-for="budget in getOrderedBudgets" :key="budget.number" :data="budget"></BudgetTableItem>
+			<BudgetTableItem v-for="budget in getOrderedBudgets" :key="budget.number" :data="budget" @contextmenu="$emit('contextmenu',$event)"></BudgetTableItem>
 		</tbody>
 	</table>
 </template>

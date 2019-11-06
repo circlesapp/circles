@@ -364,6 +364,38 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		BUDGET({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/budget/write`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(budget => {
+						resolve(budget.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		BUDGET_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/budget/delete`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(budget => {
+						resolve(budget.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_CLUB_MEMBERS({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
