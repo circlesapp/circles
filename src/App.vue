@@ -32,7 +32,7 @@
 						>페이지</router-link>
 						<router-link
 							v-if="isAdmin"
-							:to="`/${getClub.name}/community`"
+							:to="`/${getClub.name}/community/members`"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>

@@ -33,7 +33,7 @@
 						:key="applicant._id"
 					>
 						<span>{{applicant.club.name}}</span>
-						<span>{{new Date(applicant.createAt).toLocaleDateString()}}</span>
+						<span class="date">{{new Date(applicant.createAt).toLocaleDateString()}}</span>
 					</router-link>
 				</ul>
 			</div>
@@ -310,7 +310,6 @@ export default Vue.extend({
 .home__login__list__applicant ul {
 	list-style: none;
 	margin-top: 20px;
-	font-family: NanumSquareL;
 	font-size: 30px;
 }
 .home__login__list__applicant__item {
@@ -319,6 +318,13 @@ export default Vue.extend({
 	width: 100%;
 
 	cursor: pointer;
+}
+.home__login__list__applicant__item span{
+    font-family: NanumSquareR;
+}
+.home__login__list__applicant__item .date{
+    font-family: NanumSquareL;
+    color: #757575;
 }
 @media screen and (max-width: 768px) {
 	.home__login__list {

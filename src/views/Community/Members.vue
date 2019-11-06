@@ -326,6 +326,7 @@ export default Vue.extend({
 }
 .communityMembers__memberTable tbody tr {
 	border-bottom: 1px solid #dfdfdf;
+	cursor: pointer;
 }
 .communityMembers__memberTable tbody td {
 	font-family: NanumSquareB;
