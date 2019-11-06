@@ -9,16 +9,16 @@
 						<th style="width:40%;" @click="orderBy('number')">
 							학번
 							<i
-								class="material-icons"
+								class="mdi mdi-arrow-down"
 								:class="{'order-active':sortKey == 'number','order-rotate':sortBy}"
-							>arrow_downward</i>
+							></i>
 						</th>
 						<th style="width:50%;" @click="orderBy('owner.name')">
 							이름
 							<i
-								class="material-icons"
+								class="mdi mdi-arrow-down"
 								:class="{'order-active':sortKey == 'owner.name','order-rotate':sortBy}"
-							>arrow_downward</i>
+							></i>
 						</th>
 					</tr>
 				</thead>
