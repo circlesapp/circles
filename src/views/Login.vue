@@ -21,7 +21,7 @@
 				/>
 			</div>
 			<p class="login__alert" v-if="errorAlert">
-				<i class="material-icons">error</i>
+				<i class="mdi mdi-alert-circle"></i>
 				{{errorAlert}}
 			</p>
 			<button class="login__button" @click="login">로그인</button>

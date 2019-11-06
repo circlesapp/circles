@@ -5,58 +5,58 @@
 				<th @click="orderBy('item')">
 					품목
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'item','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('size')">
 					규격
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'size','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('price')">
 					단가
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'price','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('quantity')">
 					수량
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'quantity','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('shopping')">
 					배송료
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'shopping','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('total')">
 					금액
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'total','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('url')">
 					URL
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'url','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 				<th @click="orderBy('date')">
 					비고
 					<i
-						class="material-icons"
+						class="mdi mdi-arrow-down"
 						:class="{'order-active':sortKey == 'date','order-rotate':sortBy}"
-					>arrow_downward</i>
+					></i>
 				</th>
 			</tr>
 		</thead>

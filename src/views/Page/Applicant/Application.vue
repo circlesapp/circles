@@ -1,7 +1,7 @@
 <template>
 	<div class="application">
 		<div class="application__title">
-			<i class="material-icons">description</i>
+			<i class="mdi mdi-file-document"></i>
 			<div>
 				<h2>지원서 {{getIsModificationText}}</h2>
 				<p>동아리 지원을 위한 지원서를 {{getIsModificationText}}합니다.</p>

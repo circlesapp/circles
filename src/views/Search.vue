@@ -5,7 +5,7 @@
 			<p>원하는 동아리를 찾아보세요.</p>
 		</div>
 		<div class="search__input">
-			<i class="material-icons">search</i>
+			<i class="mdi mdi-magnify"></i>
 			<input type="text" v-model="search" />
 		</div>
 		<transition-group name="clubs" class="search__list" tag="div">

@@ -2,9 +2,9 @@
 	<div class="budget__createpopup">
 		<div class="budget__createpopup__content">
 			<i
-				class="material-icons budget__createpopup__content__clear"
+				class="budget__createpopup__content__clear mdi mdi-close"
 				@click="$emit('isUpdated', false)"
-			>clear</i>
+			></i>
 			<h3>수상 실적 등록</h3>
 			<div class="budget__createpopup__content__inputs">
 				<div class="inputfield">

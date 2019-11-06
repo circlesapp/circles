@@ -2,11 +2,11 @@
 	<div class="post" :class="{'post-modif':isModifPost}">
 		<div class="post__option" v-if="isShowOption">
 			<p @click="modifPost" v-if="!isModifPost">
-				<i class="material-icons">create</i>
+				<i class="mdi mdi-pencil"></i>
 				<span>수정</span>
 			</p>
 			<p class="delete" @click="deletePost">
-				<i class="material-icons">delete</i>
+				<i class="mdi mdi-delete"></i>
 				<span>삭제</span>
 			</p>
 		</div>
@@ -23,10 +23,10 @@
 				<span class="moment">{{data.timeString}}</span>
 			</p>
 			<i
-				class="material-icons post__menu"
+				class="mdi mdi-dots-horizontal post__menu"
 				@click="toggleOption"
 				v-if="getPermissionModifAndDelete"
-			>more_horiz</i>
+			></i>
 		</h3>
 		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
 		<textarea
@@ -50,25 +50,31 @@
 			</div>
 		</article>
 		<div class="post__modifaction" v-if="isModifPost">
-			<div>
+			<div class="post__modifaction__wrapper">
 				<span class="post__modifaction__image">
 					<label>
 						<input type="file" name="img" multiple @change="onImageChange" />
-						<span>이미지 선택</span>
-						<span v-for="(image,idx) in getImages" :key="idx" class="imagename">{{image.name}}</span>
+						<div class="post__modifaction__image__button">
+							<i class="mdi mdi-image"></i>
+						</div>
+						<div class="post__modification__image__imagenames">
+							<span v-for="(image,idx) in getImages" :key="idx" class="imagename">{{image.name}}</span>
+						</div>
 					</label>
 				</span>
-				<span style="color:#e02020;" @click="modifPost">취소</span>
+				<div>
+				<span style="color:#e02020; margin-right:20px;" @click="modifPost">취소</span>
 				<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
+				</div>
 			</div>
 		</div>
 		<div class="post__action" v-else-if="!isCreate">
 			<p class="post__action__heart" @click="toggleLike">
-				<i class="material-icons">{{isLike ?'favorite' : 'favorite_border'}}</i>
+				<i class="mdi" :class="isLike ?'mdi-heart' : 'mdi-heart-outline'"></i>
 				{{data.likes.length}}
 			</p>
 			<p class="post__action__comment" @click="toggleComments">
-				<i class="material-icons">insert_comment</i>
+				<i class="mdi mdi-comment"></i>
 				{{comments.length ? comments.length : data.comments.length}}
 			</p>
 		</div>
@@ -87,7 +93,9 @@
 						{{comment.owner.name}}
 					</h4>
 					<p>{{comment.message}}</p>
-					<i class="material-icons" @click="removeComment(comment._id)">clear</i>
+					<div class="post__comments__list__item__remove" @click="removeComment(comment._id)">
+						<i class="mdi mdi-close mdi-large"></i>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -437,14 +445,47 @@ textarea.post__content {
 .post__modifaction {
 	text-align: right;
 }
+.post__modifaction__wrapper{
+	display: flex;
+	justify-content: space-between;
+}
+.post__modifaction__image label{
+	display: flex;
+	align-items: center;
+}
+.post__modifaction__image__button {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	transition: 0.2s;
+
+}
+.post__modifaction__image__button i {
+	font-size: 20px;
+}
+.post__modifaction__image__button:hover {
+	background:rgba(0, 0, 0, 0.15);
+}
 .post__modifaction__image input {
 	display: none;
 }
 .post__modifaction__image .imagename {
-	font-size: 10px;
+	font-size: 14px;
+	position: relative;
+	top: -1px;
+}
+.post__modification__image__imagenames {
+	text-overflow: ellipsis;
+	max-width: 30vw;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .post__modifaction span {
-	margin-left: 20px;
 	cursor: pointer;
 }
 .post__action {
@@ -535,10 +576,24 @@ textarea.post__content {
 .post__comments__list__item p {
 	color: #202841;
 }
-.post__comments__list__item i {
+.post__comments__list__item__remove {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
 	position: absolute;
 	right: 20px;
 	top: 20px;
+	border-radius: 50%;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+.post__comments__list__item__remove:hover {
+	background:rgba(0, 0, 0, 0.15);
+}
+.post__comments__list__item__remove i {
 	font-size: 16px;
 	color: #e02020;
 }

@@ -2,9 +2,9 @@
 	<div class="award__createpopup">
 		<div class="award__createpopup__content">
 			<i
-				class="material-icons award__createpopup__content__clear"
+				class="award__createpopup__content__clear mdi mdi-close"
 				@click="$emit('isUpdated', false)"
-			>clear</i>
+			></i>
 			<h3>수상 실적 등록</h3>
 			<div class="award__createpopup__content__inputs">
 				<div class="inputfield">
@@ -25,7 +25,7 @@
 						<span class="inputfield__input__member" v-for="(member,idx) in target" :key="member._id">
 							<img :src="$store.state.mainPath+member.imgPath" alt />
 							{{member.name}}
-							<i class="material-icons" @click="removeTargetItem(idx)">clear</i>
+							<i class="mdi mdi-close" @click="removeTargetItem(idx)"></i>
 						</span>
 						<input
 							v-model="searchTarget"

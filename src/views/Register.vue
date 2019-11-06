@@ -3,14 +3,12 @@
 		<div class="register__wrapper">
 			<h1 class="register__title">circles.</h1>
 			<h2 class="register__text">
-				회원 가입
-				<span>Join</span>
+				계정 만들기
+				<span>Register</span>
 			</h2>
 			<div class="register__inputwrapper">
 				<h3>이용약관</h3>
-				<p
-					class="register__textarea"
-				>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, molestias doloremque consequatur id dicta dolores enim mollitia aliquid, odit nobis suscipit qui quibusdam cum ea voluptate natus temporibus deleniti perspiciatis.</p>
+				<Terms class="register__textarea" />
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
@@ -40,8 +38,12 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Terms from "../components/Terms.vue";
 export default Vue.extend({
     name : "Register",
+	components: {
+		Terms
+	},
 	data() {
 		return {
 			email: "",
@@ -153,6 +155,8 @@ export default Vue.extend({
 	margin: 20px 0;
 	border: 1px solid #eeeeee;
 	border-radius: 8px;
+	max-height: 200px;
+	overflow-y: scroll;
 }
 
 .register__button {

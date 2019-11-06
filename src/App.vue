@@ -3,7 +3,7 @@
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
-					<i class="menu__menubutton material-icons" @click="toggleMenu">menu</i>
+					<i class="menu__menubutton mdi mdi-menu" @click="toggleMenu"></i>
 					<router-link tag="h1" class="menu__left__title" to="/">circles.</router-link>
 					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
 						<div class="menu__left__list__circles">
@@ -57,19 +57,21 @@
 											<p class="email">{{getUserInformation.email}}</p>
 										</div>
 									</div>
-									<div class="arrow">></div>
 								</div>
 								<div class="menu__right__profile__club">{{getClub.name || '-'}}</div>
 								<div class="menu__right__profile__rank">
 									<div class="left">직위</div>
 									<div class="right">{{getRank}}</div>
 								</div>
-								<div class="menu__right__profile__logout" @click="logout">로그아웃</div>
+								<div class="menu__right__profile__logout" @click="logout">
+									<i class="mdi mdi-logout-variant"></i>
+									로그아웃
+								</div>
 							</div>
 						</transition>
 					</div>
-					<router-link to="/search" class="menu__right" v-else>
-						<i class="material-icons">search</i>
+					<router-link to="/search" class="menu__right__search" v-else>
+						<i class="mdi mdi-magnify"></i>
 					</router-link>
 				</transition>
 			</div>
@@ -357,8 +359,8 @@ i {
 	user-select: none;
 }
 ::selection {
-	background-color: #f5f7fa;
-	color: #273142;
+	background-color: rgba(39, 49, 66, 0.2);
+	/* color: #273142; */
 }
 ::-webkit-scrollbar {
 	display: none;
@@ -491,13 +493,6 @@ i {
 	font-family: NanumSquareL;
 	font-size: 20px;
 }
-
-.menu__right i {
-	margin-right: 40px;
-	font-size: 40px;
-	color: white;
-	text-decoration: none;
-}
 .menu__right > img {
 	width: 34px;
 	height: 34px;
@@ -542,14 +537,11 @@ i {
 	font-family: "NanumSquareL";
 	font-size: 16px;
 }
-.menu__right__profile__information .arrow {
-	font-family: "NanumSquareEB";
-	font-size: 20px;
-}
 
 .menu__right__profile__club {
 	margin-top: 30px;
 	text-align: right;
+	font-weight: bold;
 	font-family: "NanumSquareL";
 	font-size: 20px;
 }
@@ -566,7 +558,15 @@ i {
 	font-size: 20px;
 }
 .menu__right__profile__logout {
+	text-align: right;
+	color: #e02020;
 	cursor: pointer;
+}
+.menu__right__search {
+	margin-right: 40px;
+	font-size: 40px;
+	color: white;
+	text-decoration: none;
 }
 
 .submenu {

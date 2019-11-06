@@ -1,7 +1,7 @@
 <template>
 	<div class="applicant__main">
 		<div class="applicant__main__item" v-if="isJoinCurrentClub">
-			<i class="material-icons">done</i>
+			<i class="mdi mdi-check"></i>
 			<h2>{{getUserInformation.name}} 님</h2>
 			<p>
 				이미 가입한
@@ -9,7 +9,7 @@
 			</p>
 		</div>
 		<div class="applicant__main__item applicant__main__item-disable" v-else-if="!getUserToken">
-			<i class="material-icons">description</i>
+			<i class="mdi mdi-file-document"></i>
 			<h2>지원서 작성</h2>
 			<p>
 				로그인 후
@@ -22,7 +22,7 @@
 			:to="{name:'page/applicant/application'}"
 			class="applicant__main__item"
 		>
-			<i class="material-icons">description</i>
+			<i class="mdi mdi-file-document"></i>
 			<h2>지원서 {{getIsModificationText}}</h2>
 			<p>
 				동아리 지원을 위한
@@ -32,7 +32,7 @@
 			<div class="modification" v-if="isModification">지원서 수정 ></div>
 		</router-link>
 		<router-link tag="div" :to="{name:'page/applicant/recorder'}" class="applicant__main__item">
-			<i class="material-icons">record_voice_over</i>
+			<i class="mdi mdi-voice"></i>
 			<h2>페이저 수신기</h2>
 			<p>
 				대기자 원격 호출을 위한
@@ -40,7 +40,7 @@
 			</p>
 		</router-link>
 		<router-link tag="div" :to="{name:'page/applicant/result'}" class="applicant__main__item">
-			<i class="material-icons">assignment_turned_in</i>
+			<i class="mdi mdi-clipboard-check"></i>
 			<h2>결과 확인</h2>
 			<p>
 				지원 결과를 확인하는
