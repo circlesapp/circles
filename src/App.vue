@@ -58,15 +58,52 @@
 										</div>
 									</div>
 								</div>
-								<div class="menu__right__profile__club">{{getClub.name || '-'}}</div>
-								<div class="menu__right__profile__rank">
-									<div class="left">직위</div>
-									<div class="right">{{getRank}}</div>
+								<div class="menu__right__list">
+									<router-link
+										class="menu__right__list__link"
+										v-if="getClub.name"
+										:to="`/${getClub.name}/page/timeline`"
+									>
+										<div class="menu__right__list__item">
+											<i class="mdi mdi-account-group"></i>
+											<span class="menu__right__list__item__text">
+												{{getClub.name || '-'}}
+											</span>
+										</div>
+									</router-link>
+									<router-link
+										v-if="isAdmin"
+										:to="`/${getClub.name}/community/members`"
+										class="menu__right__list__link"
+									>
+										<div class="menu__right__list__item">
+											<i class="mdi mdi-shield-star"></i>
+											<span class="menu__right__list__item__text">
+												{{getRank}}
+											</span>
+										</div>
+									</router-link>
 								</div>
-								<div class="menu__right__profile__logout" @click="logout">
-									<i class="mdi mdi-logout-variant"></i>
-									로그아웃
-								</div>
+								<div class="menu__right__list menu__right__list__last">
+									<div class="menu__right__list__item menu__right__darktheme" @click="darkTheme = !darkTheme">
+										<div class="menu__right__darktheme__left">
+											<i class="mdi mdi-theme-light-dark"></i>
+											<span class="menu__right__list__item__text">
+												다크 테마
+											</span>
+										</div>
+										<div class="menu__right__darktheme__slider__wrapper">
+											<input v-model="darkTheme" type="checkbox">
+											<span class="menu__right__darktheme__slider"></span>
+										</div>
+									</div>
+									<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
+										<i class="mdi mdi-logout-variant"></i>
+										<span class="menu__right__list__item__text">
+											로그아웃
+										</span>
+									</div>
+								</div> <!-- .menu__right__list -->
 							</div>
 						</transition>
 					</div>
@@ -102,7 +139,9 @@ export default Vue.extend({
 			routerAnimation: "",
 
 			isMounteRequired: false,
-			idx: 0
+			idx: 0,
+
+			darkTheme: false
 		};
 	},
 	created() {
@@ -493,22 +532,24 @@ i {
 	font-family: NanumSquareL;
 	font-size: 20px;
 }
+.menu__right {
+	cursor: pointer;
+	margin-right: 40px;
+}
 .menu__right > img {
 	width: 34px;
 	height: 34px;
-	margin-right: 40px;
-	border-radius: 100%;
+	border-radius: 50%;
 	background-color: #f5f7fa;
 }
 .menu__right__profile {
 	position: fixed;
 	right: 10px;
 	top: 70px;
-	width: 380px;
+	width: 300px;
+	max-width: 380px;
 	border-radius: 4px;
 	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
-
-	padding: 25px;
 	background-color: white;
 	color: #273142;
 	z-index: 3000;
@@ -517,6 +558,8 @@ i {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 16px;
+	border-bottom: 1px solid #afaeae;
 }
 .menu__right__profile__information .information__wrapper {
 	display: flex;
@@ -538,30 +581,93 @@ i {
 	font-size: 16px;
 }
 
-.menu__right__profile__club {
-	margin-top: 30px;
-	text-align: right;
-	font-weight: bold;
-	font-family: "NanumSquareL";
-	font-size: 20px;
+.menu__right__list {
+	padding: 8px 0;
+	border-bottom: 1px solid #afaeae;
 }
-.menu__right__profile__rank {
+.menu__right__list__last {
+	border: 0;
+}
+.menu__right__list__link {
+	color: #3b4351;
+	text-decoration: none;
+}
+.menu__right__list__item {
 	display: flex;
-	justify-content: space-between;
+	align-items: center;
+	height: 40px;
+	padding: 0 16px;
 }
-.menu__right__profile__rank .left {
-	font-family: "NanumSquareB";
-	font-size: 20px;
-}
-.menu__right__profile__rank .right {
-	font-family: "NanumSquareL";
-	font-size: 20px;
-}
-.menu__right__profile__logout {
-	text-align: right;
-	color: #e02020;
+.menu__right__list__item:hover {
+	background: rgba(0, 0, 0, 0.15);
 	cursor: pointer;
 }
+.menu__right__list__item i {
+	margin-right: 16px;
+	font-size: 24px;
+	color: #666;
+}
+.menu__right__list__item__text {
+	font-family: "NanumSquareL";
+	font-size: 18px;
+}
+.menu__right__darktheme {
+	justify-content: space-between;
+}
+.menu__right__darktheme__left {
+	display: inline-flex;
+	justify-content: start;
+	align-items: center;
+}
+.menu__right__darktheme__slider__wrapper {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	width: 36px;
+  	height: 14px;
+}
+.menu__right__darktheme input {
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
+.menu__right__darktheme__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #eaeaea;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 8px;
+}
+.menu__right__darktheme__slider:before {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: #fafafa;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .menu__right__darktheme__slider {
+  background-color: #538FFF;
+}
+input:focus + .menu__right__darktheme__slider {
+  box-shadow: 0 0 1px #538FFF;
+}
+input:checked + .menu__right__darktheme__slider:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
+}
+
 .menu__right__search {
 	margin-right: 40px;
 	font-size: 40px;
