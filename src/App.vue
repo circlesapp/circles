@@ -66,9 +66,7 @@
 									>
 										<div class="menu__right__list__item">
 											<i class="mdi mdi-account-group"></i>
-											<span class="menu__right__list__item__text">
-												{{getClub.name || '-'}}
-											</span>
+											<span class="menu__right__list__item__text">{{getClub.name || '-'}}</span>
 										</div>
 									</router-link>
 									<router-link
@@ -78,32 +76,30 @@
 									>
 										<div class="menu__right__list__item">
 											<i class="mdi mdi-shield-star"></i>
-											<span class="menu__right__list__item__text">
-												{{getRank}}
-											</span>
+											<span class="menu__right__list__item__text">{{getRank}}</span>
 										</div>
 									</router-link>
 								</div>
 								<div class="menu__right__list menu__right__list__last">
-									<div class="menu__right__list__item menu__right__darktheme" @click="darkTheme = !darkTheme">
+									<div
+										class="menu__right__list__item menu__right__darktheme"
+										@click="darkTheme = !darkTheme"
+									>
 										<div class="menu__right__darktheme__left">
 											<i class="mdi mdi-theme-light-dark"></i>
-											<span class="menu__right__list__item__text">
-												다크 테마
-											</span>
+											<span class="menu__right__list__item__text">다크 테마</span>
 										</div>
 										<div class="menu__right__darktheme__slider__wrapper">
-											<input v-model="darkTheme" type="checkbox">
+											<input v-model="darkTheme" type="checkbox" />
 											<span class="menu__right__darktheme__slider"></span>
 										</div>
 									</div>
 									<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
 										<i class="mdi mdi-logout-variant"></i>
-										<span class="menu__right__list__item__text">
-											로그아웃
-										</span>
+										<span class="menu__right__list__item__text">로그아웃</span>
 									</div>
-								</div> <!-- .menu__right__list -->
+								</div>
+								<!-- .menu__right__list -->
 							</div>
 						</transition>
 					</div>
@@ -194,8 +190,9 @@ export default Vue.extend({
 	},
 	methods: {
 		setBarPosition() {
-			(this.$refs.bar as HTMLDivElement).style.left =
-				120 * this.idx + "px";
+			if (this.isShowMenuRoute)
+				(this.$refs.bar as HTMLDivElement).style.left =
+					120 * this.idx + "px";
 		},
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
@@ -248,9 +245,13 @@ export default Vue.extend({
 		},
 		isShowMenuRoute() {
 			return (
-				["login", "register", "passwordchange", "page404"].indexOf(
-					this.$route.name || ""
-				) == -1
+				[
+					"login",
+					"register",
+					"passwordchange",
+					"page404",
+					"community/editor"
+				].indexOf(this.$route.name || "") == -1
 			);
 		},
 		getRank() {
@@ -616,7 +617,7 @@ i {
 }
 .menu__right__darktheme__left {
 	display: inline-flex;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 }
 .menu__right__darktheme__slider__wrapper {
@@ -625,7 +626,7 @@ i {
 	align-items: center;
 	position: relative;
 	width: 36px;
-  	height: 14px;
+	height: 14px;
 }
 .menu__right__darktheme input {
 	width: 0;
@@ -633,39 +634,39 @@ i {
 	visibility: hidden;
 }
 .menu__right__darktheme__slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #eaeaea;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 8px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #eaeaea;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+	border-radius: 8px;
 }
 .menu__right__darktheme__slider:before {
-  position: absolute;
-  top: -3px;
-  left: 0;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
-  content: "";
-  width: 20px;
-  height: 20px;
-  background-color: #fafafa;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 50%;
+	position: absolute;
+	top: -3px;
+	left: 0;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+	content: "";
+	width: 20px;
+	height: 20px;
+	background-color: #fafafa;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+	border-radius: 50%;
 }
 input:checked + .menu__right__darktheme__slider {
-  background-color: #538FFF;
+	background-color: #538fff;
 }
 input:focus + .menu__right__darktheme__slider {
-  box-shadow: 0 0 1px #538FFF;
+	box-shadow: 0 0 1px #538fff;
 }
 input:checked + .menu__right__darktheme__slider:before {
-  -webkit-transform: translateX(17px);
-  -ms-transform: translateX(17px);
-  transform: translateX(17px);
+	-webkit-transform: translateX(17px);
+	-ms-transform: translateX(17px);
+	transform: translateX(17px);
 }
 
 .menu__right__search {

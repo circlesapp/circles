@@ -261,13 +261,11 @@ export default Vue.extend({
 						color: this.colors[this.colorIndex],
 						content
 					});
-					console.log(this.calendars);
 				}
 				this.colorIndex = (this.colorIndex + 1) % 3;
 			}
 		},
 		createSc() {
-			console.log(this.start.toLocaleString(), this.end.toLocaleString());
 			this.$store
 				.dispatch("CALENDAR", {
 					content: this.content,
@@ -275,6 +273,7 @@ export default Vue.extend({
 					end: this.end
 				})
 				.then(calendar => {
+					this.isCreatePopup = false;
 					this.reload();
 				})
 				.catch(err => console.log(err));

@@ -16,6 +16,7 @@ import ApplicantMain from "./views/Page/Applicant/Applicant.vue";
 import Application from "./views/Page/Applicant/Application.vue";
 import Recorder from "./views/Page/Applicant/Recorder.vue";
 import Result from "./views/Page/Applicant/Result.vue";
+import Editor from "./views/Community/Editor.vue";
 import Calendar from "./views/Community/Calendar.vue";
 import CommunityMembers from "./views/Community/Members.vue";
 import CommunityApplication from "./views/Community/Application.vue";
@@ -79,6 +80,7 @@ export default new Router({
 			name: "community",
 			component: Community,
 			children: [
+				{ path: "editor", name: "community/editor", component: Editor },
 				{ path: "calendar", name: "community/calendar", component: Calendar },
 				{ path: "members", name: "community/members", component: CommunityMembers },
 				{ path: "application", name: "community/application", component: CommunityApplication }

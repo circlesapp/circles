@@ -1,6 +1,6 @@
 <template>
 	<div class="community">
-		<div class="submenu">
+		<div class="submenu" v-if="$route.name != 'community/editor'">
 			<div class="submenu__list">
 				<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
 				<router-link :to="{name:'community/application'}" class="submenu__list__item">채용관리</router-link>
