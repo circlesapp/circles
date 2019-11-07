@@ -1,12 +1,16 @@
 <template>
 	<div class="community">
-		<div class="submenu" v-if="$route.name != 'community/editor'">
-			<div class="submenu__list">
-				<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
-				<router-link :to="{name:'community/application'}" class="submenu__list__item">채용관리</router-link>
-				<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
+		<transition name="submenuAnimation">
+			<div class="submenu" v-if="$route.name != 'community/editor'">
+				<div class="submenu__list">
+					<router-link :to="{name:'community/editor'}" class="submenu__list__item">에디터</router-link>
+					<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
+					<router-link :to="{name:'community/application'}" class="submenu__list__item">채용관리</router-link>
+					<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
+				</div>
 			</div>
-		</div>
+		</transition>
+
 		<div class="community__content">
 			<transition name="routerfade-animation">
 				<router-view v-if="!isLoading"></router-view>
@@ -63,6 +67,19 @@ export default Vue.extend({
 </script>
 
 <style>
+.submenuAnimation-enter,
+.submenuAnimation-leave-to {
+    height: 0px !important;
+}
+.submenuAnimation-enter-to,
+.submenuAnimation-leave {
+    height: 90px !important;
+}
+.submenuAnimation-enter-active,
+.submenuAnimation-leave-active{
+    transition: 0.5s;
+}
+
 .routerfade-animation-enter-active,
 .routerfade-animation-leave-active {
 	transition: 0.5s;

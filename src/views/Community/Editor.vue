@@ -23,25 +23,29 @@
 					>동아리 소개</div>
 					<div
 						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'InformationLayout')"
+						@dragstart="onStartDrag($event,'MembersLayout')"
 						draggable
 					>멤버 소개</div>
 					<div
 						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'InformationLayout')"
-						draggable
-					>동아리 일정</div>
-					<div
-						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'InformationLayout')"
+						@dragstart="onStartDrag($event,'ApplyButtonLayout')"
 						draggable
 					>지원하기 버튼</div>
 				</div>
 			</div>
 		</div>
-		<div class="editor__content" @drop="onDrop" @dragover="onDragOver" ref="components">
+		<div
+			class="editor__content"
+			@drop="onDrop"
+			@dragover="onDragOver"
+			@dragleave="onMouseOut"
+			@dragstart="isInContentDrag = true"
+			@mousedown="onClickIndex"
+			ref="components"
+		>
 			<transition-group name="componentGrop" tag="div" class="editor__content__wrapper">
 				<component
+					draggable
 					class="editor__content__component"
 					:class="{'editor__content__component-gap':component.isDragGap}"
 					v-for="(component) in getComponentList"
@@ -57,24 +61,31 @@
 <script lang="ts">
 import Vue from "vue";
 import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
+import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
+import ApplyButtonLayout from "../../components/Editor/Functional/ApplyButtonLayout.vue";
+
 export default Vue.extend({
 	components: {
-		InformationLayout
+		InformationLayout,
+		MembersLayout,
+		ApplyButtonLayout
 	},
 	data() {
 		return {
 			componentList: [] as any,
 			currentComponent: "",
-			currentPositionY: -1
+			currentSwapIndex: -1,
+			currentPositionY: -1,
+			isInContentDrag: false
 		};
 	},
 	methods: {
-		onDragOver(e: DragEvent) {
-            let components = this.$refs.component as any[];
+		onClickIndex(e: MouseEvent) {
+			let components = this.$refs.component as any[];
 			if (components) {
 				let heightSum = 0;
 				let isBreak = false;
-				for (let i = 0; i < components.length; i++) {
+				for (let i = components.length - 1; i >= 0; i--) {
 					let ele = components[i].$el;
 					heightSum += ele.clientHeight;
 					if (
@@ -83,7 +94,32 @@ export default Vue.extend({
 							(this.$refs.components as HTMLDivElement).scrollTop
 					) {
 						isBreak = true;
-						this.currentPositionY = i;
+						this.currentSwapIndex = components.length - 1 - i;
+						break;
+					}
+				}
+				if (!isBreak) {
+					this.currentSwapIndex = components.length;
+				}
+			} else {
+				this.currentSwapIndex = 0;
+			}
+		},
+		onDragOver(e: DragEvent) {
+			let components = this.$refs.component as any[];
+			if (components) {
+				let heightSum = 0;
+				let isBreak = false;
+				for (let i = components.length - 1; i >= 0; i--) {
+					let ele = components[i].$el;
+					heightSum += ele.clientHeight;
+					if (
+						heightSum >
+						e.clientY +
+							(this.$refs.components as HTMLDivElement).scrollTop
+					) {
+						isBreak = true;
+						this.currentPositionY = components.length - 1 - i;
 						break;
 					}
 				}
@@ -91,7 +127,7 @@ export default Vue.extend({
 					this.currentPositionY = components.length;
 				}
 			} else {
-                this.currentPositionY = 0;
+				this.currentPositionY = 0;
 			}
 			e.preventDefault();
 		},
@@ -100,12 +136,27 @@ export default Vue.extend({
 		},
 		onDrop(e: DragEvent) {
 			e.preventDefault();
-			this.componentList.splice(this.currentPositionY, 0, {
-				component: this.currentComponent,
-				data: {},
-				isDragGap: false,
-				id: new Date().getTime()
-			});
+			if (!this.isInContentDrag) {
+				this.componentList.splice(this.currentPositionY, 0, {
+					component: this.currentComponent,
+					data: {},
+					isDragGap: false,
+					id: new Date().getTime()
+				});
+				this.currentPositionY = -1;
+			} else {
+				let tmp = this.componentList[this.currentPositionY];
+				this.componentList[this.currentPositionY] = this.componentList[
+					this.currentSwapIndex
+				];
+				this.componentList[this.currentSwapIndex] = tmp;
+
+				this.currentSwapIndex = -1;
+				this.currentPositionY = -1;
+				this.isInContentDrag = false;
+			}
+		},
+		onMouseOut(e: DragEvent) {
 			this.currentPositionY = -1;
 		}
 	},
@@ -143,6 +194,8 @@ export default Vue.extend({
 	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.09);
 
 	overflow-y: auto;
+
+	z-index: 500;
 }
 .editor__menu h1 {
 	font-size: 38px;
@@ -212,36 +265,14 @@ export default Vue.extend({
 	overflow-y: auto;
 	margin-left: 10px;
 }
-.editor__content__wrapper {
-}
 .editor__content__component {
 	transition: 0.5s;
 	position: relative;
+	margin-top: 10px;
 }
-.editor__content__component::before {
-	content: "+";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 0;
 
-	background-color: rgb(81, 142, 255, 0.5);
-
-	transition: 0.5s;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	color: white;
-	font-size: 40px;
-}
 .editor__content__component-gap {
-	margin-top: 100px;
-}
-.editor__content__component-gap::before {
-	height: 100px;
-	top: -100px;
+	box-shadow: 0 2px 20px 0 rgba(99, 99, 99, 0.4);
+	opacity: 0.5;
 }
 </style>
