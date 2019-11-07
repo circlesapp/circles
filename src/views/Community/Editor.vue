@@ -81,20 +81,27 @@ export default Vue.extend({
 	},
 	methods: {
 		onClickIndex(e: MouseEvent) {
+			// FIXME: 드래그 전 후 엘리먼트 비교 에러
 			let components = this.$refs.component as any[];
+			let pointY =
+				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
 			if (components) {
 				let heightSum = 0;
 				let isBreak = false;
-				for (let i = components.length - 1; i >= 0; i--) {
+				for (let i = 0; i < components.length; i++) {
 					let ele = components[i].$el;
+					let nextEle = components[i + 1]
+						? components[i + 1].$el
+						: null;
 					heightSum += ele.clientHeight;
 					if (
-						heightSum >
-						e.clientY +
-							(this.$refs.components as HTMLDivElement).scrollTop
+						heightSum > pointY &&
+						(nextEle
+							? pointY < heightSum + nextEle.clientHeight
+							: true)
 					) {
 						isBreak = true;
-						this.currentSwapIndex = components.length - 1 - i;
+						this.currentSwapIndex = i;
 						break;
 					}
 				}
@@ -106,20 +113,27 @@ export default Vue.extend({
 			}
 		},
 		onDragOver(e: DragEvent) {
+			// FIXME: 드래그 전 후 엘리먼트 비교 에러
 			let components = this.$refs.component as any[];
+			let pointY =
+				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
 			if (components) {
 				let heightSum = 0;
 				let isBreak = false;
-				for (let i = components.length - 1; i >= 0; i--) {
+				for (let i = 0; i < components.length; i++) {
 					let ele = components[i].$el;
+					let nextEle = components[i + 1]
+						? components[i + 1].$el
+						: null;
 					heightSum += ele.clientHeight;
 					if (
-						heightSum >
-						e.clientY +
-							(this.$refs.components as HTMLDivElement).scrollTop
+						heightSum > pointY &&
+						(nextEle
+							? pointY < heightSum + nextEle.clientHeight
+							: true)
 					) {
 						isBreak = true;
-						this.currentPositionY = components.length - 1 - i;
+						this.currentPositionY = i;
 						break;
 					}
 				}
@@ -145,6 +159,7 @@ export default Vue.extend({
 				});
 				this.currentPositionY = -1;
 			} else {
+                console.log(this.currentPositionY,this.currentSwapIndex)
 				let tmp = this.componentList[this.currentPositionY];
 				this.componentList[this.currentPositionY] = this.componentList[
 					this.currentSwapIndex
