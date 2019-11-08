@@ -7,6 +7,6 @@ module.exports = {
 			swSrc: "public/service-worker.js"
 		}
 	},
-	publicPath: "/",
+	//publicPath: "/",
 	outputDir: "docs"
 };
