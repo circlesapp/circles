@@ -34,7 +34,15 @@
 				</div>
 				<div class="register__inputwrapper">
 					<h3>프로필 사진</h3>
-					<input type="file" @change="onChangeFile" />
+					<label class="register__inputwrapper__file">
+						<input type="file" name="img" accept="image/*" @change="onChangeFile" />
+						<div class="circles__createpopup__content__image__button">
+							<i class="mdi mdi-image-plus"></i>
+						</div>
+						<div class="circles__createpopup__content__image__imagenames" v-if="profileImage">
+							<span class="imagename">{{profileImage.name}}</span>
+						</div>
+					</label>
 				</div>
 			</div>
 			<div class="register__error" v-if="errorAlert">
@@ -43,6 +51,7 @@
 			</div>
 			<button class="register__button" @click="register">계정 만들기</button>
 		</div>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
@@ -50,10 +59,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Terms from "../components/Terms.vue";
+import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
 	name: "Register",
 	components: {
-		Terms
+		Terms,
+		LoadingBar
 	},
 	data() {
 		return {
@@ -62,7 +73,8 @@ export default Vue.extend({
 			name: "",
 			profileImage: null as any,
 
-			errorAlert: ""
+			errorAlert: "",
+			isLoading: false
 		};
 	},
 	methods: {
@@ -86,6 +98,7 @@ export default Vue.extend({
 			this.profileImage = e.target.files[0];
 		},
 		register() {
+			this.isLoading = true;
 			this.encodeBase64ImageFile(this.profileImage)
 				.then(img => {
 					this.$store
@@ -101,21 +114,31 @@ export default Vue.extend({
 										img
 									})
 									.then(() => {
+										this.isLoading = false;
+
 										this.$router.push("/login");
 									})
 									.catch(err => {
+										this.isLoading = false;
+
 										this.errorAlert =
 											err.response.data.message;
 									});
 							} else {
+								this.isLoading = false;
+
 								this.$router.push("/login");
 							}
 						})
 						.catch(err => {
+							this.isLoading = false;
+
 							this.errorAlert = err.response.data.message;
 						});
 				})
 				.catch(err => {
+					this.isLoading = false;
+
 					this.errorAlert = err.response.data.message;
 				});
 		}
@@ -228,5 +251,16 @@ export default Vue.extend({
 	color: #dd4433;
 
 	margin: 10px 0;
+}
+.register__inputwrapper__file {
+	display: flex;
+	align-items: center;
+
+	padding: 30px 0;
+	padding-left: 10px;
+	font-size: 24px;
+}
+.register__inputwrapper__file input {
+	display: none;
 }
 </style>
