@@ -68,24 +68,6 @@
 						{{club.name}}
 					</div>
 				</div>
-                <input
-                    @keydown="userInputKeyPress"
-                    v-model="searchClub"
-                    type="text"
-                    class="home__login__profile__selectclub__search"
-                />
-                <div class="home__login__profile__selectclub__list">
-                    <div
-                        class="home__login__profile__selectclub__list__item"
-                        :class="{'home__login__profile__selectclub__list__item-active':idx == targetCurrentIndex,'home__login__profile__selectclub__list__item-current':club._id == getClub._id}"
-                        v-for="(club,idx) in getClubs"
-                        :key="club._id"
-                        @click="selectClub(idx)"
-                    >
-                        <img :src="getImgPath(club.imgPath)" alt />
-                        {{club.name}}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
