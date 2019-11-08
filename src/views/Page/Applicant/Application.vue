@@ -37,7 +37,7 @@
 					<textarea v-model="content" placeholder="자기소개를 입력하세요" />
 				</div>
 				<div class="application__action">
-					<button class="check">검토</button>
+					<button class="save">임시 저장</button>
 					<button class="submit" @click="submit">{{getIsModificationText}}</button>
 				</div>
 			</div>
