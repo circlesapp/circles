@@ -5,7 +5,7 @@
 				<router-link :to="{name:'page/timeline'}" class="submenu__list__item">타임라인</router-link>
 				<router-link :to="{name:'page/awards'}" class="submenu__list__item">수상실적</router-link>
 				<router-link :to="{name:'page/members'}" class="submenu__list__item">부원소개</router-link>
-				<router-link :to="{name:'page/budgets'}" class="submenu__list__item">예산공지</router-link>
+				<router-link :to="{name:'page/budgets'}" class="submenu__list__item">예산공개</router-link>
 				<router-link :to="{name:'page/applicant/main'}" class="submenu__list__item">채용</router-link>
 			</div>
 		</div>
