@@ -1,10 +1,7 @@
 <template>
 	<div class="circles__createpopup">
 		<div class="circles__createpopup__content">
-			<i
-				class="circles__createpopup__content__clear mdi mdi-close"
-				@click="$emit('isUpdated', false)"
-			></i>
+			<i class="circles__createpopup__content__clear mdi mdi-close" @click="$emit('isUpdated', false)"></i>
 			<h3>동아리 만들기</h3>
 			<div class="circles__createpopup__content__inputs">
 				<div class="inputfield">
@@ -12,82 +9,110 @@
 					<input v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
 				</div>
 				<div class="inputfield">
-					<h4>전화번호</h4>
-					<input v-model="tel" class="inputfield__input" type="tel" placeholder="전화번호를 입력하세요" />
-				</div>
-				<div class="inputfield">
-					<h4>이메일</h4>
-					<input v-model="email" class="inputfield__input" type="email" placeholder="이메일을 입력하세요" />
-				</div>
-				<div class="inputfield">
 					<h4>소속학교</h4>
 					<input v-model="school" class="inputfield__input" type="text" placeholder="소속학교를 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
-					<input v-model="info" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
+					<input
+						v-model="introduction"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리 소개를 입력하세요"
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>동아리 로고</h4>
 					<span class="circles__createpopup__content__image">
 						<label>
-							<input type="file" name="img" accept="image/*" @change="onImageChange" />
+							<input type="file" name="img" accept="image/*" @change="onChangeFile" />
 							<div class="circles__createpopup__content__image__button">
 								<i class="mdi mdi-image-plus"></i>
 							</div>
 							<div class="circles__createpopup__content__image__imagenames">
-								<span
-									v-for="(image,idx) in getImages"
-									:key="idx"
-									class="imagename"
-								>{{image.name}}</span>
+								<span class="imagename">{{image.name}}</span>
 							</div>
 						</label>
 					</span>
 				</div>
 			</div>
+            <div class="circles__createpopup__content__error" v-if="errorAlert"><i class="mdi mdi-alert-circle"></i>
+				{{errorAlert}}</div>
 			<div class="circles__createpopup__content__actions">
 				<button class="create" @click="create">만들기</button>
 				<button class="cancel" @click="$emit('isUpdated', false)">취소</button>
 			</div>
 		</div>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import LoadingBar from "./LoadingBar.vue";
 export default Vue.extend({
+	components: {
+		LoadingBar
+	},
 	data() {
 		return {
-			item: "",
-			size: "",
-			price: 0,
-			quantity: 0,
-			shopping: 0,
-			url: "",
-			date: null
+			name: "",
+			school: "",
+			introduction: "",
+			image: {} as any,
+
+            isLoading: false,
+            errorAlert : ""
 		};
 	},
 	created() {},
 	methods: {
+		encodeBase64ImageFile(image: File): Promise<string> {
+			return new Promise<string>((resolve, reject) => {
+				try {
+					if (!image) return resolve("");
+					let reader = new FileReader();
+					reader.readAsDataURL(image);
+					reader.onload = (event: any) => {
+						resolve(event.target.result);
+					};
+					reader.onerror = error => {
+						reject(error);
+					};
+				} catch (e) {
+					resolve("");
+				}
+			});
+		},
+		onChangeFile(e: any) {
+			this.image = e.target.files[0];
+		},
 		create() {
-			this.$store
-				.dispatch("circles", {
-					item: this.item,
-					size: this.size,
-					price: this.price,
-					quantity: this.quantity,
-					shopping: this.shopping,
-					url: this.url,
-					date: this.date
-				})
-				.then(award => {
-					this.$emit("isUpdated", false);
-				})
-				.catch(err => {});
+			this.isLoading = true;
+			this.encodeBase64ImageFile(this.image).then(img => {
+				this.$store
+					.dispatch("CLUB_CREATE", {
+						name: this.name,
+						school: this.school,
+						introduction: this.introduction,
+						img: img ? img : undefined
+					})
+					.then(club => {
+						this.isLoading = false;
+						this.$emit("isUpdated", false);
+					})
+					.catch(err => {
+						this.isLoading = false;
+						this.errorAlert = err.response.data.message
+					});
+			});
 		}
 	},
-	computed: {}
+	computed: {
+		getImages() {
+			return;
+		}
+	}
 });
 </script>
 
@@ -172,41 +197,42 @@ export default Vue.extend({
 }
 
 .circles__createpopup__content__image label {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
+	padding: 4px;
 }
 .circles__createpopup__content__image__button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
 
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    transition: 0.2s;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	transition: 0.2s;
 }
 .circles__createpopup__content__image__button i {
-    font-size: 20px;
+	font-size: 30px;
 }
 .circles__createpopup__content__image__button:hover {
-    background: rgba(0, 0, 0, 0.15);
+	background: rgba(0, 0, 0, 0.15);
 }
 .circles__createpopup__content__image input {
-    display: none;
+	display: none;
 }
 .circles__createpopup__content__image .imagename {
-    font-size: 14px;
-    position: relative;
-    top: -1px;
+	font-size: 24px;
+	margin-left: 10px;
+	position: relative;
+	top: -1px;
 }
 .circles__createpopup__content__image_imagenames {
-    text-overflow: ellipsis;
-    max-width: 30vw;
-    overflow: hidden;
-    white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 30vw;
+	overflow: hidden;
+	white-space: nowrap;
 }
-
 
 .circles__createpopup__content__actions {
 	display: flex;
@@ -254,5 +280,12 @@ export default Vue.extend({
 	font-size: 0.7em;
 	padding: 5px;
 	padding-right: 10px;
+}
+
+.circles__createpopup__content__error{
+    text-align: center;
+    color: #dd4433;
+
+    margin: 10px 0;
 }
 </style>

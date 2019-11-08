@@ -516,6 +516,22 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
+        },
+        CLUB_CREATE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/create`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(club => {
+						resolve(club.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
 		}
 	}
 });

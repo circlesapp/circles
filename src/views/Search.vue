@@ -114,7 +114,7 @@ export default Vue.extend({
 	font-weight: 300;
 
 	max-width: 1000px;
-	padding: 20px;
+	padding: 10px;
 	border-radius: 100px;
 
 	background-color: white;
