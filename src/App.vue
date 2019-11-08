@@ -64,10 +64,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="menu__right__list">
+								<div class="menu__right__list" v-if="getRank !== '-' && isAdmin">
 									<router-link
 										class="menu__right__list__link"
-										v-if="getClub.name"
+										v-if="getRank !== '-'"
 										:to="`/${getClub.name}/page/timeline`"
 									>
 										<div class="menu__right__list__item">
@@ -76,9 +76,9 @@
 										</div>
 									</router-link>
 									<router-link
+										class="menu__right__list__link"
 										v-if="isAdmin"
 										:to="`/${getClub.name}/community/members`"
-										class="menu__right__list__link"
 									>
 										<div class="menu__right__list__item">
 											<i class="mdi mdi-shield-star"></i>

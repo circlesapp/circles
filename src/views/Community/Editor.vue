@@ -4,7 +4,7 @@
 			<h1>
 				circles
 				<span>editor.</span>
-				<span class="betaspan">(BETA)</span>
+				<sup><i class="mdi mdi-beta"></i></sup>
 			</h1>
 			<div class="inputfield">
 				<h2>제목</h2>
@@ -268,9 +268,8 @@ export default Vue.extend({
 	font-family: AvenirBlack;
 	font-weight: 800;
 }
-.betaspan {
-	margin-left: 10px;
-	font-size: 0.3em;
+.editor__menu i {
+	font-size: 20px;
 }
 .editor__menu .inputfield {
 	margin-top: 30px;
