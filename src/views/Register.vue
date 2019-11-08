@@ -20,15 +20,21 @@
 					<input type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" />
 				</div>
 			</div>
-			<div class="register__inputwrapper">
-				<h3>비밀번호</h3>
-				<input
-					type="password"
-					name="password"
-					placeholder="비밀번호를 입력하세요."
-					@keypress="enterPress"
-					v-model="password"
-				/>
+			<div class="register__rowwrapper">
+				<div class="register__inputwrapper">
+					<h3>비밀번호</h3>
+					<input
+						type="password"
+						name="password"
+						placeholder="비밀번호를 입력하세요."
+						@keypress="enterPress"
+						v-model="password"
+					/>
+				</div>
+				<div class="register__inputwrapper">
+					<h3>프로필 사진</h3>
+					<input type="file" @change="onChangeFile" />
+				</div>
 			</div>
 			<button class="register__button" @click="register">계정 만들기</button>
 		</div>
@@ -40,7 +46,7 @@
 import Vue from "vue";
 import Terms from "../components/Terms.vue";
 export default Vue.extend({
-    name : "Register",
+	name: "Register",
 	components: {
 		Terms
 	},
@@ -48,22 +54,58 @@ export default Vue.extend({
 		return {
 			email: "",
 			password: "",
-			name: ""
+			name: "",
+			profileImage: null as any
 		};
 	},
 	methods: {
 		enterPress(e: any) {
 			if (e.keyCode == 13) this.register();
 		},
+		encodeBase64ImageFile(image: File): Promise<string> {
+			return new Promise<string>((resolve, reject) => {
+                if(!image) resolve("")
+				let reader = new FileReader();
+				reader.readAsDataURL(image);
+				reader.onload = (event: any) => {
+					resolve(event.target.result);
+				};
+				reader.onerror = error => {
+					reject(error);
+				};
+			});
+		},
+		onChangeFile(e: any) {
+			this.profileImage = e.target.files[0];
+		},
 		register() {
-			this.$store
-				.dispatch("REGISTER", {
-					email: this.email,
-					password: this.password,
-					name: this.name
-				})
-				.then(token => {
-					this.$router.push("/login");
+			this.encodeBase64ImageFile(this.profileImage)
+				.then(img => {
+					this.$store
+						.dispatch("REGISTER", {
+							email: this.email,
+							password: this.password,
+							name: this.name
+						})
+						.then(token => {
+							if (img) {
+								this.$store
+									.dispatch("SET_PROFILE_IMAGE", {
+										img
+									})
+									.then(() => {
+										this.$router.push("/login");
+									})
+									.catch(err => {
+										console.log(err.data);
+									});
+							} else {
+								this.$router.push("/login");
+							}
+						})
+						.catch(err => {
+							console.log(err);
+						});
 				})
 				.catch(err => {
 					console.log(err);
@@ -161,7 +203,7 @@ export default Vue.extend({
 
 .register__button {
 	width: 30%;
-    min-width: 300px;
+	min-width: 300px;
 	margin: 5% auto;
 	padding: 5px;
 

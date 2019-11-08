@@ -9,8 +9,8 @@ export default new Vuex.Store({
 		userToken: ``,
 		userInformation: {},
 		club: {} as any,
-        // mainPath : "http://localhost:3000/"
-        mainPath: `https://circlesapp.kr/api/`
+		// mainPath : "http://localhost:3000/"
+		mainPath: `https://circlesapp.kr/api/`
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -43,6 +43,22 @@ export default new Vuex.Store({
 					.post(`${state.mainPath}auth/register`, data)
 					.then(user => {
 						commit(`setUserToken`, user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		SET_PROFILE_IMAGE({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/changeProfileImage`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
 						resolve(user.data.data);
 					})
 					.catch(err => {
