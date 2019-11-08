@@ -184,11 +184,13 @@ export default Vue.extend({
 
     border: none;
 	border-radius: 50%;
-	/* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); */
 	background-color: white;
 	color: rgb(46, 46, 46);
 
     cursor: pointer;
+	-webkit-transition: 0.2s;
+	-moz-transition: 0.2s;
+	-o-transition: 0.2s;
 	transition: 0.2s;
 }
 .award__createpopup__content__clear:hover {
@@ -293,13 +295,6 @@ export default Vue.extend({
 	cursor: pointer;
 	transition: 0.2s;
 }
-.award__createpopup__content__actions .cancel {
-	color: #9cb2cd;
-}
-.award__createpopup__content__actions .cancel:hover {
-	text-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
-	color: #9cb2cd;
-}
 .award__createpopup__content__actions .create {
 	padding: 10px 40px;
 	background-color: #538fff;
@@ -309,7 +304,6 @@ export default Vue.extend({
 .award__createpopup__content__actions .create:hover {
 	background-color: #538fffde;
 	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.27);
-	color: #eeeeee;
 }
 
 .inputfield__input__member {
