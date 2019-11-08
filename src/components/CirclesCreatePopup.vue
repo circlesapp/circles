@@ -24,22 +24,18 @@
 					<input v-model="school" class="inputfield__input" type="text" placeholder="소속학교를 입력하세요" />
 				</div>
 				<div class="inputfield">
-					<h4>circles. 주소</h4>
-					<input v-model="url" class="inputfield__input" type="text" placeholder="circles. 주소를 입력하세요" />
-				</div>
-				<div class="inputfield">
 					<h4>동아리 소개</h4>
 					<input v-model="info" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>동아리 로고</h4>
-					<span class="circles__createpopup__content__upload">
+					<span class="circles__createpopup__content__image">
 						<label>
 							<input type="file" name="img" accept="image/*" @change="onImageChange" />
-							<div class="post__modifaction__image__button">
-								<i class="mdi mdi-image"></i>
+							<div class="circles__createpopup__content__image__button">
+								<i class="mdi mdi-image-plus"></i>
 							</div>
-							<div class="post__modification__image__imagenames">
+							<div class="circles__createpopup__content__image__imagenames">
 								<span
 									v-for="(image,idx) in getImages"
 									:key="idx"
@@ -174,6 +170,44 @@ export default Vue.extend({
 .circles__createpopup__content .inputfield input::placeholder {
 	color: #999999;
 }
+
+.circles__createpopup__content__image label {
+    display: flex;
+    align-items: center;
+}
+.circles__createpopup__content__image__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.circles__createpopup__content__image__button i {
+    font-size: 20px;
+}
+.circles__createpopup__content__image__button:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+.circles__createpopup__content__image input {
+    display: none;
+}
+.circles__createpopup__content__image .imagename {
+    font-size: 14px;
+    position: relative;
+    top: -1px;
+}
+.circles__createpopup__content__image_imagenames {
+    text-overflow: ellipsis;
+    max-width: 30vw;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
 .circles__createpopup__content__actions {
 	display: flex;
 	justify-content: center;
