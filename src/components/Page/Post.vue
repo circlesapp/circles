@@ -63,7 +63,7 @@
 					</label>
 				</span>
 				<div>
-					<span style="color:#e02020; margin-right:20px;" @click="modifPost">취소</span>
+					<span style="color:#e02020; margin-right:20px;" v-if="!isCreate" @click="modifPost">취소</span>
 					<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
 				</div>
 			</div>
@@ -396,10 +396,12 @@ export default Vue.extend({
 	right: 30px;
 	top: 60px;
 	background-color: white;
-	border-radius: 4px;
+	padding: 8px 0;
+	border-radius: 10px;
 	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
 	font-family: "NanumSquareB";
 	font-size: 15px;
+	border-radius: 10px;
 }
 .post__option i {
 	font-size: 30px;
@@ -407,10 +409,18 @@ export default Vue.extend({
 .post__option p {
 	cursor: pointer;
 	width: 160px;
-	margin: 20px;
 	display: flex;
+	padding: 0 16px;
 	justify-content: space-between;
 	align-items: center;
+	cursor: pointer;
+	-webkit-transition: 0.3s;
+	-moz-transition: 0.3s;
+	-o-transition: 0.3s;
+	transition: 0.3s;
+}
+.post__option p:hover {
+	background: rgba(0, 0, 0, 0.08);
 }
 .post__option .delete {
 	color: #e02020;
