@@ -443,4 +443,14 @@ export default Vue.extend({
 	background:rgba(245, 82, 70, 0.9);
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
+@media screen and (max-width: 768px) {
+	.overflow__btn__logout {
+		display: none;
+	}
+}
+@media all and (display-mode: standalone) {
+	.overflow__btn__logout {
+		display: flex;
+	}
+}
 </style>
