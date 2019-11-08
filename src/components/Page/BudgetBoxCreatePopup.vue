@@ -1,10 +1,9 @@
 <template>
 	<div class="budget__createpopup">
 		<div class="budget__createpopup__content">
-			<i
-				class="budget__createpopup__content__clear mdi mdi-close"
-				@click="$emit('isUpdated', false)"
-			></i>
+			<button class="budget__createpopup__content__clear" @click="$emit('isUpdated', false)">
+				<i class="mdi mdi-close"></i>
+			</button>
 			<h3>예산 집행 내역 등록</h3>
 			<div class="budget__createpopup__content__inputs">
 				<div class="inputfield">
@@ -38,7 +37,6 @@
 			</div>
 			<div class="budget__createpopup__content__actions">
 				<button class="create" @click="create">등록</button>
-				<button class="cancel" @click="$emit('isUpdated', false)">취소</button>
 			</div>
 		</div>
 	</div>
@@ -103,13 +101,34 @@ export default Vue.extend({
 
 	z-index: 2000;
 }
+
 .budget__createpopup__content__clear {
 	position: absolute;
-	right: 40px;
 	top: 40px;
-	font-size: 32px;
+	right: 40px;
+	width: 42px;
+	height: 42px;
 
-	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 30px;
+
+    border: none;
+	border-radius: 50%;
+	background-color: white;
+	color: rgb(46, 46, 46);
+
+    cursor: pointer;
+	-webkit-transition: 0.2s;
+	-moz-transition: 0.2s;
+	-o-transition: 0.2s;
+	transition: 0.2s;
+}
+.budget__createpopup__content__clear:hover {
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+	background-color: white;
 }
 .budget__createpopup__content {
 	background-color: white;
@@ -162,26 +181,29 @@ export default Vue.extend({
 }
 .budget__createpopup__content__actions {
 	display: flex;
-	justify-content: center;
+	justify-content: end;
+	align-items: flex-end;
 	margin-top: 20px;
 }
-.budget__createpopup__content__actions * {
-	flex: 1;
+.budget__createpopup__content__actions button {
 	border-radius: 31.5px;
 	border: none;
 	background: none;
 	font-size: 24px;
-	padding: 10px;
 	margin: 10px;
+
 	cursor: pointer;
+	transition: 0.2s;
 }
 .budget__createpopup__content__actions .create {
+	padding: 10px 40px;
 	background-color: #538fff;
-	color: white;
+	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
+	color: #eeeeee;
 }
-.budget__createpopup__content__actions .cancel {
-	border: 1px solid #eeeeee;
-	color: #9cb2cd;
+.budget__createpopup__content__actions .create:hover {
+	background-color: #538fffde;
+	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.27);
 }
 
 .inputfield__input__member {
