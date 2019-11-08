@@ -37,7 +37,7 @@
 					<textarea v-model="content" placeholder="자기소개를 입력하세요" />
 				</div>
 				<div class="application__action">
-					<button class="save">임시 저장</button>
+					<button class="save" @click="save" v-if="isModification">임시 저장</button>
 					<button class="submit" @click="submit">{{getIsModificationText}}</button>
 				</div>
 			</div>
@@ -72,17 +72,7 @@ export default Vue.extend({
 			this.$router.back();
 		}
 		if (this.getUserToken) {
-			this.$store
-				.dispatch("GET_MY_APPLICANT")
-				.then(applicant => {
-					this.isModification = true;
-					this.name = applicant.name;
-					this.email = applicant.email;
-					this.number = applicant.number;
-					this.phone = applicant.phone;
-					this.content = applicant.content;
-				})
-				.catch(err => {});
+			this.reload();
 		}
 	},
 	watch: {
@@ -93,6 +83,12 @@ export default Vue.extend({
 			if (this.getUserInformation.email) {
 				this.email = this.getUserInformation.email;
 			}
+			this.reload();
+		}
+	},
+	methods: {
+		reload() {
+			this.isLoading = true;
 			this.$store
 				.dispatch("GET_MY_APPLICANT")
 				.then(applicant => {
@@ -102,11 +98,31 @@ export default Vue.extend({
 					this.number = applicant.number;
 					this.phone = applicant.phone;
 					this.content = applicant.content;
+					this.isLoading = false;
 				})
-				.catch(err => {});
-		}
-	},
-	methods: {
+				.catch(err => {
+					this.isLoading = false;
+                });
+		},
+		save() {
+			this.isLoading = true;
+			this.$store
+				.dispatch("APPLICANT_MODIFICATION", {
+					name: this.name,
+					email: this.email,
+					number: this.number,
+					phone: this.phone,
+					content: this.content
+				})
+				.then(data => {
+					this.isLoading = false;
+					this.reload();
+				})
+				.catch(err => {
+					this.isLoading = false;
+					console.log(err);
+				});
+		},
 		submit() {
 			this.isLoading = true;
 			if (this.isModification) {
@@ -119,8 +135,8 @@ export default Vue.extend({
 						content: this.content
 					})
 					.then(data => {
-						this.isLoading = false;
-						console.log(data);
+                        this.isLoading = false;
+                        this.$router.back()
 					})
 					.catch(err => {
 						this.isLoading = false;
@@ -137,7 +153,7 @@ export default Vue.extend({
 					})
 					.then(data => {
 						this.isLoading = false;
-						console.log(data);
+						this.reload();
 					})
 					.catch(err => {
 						this.isLoading = false;
