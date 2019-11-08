@@ -92,7 +92,7 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.componentList = this.getClub.page;
+		this.componentList = this.getClub.page || [];
 	},
 	methods: {
 		onClickIndex(e: MouseEvent) {
@@ -365,7 +365,7 @@ export default Vue.extend({
 	position: relative;
 	margin-top: 10px;
 
-    width: 100%;
+	width: 100%;
 }
 
 .editor__content__component-gap {

@@ -1,1 +1,9 @@
-// TODO: 동아리 홍보 페이지를 띄워야 함
+<template></template>
+
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({});
+</script>
+
+<style>
+</style>
