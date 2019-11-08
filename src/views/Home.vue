@@ -46,7 +46,7 @@
 			>
 				<div class="home__login__profile__selectclub__header">
 					<h2>가입한 동아리</h2>
-					<button>
+					<button @click="isShowCirclesCreatePopup=true">
 						<i class="mdi mdi-plus"></i>
 					</button>
 				</div>
@@ -70,16 +70,22 @@
 				</div>
             </div>
         </div>
+		<CirclesCreatePopup v-if="isShowCirclesCreatePopup" @isUpdated="reload" />
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import CirclesCreatePopup from "../components/CirclesCreatePopup.vue";
 export default Vue.extend({
     name: "Home",
+    components: {
+        CirclesCreatePopup
+    },
     data() {
         return {
             searchClub: "",
+			isShowCirclesCreatePopup: false,
             targetCurrentIndex: 0
         };
     },
@@ -234,8 +240,6 @@ export default Vue.extend({
     font-size: 30px;
 }
 .home__login__profile img {
-    cursor: pointer;
-
     width: 120px;
     height: 120px;
 
