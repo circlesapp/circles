@@ -1,6 +1,6 @@
 <template>
 	<div class="communityMembers">
-		<div class="communityMembers__title">부원관리</div>
+		<div class="communityMembers__title">멤버관리</div>
 		<div class="communityMembers__wrapper">
 			<table class="communityMembers__memberTable">
 				<thead>
