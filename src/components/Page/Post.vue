@@ -114,7 +114,7 @@
                         class="post__comments__list__item__remove"
                         @click="removeComment(comment._id)"
                     >
-                        <i class="mdi mdi-close mdi-large"></i>
+                        <i class="mdi mdi-close"></i>
                     </div>
                 </div>
             </div>
