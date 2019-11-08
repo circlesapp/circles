@@ -281,7 +281,7 @@ export default Vue.extend({
 }
 .award__createpopup__content__actions {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 	align-items: flex-end;
 	margin-top: 20px;
 }
