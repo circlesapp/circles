@@ -13,17 +13,18 @@
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
 					<h3>이름</h3>
-					<input type="text" name="name" placeholder="이름을 입력하세요." v-model="name" />
+					<input type="text" name="name" placeholder="이름을 입력하세요." v-model="name" required />
 				</div>
 				<div class="register__inputwrapper" style="margin-left:20px;">
 					<h3>이메일</h3>
-					<input type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" />
+					<input type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" required />
 				</div>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
 					<h3>비밀번호</h3>
 					<input
+						required
 						type="password"
 						name="password"
 						placeholder="비밀번호를 입력하세요."
@@ -35,6 +36,10 @@
 					<h3>프로필 사진</h3>
 					<input type="file" @change="onChangeFile" />
 				</div>
+			</div>
+			<div class="register__error" v-if="errorAlert">
+				<i class="mdi mdi-alert-circle"></i>
+				{{errorAlert}}
 			</div>
 			<button class="register__button" @click="register">계정 만들기</button>
 		</div>
@@ -55,7 +60,9 @@ export default Vue.extend({
 			email: "",
 			password: "",
 			name: "",
-			profileImage: null as any
+			profileImage: null as any,
+
+			errorAlert: ""
 		};
 	},
 	methods: {
@@ -64,7 +71,7 @@ export default Vue.extend({
 		},
 		encodeBase64ImageFile(image: File): Promise<string> {
 			return new Promise<string>((resolve, reject) => {
-                if(!image) resolve("")
+				if (!image) return resolve("");
 				let reader = new FileReader();
 				reader.readAsDataURL(image);
 				reader.onload = (event: any) => {
@@ -97,18 +104,19 @@ export default Vue.extend({
 										this.$router.push("/login");
 									})
 									.catch(err => {
-										console.log(err.data);
+										this.errorAlert =
+											err.response.data.message;
 									});
 							} else {
 								this.$router.push("/login");
 							}
 						})
 						.catch(err => {
-							console.log(err);
+							this.errorAlert = err.response.data.message;
 						});
 				})
 				.catch(err => {
-					console.log(err);
+					this.errorAlert = err.response.data.message;
 				});
 		}
 	}
@@ -213,5 +221,12 @@ export default Vue.extend({
 	color: white;
 	font-size: 30px;
 	font-family: "NanumSquareL";
+}
+
+.register__error {
+	text-align: center;
+	color: #dd4433;
+
+	margin: 10px 0;
 }
 </style>
