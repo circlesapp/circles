@@ -20,7 +20,7 @@
                 <span
                     v-if="data.imgPath.length"
                 >사진 {{data.imgPath.length}}장을 업로드했습니다.</span>
-                <span>글을 업로드했습니다.</span>
+                <span v-else>글을 업로드했습니다.</span>
                 <br />
                 <span class="moment">{{data.timeString}}</span>
             </p>
