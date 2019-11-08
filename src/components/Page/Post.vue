@@ -55,7 +55,7 @@
             <div class="post__modifaction__wrapper">
                 <span class="post__modifaction__image">
                     <label>
-                        <input type="file" name="img" multiple @change="onImageChange" />
+                        <input type="file" name="img" accept="image/*" multiple @change="onImageChange" />
                         <div class="post__modifaction__image__button">
                             <i class="mdi mdi-image"></i>
                         </div>
