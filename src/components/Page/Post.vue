@@ -112,6 +112,7 @@
                     <p>{{comment.message}}</p>
                     <div
                         class="post__comments__list__item__remove"
+                        v-if="checkOwner(comment.owner)"
                         @click="removeComment(comment._id)"
                     >
                         <i class="mdi mdi-close"></i>
@@ -312,6 +313,9 @@ export default Vue.extend({
                 buffer.push(this.encodeBase64ImageFile(image));
             });
             return Promise.all(buffer);
+        },
+        checkOwner(owner: any): boolean {
+            return this.getUserInformation._id == owner._id;
         }
     },
     computed: {
