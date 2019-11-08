@@ -47,6 +47,16 @@
 							@click="showPWA"
 							v-if="deferredPrompt"
 						>앱 설치</div>
+						<router-link
+							v-if="!getUserInformation.name"
+							to="/login"
+							class="menu__left__list__item btn__login menu__left__list__item__pwa"
+						>로그인</router-link>
+						<div
+							v-if="getUserInformation.name"
+							class="menu__left__list__item btn__logout menu__left__list__item__pwa"
+							@click="logout"
+						>로그아웃</div>
 						<div class="menu__left__list__bar" ref="bar" :style="`left:${barPositionX}`"></div>
 					</nav>
 				</header>
@@ -492,6 +502,12 @@ i {
 	font-weight: 800;
 	color: white;
 	text-decoration: none;
+}
+.menu__left__list .btn__login {
+	color: #538fff;
+}
+.menu__left__list .btn__logout {
+	color: #dd4433;
 }
 .menu__left__list__bar {
 	position: absolute;
