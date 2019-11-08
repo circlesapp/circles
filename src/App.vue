@@ -47,7 +47,7 @@
 							@click="showPWA"
 							v-if="deferredPrompt"
 						>앱 설치</div>
-						<div class="menu__left__list__bar" ref="bar"></div>
+						<div class="menu__left__list__bar" ref="bar" :style="`left:${barPositionX}`"></div>
 					</nav>
 				</header>
 				<transition name="fade">
@@ -143,7 +143,8 @@ export default Vue.extend({
 			isMounteRequired: false,
 			idx: 0,
 
-			darkTheme: false
+            darkTheme: false,
+            barPositionX : ""
 		};
 	},
 	created() {
@@ -187,19 +188,17 @@ export default Vue.extend({
 			this.idx = ["home", "page", "community"].indexOf(
 				next.name.split("/")[0]
 			);
-			this.isMounteRequired = true;
 			if (this.idx != -1) {
 				if (this.$refs.bar as HTMLDivElement) {
 					this.setBarPosition();
 				}
 			}
-		}
+        },
 	},
 	methods: {
 		setBarPosition() {
-			if (this.isShowMenuRoute)
-				(this.$refs.bar as HTMLDivElement).style.left =
-					120 * this.idx + "px";
+            if (this.isShowMenuRoute)
+                this.barPositionX = 120 * this.idx + "px";
 		},
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
@@ -235,6 +234,9 @@ export default Vue.extend({
 		}
 	},
 	computed: {
+        getBar(){
+            return this.$refs.bar
+        },
 		getUserInformation() {
 			return this.$store.state.userInformation;
 		},
