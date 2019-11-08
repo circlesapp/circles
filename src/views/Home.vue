@@ -70,6 +70,9 @@
 				</div>
 			</div>
 		</div>
+		<button class="overflow__btn__logout" v-if="getUserInformation.name" @click="logout">
+			<i class="mdi mdi-logout-variant"></i>
+		</button>
 		<CirclesCreatePopup v-if="isShowCirclesCreatePopup" @isUpdated="reload" />
 	</div>
 </template>
@@ -129,6 +132,12 @@ export default Vue.extend({
 				.catch(err => {
 					this.$router.push("/");
 				});
+		},
+		logout() {
+			localStorage.removeItem("clubs.loginToken");
+			this.$store.state.userToken = "";
+			this.$store.state.userInformation = {};
+			this.$router.replace("/");
 		}
 	},
 	computed: {
@@ -406,5 +415,32 @@ export default Vue.extend({
 	.home__login__list__applicant-disable {
 		display: none;
 	}
+}
+.overflow__btn__logout {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	width: 46px;
+	height: 46px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	border: none;
+	border-radius: 50%;
+
+	font-size: 20px;
+	background:#F55246;
+	color: white;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+
+	transition: 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+	cursor: pointer;
+	z-index: 1999;
+}
+.overflow__btn__logout:hover {
+	background:rgba(245, 82, 70, 0.9);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 </style>
