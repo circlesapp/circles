@@ -6,6 +6,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
 import Page from "./views/Page.vue";
+import Site from "./views/Site.vue";
 import Community from "./views/Community.vue";
 import Timeline from "./views/Page/Timeline.vue";
 import Awards from "./views/Page/Awards.vue";
@@ -52,6 +53,11 @@ export default new Router({
 			path: "/passwordchange",
 			name: "passwordchange",
 			component: PasswordChange
+		},
+		{
+			path: "/:club",
+			name: "site",
+			component: Site
 		},
 		{
 			path: "/:club/page",

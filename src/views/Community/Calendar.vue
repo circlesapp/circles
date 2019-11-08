@@ -12,6 +12,7 @@
 			@touchstart="onClick"
 			@touchmove="onClickDrag"
 			@touchend="onClickUp"
+			@contextmenu="$event.preventDefault()"
 			ref="calendar"
 		>
 			<div class="calendar__content__create" v-if="isCreatePopup" ref="createPopup">
@@ -20,6 +21,7 @@
 			</div>
 			<div
 				class="calendar__content__day"
+                :class="{'calendar__content__day-isLoading':isLoading}"
 				v-for="(day,idx) in getDays"
 				:key="idx"
 				ref="calendarItem"
@@ -74,6 +76,7 @@ export default Vue.extend({
 			colors: ["#ff4475", "#538fff", "#ff9a01"],
 
 			isCreatePopup: false,
+			isLoading: false,
 
 			content: "",
 			start: new Date() as Date,
@@ -98,7 +101,9 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
+			this.isLoading = true;
 			this.$store.dispatch("GET_CLUB_CALENDAR").then(calendars => {
+				this.isLoading = false;
 				this.lineData = [];
 				this.tmpLineData = [];
 				calendars.forEach((calendar: any) => {
@@ -270,6 +275,7 @@ export default Vue.extend({
 			}
 		},
 		createSc() {
+			this.isLoading = true;
 			this.$store
 				.dispatch("CALENDAR", {
 					content: this.content,
@@ -277,6 +283,7 @@ export default Vue.extend({
 					end: this.end
 				})
 				.then(calendar => {
+					this.isLoading = false;
 					this.isCreatePopup = false;
 					this.content = "";
 					this.reload();
@@ -284,11 +291,13 @@ export default Vue.extend({
 				.catch(err => console.log(err));
 		},
 		removeCalendar(id: any) {
+			this.isLoading = true;
 			this.$store
 				.dispatch("CALENDAR_DELETE", {
 					_id: id
 				})
 				.then(calendar => {
+					this.isLoading = false;
 					this.reload();
 				})
 				.catch(err => console.log(err));
@@ -334,6 +343,7 @@ export default Vue.extend({
 	font-size: 30px;
 }
 .calendar__content {
+	background-color: white;
 	flex: 1;
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
@@ -346,7 +356,6 @@ export default Vue.extend({
 .calendar__content__day {
 	position: relative;
 
-	background-color: white;
 	border: solid 1px #e6e5e6;
 	text-align: right;
 
@@ -359,8 +368,6 @@ export default Vue.extend({
 	display: inline-block;
 	padding: 10px;
 	margin-right: 10px;
-
-	z-index: 50;
 }
 .calendar__content__day-today {
 	margin-top: 10px;
@@ -385,16 +392,21 @@ export default Vue.extend({
 
 	transition: 0.5s;
 
-	z-index: 10;
-
 	text-align: right;
 	color: white;
 	font-size: 14px;
 	padding-right: 5px;
+	z-index: 1;
+
+	cursor: pointer;
 }
 .calendar__content__day__bar-create {
 	background-color: #1ed400;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+	z-index: 0;
+}
+.calendar__content__day-isLoading{
+    cursor: wait;
 }
 .calendar__content__create {
 	position: absolute;
@@ -406,13 +418,13 @@ export default Vue.extend({
 
 	background-color: white;
 
-	z-index: 100;
-
 	transition: 0.5s;
 
 	overflow: hidden;
 
 	white-space: nowrap;
+
+	z-index: 10;
 }
 .calendar__content__create input {
 	border: none;

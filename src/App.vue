@@ -36,6 +36,12 @@
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
+						<router-link
+							v-if="getClub.name"
+							:to="`/${getClub.name}`"
+							class="menu__left__list__item"
+							:class="{'menu__left__list__item-active':idx == 3}"
+						>사이트</router-link>
 						<div
 							class="menu__left__list__item menu__left__list__item__pwa"
 							@click="showPWA"
@@ -141,15 +147,15 @@ export default Vue.extend({
 		};
 	},
 	created() {
-        this.loginCheck();
+		this.loginCheck();
 	},
 	mounted() {
 		let route: any = this.$route;
 		this.idx = ["home", "page", "community"].indexOf(
 			route.name.split("/")[0]
 		);
-        this.setBarPosition();
-        
+		this.setBarPosition();
+
 		window.addEventListener("beforeinstallprompt", (e: any) => {
 			e.preventDefault();
 			this.deferredPrompt = e;
@@ -251,7 +257,8 @@ export default Vue.extend({
 					"register",
 					"passwordchange",
 					"page404",
-					"community/editor"
+					"community/editor",
+					"site"
 				].indexOf(this.$route.name || "") == -1
 			);
 		},
