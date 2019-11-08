@@ -95,6 +95,18 @@ export default Vue.extend({
             else
                 return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
         },
+		reload() {
+			this.isShowCirclesCreatePopup = false;
+			// this.$store
+			// 	.dispatch("___")
+			// 	.then(___ => {
+			// 		this.___ = ___.map((data: any) => {
+			// 			console.log(data);
+			// 			return data;
+			// 		});
+			// 	})
+			// 	.catch(err => {});
+		},
         userInputKeyPress(e: any) {
             if (this.targetCurrentIndex >= this.getClubs.length)
                 this.targetCurrentIndex = this.getClubs.length;
