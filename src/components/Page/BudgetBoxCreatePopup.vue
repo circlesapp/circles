@@ -5,7 +5,7 @@
 				class="budget__createpopup__content__clear mdi mdi-close"
 				@click="$emit('isUpdated', false)"
 			></i>
-			<h3>수상 실적 등록</h3>
+			<h3>예산 집행 내역 등록</h3>
 			<div class="budget__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>품목</h4>
