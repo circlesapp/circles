@@ -1,6 +1,6 @@
 <template>
 	<div class="applyButtonLayout">
-		<button>지원하기</button>
+		<button @click="$router.push({name:'page/applicant/main'})">지원하기</button>
 	</div>
 </template>
 
