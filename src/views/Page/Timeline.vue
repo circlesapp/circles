@@ -73,7 +73,7 @@ export default Vue.extend({
 	transition: 0.5s;
 }
 .timeline-leave-active {
-	position: absolute;
+	position: absolute !important;
 }
 .timeline-enter,
 .timeline-leave-to {

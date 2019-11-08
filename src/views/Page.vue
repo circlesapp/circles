@@ -88,7 +88,7 @@ export default Vue.extend({
 }
 .page__content {
 	flex: 1;
-	overflow-y: scroll;
+	overflow-y: auto;
 	position: relative;
 }
 .submenu {
@@ -103,7 +103,7 @@ export default Vue.extend({
 
 	transition: 0.5s;
 	overflow: hidden;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 .submenu__list {
 	height: 100%;

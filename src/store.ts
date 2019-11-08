@@ -9,7 +9,8 @@ export default new Vuex.Store({
 		userToken: ``,
 		userInformation: {},
 		club: {} as any,
-		mainPath: `https://circlesapp.kr/api/`
+        mainPath : "http://localhost:3000/"
+        // mainPath: `https://circlesapp.kr/api/`
 	},
 	mutations: {
 		setUserToken(state, data) {

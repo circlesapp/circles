@@ -129,7 +129,7 @@ export default Vue.extend({
 
 	transition: 0.5s;
 	overflow: hidden;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 .submenu__list {
 	height: 100%;

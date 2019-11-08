@@ -102,7 +102,7 @@ export default Vue.extend({
 	width: 80px;
 	height: auto;
 	max-height: 200px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	border-radius: 4px;
 	border: 1px solid #7293bd;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);

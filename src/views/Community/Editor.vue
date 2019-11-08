@@ -4,6 +4,7 @@
 			<h1>
 				circles
 				<span>editor.</span>
+				<span class="betaspan">(BETA)</span>
 			</h1>
 			<div class="inputfield">
 				<h2>제목</h2>
@@ -33,6 +34,10 @@
 					>지원하기 버튼</div>
 				</div>
 			</div>
+			<div class="editor__menu__action">
+				<button class="exit" @click="$router.push({name:'home'})">나가기</button>
+				<button class="save" @click="commit">저장</button>
+			</div>
 		</div>
 		<div
 			class="editor__content"
@@ -41,6 +46,7 @@
 			@dragleave="onMouseOut"
 			@dragstart="isInContentDrag = true"
 			@mousedown="onClickIndex"
+			@contextmenu="onContextMenu"
 			ref="components"
 		>
 			<transition-group name="componentGrop" tag="div" class="editor__content__wrapper">
@@ -55,17 +61,22 @@
 				>{{component}}</component>
 			</transition-group>
 		</div>
+		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import LoadingBar from "../../components/LoadingBar.vue";
+
 import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
 import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
 import ApplyButtonLayout from "../../components/Editor/Functional/ApplyButtonLayout.vue";
 
 export default Vue.extend({
 	components: {
+		LoadingBar,
+
 		InformationLayout,
 		MembersLayout,
 		ApplyButtonLayout
@@ -74,10 +85,14 @@ export default Vue.extend({
 		return {
 			componentList: [] as any,
 			currentComponent: "",
-			currentSwapIndex: -1,
-			currentPositionY: -1,
-			isInContentDrag: false
+			currentSwapIndex: -1 as number,
+			currentPositionY: -1 as number,
+			isInContentDrag: false,
+			isLoading: false
 		};
+	},
+	created() {
+		this.componentList = this.getClub.page;
 	},
 	methods: {
 		onClickIndex(e: MouseEvent) {
@@ -110,6 +125,10 @@ export default Vue.extend({
 			} else {
 				this.currentSwapIndex = 0;
 			}
+		},
+		onContextMenu(e: Event) {
+			e.preventDefault();
+			this.componentList.splice(this.currentSwapIndex, 1);
 		},
 		onDragOver(e: DragEvent) {
 			let components = this.$refs.component as any[];
@@ -170,6 +189,17 @@ export default Vue.extend({
 		},
 		onMouseOut(e: DragEvent) {
 			this.currentPositionY = -1;
+		},
+		commit() {
+			this.isLoading = true;
+			this.$store
+				.dispatch("CLUB_MODIFICATION", {
+					page: this.componentList
+				})
+				.then(club => {
+					this.isLoading = false;
+				})
+				.catch(err => console.log(err));
 		}
 	},
 	computed: {
@@ -178,6 +208,9 @@ export default Vue.extend({
 				x.isDragGap = idx == this.currentPositionY;
 				return x;
 			});
+		},
+		getClub(): any {
+			return this.$store.state.club;
 		}
 	}
 });
@@ -187,6 +220,23 @@ export default Vue.extend({
 .componentGrop-move {
 	transition: 0.5s;
 }
+.componentGrop-enter-active,
+.componentGrop-leave-active {
+	transition: 0.5s;
+}
+.componentGrop-leave-active {
+	position: absolute !important;
+}
+.componentGrop-enter,
+.componentGrop-leave-to {
+	transform: scale(0);
+	opacity: 0;
+}
+.componentGrop-enter-to,
+.componentGrop-leave {
+	opacity: 1;
+}
+
 .editor {
 	display: flex;
 
@@ -217,6 +267,10 @@ export default Vue.extend({
 .editor__menu h1 > span {
 	font-family: AvenirBlack;
 	font-weight: 800;
+}
+.betaspan {
+	margin-left: 10px;
+	font-size: 0.3em;
 }
 .editor__menu .inputfield {
 	margin-top: 30px;
@@ -249,6 +303,7 @@ export default Vue.extend({
 .editor__menu__components {
 	margin-top: 30px;
 }
+
 .editor__menu__components__list__item {
 	cursor: grab;
 
@@ -267,7 +322,32 @@ export default Vue.extend({
 .editor__menu__components__list__item:active {
 	cursor: grabbing;
 }
+.editor__menu__action {
+	display: flex;
+}
+.editor__menu__action button {
+	flex: 1;
 
+	border: none;
+
+	background-color: #eeeeee;
+	color: white;
+
+	margin: 10px;
+	padding: 10px;
+
+	font-size: 20px;
+
+	border-radius: 100px;
+
+	cursor: pointer;
+}
+.editor__menu__action button.exit {
+	background-color: #ff4475;
+}
+.editor__menu__action button.save {
+	background-color: #538fff;
+}
 .editor__content {
 	flex: 4;
 
@@ -277,10 +357,15 @@ export default Vue.extend({
 	overflow-y: auto;
 	margin-left: 10px;
 }
+.editor__content__wrapper {
+	position: relative;
+}
 .editor__content__component {
 	transition: 0.5s;
 	position: relative;
 	margin-top: 10px;
+
+    width: 100%;
 }
 
 .editor__content__component-gap {

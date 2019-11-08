@@ -141,19 +141,20 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.loginCheck();
+        this.loginCheck();
 	},
 	mounted() {
+		let route: any = this.$route;
+		this.idx = ["home", "page", "community"].indexOf(
+			route.name.split("/")[0]
+		);
+        this.setBarPosition();
+        
 		window.addEventListener("beforeinstallprompt", (e: any) => {
 			e.preventDefault();
 			this.deferredPrompt = e;
 			e.prompt();
 		});
-		let route: any = this.$route;
-		this.idx = ["home", "page", "community"].indexOf(
-			route.name.split("/")[0]
-		);
-		this.setBarPosition();
 
 		let routeList = [this.$route.name] as any[];
 		this.$router.beforeEach((to, from, next) => {
@@ -403,7 +404,17 @@ i {
 	/* color: #273142; */
 }
 ::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+::-webkit-scrollbar-button {
 	display: none;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(59, 67, 81, 0.2);
+}
+::-webkit-scrollbar-track {
+	background-color: #f0f0f0;
 }
 #app {
 	display: flex;
@@ -719,7 +730,7 @@ input:checked + .menu__right__darktheme__slider:before {
 .content__router {
 	width: 100%;
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 	transition: 1s;
 }
 @media screen and (max-width: 768px) {

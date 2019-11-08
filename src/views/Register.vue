@@ -156,7 +156,7 @@ export default Vue.extend({
 	border: 1px solid #eeeeee;
 	border-radius: 8px;
 	max-height: 200px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .register__button {

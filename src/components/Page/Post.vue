@@ -1,5 +1,5 @@
 <template>
-	<div class="post" :class="{'post-modif':isModifPost}">
+	<div class="post" :class="{'post-modif':isModifPost,'post-loading':isLoading}">
 		<div class="post__option" v-if="isShowOption">
 			<p @click="modifPost" v-if="!isModifPost">
 				<i class="mdi mdi-pencil"></i>
@@ -63,8 +63,8 @@
 					</label>
 				</span>
 				<div>
-				<span style="color:#e02020; margin-right:20px;" @click="modifPost">취소</span>
-				<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
+					<span style="color:#e02020; margin-right:20px;" @click="modifPost">취소</span>
+					<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
 				</div>
 			</div>
 		</div>
@@ -118,7 +118,8 @@ export default Vue.extend({
 			comments: [],
 			isShowComments: false,
 			images: [],
-			base64images: []
+			base64images: [],
+			isLoading: false
 		};
 	},
 	created() {
@@ -147,14 +148,18 @@ export default Vue.extend({
 				.catch(err => console.log(err));
 		},
 		deletePost() {
-			this.$store
-				.dispatch("POST_DELETE", {
-					_id: this.data._id
-				})
-				.then(data => {
-					this.$emit("isChange", false);
-				})
-				.catch(err => console.log(err));
+			if (!this.isLoading) {
+				this.isLoading = true;
+				this.$store
+					.dispatch("POST_DELETE", {
+						_id: this.data._id
+					})
+					.then(data => {
+						this.isLoading = false;
+						this.$emit("isChange", false);
+					})
+					.catch(err => console.log(err));
+			}
 		},
 		modifPost() {
 			this.modifContent = this.data.content;
@@ -162,6 +167,7 @@ export default Vue.extend({
 			this.isModifPost = !this.isModifPost;
 		},
 		changeContentSave() {
+			this.isLoading = true;
 			if (this.isCreate) {
 				if (this.images) {
 					this.encodeBase64ImageFiles(this.images)
@@ -172,6 +178,7 @@ export default Vue.extend({
 									img: base64images
 								})
 								.then(data => {
+									this.isLoading = false;
 									this.modifContent = "";
 									this.$emit("isChange", false);
 								})
@@ -184,6 +191,7 @@ export default Vue.extend({
 							content: this.modifContent
 						})
 						.then(data => {
+							this.isLoading = false;
 							this.modifContent = "";
 							this.$emit("isChange", false);
 						})
@@ -196,6 +204,7 @@ export default Vue.extend({
 						content: this.modifContent
 					})
 					.then(data => {
+						this.isLoading = false;
 						this.isShowOption = false;
 						this.isModifPost = false;
 						this.$emit("isChange", false);
@@ -214,37 +223,50 @@ export default Vue.extend({
 			}
 		},
 		createComment() {
-			this.$store
-				.dispatch("POST_COMMENT_WRITE", {
-					_id: this.data._id,
-					message: this.comment
-				})
-				.then(() => {
-					this.comment = "";
-					this.commentReload();
-				})
-				.catch(err => {});
+			if (!this.isLoading) {
+				this.isLoading = true;
+				this.$store
+					.dispatch("POST_COMMENT_WRITE", {
+						_id: this.data._id,
+						message: this.comment
+					})
+					.then(() => {
+						this.isLoading = false;
+						this.comment = "";
+						this.commentReload();
+					})
+					.catch(err => {});
+			}
 		},
 		removeComment(id: string) {
-			this.$store
-				.dispatch("POST_COMMENT_DELETE", {
-					_id: id,
-					_postid: this.data._id
-				})
-				.then(() => {
-					this.commentReload();
-				})
-				.catch(err => {});
+			if (!this.isLoading) {
+				this.isLoading = true;
+				this.$store
+					.dispatch("POST_COMMENT_DELETE", {
+						_id: id,
+						_postid: this.data._id
+					})
+					.then(() => {
+						this.isLoading = false;
+						this.commentReload();
+					})
+					.catch(err => {});
+			}
 		},
 		toggleLike() {
-			this.$store
-				.dispatch("POST_TOGGLE_LIKE", {
-					_id: this.data._id
-				})
-				.then(() => {
-					this.$emit("isChange", false);
-				})
-				.catch(err => {});
+			if (!this.isLoading) {
+				this.isLoading = true;
+				this.$store
+					.dispatch("POST_TOGGLE_LIKE", {
+						_id: this.data._id
+					})
+					.then(() => {
+						this.isLoading = false;
+
+						this.$emit("isChange", false);
+					})
+					.catch(err => {});
+			}
 		},
 		onImageChange(e: any) {
 			this.images = e.target.files;
@@ -330,9 +352,44 @@ export default Vue.extend({
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
 
 	position: relative;
+
+	overflow: hidden;
+	transition: 0.2s;
 }
 .post-modif {
 	border: 1px solid #538fff;
+}
+.post-loading {
+	background-color: #f2f2f2;
+}
+.post-loading::after {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	content: "";
+	height: 5px;
+	width: 200px;
+	animation: loading 2s infinite;
+	background-color: #538fff;
+
+	border-radius: 10px;
+}
+.post-loading::before {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	content: "";
+	height: 5px;
+	width: 100%;
+	background-color: rgba(83, 143, 255, 0.2);
+}
+@keyframes loading {
+	0% {
+		left: -200px;
+	}
+	100% {
+		left: 100%;
+	}
 }
 .post__option {
 	position: absolute;
@@ -445,11 +502,11 @@ textarea.post__content {
 .post__modifaction {
 	text-align: right;
 }
-.post__modifaction__wrapper{
+.post__modifaction__wrapper {
 	display: flex;
 	justify-content: space-between;
 }
-.post__modifaction__image label{
+.post__modifaction__image label {
 	display: flex;
 	align-items: center;
 }
@@ -463,13 +520,12 @@ textarea.post__content {
 	height: 30px;
 	cursor: pointer;
 	transition: 0.2s;
-
 }
 .post__modifaction__image__button i {
 	font-size: 20px;
 }
 .post__modifaction__image__button:hover {
-	background:rgba(0, 0, 0, 0.15);
+	background: rgba(0, 0, 0, 0.15);
 }
 .post__modifaction__image input {
 	display: none;
@@ -580,7 +636,7 @@ textarea.post__content {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	
+
 	position: absolute;
 	right: 20px;
 	top: 20px;
@@ -591,7 +647,7 @@ textarea.post__content {
 	transition: 0.2s;
 }
 .post__comments__list__item__remove:hover {
-	background:rgba(0, 0, 0, 0.15);
+	background: rgba(0, 0, 0, 0.15);
 }
 .post__comments__list__item__remove i {
 	font-size: 16px;

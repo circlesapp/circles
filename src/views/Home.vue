@@ -18,7 +18,7 @@
 				<p>{{getClub.name}} {{getRank}}</p>
 			</div>
 
-			<img :src="getImgPath(getClub.imgPath)" />
+			<img :src="getImgPath(getClub.imgPath)" /> // TODO: 로그아웃, 동아리 생성 버튼, 홍보페이지 어떻게가지?
 		</div>
 		<div class="home__login__list">
 			<div
@@ -281,7 +281,7 @@ export default Vue.extend({
 }
 .home__login__profile__selectclub__list {
 	flex: 1;
-	overflow-y: scroll;
+	overflow-y: auto;
 
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.05);
 }
@@ -346,7 +346,7 @@ export default Vue.extend({
 	}
 	.home__login__profile__selectclub__list {
 		max-height: 400px;
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 	.home__content {
 		width: 80%;

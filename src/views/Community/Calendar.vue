@@ -15,7 +15,7 @@
 			ref="calendar"
 		>
 			<div class="calendar__content__create" v-if="isCreatePopup" ref="createPopup">
-				<input type="text" v-model="content" ref="createPopupInput" />
+				<input type="text" v-model="content" @keydown="pressEnter" ref="createPopupInput" />
 				<button @click="createSc">일정 생성</button>
 			</div>
 			<div
@@ -25,22 +25,21 @@
 				ref="calendarItem"
 				@click="isCreatePopup = false"
 			>
-				<transition name="barAnimation">
+				<transition-group name="barAnimation">
 					<div
 						v-for="(sc) in (lineData[idx] ? lineData[idx] : [])"
-						:key="sc.content+calendars.length"
+						:key="sc.content._id"
 						class="calendar__content__day__bar"
+						@click="removeCalendar(sc.content._id)"
 						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
-					>{{sc.content}}</div>
-				</transition>
-				<transition name="barAnimation">
+					>{{sc.content.content}}</div>
 					<div
-						v-for="(sc) in (tmpLineData[idx] ? tmpLineData[idx] : [])"
-						:key="sc.content+calendars.length"
+						v-for="(sc,idx) in (tmpLineData[idx] ? tmpLineData[idx] : [])"
+						:key="idx"
 						class="calendar__content__day__bar calendar__content__day__bar-create"
 						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
 					>CREATE</div>
-				</transition>
+				</transition-group>
 				<span :class="{'calendar__content__day-today': day == currentDay}">{{day == 0 ? '' : day}}</span>
 			</div>
 		</div>
@@ -116,10 +115,15 @@ export default Vue.extend({
 						end % 7,
 						Math.floor((end - 1) / 7),
 						false,
-						calendar.content
+						calendar
 					);
 				});
 			});
+		},
+		pressEnter(e: KeyboardEvent) {
+			if (e.keyCode == 13) {
+				this.createSc();
+			}
 		},
 		getSize() {
 			let calendar = (this.$refs
@@ -274,6 +278,17 @@ export default Vue.extend({
 				})
 				.then(calendar => {
 					this.isCreatePopup = false;
+					this.content = "";
+					this.reload();
+				})
+				.catch(err => console.log(err));
+		},
+		removeCalendar(id: any) {
+			this.$store
+				.dispatch("CALENDAR_DELETE", {
+					_id: id
+				})
+				.then(calendar => {
 					this.reload();
 				})
 				.catch(err => console.log(err));
