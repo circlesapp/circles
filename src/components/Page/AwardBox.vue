@@ -68,6 +68,7 @@ export default Vue.extend({
 .awardbox span {
 	font-family: "NanumSquareEB";
 	font-size: 25px;
+    margin-left: 10px;
 	font-weight: normal;
 	color: #becfe4;
 }

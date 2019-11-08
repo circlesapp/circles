@@ -99,7 +99,7 @@ export default Vue.extend({
 
 	background-color: rgba(0, 0, 0, 0.45);
 
-	overflow: scroll;
+	overflow: auto;
 
 	z-index: 2000;
 }
