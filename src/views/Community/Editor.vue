@@ -81,7 +81,6 @@ export default Vue.extend({
 	},
 	methods: {
 		onClickIndex(e: MouseEvent) {
-			// FIXME: 드래그 전 후 엘리먼트 비교 에러
 			let components = this.$refs.component as any[];
 			let pointY =
 				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
@@ -113,7 +112,6 @@ export default Vue.extend({
 			}
 		},
 		onDragOver(e: DragEvent) {
-			// FIXME: 드래그 전 후 엘리먼트 비교 에러
 			let components = this.$refs.component as any[];
 			let pointY =
 				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
@@ -159,7 +157,6 @@ export default Vue.extend({
 				});
 				this.currentPositionY = -1;
 			} else {
-                console.log(this.currentPositionY,this.currentSwapIndex)
 				let tmp = this.componentList[this.currentPositionY];
 				this.componentList[this.currentPositionY] = this.componentList[
 					this.currentSwapIndex
