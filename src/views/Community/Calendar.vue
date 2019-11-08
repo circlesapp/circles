@@ -37,7 +37,7 @@
 					>{{sc.content.content}}</div>
 					<div
 						v-for="(sc,idx) in (tmpLineData[idx] ? tmpLineData[idx] : [])"
-						:key="idx"
+						:key="idx+sc"
 						class="calendar__content__day__bar calendar__content__day__bar-create"
 						:style="`width: ${sc.width * calendarItemWidth+sc.width*2}px; bottom: ${sc.height*30+20}px; background-color:${sc.color}`"
 					>CREATE</div>
