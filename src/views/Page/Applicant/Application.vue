@@ -250,7 +250,6 @@ textarea::placeholder {
 .application__title {
 	display: flex;
 	align-items: center;
-	margin: 30px 0;
 }
 .application__title i {
 	font-size: 100px;
