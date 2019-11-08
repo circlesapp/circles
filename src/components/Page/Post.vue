@@ -57,7 +57,7 @@
                     <label>
                         <input type="file" name="img" accept="image/*" multiple @change="onImageChange" />
                         <div class="post__modifaction__image__button">
-                            <i class="mdi mdi-image"></i>
+                            <i class="mdi mdi-image-plus"></i>
                         </div>
                         <div class="post__modification__image__imagenames">
                             <span
