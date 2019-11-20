@@ -3,8 +3,8 @@
 
 - npm 모듈 설치
   
-  ```num install```
+  ```npm i```
 - webpack 빌드
   
-  ```num build```
-- docs 폴더 내에 빌드 된 프론트 파일 생성
+  ```npm build```
+- docs 폴더 내에 빌드 된 프론트엔드 파일 생성
