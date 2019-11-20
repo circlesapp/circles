@@ -100,9 +100,15 @@ export default Vue.extend({
 		},
 		reload() {
 			this.isShowCirclesCreatePopup = false;
+			this.$store.commit("pushLoading", {
+				name: "GET_USER_PROFILE",
+				message: "동아리 다시 가져오는 중"
+			});
 			this.$store
 				.dispatch("GET_USER_PROFILE", this.$store.state.userToken)
-				.then(user => {})
+				.then(user => {
+					this.$store.commit("clearLoading", "GET_USER_PROFILE");
+				})
 				.catch(err => {});
 		},
 		userInputKeyPress(e: any) {
@@ -124,12 +130,18 @@ export default Vue.extend({
 		selectClub(idx: number) {
 			let club = this.getClubs[idx];
 			this.targetCurrentIndex = idx;
+			this.$store.commit("pushLoading", {
+				name: "GET_CLUB",
+				message: "동아리 가져오는 중"
+			});
 			this.$store
 				.dispatch("GET_CLUB", club.name)
 				.then(club => {
+					this.$store.commit("clearLoading", "GET_CLUB");
 					if (!club) this.$router.push("/");
 				})
 				.catch(err => {
+					this.$store.commit("clearLoading", "GET_CLUB");
 					this.$router.push("/");
 				});
 		},
@@ -431,7 +443,7 @@ export default Vue.extend({
 	border-radius: 50%;
 
 	font-size: 20px;
-	background:#F55246;
+	background: #f55246;
 	color: white;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
 
@@ -440,7 +452,7 @@ export default Vue.extend({
 	z-index: 1999;
 }
 .overflow__btn__logout:hover {
-	background:rgba(245, 82, 70, 0.9);
+	background: rgba(245, 82, 70, 0.9);
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 @media screen and (max-width: 768px) {

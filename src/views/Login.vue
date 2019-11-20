@@ -28,24 +28,18 @@
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
 			<router-link to="/passwordchange" class="login__option" style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
 		</div>
-		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
 	name: "Login",
-	components: {
-		LoadingBar
-	},
 	data() {
 		return {
 			email: "",
 			password: "",
-			isLoading: false,
 
 			errorAlert: ""
 		};
@@ -55,29 +49,31 @@ export default Vue.extend({
 			if (e.keyCode == 13) this.login();
 		},
 		login() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "LOGIN",
+				message: "로그인 시도 중"
+			});
 			this.$store
 				.dispatch("LOGIN", {
 					email: this.email,
 					password: this.password
 				})
 				.then(token => {
-					this.isLoading = false;
 					this.$store
 						.dispatch("GET_USER_PROFILE", token)
 						.then(user => {
 							localStorage.setItem("clubs.loginToken", token);
-							this.isLoading = false;
+							this.$store.commit("clearLoading", "LOGIN");
 							this.$router.push("/");
 						})
 						.catch(err => {
-							this.isLoading = false;
+							this.$store.commit("clearLoading", "LOGIN");
 							this.errorAlert =
 								err.response.data.message || "서버 에러";
 						});
 				})
 				.catch(err => {
-					this.isLoading = false;
+					this.$store.commit("clearLoading", "LOGIN");
 					this.errorAlert = err.response.data.message || "서버 에러";
 				});
 		}

@@ -13,25 +13,18 @@
 
 		<div class="community__content">
 			<transition name="routerfade-animation">
-				<router-view v-if="!isLoading"></router-view>
+				<router-view v-if="getClub.name"></router-view>
 			</transition>
 		</div>
-		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
 	name: "Community",
-	components: {
-		LoadingBar
-	},
 	data() {
-		return {
-			isLoading: true
-		};
+		return {};
 	},
 	created() {
 		if (this.getToken) this.getMembers();
@@ -43,15 +36,19 @@ export default Vue.extend({
 	},
 	methods: {
 		getMembers() {
+			this.$store.commit("pushLoading", {
+				name: "GET_CLUB",
+				message: "동아리 불러오는 중"
+			});
 			this.$store
 				.dispatch("GET_CLUB", this.$route.params.club)
 				.then(club => {
+					this.$store.commit("clearLoading", "GET_CLUB");
 					if (!club) this.$router.push("/");
-					this.isLoading = false;
 				})
 				.catch(err => {
+					this.$store.commit("clearLoading", "GET_CLUB");
 					this.$router.push("/");
-					this.isLoading = false;
 				});
 		}
 	},
@@ -69,15 +66,15 @@ export default Vue.extend({
 <style>
 .submenuAnimation-enter,
 .submenuAnimation-leave-to {
-    height: 0px !important;
+	height: 0px !important;
 }
 .submenuAnimation-enter-to,
 .submenuAnimation-leave {
-    height: 90px !important;
+	height: 90px !important;
 }
 .submenuAnimation-enter-active,
-.submenuAnimation-leave-active{
-    transition: 0.5s;
+.submenuAnimation-leave-active {
+	transition: 0.5s;
 }
 
 .routerfade-animation-enter-active,

@@ -42,20 +42,14 @@
 				</div>
 			</div>
 		</div>
-		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "../../../components/LoadingBar.vue";
 export default Vue.extend({
-	components: {
-		LoadingBar
-	},
 	data() {
 		return {
-			isLoading: false,
 			name: "",
 			email: "",
 			number: "",
@@ -88,7 +82,10 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "GET_MY_APPLICANT",
+				message: "지원서 불러오는 중"
+			});
 			this.$store
 				.dispatch("GET_MY_APPLICANT")
 				.then(applicant => {
@@ -98,14 +95,17 @@ export default Vue.extend({
 					this.number = applicant.number;
 					this.phone = applicant.phone;
 					this.content = applicant.content;
-					this.isLoading = false;
+					this.$store.commit("clearLoading", "GET_MY_APPLICANT");
 				})
 				.catch(err => {
-					this.isLoading = false;
-                });
+					this.$store.commit("clearLoading", "GET_MY_APPLICANT");
+				});
 		},
 		save() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "APPLICANT_MODIFICATION",
+				message: "지원서 수정하는 중"
+			});
 			this.$store
 				.dispatch("APPLICANT_MODIFICATION", {
 					name: this.name,
@@ -115,17 +115,26 @@ export default Vue.extend({
 					content: this.content
 				})
 				.then(data => {
-					this.isLoading = false;
+					this.$store.commit(
+						"clearLoading",
+						"APPLICANT_MODIFICATION"
+					);
 					this.reload();
 				})
 				.catch(err => {
-					this.isLoading = false;
+					this.$store.commit(
+						"clearLoading",
+						"APPLICANT_MODIFICATION"
+					);
 					console.log(err);
 				});
 		},
 		submit() {
-			this.isLoading = true;
 			if (this.isModification) {
+				this.$store.commit("pushLoading", {
+					name: "APPLICANT_MODIFICATION",
+					message: "지원서 수정하는 중"
+				});
 				this.$store
 					.dispatch("APPLICANT_MODIFICATION", {
 						name: this.name,
@@ -135,14 +144,24 @@ export default Vue.extend({
 						content: this.content
 					})
 					.then(data => {
-                        this.isLoading = false;
-                        this.$router.back()
+						this.$store.commit(
+							"clearLoading",
+							"APPLICANT_MODIFICATION"
+						);
+						this.$router.back();
 					})
 					.catch(err => {
-						this.isLoading = false;
+						this.$store.commit(
+							"clearLoading",
+							"APPLICANT_MODIFICATION"
+						);
 						console.log(err);
 					});
 			} else {
+				this.$store.commit("pushLoading", {
+					name: "APPLICANT",
+					message: "지원서 제출하는 중"
+				});
 				this.$store
 					.dispatch("APPLICANT", {
 						name: this.name,
@@ -152,11 +171,11 @@ export default Vue.extend({
 						content: this.content
 					})
 					.then(data => {
-						this.isLoading = false;
+						this.$store.commit("clearLoading", "APPLICANT");
 						this.reload();
 					})
 					.catch(err => {
-						this.isLoading = false;
+						this.$store.commit("clearLoading", "APPLICANT");
 						console.log(err);
 					});
 			}
@@ -296,7 +315,7 @@ textarea::placeholder {
 	margin-left: 20px;
 	cursor: pointer;
 }
-.application__action .check {
+.application__action .save {
 	background-color: white;
 	color: #538fff;
 	border: solid 1px #eeeeee;
@@ -366,6 +385,9 @@ textarea::placeholder {
 		flex: 1;
 		padding: 10px 0;
 		margin: 0;
+	}
+	.application__action .save {
+        margin-right: 20px;
 	}
 }
 </style>

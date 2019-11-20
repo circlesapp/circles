@@ -184,13 +184,11 @@
 				</div>
 			</div>
 		</div>
-		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "../../components/LoadingBar.vue";
 export default Vue.extend({
 	data() {
 		return {
@@ -198,23 +196,26 @@ export default Vue.extend({
 			sortKey: "",
 			sortBy: false,
 			currentUser: 0 as any,
-			currentRank: 0 as any,
-			isLoading: false
+			currentRank: 0 as any
 		};
-	},
-	components: {
-		LoadingBar
 	},
 	created() {
 		this.reload();
 	},
 	methods: {
 		reload() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "GET_CLUB_DETAIL_MEMBERS",
+				message: "동아리 맴버 불러오는 중"
+			});
 			this.$store
 				.dispatch("GET_CLUB_DETAIL_MEMBERS")
 				.then(members => {
-					this.isLoading = false;
+					this.$store.commit(
+						"clearLoading",
+						"GET_CLUB_DETAIL_MEMBERS"
+					);
+
 					this.members = members;
 				})
 				.catch(err => {});
@@ -242,7 +243,10 @@ export default Vue.extend({
 			return this.getClub.ranks.find((x: any) => x.id == id).name;
 		},
 		commit() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "CLUB_MODIFICATION",
+				message: "동아리 맴버 수정 중"
+			});
 			this.$store
 				.dispatch("CLUB_MODIFICATION", {
 					ranks: this.getClub.ranks,
@@ -252,7 +256,7 @@ export default Vue.extend({
 					})
 				})
 				.then(club => {
-					this.isLoading = false;
+					this.$store.commit("clearLoading", "CLUB_MODIFICATION");
 					this.reload();
 				})
 				.catch(err => console.log(err));

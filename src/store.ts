@@ -3,14 +3,18 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-
+interface LoadingData {
+	name: string;
+	message: string;
+}
 export default new Vuex.Store({
 	state: {
 		userToken: ``,
 		userInformation: {},
 		club: {} as any,
 		// mainPath : "http://localhost:3000/"
-		mainPath: `https://circlesapp.kr/api/`
+		mainPath: `https://circlesapp.kr/api/`,
+		loadingStack: [] as LoadingData[]
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -21,6 +25,13 @@ export default new Vuex.Store({
 		},
 		setClub(state, data) {
 			state.club = data;
+		},
+		pushLoading(state, data: LoadingData) {
+			state.loadingStack.push(data);
+		},
+		clearLoading(state, data: string) {
+			let idx = state.loadingStack.findIndex((loadingData: LoadingData) => loadingData.name == data);
+			if (idx != -1) state.loadingStack.splice(idx, 1);
 		}
 	},
 	actions: {
@@ -516,8 +527,8 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
-        },
-        CLUB_CREATE({ state, commit }, data) {
+		},
+		CLUB_CREATE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.post(`${state.mainPath}club/create`, data, {

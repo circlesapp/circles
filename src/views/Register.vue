@@ -51,7 +51,6 @@
 			</div>
 			<button class="register__button" @click="register">계정 만들기</button>
 		</div>
-		<LoadingBar v-if="isLoading"></LoadingBar>
 	</div>
 </template>
 
@@ -59,12 +58,10 @@
 <script lang="ts">
 import Vue from "vue";
 import Terms from "../components/Terms.vue";
-import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
 	name: "Register",
 	components: {
-		Terms,
-		LoadingBar
+		Terms
 	},
 	data() {
 		return {
@@ -73,8 +70,7 @@ export default Vue.extend({
 			name: "",
 			profileImage: null as any,
 
-			errorAlert: "",
-			isLoading: false
+			errorAlert: ""
 		};
 	},
 	methods: {
@@ -98,7 +94,10 @@ export default Vue.extend({
 			this.profileImage = e.target.files[0];
 		},
 		register() {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "REGISTER",
+				message: "회원가입 하는 중"
+			});
 			this.encodeBase64ImageFile(this.profileImage)
 				.then(img => {
 					this.$store
@@ -114,31 +113,32 @@ export default Vue.extend({
 										img
 									})
 									.then(() => {
-										this.isLoading = false;
-
+										this.$store.commit(
+											"clearLoading",
+											"REGISTER"
+										);
 										this.$router.push("/login");
 									})
 									.catch(err => {
-										this.isLoading = false;
-
+										this.$store.commit(
+											"clearLoading",
+											"REGISTER"
+										);
 										this.errorAlert =
 											err.response.data.message;
 									});
 							} else {
-								this.isLoading = false;
-
+								this.$store.commit("clearLoading", "REGISTER");
 								this.$router.push("/login");
 							}
 						})
 						.catch(err => {
-							this.isLoading = false;
-
+							this.$store.commit("clearLoading", "REGISTER");
 							this.errorAlert = err.response.data.message;
 						});
 				})
 				.catch(err => {
-					this.isLoading = false;
-
+					this.$store.commit("clearLoading", "REGISTER");
 					this.errorAlert = err.response.data.message;
 				});
 		}

@@ -19,12 +19,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "../components/LoadingBar.vue";
 export default Vue.extend({
 	name: "Page",
-	components: {
-		LoadingBar
-	},
 	data() {
 		return {
 			isLoading: true

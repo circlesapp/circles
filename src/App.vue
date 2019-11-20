@@ -130,7 +130,9 @@
 				<router-view class="content__router" />
 			</transition>
 		</section>
-		<LoadingBar v-if="isLoading"></LoadingBar>
+		<transition name="loadingAnimation">
+			<LoadingBar v-if="isLoading"></LoadingBar>
+		</transition>
 	</div>
 </template>
 
@@ -147,14 +149,13 @@ export default Vue.extend({
 			showMenu: false,
 			showProfile: false,
 			deferredPrompt: null as any,
-			isLoading: false,
 			routerAnimation: "",
 
 			isMounteRequired: false,
 			idx: 0,
 
-            darkTheme: false,
-            barPositionX : ""
+			darkTheme: false,
+			barPositionX: ""
 		};
 	},
 	created() {
@@ -175,6 +176,7 @@ export default Vue.extend({
 
 		let routeList = [this.$route.name] as any[];
 		this.$router.beforeEach((to, from, next) => {
+			this.$store.state.loadingStack = [];
 			if (
 				routeList.length > 1 &&
 				to.name == routeList[routeList.length - 2]
@@ -203,12 +205,11 @@ export default Vue.extend({
 					this.setBarPosition();
 				}
 			}
-        },
+		}
 	},
 	methods: {
 		setBarPosition() {
-            if (this.isShowMenuRoute)
-                this.barPositionX = 120 * this.idx + "px";
+			if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + "px";
 		},
 		toggleMenu() {
 			this.showMenu = !this.showMenu;
@@ -222,16 +223,19 @@ export default Vue.extend({
 		loginCheck() {
 			let token = localStorage.getItem("clubs.loginToken");
 			if (token) {
-				this.isLoading = true;
+				this.$store.commit("pushLoading", {
+					name: "GET_USER_PROFILE",
+					message: "로그인 중"
+				});
 				this.$store
 					.dispatch("GET_USER_PROFILE", token)
 					.then(user => {
 						this.$store.state.userToken = token;
-						this.isLoading = false;
+						this.$store.commit("clearLoading", "GET_USER_PROFILE");
 					})
 					.catch(err => {
-						this.isLoading = false;
 						this.$store.state.userToken = "";
+						this.$store.commit("clearLoading", "GET_USER_PROFILE");
 					});
 			}
 		},
@@ -244,9 +248,12 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-        getBar(){
-            return this.$refs.bar
-        },
+		isLoading() {
+			return this.$store.state.loadingStack.length > 0;
+		},
+		getBar() {
+			return this.$refs.bar;
+		},
 		getUserInformation() {
 			return this.$store.state.userInformation;
 		},
@@ -401,6 +408,18 @@ export default Vue.extend({
 .fade-leave {
 	opacity: 1;
 	transform: translateX(0);
+}
+.loadingAnimation-enter-active,
+.loadingAnimation-leave-active {
+	transition: 0.3s;
+}
+.loadingAnimation-enter,
+.loadingAnimation-leave-to {
+	opacity: 0;
+}
+.loadingAnimation-enter-to,
+.loadingAnimation-leave {
+	opacity: 1;
 }
 
 * {

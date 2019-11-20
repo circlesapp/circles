@@ -36,9 +36,14 @@ export default Vue.extend({
 		};
 	},
 	created() {
+		this.$store.commit("pushLoading", {
+			name: "GET_ALL_CLUB",
+			message: "로그인 중"
+		});
 		this.$store
 			.dispatch("GET_ALL_CLUB")
 			.then(clubs => {
+				this.$store.commit("clearLoading", "GET_ALL_CLUB");
 				this.clubs = clubs;
 				this.filterClub = clubs;
 			})
@@ -197,7 +202,7 @@ export default Vue.extend({
 		padding: 20px 0;
 	}
 	.search__list__item {
-        width: 90%;
+		width: 90%;
 	}
 }
 </style>
