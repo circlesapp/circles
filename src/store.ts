@@ -14,7 +14,8 @@ export default new Vuex.Store({
 		club: {} as any,
 		// mainPath : "http://localhost:3000/"
 		mainPath: `https://circlesapp.kr/api/`,
-		loadingStack: [] as LoadingData[]
+		loadingStack: [] as LoadingData[],
+		pageLoadingStack: [] as LoadingData[]
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -32,6 +33,13 @@ export default new Vuex.Store({
 		clearLoading(state, data: string) {
 			let idx = state.loadingStack.findIndex((loadingData: LoadingData) => loadingData.name == data);
 			if (idx != -1) state.loadingStack.splice(idx, 1);
+		},
+		pushPageLoading(state, data: LoadingData) {
+			state.pageLoadingStack.push(data);
+		},
+		clearPageLoading(state, data: string) {
+			let idx = state.pageLoadingStack.findIndex((pageLoadingData: LoadingData) => pageLoadingData.name == data);
+			if (idx != -1) state.pageLoadingStack.splice(idx, 1);
 		}
 	},
 	actions: {

@@ -54,9 +54,14 @@ export default Vue.extend({
 	methods: {
 		reload() {
 			this.isShowAwardCreatePopup = false;
+			this.$store.commit("pushPageLoading", {
+				name: "GET_CLUB_AWARDS",
+				message: "동아리 수상 불러오는 중"
+			});
 			this.$store
 				.dispatch("GET_CLUB_AWARDS")
 				.then(awards => {
+					this.$store.commit("clearPageLoading", "GET_CLUB_AWARDS");
 					this.awards = awards;
 				})
 				.catch(err => {});
@@ -77,13 +82,19 @@ export default Vue.extend({
 			}
 		},
 		remove() {
-			if (this.currentId)
+			if (this.currentId) {
+				this.$store.commit("pushPageLoading", {
+					name: "AWARD_DELETE",
+					message: "동아리 수상 삭제 중"
+				});
 				this.$store
 					.dispatch("AWARD_DELETE", { _id: this.currentId })
 					.then(award => {
+						this.$store.commit("clearPageLoading", "AWARD_DELETE");
 						this.reload();
 					})
 					.catch(err => {});
+			}
 		}
 	},
 	computed: {

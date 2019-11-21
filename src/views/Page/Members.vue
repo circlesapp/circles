@@ -8,7 +8,7 @@
 import Vue from "vue";
 import MemberBox from "../../components/Page/MemberBox.vue";
 export default Vue.extend({
-    name : "Members",
+	name: "Members",
 	components: {
 		MemberBox
 	},
@@ -18,9 +18,14 @@ export default Vue.extend({
 		};
 	},
 	created() {
-        this.$store
+		this.$store.commit("pushPageLoading", {
+			name: "GET_CLUB_MEMBERS",
+			message: "동아리 부원 불러오는 중"
+		});
+		this.$store
 			.dispatch("GET_CLUB_MEMBERS")
 			.then(members => {
+				this.$store.commit("clearPageLoading", "GET_CLUB_MEMBERS");
 				this.members = members;
 			})
 			.catch(err => {});

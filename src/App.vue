@@ -366,7 +366,7 @@ export default Vue.extend({
 	position: absolute;
 	top: 0;
 	left: 0;
-	transition: 1s;
+	transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 .routerup-animation-enter {
 	transform: translateY(100%);
@@ -779,7 +779,6 @@ input:checked + .menu__right__darktheme__slider:before {
 	width: 100%;
 	height: 100%;
 	overflow-y: auto;
-	transition: 1s;
 }
 @media screen and (max-width: 768px) {
 	.menu__right {

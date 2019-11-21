@@ -59,14 +59,14 @@ export default Vue.extend({
 		};
 	},
 	created() {
+		if (this.getUserToken) {
+			this.reload();
+		}
 		if (this.getUserInformation.name) {
 			this.name = this.getUserInformation.name;
 			this.email = this.getUserInformation.email;
 		} else {
 			this.$router.back();
-		}
-		if (this.getUserToken) {
-			this.reload();
 		}
 	},
 	watch: {
@@ -387,7 +387,7 @@ textarea::placeholder {
 		margin: 0;
 	}
 	.application__action .save {
-        margin-right: 20px;
+		margin-right: 20px;
 	}
 }
 </style>

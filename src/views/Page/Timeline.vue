@@ -33,9 +33,14 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
+			this.$store.commit("pushPageLoading", {
+				name: "GET_CLUB_POSTS",
+				message: "동아리 글 불러오는 중"
+			});
 			this.$store
 				.dispatch("GET_CLUB_POSTS")
 				.then(posts => {
+					this.$store.commit("clearPageLoading", "GET_CLUB_POSTS");
 					this.posts = posts;
 				})
 				.catch(err => {});

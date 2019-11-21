@@ -429,7 +429,7 @@ export default Vue.extend({
 	}
 }
 .overflow__btn__logout {
-	position: fixed;
+	position: absolute;
 	right: 16px;
 	bottom: 16px;
 	width: 46px;

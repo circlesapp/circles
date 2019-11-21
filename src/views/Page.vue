@@ -8,10 +8,13 @@
 				<router-link :to="{name:'page/budgets'}" class="submenu__list__item">예산공개</router-link>
 				<router-link :to="{name:'page/applicant/main'}" class="submenu__list__item">채용</router-link>
 			</div>
+			<transition name="toploadingAnimation">
+				<TopLoadingBar class="submenu__loading" v-if="isTopLoading"></TopLoadingBar>
+			</transition>
 		</div>
 		<div class="page__content" ref="page__content">
 			<transition name="routerfade-animation">
-				<router-view class="page__content__router" v-if="!isLoading"></router-view>
+				<router-view class="page__content__router" v-if="!isLocalLoading"></router-view>
 			</transition>
 		</div>
 	</div>
@@ -19,23 +22,37 @@
 
 <script lang="ts">
 import Vue from "vue";
+import TopLoadingBar from "../components/TopLoadingBar.vue";
+
 export default Vue.extend({
 	name: "Page",
+	components: {
+		TopLoadingBar
+	},
 	data() {
 		return {
-			isLoading: true
+			isLocalLoading: false
 		};
 	},
 	created() {
+		this.$store.commit("pushLoading", {
+			name: "GET_CLUB",
+			message: "동아리 불러오는 중"
+		});
+		this.isLocalLoading = true;
 		this.$store
 			.dispatch("GET_CLUB", this.$route.params.club)
 			.then(club => {
+				this.$store.commit("clearLoading", "GET_CLUB");
+				this.isLocalLoading = false;
+
 				if (!club) this.$router.push("/");
-				this.isLoading = false;
 			})
 			.catch(err => {
+				this.$store.commit("clearLoading", "GET_CLUB");
+				this.isLocalLoading = false;
+
 				this.$router.push("/");
-				this.isLoading = false;
 			});
 	},
 	watch: {
@@ -44,6 +61,12 @@ export default Vue.extend({
 		}
 	},
 	computed: {
+		isTopLoading() {
+			return this.$store.state.pageLoadingStack.length > 0;
+		},
+		isLoading() {
+			return this.$store.state.loadingStack.length > 0;
+		},
 		getClub() {
 			return this.$store.state.club;
 		}
@@ -52,6 +75,19 @@ export default Vue.extend({
 </script>
 
 <style>
+.toploadingAnimation-enter-active,
+.toploadingAnimation-leave-active {
+	transition: 0.2s;
+}
+.toploadingAnimation-enter,
+.toploadingAnimation-leave-to {
+    opacity: 0;
+}
+.toploadingAnimation-enter-to,
+.toploadingAnimation-leave {
+    opacity: 1;
+}
+
 .routerfade-animation-enter-active,
 .routerfade-animation-leave-active {
 	transition: 0.3s !important;
@@ -98,8 +134,10 @@ export default Vue.extend({
 	align-items: center;
 
 	transition: 0.5s;
-	overflow: hidden;
 	overflow-x: auto;
+	overflow-y: visible !important;
+
+	position: relative;
 }
 .submenu__list {
 	height: 100%;
@@ -125,6 +163,11 @@ export default Vue.extend({
 .submenu__list__item:hover {
 	background-color: #9cb2cd;
 	color: white;
+}
+.submenu__loading {
+	position: absolute;
+	left: 0;
+	bottom: 0;
 }
 @media screen and (max-width: 768px) {
 	.submenu__list {

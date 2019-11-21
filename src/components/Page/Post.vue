@@ -120,12 +120,17 @@
                 </div>
             </div>
         </div>
+        <TopLoadingBar class="post__loading" v-if="isLoading"></TopLoadingBar>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import TopLoadingBar from "../TopLoadingBar.vue"
 export default Vue.extend({
+    components:{
+        TopLoadingBar
+    },
     props: {
         data: Object,
         isCreate: Boolean
@@ -386,28 +391,12 @@ export default Vue.extend({
     border: 1px solid #538fff;
 }
 .post-loading {
-    background-color: #f2f2f2;
+    background-color: #fefefe;
 }
-.post-loading::after {
+.post__loading{
     position: absolute;
-    bottom: 0;
     left: 0;
-    content: "";
-    height: 5px;
-    width: 200px;
-    animation: loading 2s infinite;
-    background-color: #538fff;
-
-    border-radius: 10px;
-}
-.post-loading::before {
-    position: absolute;
     bottom: 0;
-    left: 0;
-    content: "";
-    height: 5px;
-    width: 100%;
-    background-color: rgba(83, 143, 255, 0.2);
 }
 @keyframes loading {
     0% {
