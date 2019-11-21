@@ -59,6 +59,10 @@ export default Vue.extend({
 	created() {},
 	methods: {
 		create() {
+			this.$store.commit("pushLoading", {
+				name: "BUDGET",
+				message: "동아리 예산 생성 중"
+			});
 			this.$store
 				.dispatch("BUDGET", {
 					item: this.item,
@@ -70,6 +74,7 @@ export default Vue.extend({
 					date: this.date
 				})
 				.then(award => {
+					this.$store.commit("clearLoading", "BUDGET");
 					this.$emit("isUpdated", false);
 				})
 				.catch(err => {});
@@ -115,12 +120,12 @@ export default Vue.extend({
 
 	font-size: 30px;
 
-    border: none;
+	border: none;
 	border-radius: 50%;
 	background-color: white;
 	color: rgb(46, 46, 46);
 
-    cursor: pointer;
+	cursor: pointer;
 	-webkit-transition: 0.2s;
 	-moz-transition: 0.2s;
 	-o-transition: 0.2s;

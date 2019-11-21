@@ -107,6 +107,10 @@ export default Vue.extend({
 			}
 		},
 		create() {
+            this.$store.commit("pushLoading", {
+				name: "AWARD",
+				message: "동아리 수상 생성 중"
+			});
 			this.$store
 				.dispatch("AWARD", {
 					title: this.title,
@@ -115,6 +119,7 @@ export default Vue.extend({
 					target: this.target.map(x => x._id)
 				})
 				.then(award => {
+					this.$store.commit("clearLoading", "AWARD");
 					this.$emit("isUpdated", false);
 				})
 				.catch(err => {});

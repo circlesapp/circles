@@ -1,7 +1,7 @@
 <template>
 	<div class="timeline">
 		<div class="timeline__wrapper">
-			<Post class="timeline__post" v-if="getPermissionCreate" :isCreate="true" @isChange="reload"></Post>
+			<Post v-if="getPermissionCreate" :isCreate="true" @isChange="reload"></Post>
 			<transition-group name="timeline">
 				<Post
 					class="timeline__post"

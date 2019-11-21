@@ -120,7 +120,7 @@ export default Vue.extend({
 }
 .page__content {
 	flex: 1;
-	overflow-y: auto;
+	overflow-y: scroll;
 	position: relative;
 }
 .submenu {
