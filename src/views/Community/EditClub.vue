@@ -16,7 +16,7 @@
 						동아리 이미지 수정
 					</b>하기
 					<br />또는
-					<b>드래그 앤 드롭</b>
+					<b>드래그 앤 드롭</b>으로 이미지 업로드
 				</p>
 			</label>
 			<div class="editclub__content">
@@ -333,7 +333,7 @@ export default Vue.extend({
 
 	display: flex;
 	justify-content: flex-start;
-	align-items: center;
+	align-items: flex-end;
 	width: 100%;
 }
 .editclub__content .action .delete span {
@@ -349,7 +349,7 @@ export default Vue.extend({
 	padding: 10px;
 	font-size: 16px;
 
-	width: 100%;
+	width: 50%;
 
 	border: 1px solid #ff4475;
 	border-radius: 5px;
