@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import VueAnalytics from "vue-analytics";
 import Home from "./views/Home.vue";
 import Search from "./views/Search.vue";
 import Login from "./views/Login.vue";
@@ -26,78 +27,85 @@ import Page404 from "./views/Page404.vue";
 
 Vue.use(Router);
 
-export default new Router({
-	mode: "history",
-	base: process.env.BASE_URL,
-	routes: [
-		{
-			path: "/",
-			name: "home",
-			component: Home
-		},
-		{
-			path: "/search",
-			name: "search",
-			component: Search
-		},
-		{
-			path: "/login",
-			name: "login",
-			component: Login
-		},
-		{
-			path: "/register",
-			name: "register",
-			component: Register
-		},
-		{
-			path: "/passwordchange",
-			name: "passwordchange",
-			component: PasswordChange
-		},
-		{
-			path: "/:club",
-			name: "site",
-			component: Site
-		},
-		{
-			path: "/:club/page",
-			name: "page",
-			component: Page,
-			children: [
-				{ path: "timeline", name: "page/timeline", component: Timeline },
-				{ path: "awards", name: "page/awards", component: Awards },
-				{ path: "members", name: "page/members", component: Members },
-				{ path: "budgets", name: "page/budgets", component: Budgets },
-				{
-					path: "applicant",
-					name: "page/applicant",
-					component: Applicant,
-					children: [
-						{ path: "", name: "page/applicant/main", component: ApplicantMain },
-						{ path: "application", name: "page/applicant/application", component: Application },
-						{ path: "recorder", name: "page/applicant/recorder", component: Recorder },
-						{ path: "result", name: "page/applicant/result", component: Result }
-					]
-				}
-			]
-		},
-		{
-			path: "/:club/community",
-			name: "community",
-			component: Community,
-			children: [
-				{ path: "editor", name: "community/editor", component: Editor },
-				{ path: "editclub", name: "community/editclub", component: EditClub },
-				{ path: "calendar", name: "community/calendar", component: Calendar },
-				{ path: "members", name: "community/members", component: CommunityMembers },
-				{ path: "application", name: "community/application", component: CommunityApplication }
-			]
-		},
-		{
-			path: "/*",
-			name: "page404",
-			component: Page404
-		}
-	]
+const router = new Router({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: Home
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: Search
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: Register
+    },
+    {
+      path: "/passwordchange",
+      name: "passwordchange",
+      component: PasswordChange
+    },
+    {
+      path: "/:club",
+      name: "site",
+      component: Site
+    },
+    {
+      path: "/:club/page",
+      name: "page",
+      component: Page,
+      children: [
+        { path: "timeline", name: "page/timeline", component: Timeline },
+        { path: "awards", name: "page/awards", component: Awards },
+        { path: "members", name: "page/members", component: Members },
+        { path: "budgets", name: "page/budgets", component: Budgets },
+        {
+          path: "applicant",
+          name: "page/applicant",
+          component: Applicant,
+          children: [
+            { path: "", name: "page/applicant/main", component: ApplicantMain },
+            { path: "application", name: "page/applicant/application", component: Application },
+            { path: "recorder", name: "page/applicant/recorder", component: Recorder },
+            { path: "result", name: "page/applicant/result", component: Result }
+          ]
+        }
+      ]
+    },
+    {
+      path: "/:club/community",
+      name: "community",
+      component: Community,
+      children: [
+        { path: "editor", name: "community/editor", component: Editor },
+        { path: "editclub", name: "community/editclub", component: EditClub },
+        { path: "calendar", name: "community/calendar", component: Calendar },
+        { path: "members", name: "community/members", component: CommunityMembers },
+        { path: "application", name: "community/application", component: CommunityApplication }
+      ]
+    },
+    {
+      path: "/*",
+      name: "page404",
+      component: Page404
+    }
+  ]
 });
+
+Vue.use(VueAnalytics, {
+  id: "UA-117534654-3",
+  router
+});
+
+export default router;
