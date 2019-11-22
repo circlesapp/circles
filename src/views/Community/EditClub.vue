@@ -43,7 +43,7 @@
 						:class="{'delete-active':deleteClubName==name}"
 						@click="isDeleteAble = true"
 					>
-						<span @click="deleteClub">동아리 폐쇠</span>
+						<span @click="deleteClub">동아리 폐쇄</span>
 						<input v-if="isDeleteAble" v-model="deleteClubName" type="text" placeholder="동아리 명 확인" />
 					</button>
 					<button class="save" @click="save">저장</button>
