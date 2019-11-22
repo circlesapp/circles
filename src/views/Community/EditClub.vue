@@ -303,8 +303,8 @@ export default Vue.extend({
 .editclub__content .action {
 	margin-top: 20px;
 	display: flex;
-	align-items: flex-end;
 	justify-content: space-between;
+	align-items: flex-end;
 }
 .editclub__content .action .save {
 	border: none;
@@ -314,6 +314,7 @@ export default Vue.extend({
 
 	margin: 10px;
 	padding: 10px 50px;
+	word-break: keep-all;
 
 	font-size: 20px;
 
@@ -330,21 +331,25 @@ export default Vue.extend({
 	padding: 10px;
 	cursor: pointer;
 
-	font-size: 16px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
 }
 .editclub__content .action .delete span {
 	opacity: 0.5;
+	font-size: 16px;
+	word-break: keep-all;
+	min-width: 95px;
 }
 .editclub__content .action .delete-active span {
 	opacity: 1;
 }
 .editclub__content .action .delete input {
-	position: absolute;
-	left: 0;
-	bottom: 40px;
-
 	padding: 10px;
 	font-size: 16px;
+
+	width: 100%;
 
 	border: 1px solid #ff4475;
 	border-radius: 5px;
