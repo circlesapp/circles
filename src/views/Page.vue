@@ -35,25 +35,31 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store.commit("pushLoading", {
-			name: "GET_CLUB",
-			message: "동아리 불러오는 중"
-		});
-		this.isLocalLoading = true;
-		this.$store
-			.dispatch("GET_CLUB", this.$route.params.club)
-			.then(club => {
-				this.$store.commit("clearLoading", "GET_CLUB");
-				this.isLocalLoading = false;
-
-				if (!club) this.$router.push("/");
-			})
-			.catch(err => {
-				this.$store.commit("clearLoading", "GET_CLUB");
-				this.isLocalLoading = false;
-
-				this.$router.push("/");
+		if (
+			!this.getClub.name ||
+			this.getClub.name.toLowerCase() !=
+				this.$route.params.club.toLowerCase()
+		) {
+			this.$store.commit("pushLoading", {
+				name: "GET_CLUB",
+				message: "동아리 불러오는 중"
 			});
+			this.isLocalLoading = true;
+			this.$store
+				.dispatch("GET_CLUB", this.$route.params.club)
+				.then(club => {
+					this.$store.commit("clearLoading", "GET_CLUB");
+					this.isLocalLoading = false;
+
+					if (!club) this.$router.push("/");
+				})
+				.catch(err => {
+					this.$store.commit("clearLoading", "GET_CLUB");
+					this.isLocalLoading = false;
+
+					this.$router.push("/");
+				});
+		}
 	},
 	watch: {
 		$route() {
@@ -81,11 +87,11 @@ export default Vue.extend({
 }
 .toploadingAnimation-enter,
 .toploadingAnimation-leave-to {
-    opacity: 0;
+	opacity: 0;
 }
 .toploadingAnimation-enter-to,
 .toploadingAnimation-leave {
-    opacity: 1;
+	opacity: 1;
 }
 
 .routerfade-animation-enter-active,

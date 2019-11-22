@@ -92,6 +92,9 @@ export default Vue.extend({
 			targetCurrentIndex: 0
 		};
 	},
+	created() {
+		if (this.$store.state.userToken) this.reload(); // TODO: 쓸지 안쓸지 결정하기
+	},
 	methods: {
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;

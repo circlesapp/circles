@@ -85,6 +85,22 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		SET_CLUB_IMAGE({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/admin/changeClubImage`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		GET_ALL_CLUB({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
@@ -529,6 +545,7 @@ export default new Vuex.Store({
 						}
 					})
 					.then(club => {
+						commit("setClub", club.data.data);
 						resolve(club.data.data);
 					})
 					.catch(err => {
@@ -540,6 +557,22 @@ export default new Vuex.Store({
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.post(`${state.mainPath}club/create`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(club => {
+						resolve(club.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		CLUB_DELETE({ state, commit }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}club/${state.club.name}/admin/closure`, data, {
 						headers: {
 							Authorization: state.userToken
 						}

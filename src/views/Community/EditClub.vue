@@ -30,11 +30,23 @@
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
-					<input v-model="introduction" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
+					<input
+						v-model="introduction"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리 소개를 입력하세요"
+					/>
 				</div>
 				<div class="action">
-					<button class="delete">동아리 제거하기</button>
-					<button class="save">저장</button>
+					<button
+						class="delete"
+						:class="{'delete-active':deleteClubName==name}"
+						@click="isDeleteAble = true"
+					>
+						<span @click="deleteClub">동아리 폐쇠</span>
+						<input v-if="isDeleteAble" v-model="deleteClubName" type="text" placeholder="동아리 명 확인" />
+					</button>
+					<button class="save" @click="save">저장</button>
 				</div>
 			</div>
 		</div>
@@ -52,7 +64,10 @@ export default Vue.extend({
 
 			name: "",
 			school: "",
-			introduction: ""
+			introduction: "",
+
+			isDeleteAble: false,
+			deleteClubName: ""
 		};
 	},
 	created() {
@@ -89,15 +104,85 @@ export default Vue.extend({
 					reject(error);
 				};
 			});
+		},
+		save() {
+			this.$store.commit("pushLoading", {
+				name: "CLUB_MODIFICATION",
+				message: "동아리 사이트 수정 중"
+			});
+			this.$store
+				.dispatch("CLUB_MODIFICATION", {
+					name: this.name,
+					school: this.school,
+					introduction: this.introduction
+				})
+				.then(club => {
+					this.$store.commit("clearLoading", "CLUB_MODIFICATION");
+					if (this.imageFileBase64) {
+						this.$store.commit("pushLoading", {
+							name: "SET_CLUB_IMAGE",
+							message: "동아리 사이트 수정 중"
+						});
+						this.$store
+							.dispatch("SET_CLUB_IMAGE", {
+								img: this.imageFileBase64
+							})
+							.then(data => {
+								this.$store.commit(
+									"clearLoading",
+									"SET_CLUB_IMAGE"
+								);
+								this.$router.replace(
+									`/${this.name}/community/editclub`
+								);
+							})
+							.catch(err => console.dir(err));
+					} else {
+						this.$router.replace(
+							`/${this.name}/community/editclub`
+						);
+					}
+				})
+				.catch(err => console.dir(err));
+		},
+		deleteClub() {
+			if (this.deleteClubName == this.name) {
+				this.$store.commit("pushLoading", {
+					name: "CLUB_DELETE",
+					message: "동아리 사이트 수정 중"
+				});
+				this.$store
+					.dispatch("CLUB_DELETE", {
+						name: this.name,
+						school: this.school,
+						introduction: this.introduction
+					})
+					.then(club => {
+						this.$store.commit("clearLoading", "CLUB_DELETE");
+						this.$store.commit("setClub", {});
+						this.$router.replace("/");
+					})
+					.catch(err => console.dir(err));
+			}
 		}
 	},
 	watch: {
 		imageFile() {
-			this.encodeBase64ImageFile(this.imageFile).then(
-				(imagebase64: string) => {
-					this.imageFileBase64 = imagebase64;
-				}
-			);
+			if (this.imageFile) {
+				this.$store.commit("pushLoading", {
+					name: "encodeBase64ImageFile",
+					message: "동아리 사이트 수정 중"
+				});
+				this.encodeBase64ImageFile(this.imageFile).then(
+					(imagebase64: string) => {
+						this.imageFileBase64 = imagebase64;
+						this.$store.commit(
+							"clearLoading",
+							"encodeBase64ImageFile"
+						);
+					}
+				);
+			}
 		}
 	},
 	computed: {
@@ -237,6 +322,7 @@ export default Vue.extend({
 	cursor: pointer;
 }
 .editclub__content .action .delete {
+	position: relative;
 	border: none;
 	background: none;
 	color: #ff4475;
@@ -245,6 +331,23 @@ export default Vue.extend({
 	cursor: pointer;
 
 	font-size: 16px;
+}
+.editclub__content .action .delete span {
+	opacity: 0.5;
+}
+.editclub__content .action .delete-active span {
+	opacity: 1;
+}
+.editclub__content .action .delete input {
+	position: absolute;
+	left: 0;
+	bottom: 40px;
+
+	padding: 10px;
+	font-size: 16px;
+
+	border: 1px solid #ff4475;
+	border-radius: 5px;
 }
 @media screen and (max-width: 1279px) {
 	.editclub__wrapper {

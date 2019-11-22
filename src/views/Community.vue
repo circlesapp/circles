@@ -28,29 +28,35 @@ export default Vue.extend({
 		return {};
 	},
 	created() {
-		if (this.getToken) this.getMembers();
+		if (this.getToken) this.reload();
 	},
 	watch: {
 		getToken() {
-			this.getMembers();
+			this.reload();
 		}
 	},
 	methods: {
-		getMembers() {
-			this.$store.commit("pushLoading", {
-				name: "GET_CLUB",
-				message: "동아리 불러오는 중"
-			});
-			this.$store
-				.dispatch("GET_CLUB", this.$route.params.club)
-				.then(club => {
-					this.$store.commit("clearLoading", "GET_CLUB");
-					if (!club) this.$router.push("/");
-				})
-				.catch(err => {
-					this.$store.commit("clearLoading", "GET_CLUB");
-					this.$router.push("/");
+		reload() {
+			if (
+				!this.getClub.name ||
+				this.getClub.name.toLowerCase() !=
+					this.$route.params.club.toLowerCase()
+			) {
+				this.$store.commit("pushLoading", {
+					name: "GET_CLUB",
+					message: "동아리 불러오는 중"
 				});
+				this.$store
+					.dispatch("GET_CLUB", this.$route.params.club)
+					.then(club => {
+						this.$store.commit("clearLoading", "GET_CLUB");
+						if (!club) this.$router.push("/");
+					})
+					.catch(err => {
+						this.$store.commit("clearLoading", "GET_CLUB");
+						this.$router.push("/");
+					});
+			}
 		}
 	},
 	computed: {
