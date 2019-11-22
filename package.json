@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && sudo rm -rf /var/www/html/* && sudo mv docs/* /var/www/html"
+    "deploy": "git pull && vue-cli-service build && sudo rm -rf /var/www/html/* && sudo mv docs/* /var/www/html"
   },
   "dependencies": {
     "axios": "^0.19.0",
