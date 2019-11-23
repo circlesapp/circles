@@ -66,7 +66,7 @@
 							<i class="mdi mdi-magnify"></i>
 						</router-link>
 						<div class="menu__right__alarm__wrapper" @click="toggleAlarm" v-if="getUserInformation.name">
-							<span class="menu__right__alarm__count">{{getUserInformation.alarms.length}}</span>
+							<span class="menu__right__alarm__count" v-if="getUserInformation.alarms.length > 0">{{getUserInformation.alarms.length}}</span>
 							<i class="menu__right__alarm mdi mdi-bell-outline"></i>
 						</div>
 						<transition name="fade">
@@ -78,7 +78,7 @@
 									:key="alarm.createAt"
 								>
 									<p>
-										<span class="date">{{getDate(alarm.createAt)}} | {{alarm.timeString}}</span>
+										<span class="date">{{alarm.timeString}}</span>
 										<br />
 										<span v-html="alarm.message"></span>
 									</p>
@@ -730,9 +730,9 @@ i {
 	font-size: 16px;
 	color: #333333;
 }
-.menu__right__alarm__popup__item .date{
-    font-size: 14px;
-    color: #666666;
+.menu__right__alarm__popup__item .date {
+	font-size: 14px;
+	color: #666666;
 }
 .menu__right__alarm__popup__item .clear {
 	position: absolute;

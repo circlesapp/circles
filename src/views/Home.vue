@@ -388,6 +388,7 @@ export default Vue.extend({
 	width: 100%;
 
 	cursor: pointer;
+    margin-bottom: 5px;
 }
 .home__login__list__applicant__item span {
 	font-family: NanumSquareR;

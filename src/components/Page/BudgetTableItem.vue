@@ -12,7 +12,9 @@
 		<td>{{data.quantity}}</td>
 		<td>{{data.shopping}}</td>
 		<td>{{data.total}}</td>
-		<td>{{data.url}}</td>
+		<td class="budgettableitem__url">
+			<a :href="data.url">{{data.url}}</a>
+		</td>
 		<td>{{getDate}}</td>
 	</tr>
 </template>
@@ -38,5 +40,20 @@ export default Vue.extend({
 }
 .budgettableitem td {
 	font-family: "NanumSquareEB";
+}
+.budgettableitem__url{
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.budgettableitem__url a{
+    color: #9cb2cd;
+	font-size: 20px;
+	font-weight: 800;
+	text-decoration: underline;
+}
+.budgettableitem__url a:visited{
+    color: #538fff;
 }
 </style>
