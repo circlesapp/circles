@@ -32,7 +32,7 @@
 						>페이지</router-link>
 						<router-link
 							v-if="isAdmin"
-							:to="`/${getClub.name}/community/editclub`"
+							:to="`/${getClub.name}/community/${communityPermissionRoute}`"
 							class="menu__left__list__item"
 							:class="{'menu__left__list__item-active':idx == 2}"
 						>커뮤니티</router-link>
@@ -299,7 +299,7 @@ export default Vue.extend({
 				return "-";
 			}
 		},
-		isAdmin() {
+		isAdmin(): number {
 			let acceptPermissions = [32, 42];
 			if (
 				this.$store.state.club.ranks &&
@@ -313,22 +313,32 @@ export default Vue.extend({
 					}
 				);
 				if (user) {
-					return (
-						this.$store.state.club.ranks.find(
-							(rank: any) => rank.id == user.rank
-						).isAdmin ||
-						this.$store.state.club.ranks
+					let rank = this.$store.state.club.ranks.find(
+						(rank: any) => rank.id == user.rank
+					);
+					if (rank.isAdmin) {
+						return 1000;
+					} else {
+						return this.$store.state.club.ranks
 							.find((rank: any) => rank.id == user.rank)
-							.permission.findIndex(
+							.permission.find(
 								(permission: string) =>
 									acceptPermissions.indexOf(
 										parseInt(permission)
 									) != -1
-							) != -1
-					);
-					//
-				} else return false;
-			} else return false;
+							);
+					}
+				} else return 0;
+			} else return 0;
+		},
+		communityPermissionRoute(): string {
+			return this.isAdmin == 1000
+				? "editclub"
+				: this.isAdmin == 32
+				? "application"
+				: this.isAdmin == 42
+				? "calendar"
+				: "";
 		},
 		isShowProfile() {
 			return this.$route.name != "home";

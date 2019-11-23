@@ -50,7 +50,7 @@
 					<p class="content subcontent">{{applicants[currentApplicant].content}}</p>
 				</div>
 				<div class="action">
-					<div class="reject" @click="reject" checkPermission(33)>거절</div>
+					<div class="reject" @click="reject" v-if="checkPermission(33)">거절</div>
 					<div class="accept" @click="accept" v-if="checkPermission(31)">승인</div>
 				</div>
 			</div>
