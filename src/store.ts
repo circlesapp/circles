@@ -94,6 +94,57 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		GET_ALARM({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/getAlarm`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
+						event("action", "GET_ALARM", "get_alarm", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		REMOVE_ALARM({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/removeAlarm`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
+						event("action", "REMOVE_ALARM", "remove_alarm", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		REMOVE_ALL_ALARM({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/removeAllAlarm`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
+						event("action", "REMOVE_ALL_ALARM", "remove_all_alarm", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		SET_CLUB_IMAGE({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios

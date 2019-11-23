@@ -17,8 +17,6 @@
 				<h1>{{getUserInformation.name}}</h1>
 				<p v-if="getRank != '-'">{{`${getClub.name} ${getRank}`}}</p>
 			</div>
-			<!-- // TODO: 로그아웃, 동아리 생성 버튼, 홍보페이지 어떻게가지? -->
-			<img :src="getImgPath(getClub.imgPath)" v-if="getRank != '-'" />
 		</div>
 		<div class="home__login__list">
 			<div

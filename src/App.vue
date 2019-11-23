@@ -61,71 +61,93 @@
 					</nav>
 				</header>
 				<transition name="fade">
-					<div class="menu__right" v-if="getUserInformation.name && isShowProfile">
-						<img :src="getUserImage" @click="toggleProfile" />
+					<div class="menu__right__fixed">
+						<router-link to="/search" class="menu__right__search">
+							<i class="mdi mdi-magnify"></i>
+						</router-link>
+						<div class="menu__right__alarm__wrapper" @click="toggleAlarm" v-if="getUserInformation.name">
+							<span class="menu__right__alarm__count">{{getUserInformation.alarms.length}}</span>
+							<i class="menu__right__alarm mdi mdi-bell-outline"></i>
+						</div>
 						<transition name="fade">
-							<div class="menu__right__profile" v-if="showProfile">
-								<div class="menu__right__profile__information">
-									<div class="information__wrapper">
-										<img :src="getUserImage" alt />
-										<div>
-											<h3 class="name">{{getUserInformation.name}}</h3>
-											<p class="email">{{getUserInformation.email}}</p>
-										</div>
-									</div>
+							<div class="menu__right__alarm__popup" v-if="showAlarm">
+								<TopLoadingBar class="menu__right__alarm__popup__loading" v-if="isAlarmLoading"></TopLoadingBar>
+								<div
+									class="menu__right__alarm__popup__item"
+									v-for="alarm in getUserInformation.alarms"
+									:key="alarm.createAt"
+								>
+									<p>
+										<span class="date">{{getDate(alarm.createAt)}} | {{alarm.timeString}}</span>
+										<br />
+										<span v-html="alarm.message"></span>
+									</p>
+									<i class="clear mdi mdi-close" @click="deleteAlarm(alarm.id)"></i>
 								</div>
-								<div class="menu__right__list" v-if="getRank !== '-' && isAdmin">
-									<router-link
-										class="menu__right__list__link"
-										v-if="getRank !== '-'"
-										:to="`/${getClub.name}/page/timeline`"
-									>
-										<div class="menu__right__list__item">
-											<i class="mdi mdi-account-group"></i>
-											<span class="menu__right__list__item__text">{{getClub.name || '-'}}</span>
-										</div>
-									</router-link>
-									<router-link
-										class="menu__right__list__link"
-										v-if="isAdmin"
-										:to="`/${getClub.name}/community/members`"
-									>
-										<div class="menu__right__list__item">
-											<i class="mdi mdi-shield-star"></i>
-											<span class="menu__right__list__item__text">{{getRank}}</span>
-										</div>
-									</router-link>
-								</div>
-								<div class="menu__right__list menu__right__list__last">
-									<div
-										class="menu__right__list__item menu__right__darktheme"
-										@click="darkTheme = !darkTheme"
-									>
-										<div class="menu__right__darktheme__left">
-											<i class="mdi mdi-theme-light-dark"></i>
-											<span class="menu__right__list__item__text">다크 테마</span>
-										</div>
-										<div class="menu__right__darktheme__slider__wrapper">
-											<input v-model="darkTheme" type="checkbox" />
-											<span class="menu__right__darktheme__slider"></span>
-										</div>
-									</div>
-									<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
-										<i class="mdi mdi-logout-variant"></i>
-										<span class="menu__right__list__item__text">로그아웃</span>
-									</div>
-								</div>
-								<!-- .menu__right__list -->
 							</div>
 						</transition>
+						<div class="menu__right" v-if="getUserInformation.name">
+							<img :src="getUserImage" @click="toggleProfile" />
+							<transition name="fade">
+								<div class="menu__right__profile" v-if="showProfile">
+									<div class="menu__right__profile__information">
+										<div class="information__wrapper">
+											<img :src="getUserImage" alt />
+											<div>
+												<h3 class="name">{{getUserInformation.name}}</h3>
+												<p class="email">{{getUserInformation.email}}</p>
+											</div>
+										</div>
+									</div>
+									<div class="menu__right__list" v-if="getRank !== '-' && isAdmin">
+										<router-link
+											class="menu__right__list__link"
+											v-if="getRank !== '-'"
+											:to="`/${getClub.name}/page/timeline`"
+										>
+											<div class="menu__right__list__item">
+												<i class="mdi mdi-account-group"></i>
+												<span class="menu__right__list__item__text">{{getClub.name || '-'}}</span>
+											</div>
+										</router-link>
+										<router-link
+											class="menu__right__list__link"
+											v-if="isAdmin"
+											:to="`/${getClub.name}/community/members`"
+										>
+											<div class="menu__right__list__item">
+												<i class="mdi mdi-shield-star"></i>
+												<span class="menu__right__list__item__text">{{getRank}}</span>
+											</div>
+										</router-link>
+									</div>
+									<div class="menu__right__list menu__right__list__last">
+										<div
+											class="menu__right__list__item menu__right__darktheme"
+											@click="darkTheme = !darkTheme"
+										>
+											<div class="menu__right__darktheme__left">
+												<i class="mdi mdi-theme-light-dark"></i>
+												<span class="menu__right__list__item__text">다크 테마</span>
+											</div>
+											<div class="menu__right__darktheme__slider__wrapper">
+												<input v-model="darkTheme" type="checkbox" />
+												<span class="menu__right__darktheme__slider"></span>
+											</div>
+										</div>
+										<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
+											<i class="mdi mdi-logout-variant"></i>
+											<span class="menu__right__list__item__text">로그아웃</span>
+										</div>
+									</div>
+								</div>
+							</transition>
+						</div>
 					</div>
-					<router-link to="/search" class="menu__right__search" v-else>
-						<i class="mdi mdi-magnify"></i>
-					</router-link>
 				</transition>
 			</div>
 		</transition>
-		<section class="content">
+		<section class="content" @click="closeAll">
 			<transition :name="routerAnimation">
 				<router-view class="content__router" />
 			</transition>
@@ -139,15 +161,18 @@
 <script lang="ts">
 import Vue from "vue";
 import LoadingBar from "./components/LoadingBar.vue";
+import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
 	name: "App",
 	components: {
-		LoadingBar
+		LoadingBar,
+		TopLoadingBar
 	},
 	data() {
 		return {
 			showMenu: false,
 			showProfile: false,
+			showAlarm: false,
 			deferredPrompt: null as any,
 			routerAnimation: "",
 
@@ -155,7 +180,9 @@ export default Vue.extend({
 			idx: 0,
 
 			darkTheme: false,
-			barPositionX: ""
+			barPositionX: "",
+
+			isAlarmLoading: false
 		};
 	},
 	created() {
@@ -215,7 +242,34 @@ export default Vue.extend({
 			this.showMenu = !this.showMenu;
 		},
 		toggleProfile() {
+			this.showAlarm = false;
 			this.showProfile = !this.showProfile;
+		},
+		toggleAlarm() {
+			this.showProfile = false;
+			this.showAlarm = !this.showAlarm;
+			if (this.showAlarm) {
+				this.isAlarmLoading = true;
+				this.$store.dispatch("GET_ALARM").then(alarms => {
+					this.getUserInformation.alarms = alarms;
+					this.isAlarmLoading = false;
+				});
+			}
+		},
+		closeAll() {
+			this.showMenu = false;
+			this.showProfile = false;
+			this.showAlarm = false;
+		},
+		getDate(date: Date): string {
+			return new Date(date).toISOString().slice(0, 10);
+		},
+		deleteAlarm(id: number) {
+			this.isAlarmLoading = true;
+			this.$store.dispatch("REMOVE_ALARM", { id }).then(alarms => {
+				this.isAlarmLoading = false;
+				this.getUserInformation.alarms = alarms;
+			});
 		},
 		showPWA() {
 			this.deferredPrompt.prompt();
@@ -339,9 +393,6 @@ export default Vue.extend({
 				: this.isAdmin == 42
 				? "calendar"
 				: "";
-		},
-		isShowProfile() {
-			return this.$route.name != "home";
 		}
 	}
 });
@@ -424,12 +475,12 @@ export default Vue.extend({
 .fade-enter,
 .fade-leave-to {
 	opacity: 0;
-	transform: translateX(10%);
+	transform: translateY(5%);
 }
 .fade-enter-to,
 .fade-leave {
 	opacity: 1;
-	transform: translateX(0);
+	transform: translateY(0);
 }
 .loadingAnimation-enter-active,
 .loadingAnimation-leave-active {
@@ -610,9 +661,97 @@ i {
 	font-family: NanumSquareL;
 	font-size: 20px;
 }
+
+.menu__right__fixed {
+	display: flex;
+	align-items: center;
+	margin-left: 20px;
+}
+.menu__right__alarm__wrapper {
+	display: flex;
+	flex-direction: column;
+
+	position: relative;
+
+	cursor: pointer;
+}
+.menu__right__alarm {
+	font-size: 36px;
+}
+.menu__right__alarm__count {
+	position: absolute;
+	right: -5px;
+	top: 0;
+
+	font-size: 14px;
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+
+	background-color: #f55246;
+	color: white;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.menu__right__alarm__popup {
+	position: fixed;
+
+	right: 70px;
+	top: 70px;
+
+	width: 350px;
+	height: 400px;
+
+	border-radius: 4px;
+	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
+	background-color: white;
+
+	overflow-y: auto;
+}
+.menu__right__alarm__popup__loading {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	z-index: 100;
+}
+.menu__right__alarm__popup__item {
+	position: relative;
+	padding: 20px;
+	padding-right: 40px;
+	transition: 0.2s;
+}
+
+.menu__right__alarm__popup__item:nth-child(2n) {
+	background-color: #fafafa;
+}
+.menu__right__alarm__popup__item p {
+	font-size: 16px;
+	color: #333333;
+}
+.menu__right__alarm__popup__item .date{
+    font-size: 14px;
+    color: #666666;
+}
+.menu__right__alarm__popup__item .clear {
+	position: absolute;
+	right: 20px;
+	top: 0;
+	height: 100%;
+	width: 20px;
+
+	display: flex;
+	align-items: center;
+
+	color: #f55246;
+	cursor: pointer;
+}
+
 .menu__right {
 	cursor: pointer;
-	margin-right: 40px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 .menu__right > img {
 	width: 34px;
@@ -625,7 +764,6 @@ i {
 	right: 10px;
 	top: 70px;
 	width: 300px;
-	max-width: 380px;
 	border-radius: 4px;
 	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
 	background-color: white;
@@ -751,10 +889,10 @@ input:checked + .menu__right__darktheme__slider:before {
 }
 
 .menu__right__search {
-	margin-right: 40px;
 	font-size: 40px;
 	color: white;
 	text-decoration: none;
+	margin-right: 20px;
 }
 
 .submenu {
@@ -854,7 +992,7 @@ input:checked + .menu__right__darktheme__slider:before {
 	.menu__left__list__circles {
 		display: flex;
 	}
-	.menu__right__search {
+	.menu__right__fixed {
 		margin-right: 20px;
 	}
 }
