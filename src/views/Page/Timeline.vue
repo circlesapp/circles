@@ -1,5 +1,5 @@
 <template>
-	<div class="timeline">
+	<div class="timeline" v-if="posts.length > 0 || !isPostLoadClear || getPermissionCreate">
 		<div class="timeline__wrapper">
 			<Post v-if="getPermissionCreate" :isCreate="true" @isChange="reload"></Post>
 			<transition-group name="timeline">
@@ -13,6 +13,7 @@
 			</transition-group>
 		</div>
 	</div>
+	<div class="timeline__notfound" v-else>작성된 타임라인이 없습니다.</div>
 </template>
 
 <script lang="ts">
@@ -25,7 +26,8 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			posts: []
+            posts: [],
+            isPostLoadClear : false
 		};
 	},
 	created() {
@@ -40,7 +42,8 @@ export default Vue.extend({
 			this.$store
 				.dispatch("GET_CLUB_POSTS")
 				.then(posts => {
-					this.$store.commit("clearPageLoading", "GET_CLUB_POSTS");
+                    this.$store.commit("clearPageLoading", "GET_CLUB_POSTS");
+                    this.isPostLoadClear = true;
 					this.posts = posts;
 				})
 				.catch(err => {});
@@ -101,6 +104,18 @@ export default Vue.extend({
 }
 .timeline__post {
 	display: inline-block;
+}
+
+.timeline__notfound {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    width: 100%;
+    height: 100%;
+
+	font-family: NanumSquareB;
+    font-size: 48px;
+    color: #aaaaaa;
 }
 @media screen and (max-width: 768px) {
 	.timeline {

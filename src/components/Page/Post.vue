@@ -476,6 +476,8 @@ export default Vue.extend({
     margin: 25px 0;
     font-size: 14px;
     line-height: 1.43;
+    white-space: pre-line;
+    width: 100%;
 }
 .post__content.create {
     margin: 10px 0;

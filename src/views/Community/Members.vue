@@ -23,7 +23,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(member,idx) in getOrderedMembers" :key="member._id" @click="currentUser=idx">
+					<tr v-for="(member,idx) in getOrderedMembers" :key="member._id" @click="currentUser=idx" :class="{'active':currentUser == idx}">
 						<td>{{idx}}</td>
 						<td>{{member.user.name}}</td>
 						<td>
@@ -318,6 +318,9 @@ export default Vue.extend({
 	user-select: none;
 	cursor: pointer;
 	background-color: #538fff;
+}
+.communityMembers__memberTable .active{
+    background-color: #eeeeee;
 }
 .communityMembers__memberTable th {
 	position: relative;
