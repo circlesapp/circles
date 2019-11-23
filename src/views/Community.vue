@@ -3,11 +3,19 @@
 		<transition name="submenuAnimation">
 			<div class="submenu" v-if="$route.name != 'community/editor'">
 				<div class="submenu__list">
-					<router-link :to="{name:'community/editor'}" class="submenu__list__item">사이트 편집</router-link>
-					<router-link :to="{name:'community/editclub'}" class="submenu__list__item">동아리관리</router-link>
-					<router-link :to="{name:'community/members'}" class="submenu__list__item">맴버관리</router-link>
-					<router-link :to="{name:'community/application'}" class="submenu__list__item">채용관리</router-link>
-					<router-link :to="{name:'community/calendar'}" class="submenu__list__item">캘린더</router-link>
+					<router-link :to="{name:'community/editor'}" class="submenu__list__item" v-if="isAdmin">사이트 편집</router-link>
+					<router-link :to="{name:'community/editclub'}" class="submenu__list__item" v-if="isAdmin">동아리관리</router-link>
+					<router-link :to="{name:'community/members'}" class="submenu__list__item" v-if="isAdmin">맴버관리</router-link>
+					<router-link
+						:to="{name:'community/application'}"
+						class="submenu__list__item"
+						v-if="checkPermission(32)"
+					>채용관리</router-link>
+					<router-link
+						:to="{name:'community/calendar'}"
+						class="submenu__list__item"
+						v-if="checkPermission(42)"
+					>캘린더</router-link>
 				</div>
 			</div>
 		</transition>
@@ -57,6 +65,27 @@ export default Vue.extend({
 						this.$router.push("/");
 					});
 			}
+		},
+		checkPermission(permission: number) {
+			if (this.$store.state.club.ranks) {
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
+				);
+				if (user)
+					return (
+						this.$store.state.club.ranks.find(
+							(rank: any) => rank.id == user.rank
+						).isAdmin ||
+						this.$store.state.club.ranks
+							.find((rank: any) => rank.id == user.rank)
+							.permission.indexOf("" + permission) != -1
+					);
+				else return false;
+			} else return false;
 		}
 	},
 	computed: {
@@ -65,6 +94,25 @@ export default Vue.extend({
 		},
 		getToken() {
 			return this.$store.state.userToken;
+		},
+		isAdmin() {
+			if (
+				this.$store.state.club.ranks &&
+				this.$store.state.userInformation._id
+			) {
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
+				);
+				if (user) {
+					return this.$store.state.club.ranks.find(
+						(rank: any) => rank.id == user.rank
+					).isAdmin;
+				} else return false;
+			} else return false;
 		}
 	}
 });

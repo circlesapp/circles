@@ -8,7 +8,7 @@
 			<div class="award__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>대회명</h4>
-					<input v-model="title" class="inputfield__input" type="text" placeholder="대회명을 입력하세요" />
+					<input ref="startInput" v-model="title" class="inputfield__input" type="text" placeholder="대회명을 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>부문</h4>
@@ -81,13 +81,20 @@ export default Vue.extend({
 			})
 			.catch(err => {});
 	},
+	mounted() {
+		(this.$refs.startInput as HTMLDivElement).focus();
+		addEventListener("keydown", e => {
+			if (e.keyCode == 27) this.$emit("isUpdated", false);
+		});
+	},
 	methods: {
 		userInputKeyPress(e: any) {
 			if (this.targetCurrentIndex >= this.getNotJoinMembers.length)
 				this.targetCurrentIndex = this.getNotJoinMembers.length;
 			switch (e.keyCode) {
 				case 13:
-					this.appendTargetItem(this.targetCurrentIndex);
+                    this.appendTargetItem(this.targetCurrentIndex);
+                    this.targetCurrentIndex = 0;
 					break;
 				case 8:
 					if (this.searchTarget == "") {
@@ -107,7 +114,7 @@ export default Vue.extend({
 			}
 		},
 		create() {
-            this.$store.commit("pushLoading", {
+			this.$store.commit("pushLoading", {
 				name: "AWARD",
 				message: "동아리 수상 생성 중"
 			});
@@ -187,12 +194,12 @@ export default Vue.extend({
 
 	font-size: 30px;
 
-    border: none;
+	border: none;
 	border-radius: 50%;
 	background-color: white;
 	color: rgb(46, 46, 46);
 
-    cursor: pointer;
+	cursor: pointer;
 	-webkit-transition: 0.2s;
 	-moz-transition: 0.2s;
 	-o-transition: 0.2s;
@@ -259,6 +266,8 @@ export default Vue.extend({
 	top: 100%;
 
 	width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
 
 	background-color: white;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
@@ -275,10 +284,13 @@ export default Vue.extend({
 	background-color: #eeeeee;
 }
 .inputfield__input__userfield__autocomplete img {
-	height: 1em;
+	height: 1.25em;
+    width: 1.25em;
 	margin-right: 10px;
 	border-radius: 100%;
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+    border-radius: 100%;
+    background-color: white;
 }
 .award__createpopup__content .inputfield input::placeholder,
 .inputfield__input__userfield::placeholder {
@@ -324,8 +336,10 @@ export default Vue.extend({
 	margin-right: 10px;
 }
 .inputfield__input__member img {
-	width: 1.2em;
-	height: 1.2em;
+	width: 1.25em;
+	height: 1.25em;
+    border-radius: 100%;
+    background-color: white;
 	margin-right: 10px;
 }
 .inputfield__input__member i {

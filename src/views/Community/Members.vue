@@ -128,7 +128,7 @@
 										:disabled="getClub.ranks[currentRank].isAdmin"
 									/>
 									<span></span>
-									지원서 읽기 권한
+									지원서 수락 권한
 								</label>
 								<label>
 									<input
@@ -138,7 +138,7 @@
 										:disabled="getClub.ranks[currentRank].isAdmin"
 									/>
 									<span></span>
-									지원서 수락 권한
+									지원서 읽기 권한
 								</label>
 								<label>
 									<input
@@ -149,6 +149,36 @@
 									/>
 									<span></span>
 									지원서 삭제 권한
+								</label>
+								<label>
+									<input
+										type="checkbox"
+										v-model="getClub.ranks[currentRank].permission"
+										value="41"
+										:disabled="getClub.ranks[currentRank].isAdmin"
+									/>
+									<span></span>
+									캘린더 생성 권한
+								</label>
+								<label>
+									<input
+										type="checkbox"
+										v-model="getClub.ranks[currentRank].permission"
+										value="42"
+										:disabled="getClub.ranks[currentRank].isAdmin"
+									/>
+									<span></span>
+									캘린더 읽기 권한
+								</label>
+								<label>
+									<input
+										type="checkbox"
+										v-model="getClub.ranks[currentRank].permission"
+										value="43"
+										:disabled="getClub.ranks[currentRank].isAdmin"
+									/>
+									<span></span>
+									캘린더 삭제 권한
 								</label>
 								<label class="admin">
 									<input
@@ -183,8 +213,12 @@
 						</select>
 					</div>
 					<div class="action">
-						<button class="fire" @click="fire">퇴출</button>
-						<div class="save" @click="commit">변경 사항 저장</div>
+						<button
+							class="fire"
+							@click="fire"
+							v-if="getOrderedMembers[currentUser].user._id != getClub.owner"
+						>퇴출</button>
+						<button class="save" @click="commit">변경 사항 저장</button>
 					</div>
 				</div>
 			</div>
@@ -270,13 +304,13 @@ export default Vue.extend({
 			this.$store.commit("pushLoading", {
 				name: "CLUB_FIRE_MEMBER",
 				message: "동아리 맴버 퇴출 중"
-            });
+			});
 			this.$store
 				.dispatch("CLUB_FIRE_MEMBER", {
 					_id: this.getOrderedMembers[this.currentUser].user
 				})
 				.then(club => {
-                    this.currentUser = 0;
+					this.currentUser = 0;
 					this.$store.commit("clearLoading", "CLUB_FIRE_MEMBER");
 					this.reload();
 				})

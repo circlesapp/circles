@@ -8,7 +8,7 @@
 			<div class="circles__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>동아리명</h4>
-					<input v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
+					<input ref="startInput" v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>소속학교</h4>
@@ -51,11 +51,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import LoadingBar from "./LoadingBar.vue";
 export default Vue.extend({
-	components: {
-		LoadingBar
-	},
 	data() {
 		return {
 			name: "",
@@ -66,7 +62,12 @@ export default Vue.extend({
 			errorAlert: ""
 		};
 	},
-	created() {},
+	mounted() {
+        (this.$refs.startInput as HTMLDivElement).focus();
+        addEventListener("keydown",(e)=>{
+			if (e.keyCode == 27) this.$emit("isUpdated", false);
+        })
+	},
 	methods: {
 		encodeBase64ImageFile(image: File): Promise<string> {
 			return new Promise<string>((resolve, reject) => {

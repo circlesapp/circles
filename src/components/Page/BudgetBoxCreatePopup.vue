@@ -8,7 +8,13 @@
 			<div class="budget__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>품목</h4>
-					<input v-model="item" class="inputfield__input" type="text" placeholder="품목을 입력하세요" />
+					<input
+						ref="startInput"
+						v-model="item"
+						class="inputfield__input"
+						type="text"
+						placeholder="품목을 입력하세요"
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>규격</h4>
@@ -56,7 +62,12 @@ export default Vue.extend({
 			date: null
 		};
 	},
-	created() {},
+	mounted() {
+		(this.$refs.startInput as HTMLDivElement).focus();
+		addEventListener("keydown", e => {
+			if (e.keyCode == 27) this.$emit("isUpdated", false);
+		});
+	},
 	methods: {
 		create() {
 			this.$store.commit("pushLoading", {

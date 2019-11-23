@@ -43,7 +43,7 @@
 						:class="{'delete-active':deleteClubName==name}"
 						@click="isDeleteAble = true"
 					>
-						<span @click="deleteClub">동아리 폐쇄</span>
+						<span @click="deleteClub" v-if="isOwner">동아리 폐쇄</span>
 						<input v-if="isDeleteAble" v-model="deleteClubName" type="text" placeholder="동아리 명 확인" />
 					</button>
 					<button class="save" @click="save">저장</button>
@@ -197,6 +197,9 @@ export default Vue.extend({
 		},
 		getClub() {
 			return this.$store.state.club;
+		},
+		isOwner(): boolean {
+			return this.getClub.owner == this.$store.state.userInformation._id;
 		}
 	}
 });

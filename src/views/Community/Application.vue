@@ -50,8 +50,8 @@
 					<p class="content subcontent">{{applicants[currentApplicant].content}}</p>
 				</div>
 				<div class="action">
-					<div class="reject" @click="reject">거절</div>
-					<div class="accept" @click="accept">승인</div>
+					<div class="reject" @click="reject" checkPermission(33)>거절</div>
+					<div class="accept" @click="accept" v-if="checkPermission(31)">승인</div>
 				</div>
 			</div>
 		</div>
@@ -125,6 +125,27 @@ export default Vue.extend({
 					this.reload();
 				})
 				.catch(err => console.log(err));
+		},
+		checkPermission(permission: number) {
+			if (this.$store.state.club.ranks) {
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
+				);
+				if (user)
+					return (
+						this.$store.state.club.ranks.find(
+							(rank: any) => rank.id == user.rank
+						).isAdmin ||
+						this.$store.state.club.ranks
+							.find((rank: any) => rank.id == user.rank)
+							.permission.indexOf("" + permission) != -1
+					);
+				else return false;
+			} else return false;
 		}
 	},
 	computed: {

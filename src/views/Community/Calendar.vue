@@ -15,13 +15,9 @@
 			@contextmenu="$event.preventDefault()"
 			ref="calendar"
 		>
-			<div class="calendar__content__create" v-if="isCreatePopup" ref="createPopup">
-				<input type="text" v-model="content" @keydown="pressEnter" ref="createPopupInput" />
-				<button @click="createSc">일정 생성</button>
-			</div>
+			<CalendarBoxCreatePopup :start="start" :end="end" v-if="isCreatePopup" @isUpdated="reload"></CalendarBoxCreatePopup>
 			<div
 				class="calendar__content__day"
-                :class="{'calendar__content__day-isLoading':isLoading}"
 				v-for="(day,idx) in getDays"
 				:key="idx"
 				ref="calendarItem"
@@ -50,7 +46,12 @@
 
 <script lang="ts">
 import Vue from "vue";
+import CalendarBoxCreatePopup from "../../components/Community/CalendarBoxCreatePopup.vue";
+
 export default Vue.extend({
+	components: {
+		CalendarBoxCreatePopup
+	},
 	data() {
 		return {
 			year: 0,
@@ -76,7 +77,6 @@ export default Vue.extend({
 			colors: ["#ff4475", "#538fff", "#ff9a01"],
 
 			isCreatePopup: false,
-			isLoading: false,
 
 			content: "",
 			start: new Date() as Date,
@@ -101,11 +101,15 @@ export default Vue.extend({
 	},
 	methods: {
 		reload() {
-			this.isLoading = true;
+			this.isCreatePopup = false;
+			this.$store.commit("pushLoading", {
+				name: "GET_CLUB_CALENDAR",
+				message: "캘린더 불러오는 중"
+			});
 			this.$store.dispatch("GET_CLUB_CALENDAR").then(calendars => {
-				this.isLoading = false;
 				this.lineData = [];
 				this.tmpLineData = [];
+				this.$store.commit("clearLoading", "GET_CLUB_CALENDAR");
 				calendars.forEach((calendar: any) => {
 					this.calendars = calendars;
 					let start =
@@ -124,11 +128,6 @@ export default Vue.extend({
 					);
 				});
 			});
-		},
-		pressEnter(e: KeyboardEvent) {
-			if (e.keyCode == 13) {
-				this.createSc();
-			}
 		},
 		getSize() {
 			let calendar = (this.$refs
@@ -164,33 +163,24 @@ export default Vue.extend({
 			if (!this.isCreatePopup) {
 				this.isClick = false;
 				this.isCreatePopup = true;
-				this.$nextTick(() => {
-					let createPopup = this.$refs.createPopup as HTMLDivElement;
-					let createPopupInput = this.$refs
-						.createPopupInput as HTMLDivElement;
-					createPopup.style.left = this.endPointX + "px";
-					createPopup.style.top = this.endPointY + "px";
-					createPopupInput.focus();
-
-					let startPosition = this.getPosition(
-						this.startPointX,
-						this.startPointY
-					);
-					let endPosition = this.getPosition(
-						this.endPointX,
-						this.endPointY
-					);
-					this.start = new Date(
-						this.year,
-						this.month,
-						this.getDays[startPosition[1] * 7 + startPosition[0]]
-					);
-					this.end = new Date(
-						this.year,
-						this.month,
-						this.getDays[endPosition[1] * 7 + endPosition[0]]
-					);
-				});
+				let startPosition = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
+				let endPosition = this.getPosition(
+					this.endPointX,
+					this.endPointY
+				);
+				this.start = new Date(
+					this.year,
+					this.month,
+					this.getDays[startPosition[1] * 7 + startPosition[0]]
+				);
+				this.end = new Date(
+					this.year,
+					this.month,
+					this.getDays[endPosition[1] * 7 + endPosition[0]]
+				);
 			}
 		},
 		onClickDrag(e: MouseEvent | TouchEvent) {
@@ -274,30 +264,17 @@ export default Vue.extend({
 				this.colorIndex = (this.colorIndex + 1) % 3;
 			}
 		},
-		createSc() {
-			this.isLoading = true;
-			this.$store
-				.dispatch("CALENDAR", {
-					content: this.content,
-					start: this.start,
-					end: this.end
-				})
-				.then(calendar => {
-					this.isLoading = false;
-					this.isCreatePopup = false;
-					this.content = "";
-					this.reload();
-				})
-				.catch(err => console.log(err));
-		},
 		removeCalendar(id: any) {
-			this.isLoading = true;
+			this.$store.commit("pushLoading", {
+				name: "CALENDAR_DELETE",
+				message: "캘린더 삭제하는 중"
+			});
 			this.$store
 				.dispatch("CALENDAR_DELETE", {
 					_id: id
 				})
 				.then(calendar => {
-					this.isLoading = false;
+					this.$store.commit("clearLoading", "CALENDAR_DELETE");
 					this.reload();
 				})
 				.catch(err => console.log(err));
@@ -365,18 +342,19 @@ export default Vue.extend({
 	overflow: visible;
 }
 .calendar__content__day span {
-	display: inline-block;
-	padding: 10px;
+	width: 1.6em;
+	height: 1.6em;
 	margin-right: 10px;
+
+	display: inline-flex;
+
+	justify-content: center;
+	align-items: center;
 }
 .calendar__content__day-today {
-	margin-top: 10px;
-	padding-top: 0px !important;
-	width: 1.5em;
-	height: 1.5em;
-	color: white;
 	background-color: #538fff;
-	border-radius: 100%;
+	color: white;
+	border-radius: 100px;
 	text-align: center;
 }
 .calendar__content__day__bar {
@@ -405,46 +383,18 @@ export default Vue.extend({
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 	z-index: 0;
 }
-.calendar__content__day-isLoading{
-    cursor: wait;
-}
 .calendar__content__create {
-	position: absolute;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+	background-color: rgba(0, 0, 0, 0.45);
 
-	padding: 10px;
-	border-radius: 5px;
-
-	background-color: white;
-
-	transition: 0.5s;
-
-	overflow: hidden;
-
-	white-space: nowrap;
-
-	z-index: 10;
-}
-.calendar__content__create input {
-	border: none;
-	font-size: 20px;
-	padding: 10px;
-}
-.calendar__content__create button {
-	border: none;
-	background-color: white;
-	color: #538fff;
-
-	font-family: "NanumSquareB";
-	font-size: 20px;
-
-	padding: 10px;
-	border-radius: 10px;
-
-	transition: 0.2s;
-}
-.calendar__content__create button:active {
-	opacity: 0.5;
+	z-index: 1999;
 }
 </style>

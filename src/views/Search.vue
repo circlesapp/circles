@@ -17,8 +17,8 @@
 			>
 				<img :src="getImgPath(club.imgPath)" alt />
 				<h3>{{club.name}}</h3>
-				<h4>학교</h4>
-				<p>소개글</p>
+				<h4>{{club.school || "-"}}</h4>
+				<p>{{club.introduction || "-"}}</p>
 			</router-link>
 		</transition-group>
 	</div>
@@ -179,6 +179,11 @@ export default Vue.extend({
 	font-size: 26px;
 	font-weight: normal;
 	color: #919eab;
+
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 80%;
+	overflow-x: hidden;
 }
 .search__list__item p {
 	font-family: NanumSquareR;
@@ -187,6 +192,11 @@ export default Vue.extend({
 	color: #202841;
 
 	margin-top: 20px;
+
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 80%;
+	overflow-x: hidden;
 }
 .search__list__item img {
 	width: 170px;
