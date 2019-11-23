@@ -23,7 +23,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(member,idx) in getOrderedMembers" :key="member._id" @click="currentUser=idx" :class="{'active':currentUser == idx}">
+					<tr
+						v-for="(member,idx) in getOrderedMembers"
+						:key="member._id"
+						@click="currentUser=idx"
+						:class="{'active':currentUser == idx}"
+					>
 						<td>{{idx}}</td>
 						<td>{{member.user.name}}</td>
 						<td>
@@ -178,7 +183,7 @@
 						</select>
 					</div>
 					<div class="action">
-						<button class="fire">퇴출</button>
+						<button class="fire" @click="fire">퇴출</button>
 						<div class="save" @click="commit">변경 사항 저장</div>
 					</div>
 				</div>
@@ -260,6 +265,22 @@ export default Vue.extend({
 					this.reload();
 				})
 				.catch(err => console.log(err));
+		},
+		fire() {
+			this.$store.commit("pushLoading", {
+				name: "CLUB_FIRE_MEMBER",
+				message: "동아리 맴버 퇴출 중"
+            });
+			this.$store
+				.dispatch("CLUB_FIRE_MEMBER", {
+					_id: this.getOrderedMembers[this.currentUser].user
+				})
+				.then(club => {
+                    this.currentUser = 0;
+					this.$store.commit("clearLoading", "CLUB_FIRE_MEMBER");
+					this.reload();
+				})
+				.catch(err => console.log(err));
 		}
 	},
 	computed: {
@@ -319,8 +340,8 @@ export default Vue.extend({
 	cursor: pointer;
 	background-color: #538fff;
 }
-.communityMembers__memberTable .active{
-    background-color: #eeeeee;
+.communityMembers__memberTable .active {
+	background-color: #eeeeee;
 }
 .communityMembers__memberTable th {
 	position: relative;
