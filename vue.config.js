@@ -4,8 +4,7 @@ module.exports = {
 		themeColor: "#538fff",
 		workboxPluginMode: "InjectManifest",
 		workboxOptions: {
-			swSrc: "public/sw.js",
-			skipWaiting: true
+			swSrc: "public/sw.js"
 		}
 	},
 	//publicPath: "/",
