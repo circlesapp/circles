@@ -32,14 +32,32 @@ function startNotification() {
 let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
 function pushReady() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {
-		reg!.pushManager
-			.subscribe({
-				userVisibleOnly: true,
-				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-			})
-			.then((data: PushSubscription) => {
-				console.log(JSON.stringify(data.toJSON()));
-			});
+		reg!.addEventListener("push", function(event: any) {
+			console.log(event);
+			var options = {
+				body: "circles. 서비스를 이용해주셔서 감사합니다.",
+				icon: "logo_192.png",
+				vibrate: [100, 50, 100]
+			};
+			console.log(reg);
+			event.waitUntil(reg!.showNotification("circles.", options));
+		});
+		reg!.pushManager.getSubscription().then(function(subscription) {
+			let isSubscribed = !(subscription === null);
+			if (isSubscribed) {
+				console.log("Subscribed true");
+			} else {
+				console.log("Subscribed false");
+				reg!.pushManager
+					.subscribe({
+						userVisibleOnly: true,
+						applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
+					})
+					.then((data: PushSubscription) => {
+						console.log(JSON.stringify(data.toJSON()));
+					});
+			}
+		});
 	});
 }
 
@@ -49,19 +67,6 @@ if (process.env.NODE_ENV === "production") {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered(reg) {
-			navigator.serviceWorker.getRegistration().then(function(reg) {
-                console.log(reg)
-				reg!.addEventListener("push", function(event: any) {
-					console.log(event);
-					var options = {
-						body: "circles. 서비스를 이용해주셔서 감사합니다.",
-						icon: "logo_192.png",
-						vibrate: [100, 50, 100]
-					};
-					console.log(reg);
-					event.waitUntil(reg!.showNotification("circles.", options));
-				});
-			});
 			startNotification();
 			pushReady();
 			console.log("Service worker has been registered.");
