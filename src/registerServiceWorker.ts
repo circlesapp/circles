@@ -32,6 +32,18 @@ function startNotification() {
 let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
 function pushReady() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {
+        reg!.addEventListener("push", function(event:any) {
+			console.log(event);
+			var options = {
+				body: "circles. 서비스를 이용해주셔서 감사합니다.",
+				icon: "logo_192.png",
+				vibrate: [100, 50, 100]
+			};
+			navigator.serviceWorker.getRegistration().then(function(reg) {
+				console.log(reg);
+				event.waitUntil(reg!.showNotification("circles.", options));
+			});
+		});
 		reg!.pushManager
 			.subscribe({
 				userVisibleOnly: true,
