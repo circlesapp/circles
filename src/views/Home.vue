@@ -2,11 +2,11 @@
 	<div class="home" v-if="!getUserInformation.name">
 		<div class="home__wrapper">
 			<div class="home__left">
-				<p class="home__title">
+				<h2 class="home__title">
 					<span>빠르고 편리하게</span>
 					<br />동아리를 관리하고
 					<br />홍보해보세요
-				</p>
+				</h2>
 				<div class="home__content">
 					circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
 					<span>
@@ -40,8 +40,54 @@
 		</div>
 		<div class="home__functionwrapper">
 			<div class="home__function__title">지원 기능</div>
-			<div class="home__function__content"></div>
+			<div class="home__function__content">
+				<div class="home__function__content__item">
+					<div>
+						<i class="mdi mdi-file-document"></i>
+						<h3>동아리 페이지</h3>
+					</div>
+					<p>
+						Clubs 에디터를 통해 쉽고 빠르게
+						동아리를 홍보하는 페이지를 제작하여
+						간편한 홍보 게시물, 수상 실적, 부원 소개,
+						채용 공고, 그리고 예산안의 공개 및
+						작성이 가능합니다.
+					</p>
+				</div>
+				<div class="home__function__content__item">
+					<div>
+						<i class="mdi mdi-account-multiple"></i>
+						<h3>동아리 커뮤니티</h3>
+					</div>
+					<p>
+						동아리 부원만을 위한 내부 커뮤니티로,
+						동아리 전용 클라우드 스토리지, 출결 관리,
+						주소록, 캘린더, To-do 리스트 및 과제 관리,
+						투표 및 설문조사, 회비 관리, 채용 관리,
+						부원간 채팅 등의 기능이 포함되어 있습니다.
+					</p>
+				</div>
+				<div class="home__function__content__item">
+					<div>
+						<i class="mdi mdi-pencil"></i>
+						<h3>Circles Editor</h3>
+					</div>
+					<p>
+						동아리 페이지를 자신이 원하는 대로 만들 수
+						있는 Circles Editor는 멤버소개, 동아리일정
+						예산공지, 수상실적 등 정보를 선택해서
+						페이지를 제작하고, 지원하기 버튼을 통해
+						동아리의 지원을 받을 수 있습니다.
+					</p>
+				</div>
+			</div>
 		</div>
+		<footer class="home__footer">
+			<div class="home__footer__left">circles.</div>
+			<a href="https://github.com/CirclesApp/FrontEnd" class="home__footer__right">
+				<i class="mdi mdi-github-circle"></i>
+			</a>
+		</footer>
 	</div>
 
 	<div class="home__login" v-else>
@@ -233,6 +279,7 @@ export default Vue.extend({
 .home {
 	overflow-x: hidden;
 	overflow-y: auto;
+	background-color: #f5f7fa;
 }
 .home__wrapper {
 	width: 100vw;
@@ -383,7 +430,64 @@ export default Vue.extend({
 	background-color: white;
 	width: 90%;
 	height: 600px;
+
+	padding: 60px;
+
+	display: flex;
+	flex-wrap: wrap;
 }
+.home__function__content__item {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	flex-basis: 30%;
+	flex: 1;
+	margin-left: 60px;
+}
+.home__function__content__item:first-child {
+	margin-left: 0;
+}
+.home__function__content__item i {
+	color: #538fff;
+	font-size: 100px;
+}
+.home__function__content__item h3 {
+	font-family: NanumSquareEB;
+	font-size: 45px;
+}
+.home__function__content__item p {
+	font-family: NanumSquareR;
+	font-size: 26px;
+	color: #afafaf;
+
+	word-break: keep-all;
+}
+
+.home__footer {
+	width: 100%;
+	height: 100px;
+
+	background-color: white;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 30px;
+}
+.home__footer__left {
+	color: #1b1c30;
+	font-family: AvenirB;
+	font-size: 42px;
+	font-weight: 900;
+}
+.home__footer__right{
+    text-decoration: none;
+}
+.home__footer__right i {
+	color: #1b1c30;
+	font-size: 50px;
+}
+
 .home__login__profile {
 	height: 250px;
 	background-color: #538fff;
@@ -538,6 +642,19 @@ export default Vue.extend({
 	.home__content > span {
 		display: none;
 	}
+	.home__function__content {
+		height: fit-content;
+	}
+	.home__function__content__item {
+		flex-basis: 40%;
+		margin-left: 0;
+	}
+	.home__function__content__item:first-child {
+		margin-right: 40px;
+	}
+	.home__functionwrapper {
+		margin-bottom: 800px;
+	}
 }
 @media screen and (max-width: 1280px) {
 	.home__left {
@@ -553,29 +670,42 @@ export default Vue.extend({
 		display: none;
 	}
 	.home__preview {
-        top: 25%;
-        width: 300px;
-        height: 200px;
+		top: 25%;
+		width: 300px;
+		height: 200px;
+	}
+	.home__functionwrapper {
+		margin-bottom: 1100px;
+	}
+	.home__function__content__item {
+		flex-basis: 100%;
+		margin-top: 40px;
+	}
+	.home__function__content__item:first-child {
+		margin: 0;
 	}
 }
 @media screen and (max-width: 1000px) {
 	.home__circle {
-        display: none;
+		display: none;
 	}
-    .home__preview{
-        display: none;
-    }
+	.home__preview {
+		display: none;
+	}
+	.home__functionwrapper {
+		margin-bottom: 1200px;
+	}
 }
 @media screen and (max-width: 768px) {
 	.home__circle {
 		display: block;
-        width: 200px;
-        height: 200px;
-        top: 20%;
+		width: 200px;
+		height: 200px;
+		top: 20%;
 	}
-    .home__preview{
-        display: none;
-    }
+	.home__preview {
+		display: none;
+	}
 	.home__title {
 		font-size: 50px;
 	}
@@ -604,6 +734,12 @@ export default Vue.extend({
 	}
 	.home__login__list__applicant-disable {
 		display: none;
+	}
+	.home__functionwrapper {
+		margin-bottom: 1400px;
+	}
+	.home__function__content {
+		padding: 50px;
 	}
 	.overflow__btn__logout {
 		display: none;
