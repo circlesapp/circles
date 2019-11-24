@@ -30,16 +30,14 @@ function pushReady() {
 	});
 }
 function startNotification() {
-	if (Notification.permission == "granted") {
-		navigator.serviceWorker.getRegistration().then(function(reg) {
-			var options = {
-				body: "circles. 서비스를 이용해주셔서 감사합니다.",
-				icon: "logo_192.png",
-				vibrate: [100, 50, 100]
-			};
-			reg!.showNotification("circles.", options);
-		});
-	}
+	navigator.serviceWorker.getRegistration().then(function(reg) {
+		var options = {
+			body: "circles. 서비스를 이용해주셔서 감사합니다.",
+			icon: "logo_192.png",
+			vibrate: [100, 50, 100]
+		};
+		reg!.showNotification("circles.", options);
+	});
 }
 if (process.env.NODE_ENV === "production") {
 	register(`${process.env.BASE_URL}sw-dev3.js`, {
@@ -47,9 +45,15 @@ if (process.env.NODE_ENV === "production") {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered(reg: ServiceWorkerRegistration) {
-			pushReady();
-			if (Notification.permission == "granted") {
-				startNotification();
+			try {
+				if (Notification) {
+					pushReady();
+					if (Notification.permission == "granted") {
+						startNotification();
+					}
+				}
+			} catch (err) {
+				console.log(err);
 			}
 			console.log("Service worker has been registered.");
 		},
