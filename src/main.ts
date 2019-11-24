@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 Vue.use(VueAnalytics, {
 	id: "UA-117534654-3"
 });
+
 try {
 	function startNotification() {
 		if (Notification.permission == "granted") {

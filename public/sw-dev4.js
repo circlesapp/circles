@@ -3,9 +3,6 @@ if (workbox) {
 
 	workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-	self.addEventListener("install", e => {
-		self.skipWaiting();
-	});
 	self.addEventListener("push", function(event) {
 		var options = {
 			body: event.data.text(),
