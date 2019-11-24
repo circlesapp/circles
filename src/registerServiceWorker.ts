@@ -49,18 +49,6 @@ if (process.env.NODE_ENV === "production") {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered() {
-			self.addEventListener("push", function(event: any) {
-				console.log(event);
-				var options = {
-					body: "circles. 서비스를 이용해주셔서 감사합니다.",
-					icon: "logo_192.png",
-					vibrate: [100, 50, 100]
-				};
-				navigator.serviceWorker.getRegistration().then(function(reg) {
-					console.log(reg);
-					event.waitUntil(reg!.showNotification("circles.", options));
-				});
-			});
 			startNotification();
 			pushReady();
 			console.log("Service worker has been registered.");
