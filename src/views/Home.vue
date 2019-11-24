@@ -38,6 +38,10 @@
 				</div>
 			</div>
 		</div>
+		<div class="home__functionwrapper">
+			<div class="home__function__title">지원 기능</div>
+			<div class="home__function__content"></div>
+		</div>
 	</div>
 
 	<div class="home__login" v-else>
@@ -227,6 +231,8 @@ export default Vue.extend({
 
 <style>
 .home {
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 .home__wrapper {
 	width: 100vw;
@@ -243,7 +249,7 @@ export default Vue.extend({
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-    z-index: 1;
+	z-index: 1;
 }
 .home__title {
 	font-family: NanumSquareEB;
@@ -261,7 +267,7 @@ export default Vue.extend({
 	margin-bottom: 80px;
 	width: 70%;
 
-    word-break: keep-all;
+	word-break: keep-all;
 }
 .home__start {
 	border: none;
@@ -285,7 +291,7 @@ export default Vue.extend({
 .home__circle {
 	position: absolute;
 
-	right: -25%;
+	right: -50%;
 	top: 30%;
 
 	width: 300px;
@@ -352,6 +358,32 @@ export default Vue.extend({
 	margin: 10px;
 }
 
+.home__functionwrapper {
+	position: relative;
+
+	width: 100%;
+	height: 400px;
+	background-color: #538fff;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 600px;
+}
+.home__function__title {
+	font-family: NanumSquareEB;
+	font-size: 61px;
+	color: white;
+}
+.home__function__content {
+	position: absolute;
+	top: 150px;
+	border-radius: 40px;
+	box-shadow: 0 2px 83px 0 rgba(0, 0, 0, 0.04);
+	background-color: white;
+	width: 90%;
+	height: 600px;
+}
 .home__login__profile {
 	height: 250px;
 	background-color: #538fff;
@@ -508,33 +540,44 @@ export default Vue.extend({
 	}
 }
 @media screen and (max-width: 1280px) {
-    .home__left{
-        width: 100%;
-    }
-    .home__content{
-        width: 100%;
-    }
-    .home__right{
-        width: 0;
-    }
-    .home__circle{
-        top: 10%;
-    }
+	.home__left {
+		width: 100%;
+	}
+	.home__content {
+		width: 100%;
+	}
+	.home__right {
+		width: 0;
+	}
+	.home__circle {
+		display: none;
+	}
+	.home__preview {
+        width: 300px;
+        height: 200px;
+	}
+}
+@media screen and (max-width: 768px) {
+	.home {
+	}
+	.home__circle {
+		display: block;
+        width: 200px;
+        height: 200px;
+		top: 15%;
+	}
     .home__preview{
         display: none;
     }
-}
-@media screen and (max-width: 768px) {
-    .home{}
-    .home__title{
-        font-size: 50px;
-    }
-    .home__title br{
-        /* display: none; */
-    }
-    .home__start{
-        margin: 0 auto;
-    }
+	.home__title {
+		font-size: 50px;
+	}
+	.home__title br {
+		/* display: none; */
+	}
+	.home__start {
+		margin: 0 auto;
+	}
 	.home__login__list {
 		margin: 0 20px;
 		flex-direction: column;
