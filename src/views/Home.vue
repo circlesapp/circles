@@ -1,16 +1,45 @@
 <template>
 	<div class="home" v-if="!getUserInformation.name">
-		<h1 class="home__title">circles.</h1>
-		<p class="home__content">
-			circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
-			<span>
-				으로,
-				자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지,
-				그리고 동아리 부원만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
-			</span>
-		</p>
-		<router-link to="/login" class="home__start">시작하기</router-link>
+		<div class="home__wrapper">
+			<div class="home__left">
+				<p class="home__title">
+					<span>빠르고 편리하게</span>
+					<br />동아리를 관리하고
+					<br />홍보해보세요
+				</p>
+				<div class="home__content">
+					circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
+					<span>
+						으로,
+						자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지,
+						그리고 동아리 부원만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
+					</span>
+				</div>
+				<router-link tag="button" to="/login" class="home__start">지금 시작하기</router-link>
+			</div>
+			<div class="home__right">
+				<div class="home__circle"></div>
+				<div class="home__preview">
+					<div class="home__preview__topbar">
+						<div class="r"></div>
+						<div class="o"></div>
+						<div class="g"></div>
+					</div>
+					<div class="home__preview__content">
+						<div class="home__preview__content__left">
+							<div style="flex:4"></div>
+							<div style="flex:1"></div>
+							<div style="flex:1"></div>
+						</div>
+						<div class="home__preview__content__right">
+							<div style="flex:1"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
 	<div class="home__login" v-else>
 		<div class="home__login__profile">
 			<div>
@@ -91,7 +120,7 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		if (this.$store.state.userToken) this.reload(); // TODO: 쓸지 안쓸지 결정하기
+		if (this.$store.state.userToken) this.reload();
 	},
 	methods: {
 		getImgPath(imgPath: string) {
@@ -198,53 +227,129 @@ export default Vue.extend({
 
 <style>
 .home {
-	width: 100%;
-	height: 100%;
+}
+.home__wrapper {
+	width: 100vw;
+	height: 100vh;
 
 	background-color: #538fff;
 	color: white;
 	display: flex;
+	justify-content: space-between;
+
+	padding: 0 10%;
+}
+.home__left {
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	padding-bottom: 90px;
+    z-index: 1;
 }
 .home__title {
-	font-family: "NanumSquareEB";
-	font-weight: 900;
-	font-size: 100px;
+	font-family: NanumSquareEB;
+	font-size: 61px;
+
+	margin-bottom: 80px;
+}
+.home__title span {
+	font-family: NanumSquareL;
 }
 .home__content {
-	width: 60%;
+	font-family: NanumSquareR;
+	font-size: 28px;
 
-	word-break: keep-all;
-	font-size: 30px;
-	text-align: center;
+	margin-bottom: 80px;
+	width: 70%;
 
-	margin: 80px 0;
-	margin-bottom: 110px;
+    word-break: keep-all;
 }
 .home__start {
-	cursor: pointer;
-	font-family: "NanumSquareEB";
-	text-decoration: none;
 	border: none;
+	width: fit-content;
+
+	font-family: NanumSquareEB;
+	font-size: 34px;
+
+	padding: 10px 60px;
 	background-color: white;
 	color: #538fff;
-	font-size: 35px;
-	padding: 15px 136px;
-	border-radius: 100px;
-	outline: none;
+	border-radius: 11px;
+}
 
-	transition: 0.5s;
+.home__right {
+	position: relative;
+
+	width: 30%;
 }
-.home__start:hover {
-	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.5);
-	background-color: #538fff;
-	color: white;
+
+.home__circle {
+	position: absolute;
+
+	right: -25%;
+	top: 30%;
+
+	width: 300px;
+	height: 300px;
+
+	border-radius: 100%;
+
+	background-color: #ff4475;
+	border: solid 1px #979797;
 }
-.home__start:active {
-	box-shadow: none;
+
+.home__preview {
+	padding: 15px;
+	position: absolute;
+	right: 5%;
+	top: 15%;
+
+	width: 500px;
+	height: 300px;
+
+	display: flex;
+	flex-direction: column;
+
+	border-radius: 11px;
+	background-color: white;
+}
+.home__preview__topbar {
+	display: flex;
+}
+.home__preview__topbar div {
+	width: 15px;
+	height: 15px;
+
+	margin-right: 10px;
+
+	border-radius: 100%;
+}
+.home__preview .r {
+	background-color: #ff5a52;
+}
+.home__preview .o {
+	background-color: #ffd429;
+}
+.home__preview .g {
+	background-color: #53c32b;
+}
+
+.home__preview__content {
+	display: flex;
+	flex: 1;
+	width: 100%;
+	margin-top: 20px;
+}
+.home__preview__content__left,
+.home__preview__content__right {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+.home__preview__content__left div,
+.home__preview__content__right div {
+	border-radius: 7px;
+	background-color: #f5f8ff;
+	margin: 10px;
 }
 
 .home__login__profile {
@@ -388,7 +493,7 @@ export default Vue.extend({
 	width: 100%;
 
 	cursor: pointer;
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 .home__login__list__applicant__item span {
 	font-family: NanumSquareR;
@@ -397,7 +502,39 @@ export default Vue.extend({
 	font-family: NanumSquareL;
 	color: #757575;
 }
+@media screen and (max-width: 1680px) {
+	.home__content > span {
+		display: none;
+	}
+}
+@media screen and (max-width: 1280px) {
+    .home__left{
+        width: 100%;
+    }
+    .home__content{
+        width: 100%;
+    }
+    .home__right{
+        width: 0;
+    }
+    .home__circle{
+        top: 10%;
+    }
+    .home__preview{
+        display: none;
+    }
+}
 @media screen and (max-width: 768px) {
+    .home{}
+    .home__title{
+        font-size: 50px;
+    }
+    .home__title br{
+        /* display: none; */
+    }
+    .home__start{
+        margin: 0 auto;
+    }
 	.home__login__list {
 		margin: 0 20px;
 		flex-direction: column;
@@ -412,14 +549,6 @@ export default Vue.extend({
 		max-height: 400px;
 		overflow-y: auto;
 	}
-	.home__content {
-		width: 80%;
-		margin: 10% 0;
-		margin-bottom: 20%;
-	}
-	.home__content > span {
-		display: none;
-	}
 	.home__start {
 		padding: 10px 20%;
 	}
@@ -427,6 +556,9 @@ export default Vue.extend({
 		margin-top: 0px;
 	}
 	.home__login__list__applicant-disable {
+		display: none;
+	}
+	.overflow__btn__logout {
 		display: none;
 	}
 }
@@ -456,11 +588,6 @@ export default Vue.extend({
 .overflow__btn__logout:hover {
 	background: rgba(245, 82, 70, 0.9);
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-}
-@media screen and (max-width: 768px) {
-	.overflow__btn__logout {
-		display: none;
-	}
 }
 @media all and (display-mode: standalone) {
 	.overflow__btn__logout {

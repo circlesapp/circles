@@ -195,7 +195,7 @@ export default Vue.extend({
 		let startX = 0;
 		let endX = 0;
 		addEventListener("touchstart", (e: TouchEvent) => {
-            startX = e.touches[0].clientX;
+			startX = e.touches[0].clientX;
 			endX = e.touches[0].clientX;
 		});
 		addEventListener("touchmove", (e: TouchEvent) => {
@@ -330,7 +330,7 @@ export default Vue.extend({
 		getBar() {
 			return this.$refs.bar;
 		},
-		getUserInformation() {
+		getUserInformation(): any {
 			return this.$store.state.userInformation;
 		},
 		getUserImage() {
@@ -345,7 +345,7 @@ export default Vue.extend({
 		getClub() {
 			return this.$store.state.club;
 		},
-		isShowMenuRoute() {
+		isShowMenuRoute(): boolean {
 			return (
 				[
 					"login",
@@ -354,7 +354,8 @@ export default Vue.extend({
 					"page404",
 					"community/editor",
 					"site"
-				].indexOf(this.$route.name || "") == -1
+				].indexOf(this.$route.name || "") == -1 &&
+				!(this.$route.name == "home" && !this.getUserInformation.name)
 			);
 		},
 		getRank() {
