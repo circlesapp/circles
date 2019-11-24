@@ -2,10 +2,10 @@ if (workbox) {
 	console.log(`Workbox is loaded`);
 
 	workbox.precaching.precacheAndRoute(self.__precacheManifest);
-	addEventListener("install", e => {
-		skipWaiting();
+	self.addEventListener("install", e => {
+		self.skipWaiting();
 	});
-	addEventListener("push", function(event) {
+	self.addEventListener("push", function(event) {
 		console.log(event);
 		var options = {
 			body: "circles. 서비스를 이용해주셔서 감사합니다.",
