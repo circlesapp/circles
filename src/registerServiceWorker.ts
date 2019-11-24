@@ -2,9 +2,9 @@
 
 import { register } from "register-service-worker";
 
-function urlB64ToUint8Array(base64String: string) {
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
 	const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-	const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+	const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
 
 	const rawData = window.atob(base64);
 	const outputArray = new Uint8Array(rawData.length);
@@ -35,15 +35,16 @@ function pushReady() {
 		reg!.pushManager
 			.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: urlB64ToUint8Array(applicationServerKey)
+				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
 			})
 			.then((data: PushSubscription) => {
 				console.log(JSON.stringify(data.toJSON()));
 			});
 	});
 }
-self.addEventListener("push", (e: any) => {
-	console.log(e);
+
+self.addEventListener("push", function(event: any) {
+	console.log(event);
 	var options = {
 		body: "circles. 서비스를 이용해주셔서 감사합니다.",
 		icon: "logo_192.png",
@@ -51,7 +52,7 @@ self.addEventListener("push", (e: any) => {
 	};
 	navigator.serviceWorker.getRegistration().then(function(reg) {
 		console.log(reg);
-		e.waitUntil(reg!.showNotification("circles.", options));
+		event.waitUntil(reg!.showNotification("circles.", options));
 	});
 });
 
@@ -63,6 +64,9 @@ if (process.env.NODE_ENV === "production") {
 		registered() {
 			startNotification();
 			pushReady();
+			console.log(self);
+			console.log(self.ServiceWorker);
+			console.log(self.ServiceWorkerRegistration);
 			console.log("Service worker has been registered.");
 		},
 		cached() {

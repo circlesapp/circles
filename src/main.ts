@@ -12,7 +12,7 @@ Vue.use(VueAnalytics, {
 });
 
 Notification.requestPermission(function(status) {
-    console.log(status)
+	console.log(status);
 });
 
 new Vue({
