@@ -14,9 +14,6 @@ Vue.use(VueAnalytics, {
 Notification.requestPermission(function(status) {
 	console.log(status);
 });
-self.addEventListener("push", e => {
-	console.log(e);
-});
 
 new Vue({
 	router,

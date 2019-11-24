@@ -32,44 +32,41 @@ function startNotification() {
 let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
 function pushReady() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {
-		reg!.addEventListener("push", function(event: any) {
-			console.log(event);
-			var options = {
-				body: "circles. 서비스를 이용해주셔서 감사합니다.",
-				icon: "logo_192.png",
-				vibrate: [100, 50, 100]
-			};
-			console.log(reg);
-			event.waitUntil(reg!.showNotification("circles.", options));
-		});
-		reg!.pushManager.getSubscription().then(function(subscription: any) {
-			let isSubscribed = !(subscription === null);
-			if (isSubscribed) {
-				console.log("Subscribed true");
-				console.log(JSON.stringify(subscription.toJSON()));
-			} else {
-				console.log("Subscribed false");
-				reg!.pushManager
-					.subscribe({
-						userVisibleOnly: true,
-						applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-					})
-					.then((data: PushSubscription) => {
-						console.log(JSON.stringify(data.toJSON()));
-					});
-			}
-		});
+		reg!.pushManager
+			.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
+			})
+			.then((data: PushSubscription) => {
+				console.log(JSON.stringify(data.toJSON()));
+			});
 	});
 }
+
+self.addEventListener("push", function(event: any) {
+	console.log(event);
+	var options = {
+		body: "circles. 서비스를 이용해주셔서 감사합니다.",
+		icon: "logo_192.png",
+		vibrate: [100, 50, 100]
+	};
+	navigator.serviceWorker.getRegistration().then(function(reg) {
+		console.log(reg);
+		event.waitUntil(reg!.showNotification("circles.", options));
+	});
+});
 
 if (process.env.NODE_ENV === "production") {
 	register(`${process.env.BASE_URL}service-worker.js`, {
 		ready() {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
-		registered(reg) {
+		registered() {
 			startNotification();
 			pushReady();
+			console.log(self);
+			console.log(self.ServiceWorker);
+			console.log(self.ServiceWorkerRegistration);
 			console.log("Service worker has been registered.");
 		},
 		cached() {
