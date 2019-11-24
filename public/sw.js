@@ -2,7 +2,9 @@ if (workbox) {
 	console.log(`Workbox is loaded`);
 
 	workbox.precaching.precacheAndRoute(self.__precacheManifest);
-
+	addEventListener("install", e => {
+		skipWaiting();
+	});
 	addEventListener("push", function(event) {
 		console.log(event);
 		var options = {

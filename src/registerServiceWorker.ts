@@ -32,8 +32,8 @@ function startNotification() {
 let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
 function pushReady() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {
-        reg!.addEventListener("push", function(event:any) {
-            console.log("in vuw push event")
+		reg!.addEventListener("push", function(event: any) {
+			console.log("in vuw push event");
 		});
 		reg!.pushManager
 			.subscribe({
@@ -51,9 +51,9 @@ if (process.env.NODE_ENV === "production") {
 		ready() {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
-		registered() {
+		registered(reg: ServiceWorkerRegistration) {
 			startNotification();
-			pushReady();
+            pushReady();
 			navigator.serviceWorker.addEventListener("push", function(event: any) {
 				console.log(event);
 				var options = {
