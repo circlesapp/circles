@@ -43,8 +43,8 @@ function pushReady() {
 	});
 }
 
-self.addEventListener("push", (e: any) => {
-	console.log(e);
+self.addEventListener("push", function(event: any) {
+	console.log(event);
 	var options = {
 		body: "circles. 서비스를 이용해주셔서 감사합니다.",
 		icon: "logo_192.png",
@@ -52,7 +52,7 @@ self.addEventListener("push", (e: any) => {
 	};
 	navigator.serviceWorker.getRegistration().then(function(reg) {
 		console.log(reg);
-		e.waitUntil(reg!.showNotification("circles.", options));
+		event.waitUntil(reg!.showNotification("circles.", options));
 	});
 });
 
