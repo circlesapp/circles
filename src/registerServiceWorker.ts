@@ -64,9 +64,6 @@ if (process.env.NODE_ENV === "production") {
 		registered() {
 			startNotification();
 			pushReady();
-			console.log(self);
-			console.log(self.ServiceWorker);
-			console.log(self.ServiceWorkerRegistration);
 			console.log("Service worker has been registered.");
 		},
 		cached() {
