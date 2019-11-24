@@ -42,10 +42,11 @@ function pushReady() {
 			console.log(reg);
 			event.waitUntil(reg!.showNotification("circles.", options));
 		});
-		reg!.pushManager.getSubscription().then(function(subscription) {
+		reg!.pushManager.getSubscription().then(function(subscription: any) {
 			let isSubscribed = !(subscription === null);
 			if (isSubscribed) {
 				console.log("Subscribed true");
+				console.log(JSON.stringify(subscription.toJSON()));
 			} else {
 				console.log("Subscribed false");
 				reg!.pushManager
