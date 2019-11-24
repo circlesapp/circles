@@ -15,6 +15,20 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 	return outputArray;
 }
 
+//0DPpRHxMgLTWBLaPx89EWzdwm9LgMnINQrlc7rUZHyI
+let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
+function pushReady() {
+	navigator.serviceWorker.getRegistration().then(function(reg) {
+		reg!.pushManager
+			.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
+			})
+			.then((data: PushSubscription) => {
+				console.log(JSON.stringify(data.toJSON()));
+			});
+	});
+}
 function startNotification() {
 	if (Notification.permission == "granted") {
 		navigator.serviceWorker.getRegistration().then(function(reg) {
@@ -27,43 +41,16 @@ function startNotification() {
 		});
 	}
 }
-//
-//0DPpRHxMgLTWBLaPx89EWzdwm9LgMnINQrlc7rUZHyI
-let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
-function pushReady() {
-	navigator.serviceWorker.getRegistration().then(function(reg) {
-		reg!.addEventListener("push", function(event: any) {
-			console.log("in vuw push event");
-		});
-		reg!.pushManager
-			.subscribe({
-				userVisibleOnly: true,
-				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-			})
-			.then((data: PushSubscription) => {
-				console.log(JSON.stringify(data.toJSON()));
-			});
-	});
-}
-
 if (process.env.NODE_ENV === "production") {
 	register(`${process.env.BASE_URL}sw-dev3.js`, {
 		ready() {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered(reg: ServiceWorkerRegistration) {
-			startNotification();
 			pushReady();
-			reg.addEventListener("push", function(event: any) {
-				console.log("reg in line");
-				console.log(event);
-				var options = {
-					body: "circles. 서비스를 이용해주셔서 감사합니다.",
-					icon: "logo_192.png",
-					vibrate: [100, 50, 100]
-				};
-				event.waitUntil(reg!.showNotification("circles.", options));
-			});
+			if (Notification.permission == "granted") {
+				startNotification();
+			}
 			console.log("Service worker has been registered.");
 		},
 		cached() {
