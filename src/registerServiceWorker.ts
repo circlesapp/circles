@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === "production") {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered() {
-			navigator.serviceWorker.addEventListener("push", function(event: any) {
+			self.addEventListener("push", function(event: any) {
 				console.log(event);
 				var options = {
 					body: "circles. 서비스를 이용해주셔서 감사합니다.",
