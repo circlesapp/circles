@@ -66,7 +66,10 @@
 							<i class="mdi mdi-magnify"></i>
 						</router-link>
 						<div class="menu__right__alarm__wrapper" @click="toggleAlarm" v-if="getUserInformation.name">
-							<span class="menu__right__alarm__count" v-if="getUserInformation.alarms.length > 0">{{getUserInformation.alarms.length}}</span>
+							<span
+								class="menu__right__alarm__count"
+								v-if="getUserInformation.alarms.length > 0"
+							>{{getUserInformation.alarms.length}}</span>
 							<i class="menu__right__alarm mdi mdi-bell-outline"></i>
 						</div>
 						<transition name="fade">
@@ -189,6 +192,25 @@ export default Vue.extend({
 		this.loginCheck();
 	},
 	mounted() {
+		let startX = 0;
+		let endX = 0;
+		addEventListener("touchstart", (e: TouchEvent) => {
+            startX = e.touches[0].clientX;
+			endX = e.touches[0].clientX;
+		});
+		addEventListener("touchmove", (e: TouchEvent) => {
+			endX = e.touches[0].clientX;
+		});
+		addEventListener("touchend", (e: TouchEvent) => {
+			let gap = endX - startX;
+			if (gap < -200) {
+				this.showMenu = false;
+			}
+			if (gap > 200) {
+				this.showMenu = true;
+			}
+		});
+
 		let route: any = this.$route;
 		this.idx = ["home", "page", "community"].indexOf(
 			route.name.split("/")[0]
