@@ -35,10 +35,10 @@ function pushReady() {
 		reg!.pushManager
 			.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: applicationServerKey
+				applicationServerKey: urlB64ToUint8Array(applicationServerKey)
 			})
 			.then((data: PushSubscription) => {
-				console.log(data.toJSON());
+				console.log(JSON.stringify(data.toJSON()));
 			});
 	});
 }
