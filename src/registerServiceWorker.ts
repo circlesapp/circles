@@ -38,7 +38,7 @@ function pushReady() {
 				applicationServerKey: applicationServerKey
 			})
 			.then((data: PushSubscription) => {
-				console.dir(data);
+				console.log(data.toJSON());
 			});
 	});
 }
