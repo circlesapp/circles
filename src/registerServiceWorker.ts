@@ -2,12 +2,22 @@
 
 import { register } from "register-service-worker";
 
+function displayNotification() {
+	if (Notification.permission == "granted") {
+		navigator.serviceWorker.getRegistration().then(function(reg) {
+            console.log(reg)
+			reg!.showNotification("Hello world!");
+		});
+	}
+}
+
 if (process.env.NODE_ENV === "production") {
 	register(`${process.env.BASE_URL}service-worker.js`, {
 		ready() {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered() {
+			displayNotification();
 			console.log("Service worker has been registered.");
 		},
 		cached() {
