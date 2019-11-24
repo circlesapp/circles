@@ -2,7 +2,20 @@
 
 import { register } from "register-service-worker";
 
-function displayNotification() {
+function urlB64ToUint8Array(base64String: string) {
+	const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+	const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
+}
+
+function startNotification() {
 	if (Notification.permission == "granted") {
 		navigator.serviceWorker.getRegistration().then(function(reg) {
 			var options = {
@@ -14,6 +27,21 @@ function displayNotification() {
 		});
 	}
 }
+//
+//0DPpRHxMgLTWBLaPx89EWzdwm9LgMnINQrlc7rUZHyI
+let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
+function pushReady() {
+	navigator.serviceWorker.getRegistration().then(function(reg) {
+		reg!.pushManager
+			.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: applicationServerKey
+			})
+			.then((data: PushSubscription) => {
+				console.log(data);
+			});
+	});
+}
 
 if (process.env.NODE_ENV === "production") {
 	register(`${process.env.BASE_URL}service-worker.js`, {
@@ -21,7 +49,8 @@ if (process.env.NODE_ENV === "production") {
 			console.log("App is being served from cache by a service worker.\n" + "For more details, visit https://goo.gl/AFskqB");
 		},
 		registered() {
-			displayNotification();
+			startNotification();
+			pushReady();
 			console.log("Service worker has been registered.");
 		},
 		cached() {
