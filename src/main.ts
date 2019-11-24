@@ -10,27 +10,29 @@ Vue.config.productionTip = false;
 Vue.use(VueAnalytics, {
 	id: "UA-117534654-3"
 });
-try {
-	function startNotification() {
-		if (Notification.permission == "granted") {
-			navigator.serviceWorker.getRegistration().then(function(reg) {
-				var options = {
-					body: "circles. 서비스를 이용해주셔서 감사합니다.",
-					icon: "logo_192.png",
-					vibrate: [100, 50, 100]
-				};
-				reg!.showNotification("circles.", options);
-			});
-		}
-	}
-	Notification.requestPermission(function(status) {
-		if (Notification.permission == "granted" && navigator) {
-			startNotification();
-		}
-	});
-} catch (err) {
-	console.log(err);
-}
+// FIXME: 크롬 이외의 브라우저 처리해야함
+// try {
+// 	function startNotification() {
+// 		if (Notification.permission == "granted") {
+// 			navigator.serviceWorker.getRegistration().then(function(reg) {
+// 				var options = {
+// 					body: "circles. 서비스를 이용해주셔서 감사합니다.",
+// 					icon: "logo_192.png",
+// 					vibrate: [100, 50, 100]
+// 				};
+// 				reg!.showNotification("circles.", options);
+// 			});
+// 		}
+// 	}
+// 	if (Notification)
+// 		Notification.requestPermission(function(status) {
+// 			if (Notification.permission == "granted" && navigator) {
+// 				startNotification();
+// 			}
+// 		});
+// } catch (err) {
+// 	console.log(err);
+// }
 
 new Vue({
 	router,
