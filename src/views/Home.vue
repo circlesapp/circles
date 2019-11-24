@@ -553,27 +553,31 @@ export default Vue.extend({
 		display: none;
 	}
 	.home__preview {
+        top: 25%;
         width: 300px;
         height: 200px;
 	}
 }
-@media screen and (max-width: 768px) {
-	.home {
+@media screen and (max-width: 1000px) {
+	.home__circle {
+        display: none;
 	}
+    .home__preview{
+        display: none;
+    }
+}
+@media screen and (max-width: 768px) {
 	.home__circle {
 		display: block;
         width: 200px;
         height: 200px;
-		top: 15%;
+        top: 20%;
 	}
     .home__preview{
         display: none;
     }
 	.home__title {
 		font-size: 50px;
-	}
-	.home__title br {
-		/* display: none; */
 	}
 	.home__start {
 		margin: 0 auto;
