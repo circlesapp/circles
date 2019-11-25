@@ -767,6 +767,9 @@ i {
 
 	overflow-y: auto;
 }
+.darkmode .menu__right__alarm__popup{
+    background-color: #282828;
+}
 .menu__right__alarm__popup__loading {
 	position: absolute;
 	width: 100%;
@@ -783,13 +786,22 @@ i {
 .menu__right__alarm__popup__item:nth-child(2n) {
 	background-color: #fafafa;
 }
+.darkmode .menu__right__alarm__popup__item:nth-child(2n) {
+	background-color: #232323;
+}
 .menu__right__alarm__popup__item p {
 	font-size: 16px;
 	color: #333333;
 }
+.darkmode .menu__right__alarm__popup__item p{
+    color: white;
+}
 .menu__right__alarm__popup__item .date {
 	font-size: 14px;
 	color: #666666;
+}
+.darkmode .menu__right__alarm__popup__item .date{
+    color: #afaeae;
 }
 .menu__right__alarm__popup__item .clear {
 	position: absolute;
@@ -1089,6 +1101,10 @@ input:checked + .menu__right__darktheme__slider:before {
 	.menu__right__fixed {
 		margin-right: 20px;
 	}
+
+    .menu__right__alarm__popup{
+        right: 20px;
+    }
 }
 @media all and (display-mode: standalone) {
 	.menu__left__list__item__pwa {
