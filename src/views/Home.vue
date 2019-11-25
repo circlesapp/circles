@@ -47,7 +47,7 @@
 						<h3>동아리 페이지</h3>
 					</div>
 					<p>
-						Clubs 에디터를 통해 쉽고 빠르게
+						circles 에디터를 통해 쉽고 빠르게
 						동아리를 홍보하는 페이지를 제작하여
 						간편한 홍보 게시물, 수상 실적, 부원 소개,
 						채용 공고, 그리고 예산안의 공개 및
@@ -185,7 +185,12 @@ export default Vue.extend({
 				message: "동아리 다시 가져오는 중"
 			});
 			this.$store
-				.dispatch("GET_USER_PROFILE", this.$store.state.userToken)
+				.dispatch("GET_USER_PROFILE", {
+					token: this.$store.state.userToken,
+					pushSubscription: localStorage.getItem(
+						"circles.pushSubscription"
+					)
+				})
 				.then(user => {
 					this.$store.commit("clearLoading", "GET_USER_PROFILE");
 				})
@@ -226,7 +231,7 @@ export default Vue.extend({
 				});
 		},
 		logout() {
-			localStorage.removeItem("clubs.loginToken");
+			localStorage.removeItem("circles.loginToken");
 			this.$store.state.userToken = "";
 			this.$store.state.userInformation = {};
 			this.$router.replace("/");
@@ -480,8 +485,8 @@ export default Vue.extend({
 	font-size: 42px;
 	font-weight: 900;
 }
-.home__footer__right{
-    text-decoration: none;
+.home__footer__right {
+	text-decoration: none;
 }
 .home__footer__right i {
 	color: #1b1c30;

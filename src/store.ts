@@ -177,11 +177,10 @@ export default new Vuex.Store({
 		},
 		GET_USER_PROFILE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
-				let pushSubscription = localStorage.getItem("circles.pushSubscription");
 				axios
-					.post(`${state.mainPath}auth/getProfile`, pushSubscription, {
+					.post(`${state.mainPath}auth/getProfile`, data.pushSubscription, {
 						headers: {
-							Authorization: data
+							Authorization: data.token
 						}
 					})
 					.then(user => {

@@ -60,9 +60,14 @@ export default Vue.extend({
 				})
 				.then(token => {
 					this.$store
-						.dispatch("GET_USER_PROFILE", token)
+						.dispatch("GET_USER_PROFILE", {
+							token,
+							pushSubscription: localStorage.getItem(
+								"circles.pushSubscription"
+							)
+						})
 						.then(user => {
-							localStorage.setItem("clubs.loginToken", token);
+							localStorage.setItem("circles.loginToken", token);
 							this.$store.commit("clearLoading", "LOGIN");
 							this.$router.push("/");
 						})

@@ -298,13 +298,16 @@ export default Vue.extend({
 		},
 		loginCheck() {
 			let token = localStorage.getItem("circles.loginToken");
+			let pushSubscription = localStorage.getItem(
+				"circles.pushSubscription"
+			);
 			if (token) {
 				this.$store.commit("pushLoading", {
 					name: "GET_USER_PROFILE",
 					message: "로그인 중"
 				});
 				this.$store
-					.dispatch("GET_USER_PROFILE", token)
+					.dispatch("GET_USER_PROFILE", { token, pushSubscription })
 					.then(user => {
 						this.$store.state.userToken = token;
 						this.$store.commit("clearLoading", "GET_USER_PROFILE");
@@ -316,7 +319,7 @@ export default Vue.extend({
 			}
 		},
 		logout() {
-			localStorage.removeItem("clubs.loginToken");
+			localStorage.removeItem("circles.loginToken");
 			this.showProfile = false;
 			this.$store.state.userToken = "";
 			this.$store.state.userInformation = {};
