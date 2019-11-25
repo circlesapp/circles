@@ -129,6 +129,9 @@ export default Vue.extend({
 	transition: 0.5s;
 	cursor: pointer;
 }
+.darkmode .applicant__main__item{
+    background-color: #282828;
+}
 .applicant__main__item-disable {
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.08);
 	background-color: #f6f6f6;

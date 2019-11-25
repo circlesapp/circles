@@ -127,49 +127,11 @@ export default Vue.extend({
 .page__content {
 	flex: 1;
 	overflow-y: scroll;
-	position: relative;
-}
-.submenu {
-	width: 100%;
-	height: 90px;
-
-	background-color: white;
-
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	transition: 0.5s;
-	overflow-x: auto;
-	overflow-y: visible !important;
+    overflow-x: hidden;
 
 	position: relative;
 }
-.submenu__list {
-	height: 100%;
-	margin-left: calc(120px + 8em);
-	display: flex;
-}
-.submenu__list__item {
-	cursor: pointer;
 
-	width: 120px;
-	height: 100%;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	font-size: 14px;
-	font-weight: 800;
-
-	color: #9cb2cd;
-	text-decoration: none;
-}
-.submenu__list__item:hover {
-	background-color: #9cb2cd;
-	color: white;
-}
 .submenu__loading {
 	position: absolute;
 	left: 0;

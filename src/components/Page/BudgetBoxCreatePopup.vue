@@ -142,9 +142,17 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
+.darkmode .budget__createpopup__content__clear {
+	background-color: #282828;
+	color: white;
+}
 .budget__createpopup__content__clear:hover {
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
+}
+.darkmode .budget__createpopup__content__clear:hover {
+	box-shadow: none;
+	background-color: #282828;
 }
 .budget__createpopup__content {
 	background-color: white;
@@ -158,11 +166,17 @@ export default Vue.extend({
 
 	position: relative;
 }
+.darkmode .budget__createpopup__content {
+	background-color: #282828;
+}
 .budget__createpopup__content h3 {
 	font-family: NanumSquareB;
 	font-size: 30px;
 	color: #2e2e2e;
 	margin-bottom: 20px;
+}
+.darkmode .budget__createpopup__content h3 {
+	color: white;
 }
 .budget__createpopup__content__inputs {
 	display: flex;
@@ -185,6 +199,11 @@ export default Vue.extend({
 	font-size: 24px;
 	width: 100%;
 	position: relative;
+	background: none;
+}
+.darkmode .budget__createpopup__content .inputfield .inputfield__input {
+    color: white;
+	border: solid 1px #3a3a3a;
 }
 .inputfield__inputuser {
 	display: flex;
@@ -216,6 +235,9 @@ export default Vue.extend({
 	background-color: #538fff;
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
+}
+.darkmode .budget__createpopup__content__actions .create{
+    background-color: #363636;
 }
 .budget__createpopup__content__actions .create:hover {
 	background-color: #538fffde;

@@ -188,6 +188,9 @@ export default Vue.extend({
 	width: 50%;
 	border-collapse: collapse;
 }
+.darkmode .communityApplication__memberTable {
+	background-color: #282828;
+}
 .communityApplication__memberTable td {
 	padding: 10px;
 }
@@ -201,6 +204,9 @@ export default Vue.extend({
 	user-select: none;
 	cursor: pointer;
 	background-color: #538fff;
+}
+.darkmode .communityApplication__memberTable thead tr {
+	background-color: #161616;
 }
 .communityApplication__memberTable th {
 	position: relative;
@@ -228,8 +234,14 @@ export default Vue.extend({
 	border-bottom: 1px solid #dfdfdf;
 	cursor: pointer;
 }
+.darkmode .communityApplication__memberTable tbody tr {
+	border-bottom: 1px solid #3a3a3a;
+}
 .communityApplication__memberTable .active {
 	background-color: #eeeeee;
+}
+.darkmode .communityApplication__memberTable .active {
+	background-color: #232323;
 }
 .communityApplication__memberTable tbody td {
 	font-family: NanumSquareB;
@@ -250,6 +262,9 @@ export default Vue.extend({
 
 	padding: 30px;
 }
+.darkmode .communityApplication__controlPanel {
+	background-color: #282828;
+}
 .communityApplication__controlPanel .name {
 	font-family: NanumSquareB;
 	font-size: 30px;
@@ -265,6 +280,9 @@ export default Vue.extend({
 	border: 1px solid #eeeeee;
 	border-radius: 5px;
 	padding: 10px;
+}
+.communityApplication__controlPanel .content{
+    border: 1px solid #3a3a3a;
 }
 .communityApplication__controlPanel .titlewrapper {
 	display: flex;

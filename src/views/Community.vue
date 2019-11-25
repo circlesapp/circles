@@ -164,49 +164,15 @@ export default Vue.extend({
 }
 .community__content {
 	flex: 1;
-	overflow: scroll;
+	overflow-y: scroll;
+    overflow-x: hidden;
 
 	position: relative;
 }
-.submenu {
-	width: 100%;
-	height: 90px;
-
-	background-color: white;
-	box-shadow: inset 0 1px 0 0 #d7e3f1;
-
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	transition: 0.5s;
-	overflow: hidden;
-	overflow-x: auto;
-}
-.submenu__list {
-	height: 100%;
-	margin-left: calc(120px + 8em);
-	display: flex;
-}
-.submenu__list__item {
-	cursor: pointer;
-
-	width: 120px;
-	height: 100%;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	font-size: 14px;
-	font-weight: 800;
-
-	color: #9cb2cd;
-	text-decoration: none;
-}
-.submenu__list__item:hover {
-	background-color: #9cb2cd;
-	color: white;
+.submenu__loading {
+	position: absolute;
+	left: 0;
+	bottom: 0;
 }
 @media screen and (max-width: 768px) {
 	.submenu__list {

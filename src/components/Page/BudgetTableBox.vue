@@ -116,6 +116,9 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	color: #9cb2cd;
 }
+.darkmode .budgettablebox{
+    background-color: #282828;
+}
 .budgettablebox th {
 	padding: 20px;
 	position: relative;

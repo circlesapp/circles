@@ -285,6 +285,9 @@ export default Vue.extend({
 
 	height: fit-content;
 }
+.darkmode .editclub__content {
+	background-color: #282828;
+}
 .editclub__content .inputfield {
 	padding: 10px;
 	flex-basis: 50%;
@@ -302,6 +305,12 @@ export default Vue.extend({
 	font-size: 24px;
 	width: 100%;
 	position: relative;
+}
+.darkmode .editclub__content .inputfield .inputfield__input {
+    color: white;
+	background: none;
+	border: solid 1px #3a3a3a;
+
 }
 .editclub__content .action {
 	margin-top: 20px;
@@ -324,6 +333,9 @@ export default Vue.extend({
 	border-radius: 100px;
 
 	cursor: pointer;
+}
+.darkmode .editclub__content .action .save{
+    background-color: #363636;
 }
 .editclub__content .action .delete {
 	position: relative;

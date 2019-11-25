@@ -8,7 +8,13 @@
 			<div class="award__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>대회명</h4>
-					<input ref="startInput" v-model="title" class="inputfield__input" type="text" placeholder="대회명을 입력하세요" />
+					<input
+						ref="startInput"
+						v-model="title"
+						class="inputfield__input"
+						type="text"
+						placeholder="대회명을 입력하세요"
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>부문</h4>
@@ -93,8 +99,8 @@ export default Vue.extend({
 				this.targetCurrentIndex = this.getNotJoinMembers.length;
 			switch (e.keyCode) {
 				case 13:
-                    this.appendTargetItem(this.targetCurrentIndex);
-                    this.targetCurrentIndex = 0;
+					this.appendTargetItem(this.targetCurrentIndex);
+					this.targetCurrentIndex = 0;
 					break;
 				case 8:
 					if (this.searchTarget == "") {
@@ -205,9 +211,17 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
+.darkmode .award__createpopup__content__clear {
+	background-color: #282828;
+	color: white;
+}
 .award__createpopup__content__clear:hover {
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
+}
+.darkmode .award__createpopup__content__clear:hover {
+	box-shadow: none;
+	background-color: #282828;
 }
 .award__createpopup__content {
 	background-color: white;
@@ -221,11 +235,18 @@ export default Vue.extend({
 
 	position: relative;
 }
+.darkmode .award__createpopup__content {
+    color: white;
+	background-color: #282828;
+}
 .award__createpopup__content h3 {
 	font-family: NanumSquareB;
 	font-size: 30px;
 	color: #2e2e2e;
 	margin-bottom: 20px;
+}
+.darkmode .award__createpopup__content h3 {
+	color: white;
 }
 .award__createpopup__content__inputs {
 	display: flex;
@@ -248,6 +269,10 @@ export default Vue.extend({
 	font-size: 24px;
 	width: 100%;
 	position: relative;
+	background: none;
+}
+.darkmode .award__createpopup__content .inputfield .inputfield__input {
+	border: solid 1px #3a3a3a;
 }
 .inputfield__inputuser {
 	display: flex;
@@ -266,8 +291,8 @@ export default Vue.extend({
 	top: 100%;
 
 	width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
+	max-height: 200px;
+	overflow-y: auto;
 
 	background-color: white;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
@@ -285,12 +310,12 @@ export default Vue.extend({
 }
 .inputfield__input__userfield__autocomplete img {
 	height: 1.25em;
-    width: 1.25em;
+	width: 1.25em;
 	margin-right: 10px;
 	border-radius: 100%;
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
-    border-radius: 100%;
-    background-color: white;
+	border-radius: 100%;
+	background-color: white;
 }
 .award__createpopup__content .inputfield input::placeholder,
 .inputfield__input__userfield::placeholder {
@@ -318,6 +343,9 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
+.darkmode .award__createpopup__content__actions .create{
+    background-color: #363636;
+}
 .award__createpopup__content__actions .create:hover {
 	background-color: #538fffde;
 	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.27);
@@ -338,8 +366,8 @@ export default Vue.extend({
 .inputfield__input__member img {
 	width: 1.25em;
 	height: 1.25em;
-    border-radius: 100%;
-    background-color: white;
+	border-radius: 100%;
+	background-color: white;
 	margin-right: 10px;
 }
 .inputfield__input__member i {

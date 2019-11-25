@@ -330,6 +330,9 @@ export default Vue.extend({
 
 	position: relative;
 }
+.darkmode .calendar__content{
+    background-color: #282828;
+}
 .calendar__content__day {
 	position: relative;
 
@@ -340,6 +343,9 @@ export default Vue.extend({
 	font-size: 24px;
 
 	overflow: visible;
+}
+.darkmode .calendar__content__day{
+    border:1px solid #5f5f5f;
 }
 .calendar__content__day span {
 	width: 1.6em;

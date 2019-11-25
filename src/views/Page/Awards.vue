@@ -149,6 +149,9 @@ export default Vue.extend({
 
 	margin-bottom: 20px;
 }
+.award__club {
+	background-color: #282828;
+}
 
 .award__contextmenu {
 	position: fixed;
@@ -187,6 +190,9 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	font-size: 45px;
 	color: #273142;
+}
+.darkmode .award__club h3 {
+	color: white;
 }
 .award__club p {
 	font-family: "NanumSquareEB";

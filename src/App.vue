@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" :class="{'darkmode':darkTheme}">
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
@@ -189,6 +189,8 @@ export default Vue.extend({
 		};
 	},
 	created() {
+		let darkMode = localStorage.getItem("circles.darkMode");
+		this.darkTheme = darkMode == "true";
 		this.loginCheck();
 	},
 	mounted() {
@@ -254,6 +256,9 @@ export default Vue.extend({
 					this.setBarPosition();
 				}
 			}
+		},
+		darkTheme(next, prev) {
+			localStorage.setItem("circles.darkMode", next);
 		}
 	},
 	methods: {
@@ -562,6 +567,10 @@ i {
 
 	background-color: #f5f7fa;
 }
+#app.darkmode {
+	color: white;
+	background-color: #353535;
+}
 .menu {
 	width: 100%;
 	height: 90px;
@@ -576,6 +585,9 @@ i {
 	z-index: 1000;
 
 	position: relative;
+}
+.darkmode .menu {
+	background-color: #232323;
 }
 .menu__menubutton {
 	display: none;
@@ -796,6 +808,10 @@ i {
 	color: #273142;
 	z-index: 3000;
 }
+.darkmode .menu__right__profile {
+	color: white;
+	background-color: #282828;
+}
 .menu__right__profile__information {
 	display: flex;
 	justify-content: space-between;
@@ -833,6 +849,9 @@ i {
 .menu__right__list__link {
 	color: #3b4351;
 	text-decoration: none;
+}
+.darkmode .menu__right__list__link {
+	color: white;
 }
 .menu__right__list__item {
 	display: flex;
@@ -887,7 +906,7 @@ i {
 	-o-transition: 0.3s;
 	transition: 0.3s;
 }
-.menu__right__darktheme__slider:before {
+.menu__right__darktheme__slider::before {
 	position: absolute;
 	top: -3px;
 	left: 0;
@@ -913,6 +932,9 @@ input:checked + .menu__right__darktheme__slider:before {
 	-ms-transform: translateX(17px);
 	transform: translateX(17px);
 }
+.darkmode input:checked + .menu__right__darktheme__slider {
+	background-color: #3b4351;
+}
 
 .menu__right__search {
 	font-size: 40px;
@@ -934,10 +956,15 @@ input:checked + .menu__right__darktheme__slider:before {
 
 	transition: 0.5s;
 	overflow: hidden;
+
+	position: relative;
+}
+.darkmode .submenu {
+	background-color: #282828;
 }
 .submenu__list {
 	height: 100%;
-	margin-left: calc(9.6vw + 6.75em);
+	margin-left: calc(120px + 8em);
 	display: flex;
 }
 .submenu__list__item {
@@ -952,8 +979,15 @@ input:checked + .menu__right__darktheme__slider:before {
 
 	font-size: 14px;
 	font-weight: 800;
+
+	color: #9cb2cd;
+	text-decoration: none;
 }
 
+.submenu__list__item:hover {
+	background-color: #9cb2cd;
+	color: white;
+}
 .content {
 	position: relative;
 	width: 100%;
@@ -965,6 +999,7 @@ input:checked + .menu__right__darktheme__slider:before {
 	width: 100%;
 	height: 100%;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 @media screen and (max-width: 768px) {
 	.menu__right {

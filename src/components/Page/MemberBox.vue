@@ -39,6 +39,9 @@ export default Vue.extend({
 	justify-content: center;
 	align-items: center;
 }
+.darkmode .memberbox {
+	background-color: #282828;
+}
 .memberbox__img {
 	width: 150px;
 	height: 150px;
@@ -46,18 +49,28 @@ export default Vue.extend({
 	border: 5px solid #f8fbff;
 	border-radius: 100%;
 }
+.darkmode .memberbox__img{
+    border: 5px solid #535353;
+}
 .memberbox h3 {
 	font-family: "NanumSquareB";
 	font-size: 30px;
+    margin-top: 10px;
 	font-weight: normal;
 	text-align: center;
 	color: #202841;
+}
+.darkmode .memberbox h3 {
+	color: white;
 }
 .memberbox h4 {
 	font-family: "NanumSquareB";
 	font-size: 26px;
 	font-weight: normal;
 	text-align: center;
+	color: #919eab;
+}
+.darkmode .memberbox h4 {
 	color: #919eab;
 }
 .memberbox p {
@@ -67,5 +80,8 @@ export default Vue.extend({
 	color: #202841;
 
 	margin-top: 20px;
+}
+.darkmode .memberbox p {
+	color: #919eab;
 }
 </style>

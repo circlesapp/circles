@@ -44,6 +44,9 @@ export default Vue.extend({
 
 	position: relative;
 }
+.darkmode .awardbox{
+    background-color: #282828;
+}
 .awardbox input {
 	width: 100px;
 	font-size: 1em;
@@ -58,6 +61,9 @@ export default Vue.extend({
 .awardbox h2 {
 	font-family: "NanumSquareEB";
 	font-size: 45px;
+}
+.darkmode .awardbox h2{
+    color: white;
 }
 .awardbox p {
 	color: #7293bd;
