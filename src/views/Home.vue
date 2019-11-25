@@ -215,20 +215,22 @@ export default Vue.extend({
 		selectClub(idx: number) {
 			let club = this.getClubs[idx];
 			this.targetCurrentIndex = idx;
-			this.$store.commit("pushLoading", {
-				name: "GET_CLUB",
-				message: "동아리 가져오는 중"
-			});
-			this.$store
-				.dispatch("GET_CLUB", club.name)
-				.then(club => {
-					this.$store.commit("clearLoading", "GET_CLUB");
-					if (!club) this.$router.push("/");
-				})
-				.catch(err => {
-					this.$store.commit("clearLoading", "GET_CLUB");
-					this.$router.push("/");
+			if (club) {
+				this.$store.commit("pushLoading", {
+					name: "GET_CLUB",
+					message: "동아리 가져오는 중"
 				});
+				this.$store
+					.dispatch("GET_CLUB", club.name)
+					.then(club => {
+						this.$store.commit("clearLoading", "GET_CLUB");
+						if (!club) this.$router.push("/");
+					})
+					.catch(err => {
+						this.$store.commit("clearLoading", "GET_CLUB");
+						this.$router.push("/");
+					});
+			}
 		},
 		logout() {
 			localStorage.removeItem("circles.loginToken");
@@ -506,8 +508,8 @@ export default Vue.extend({
 	padding-bottom: 60px;
 	position: relative;
 }
-.darkmode .home__login__profile{
-    background-color: #232323;
+.darkmode .home__login__profile {
+	background-color: #232323;
 }
 .home__login__profile h1 {
 	font-family: NanumSquareEB;
@@ -530,9 +532,9 @@ export default Vue.extend({
 	margin: 0 60px;
 	padding: 50px;
 }
-.darkmode .home__login__list{
-    color: white;
-    background-color: #2c2c2c;
+.darkmode .home__login__list {
+	color: white;
+	background-color: #2c2c2c;
 }
 
 .home__login__profile__selectclub {
@@ -587,10 +589,10 @@ export default Vue.extend({
 	width: 100%;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }
-.darkmode .home__login__profile__selectclub__search{
-    background-color: #232323;
-    color: white;
-    border: 1px solid #aaaaaa;
+.darkmode .home__login__profile__selectclub__search {
+	background-color: #232323;
+	color: white;
+	border: 1px solid #aaaaaa;
 }
 .home__login__profile__selectclub__list {
 	flex: 1;
@@ -598,8 +600,8 @@ export default Vue.extend({
 
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.05);
 }
-.darkmode .home__login__profile__selectclub__list{
-    background-color: #232323;
+.darkmode .home__login__profile__selectclub__list {
+	background-color: #232323;
 }
 .home__login__profile__selectclub__list__item {
 	display: flex;
@@ -610,8 +612,8 @@ export default Vue.extend({
 
 	cursor: pointer;
 }
-.darkmode .home__login__profile__selectclub__list__item{
-    color: white;
+.darkmode .home__login__profile__selectclub__list__item {
+	color: white;
 }
 .home__login__profile__selectclub__list__item img {
 	height: 1.5em;
@@ -621,8 +623,8 @@ export default Vue.extend({
 .home__login__profile__selectclub__list__item-active {
 	background-color: #eeeeee;
 }
-.darkmode .home__login__profile__selectclub__list__item-active{
-    background-color: #535353;
+.darkmode .home__login__profile__selectclub__list__item-active {
+	background-color: #535353;
 }
 .home__login__profile__selectclub__list__item-current {
 	background-color: #538fff;
@@ -765,10 +767,10 @@ export default Vue.extend({
 }
 .overflow__btn__logout {
 	position: absolute;
-	right: 16px;
-	bottom: 16px;
-	width: 46px;
-	height: 46px;
+	right: 32px;
+	bottom: 32px;
+	width: 70px;
+	height: 70px;
 
 	display: flex;
 	justify-content: center;
@@ -777,7 +779,7 @@ export default Vue.extend({
 	border: none;
 	border-radius: 50%;
 
-	font-size: 20px;
+	font-size: 36px;
 	background: #f55246;
 	color: white;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);

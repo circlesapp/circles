@@ -104,6 +104,9 @@ export default Vue.extend({
 
 	padding-bottom: 50px;
 }
+.darkmode .search__main{
+    background-color: #282828;
+}
 .search__main h2 {
 	font-family: NanumSquareEB;
 	font-size: 50px;
@@ -119,7 +122,6 @@ export default Vue.extend({
 	font-weight: 300;
 
 	max-width: 1000px;
-	padding: 10px;
 	border-radius: 100px;
 
 	background-color: white;
@@ -130,19 +132,26 @@ export default Vue.extend({
 	display: flex;
 	align-items: center;
 }
+.darkmode .search__input{
+    background-color: #656565;
+}
 .search__input input {
 	width: 100%;
 
 	border: none;
-	background-color: none;
+	background: none;
 	outline: none;
 	font-size: 36px;
 	font-weight: 300;
 	padding-left: 10px;
 }
+.darkmode .search__input input{
+    color: white;
+}
 .search__input i {
 	font-size: 1.5em;
 	padding: 0 20px;
+    padding-top: 5px;
 }
 .search__list {
 	padding: 0 40px;
@@ -166,6 +175,9 @@ export default Vue.extend({
 
 	text-decoration: none;
 }
+.darkmode .search__list__item {
+	background-color: #282828;
+}
 .search__list__item h3 {
 	font-family: NanumSquareB;
 	font-size: 30px;
@@ -173,6 +185,9 @@ export default Vue.extend({
 	color: #202841;
 
 	margin-top: 20px;
+}
+.darkmode .search__list__item h3 {
+	color: white;
 }
 .search__list__item h4 {
 	font-family: NanumSquareB;
@@ -197,6 +212,9 @@ export default Vue.extend({
 	text-overflow: ellipsis;
 	width: 80%;
 	overflow-x: hidden;
+}
+.darkmode .search__list__item p {
+	color: #919eab;
 }
 .search__list__item img {
 	width: 170px;

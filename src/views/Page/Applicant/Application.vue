@@ -216,6 +216,9 @@ export default Vue.extend({
 
 	display: flex;
 }
+.darkmode .application__wrapper {
+	background-color: #282828;
+}
 .application__wrapper__left {
 	flex: 1;
 	display: flex;
@@ -260,9 +263,16 @@ export default Vue.extend({
 
 	width: 100%;
 }
+.darkmode .application__inputbox input {
+	color: white;
+	border: solid 1px #3a3a3a;
+}
 .application__inputbox input:disabled {
 	background-color: #eeeeee;
 	cursor: not-allowed;
+}
+.darkmode .application__inputbox input:disabled {
+	background-color: #656565;
 }
 .application__inputbox textarea {
 	flex: 1;
@@ -277,6 +287,10 @@ export default Vue.extend({
 
 	width: 100%;
 	height: 100%;
+}
+.darkmode .application__inputbox textarea {
+    color: white;
+	border: solid 1px #3a3a3a;
 }
 .application__inputbox input::placeholder,
 textarea::placeholder {
@@ -320,9 +334,17 @@ textarea::placeholder {
 	color: #538fff;
 	border: solid 1px #eeeeee;
 }
+.darkmode .application__action .save{
+    border: none;
+    color: white;
+    background-color: #232323;
+}
 .application__action .submit {
 	background-color: #538fff;
 	color: white;
+}
+.darkmode .application__action .submit{
+    background-color: #353535;
 }
 
 @media screen and (max-height: 900px) {

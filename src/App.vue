@@ -18,6 +18,19 @@
 									<p class="clubs">{{getClub.name}} {{getRank}}</p>
 								</div>
 							</div>
+							<div
+								class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark"
+								@click="darkTheme = !darkTheme"
+							>
+								<div class="menu__right__darktheme__left">
+									<i class="mdi mdi-theme-light-dark"></i>
+									<span class="menu__right__list__item__text">다크 테마</span>
+								</div>
+								<div class="menu__right__darktheme__slider__wrapper">
+									<input v-model="darkTheme" type="checkbox" />
+									<span class="menu__right__darktheme__slider"></span>
+								</div>
+							</div>
 						</div>
 						<router-link
 							to="/"
@@ -637,7 +650,7 @@ i {
 	color: #538fff;
 }
 .menu__left__list .btn__logout {
-	color: #dd4433;
+	color: #dd4433 !important;
 }
 .menu__left__list__bar {
 	position: absolute;
@@ -674,8 +687,14 @@ i {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+.darkmode .menu__left__list__circles h1{
+    color: white;
+}
 .menu__left__list__profile {
 	display: none;
+}
+.darkmode .menu__left__list__profile * {
+	color: white;
 }
 .menu__left__list__profile .information__wrapper {
 	display: flex;
@@ -935,6 +954,14 @@ input:checked + .menu__right__darktheme__slider:before {
 .darkmode input:checked + .menu__right__darktheme__slider {
 	background-color: #3b4351;
 }
+.menu__moblieprofile__dark {
+	padding: 40px;
+	font-size: 24px;
+}
+.darkmode .menu__moblieprofile__dark,
+.darkmode .menu__moblieprofile__dark i {
+	color: white;
+}
 
 .menu__right__search {
 	font-size: 40px;
@@ -1023,6 +1050,9 @@ input:checked + .menu__right__darktheme__slider:before {
 
 		transition: 0.5s;
 	}
+	.darkmode .menu__left__list {
+		background-color: #232323;
+	}
 	.menu__left__list-show {
 		left: 0;
 	}
@@ -1038,6 +1068,9 @@ input:checked + .menu__right__darktheme__slider:before {
 		transition: 0.5s;
 
 		text-align: left;
+	}
+	.darkmode .menu__left__list__item {
+		color: white;
 	}
 	.menu__left__list__item__pwa {
 		display: block;
