@@ -483,7 +483,7 @@ textarea.post__content {
 .post__image {
 	display: flex;
 	height: 400px;
-    overflow-x: hidden;
+	overflow-x: hidden;
 }
 .post__image__mainImage {
 	flex: 2;
@@ -618,7 +618,8 @@ textarea.post__content {
 	flex: 7;
 	border-bottom: 1px solid #919eab;
 }
-.post__comments__editwrapper input {
+.darkmode .post__comments__editwrapper input {
+	color: white;
 	background-color: #353535;
 }
 .post__comments__editwrapper button {
@@ -637,6 +638,9 @@ textarea.post__content {
 	border-top: 1px solid #eeeeee;
 	position: relative;
 }
+.darkmode .post__comments__list__item {
+	border-top: 1px solid #5f5f5f;
+}
 .post__comments__list__item:first-child {
 	border-top: none;
 }
@@ -650,6 +654,9 @@ textarea.post__content {
 	font-weight: normal;
 	color: #202841;
 }
+.darkmode .post__comments__list__item h4 {
+	color: white;
+}
 .post__comments__list__item img {
 	width: 1.5em;
 	height: 1.5em;
@@ -661,6 +668,9 @@ textarea.post__content {
 }
 .post__comments__list__item p {
 	color: #202841;
+}
+.darkmode .post__comments__list__item p {
+	color: #f8fbff;
 }
 .post__comments__list__item__remove {
 	display: flex;

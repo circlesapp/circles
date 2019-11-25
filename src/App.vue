@@ -568,8 +568,14 @@ i {
 ::-webkit-scrollbar-thumb {
 	background: rgba(59, 67, 81, 0.2);
 }
+.darkmode ::-webkit-scrollbar-thumb {
+	background: #656565;
+}
 ::-webkit-scrollbar-track {
 	background-color: #f0f0f0;
+}
+.darkmode ::-webkit-scrollbar-track {
+	background-color: #282828;
 }
 #app {
 	display: flex;
@@ -687,8 +693,8 @@ i {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-.darkmode .menu__left__list__circles h1{
-    color: white;
+.darkmode .menu__left__list__circles h1 {
+	color: white;
 }
 .menu__left__list__profile {
 	display: none;
@@ -767,8 +773,8 @@ i {
 
 	overflow-y: auto;
 }
-.darkmode .menu__right__alarm__popup{
-    background-color: #282828;
+.darkmode .menu__right__alarm__popup {
+	background-color: #282828;
 }
 .menu__right__alarm__popup__loading {
 	position: absolute;
@@ -793,15 +799,15 @@ i {
 	font-size: 16px;
 	color: #333333;
 }
-.darkmode .menu__right__alarm__popup__item p{
-    color: white;
+.darkmode .menu__right__alarm__popup__item p {
+	color: white;
 }
 .menu__right__alarm__popup__item .date {
 	font-size: 14px;
 	color: #666666;
 }
-.darkmode .menu__right__alarm__popup__item .date{
-    color: #afaeae;
+.darkmode .menu__right__alarm__popup__item .date {
+	color: #afaeae;
 }
 .menu__right__alarm__popup__item .clear {
 	position: absolute;
@@ -1102,9 +1108,9 @@ input:checked + .menu__right__darktheme__slider:before {
 		margin-right: 20px;
 	}
 
-    .menu__right__alarm__popup{
-        right: 20px;
-    }
+	.menu__right__alarm__popup {
+		right: 20px;
+	}
 }
 @media all and (display-mode: standalone) {
 	.menu__left__list__item__pwa {
