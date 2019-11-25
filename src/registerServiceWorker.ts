@@ -25,7 +25,7 @@ function pushReady() {
 				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
 			})
 			.then((data: PushSubscription) => {
-				console.log(JSON.stringify(data.toJSON()));
+				localStorage.setItem("circles.pushSubscription", JSON.stringify(data.toJSON()));
 			});
 	});
 }

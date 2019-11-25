@@ -297,7 +297,7 @@ export default Vue.extend({
 			this.deferredPrompt.prompt();
 		},
 		loginCheck() {
-			let token = localStorage.getItem("clubs.loginToken");
+			let token = localStorage.getItem("circles.loginToken");
 			if (token) {
 				this.$store.commit("pushLoading", {
 					name: "GET_USER_PROFILE",
