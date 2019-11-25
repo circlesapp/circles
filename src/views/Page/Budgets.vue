@@ -51,7 +51,6 @@ export default Vue.extend({
 
 					this.budgets = budgets.map((data: any) => {
 						data.total = data.price * data.quantity + data.shopping;
-						console.log(data);
 						return data;
 					});
 				})
