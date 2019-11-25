@@ -177,8 +177,13 @@ export default new Vuex.Store({
 		},
 		GET_USER_PROFILE({ state, commit }, data) {
 			return new Promise<any>((resolve, reject) => {
+				let pushSubscription = data.pushSubscription;
+				let pushSubscriptionJson = null;
+				if (pushSubscription) pushSubscriptionJson = JSON.parse(pushSubscription);
+				else pushSubscriptionJson = null;
+				console.log(pushSubscription);
 				axios
-					.post(`${state.mainPath}auth/getProfile`, data.pushSubscription, {
+					.post(`${state.mainPath}auth/getProfile`, pushSubscriptionJson, {
 						headers: {
 							Authorization: data.token
 						}
