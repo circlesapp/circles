@@ -7,7 +7,7 @@
 		/>
 		<h3>{{data.name}}</h3>
 		<h4>전공</h4>
-		<p>lorem</p>
+		<p>소개</p>
 	</div>
 </template>
 <script lang="ts">
