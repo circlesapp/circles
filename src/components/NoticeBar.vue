@@ -27,27 +27,28 @@ export default Vue.extend({
 
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 
-    width: 80vw;
-    height: 5vh;
+    width: 100vw;
+    height: 100vh;
 
-    top: auto;
-    bottom: 8px;
+    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-
-    border-radius: 20px;
-    background-color: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 
     overflow: auto;
 
     z-index: 2001;
 }
 .noticebar__content {
-    width: 100%;
-    /* max-width: 600px; */
+    width: 80vw;
+    max-width: 600px;
+    margin-bottom: 8px;
+
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 
     padding: 0 10px;
 
@@ -81,12 +82,11 @@ export default Vue.extend({
     width: 30px;
     height: 30px;
 
-    /* display: flex;
+    display: flex;
     justify-content: center;
-    align-items: center; */
-    justify-self: self-end;
+    align-items: center;
 
-    font-size: 24px;
+    font-size: 22px;
 
     border: none;
     border-radius: 50%;
