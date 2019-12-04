@@ -1,13 +1,13 @@
 <template>
-	<div class="noticebar">
-		<div class="noticebar__content">
-			<div class="noticebar__logo"><div></div></div>
-            <p>인터넷 연결 끊김</p>
-			<button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
-				<i class="mdi mdi-close"></i>
-			</button>
-		</div>
-	</div>
+    <div class="noticebar">
+        <div class="noticebar__content">
+            <div class="noticebar__logo"><div></div></div>
+            <p>알림바 테스트</p>
+            <button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
+                <i class="mdi mdi-close"></i>
+            </button>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -72,7 +72,7 @@ export default Vue.extend({
     background-size: 100%;
 }
 .noticebar__content p {
-    color: white;
+    color: #323232;
 }
 .darkmode .noticebar__content p {
     color: white;

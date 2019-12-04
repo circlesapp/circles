@@ -185,13 +185,15 @@ import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
 	name: "App",
 	components: {
-		Offline,
+        Offline,
+        NoticeBar,
 		LoadingBar,
 		TopLoadingBar
 	},
 	data() {
 		return {
-			isOffline: false,
+            isOffline: false,
+            showNotice: true,
 			showMenu: false,
 			showProfile: false,
 			showAlarm: false,
