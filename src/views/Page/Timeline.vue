@@ -26,8 +26,8 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-            posts: [],
-            isPostLoadClear : false
+			posts: [],
+			isPostLoadClear: false
 		};
 	},
 	created() {
@@ -42,8 +42,8 @@ export default Vue.extend({
 			this.$store
 				.dispatch("GET_CLUB_POSTS")
 				.then(posts => {
-                    this.$store.commit("clearPageLoading", "GET_CLUB_POSTS");
-                    this.isPostLoadClear = true;
+					this.$store.commit("clearPageLoading", "GET_CLUB_POSTS");
+					this.isPostLoadClear = true;
 					this.posts = posts;
 				})
 				.catch(err => {});
@@ -110,12 +110,12 @@ export default Vue.extend({
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 
 	font-family: NanumSquareB;
-    font-size: 48px;
-    color: #aaaaaa;
+	font-size: 48px;
+	color: #aaaaaa;
 }
 @media screen and (max-width: 768px) {
 	.timeline {

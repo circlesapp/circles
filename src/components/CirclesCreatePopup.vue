@@ -8,7 +8,13 @@
 			<div class="circles__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>동아리명</h4>
-					<input ref="startInput" v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
+					<input
+						ref="startInput"
+						v-model="name"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리명을 입력하세요"
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>소속학교</h4>
@@ -63,10 +69,10 @@ export default Vue.extend({
 		};
 	},
 	mounted() {
-        (this.$refs.startInput as HTMLDivElement).focus();
-        addEventListener("keydown",(e)=>{
+		(this.$refs.startInput as HTMLDivElement).focus();
+		addEventListener("keydown", e => {
 			if (e.keyCode == 27) this.$emit("isUpdated", false);
-        })
+		});
 	},
 	methods: {
 		encodeBase64ImageFile(image: File): Promise<string> {
@@ -227,7 +233,7 @@ export default Vue.extend({
 	background: none;
 }
 .darkmode .circles__createpopup__content .inputfield .inputfield__input {
-    color: white;
+	color: white;
 	border: solid 1px #3a3a3a;
 }
 .inputfield__inputuser {
@@ -300,8 +306,8 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .circles__createpopup__content__actions .create{
-    background-color: #363636;
+.darkmode .circles__createpopup__content__actions .create {
+	background-color: #363636;
 }
 .circles__createpopup__content__actions .create:hover {
 	background-color: #538fffde;

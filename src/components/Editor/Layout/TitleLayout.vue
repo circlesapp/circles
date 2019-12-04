@@ -1,5 +1,5 @@
 <template>
-    <div class="titleLayout">
+    <div class="titleLayout" @contextmenu="$emit('contextmenu',$event)">
         
     </div>
 </template>

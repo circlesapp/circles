@@ -19,7 +19,7 @@
 import Vue from "vue";
 export default Vue.extend({
 	props: {
-		data: Object,
+		data: Object
 	},
 	data() {
 		return {
@@ -44,8 +44,8 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .awardbox{
-    background-color: #282828;
+.darkmode .awardbox {
+	background-color: #282828;
 }
 .awardbox input {
 	width: 100px;
@@ -62,8 +62,8 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	font-size: 45px;
 }
-.darkmode .awardbox h2{
-    color: white;
+.darkmode .awardbox h2 {
+	color: white;
 }
 .awardbox p {
 	color: #7293bd;
@@ -74,7 +74,7 @@ export default Vue.extend({
 .awardbox span {
 	font-family: "NanumSquareEB";
 	font-size: 25px;
-    margin-left: 10px;
+	margin-left: 10px;
 	font-weight: normal;
 	color: #becfe4;
 }

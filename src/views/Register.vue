@@ -13,11 +13,26 @@
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
 					<h3>이름</h3>
-					<input minlength="2" maxlength="10" type="text" name="name" placeholder="이름을 입력하세요." v-model="name" required />
+					<input
+						minlength="2"
+						maxlength="10"
+						type="text"
+						name="name"
+						placeholder="이름을 입력하세요."
+						v-model="name"
+						required
+					/>
 				</div>
 				<div class="register__inputwrapper" style="margin-left:20px;">
 					<h3>이메일</h3>
-					<input minlength="4" type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" required />
+					<input
+						minlength="4"
+						type="email"
+						name="email"
+						placeholder="이메일을 입력하세요."
+						v-model="email"
+						required
+					/>
 				</div>
 			</div>
 			<div class="register__rowwrapper">
@@ -25,8 +40,8 @@
 					<h3>비밀번호</h3>
 					<input
 						required
-                        minlength="4"
-                        maxlength="24"
+						minlength="4"
+						maxlength="24"
 						type="password"
 						name="password"
 						placeholder="비밀번호를 입력하세요."

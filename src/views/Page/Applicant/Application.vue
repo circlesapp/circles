@@ -289,7 +289,7 @@ export default Vue.extend({
 	height: 100%;
 }
 .darkmode .application__inputbox textarea {
-    color: white;
+	color: white;
 	border: solid 1px #3a3a3a;
 }
 .application__inputbox input::placeholder,
@@ -334,17 +334,17 @@ textarea::placeholder {
 	color: #538fff;
 	border: solid 1px #eeeeee;
 }
-.darkmode .application__action .save{
-    border: none;
-    color: white;
-    background-color: #232323;
+.darkmode .application__action .save {
+	border: none;
+	color: white;
+	background-color: #232323;
 }
 .application__action .submit {
 	background-color: #538fff;
 	color: white;
 }
-.darkmode .application__action .submit{
-    background-color: #353535;
+.darkmode .application__action .submit {
+	background-color: #353535;
 }
 
 @media screen and (max-height: 900px) {

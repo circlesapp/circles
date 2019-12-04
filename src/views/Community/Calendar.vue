@@ -3,7 +3,7 @@
 		<div class="calendar__title">
 			<p>{{year}}년</p>
 			<h2>{{month+1}}월</h2>
-            <!-- TODO: pMonth , mMonth를 이용해서 월 이동 UI에 넣어야함 -->
+			<!-- TODO: pMonth , mMonth를 이용해서 월 이동 UI에 넣어야함 -->
 		</div>
 		<div
 			class="calendar__content"

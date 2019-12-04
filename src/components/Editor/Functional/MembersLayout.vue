@@ -1,5 +1,5 @@
 <template>
-	<div class="membersLayout">
+	<div class="membersLayout" @contextmenu="$emit('contextmenu',$event)">
 		<h2>멤버 소개</h2>
 		<div class="membersLayout__list">
 			<MemberBox

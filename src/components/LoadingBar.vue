@@ -1,7 +1,15 @@
 <template>
 	<div class="loading">
 		<svg class="loading__circular" viewBox="25 25 50 50">
-			<circle class="loading__path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+			<circle
+				class="loading__path"
+				cx="50"
+				cy="50"
+				r="20"
+				fill="none"
+				stroke-width="2"
+				stroke-miterlimit="10"
+			/>
 		</svg>
 	</div>
 </template>
@@ -17,8 +25,8 @@ export default Vue.extend({});
 	left: 0;
 	right: 0;
 
-    width: 100vw;
-    height: 100vh;
+	width: 100vw;
+	height: 100vh;
 
 	z-index: 2000;
 
@@ -48,8 +56,8 @@ export default Vue.extend({});
 	stroke-dashoffset: 0;
 	animation: dash 1.5s ease-in-out infinite;
 	stroke-linecap: round;
-    stroke: white;
-    stroke-width: 4px;
+	stroke: white;
+	stroke-width: 4px;
 }
 
 @keyframes rotate {

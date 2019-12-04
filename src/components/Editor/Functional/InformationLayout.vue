@@ -1,5 +1,5 @@
 <template>
-	<div class="informationLayout">
+	<div class="informationLayout" @contextmenu="$emit('contextmenu',$event)">
 		<h2>동아리 소개</h2>
 		<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo harum optio aliquam facere, beatae voluptates cumque voluptatum fuga possimus, esse temporibus porro odio tenetur a doloribus sapiente sunt quo dolorum!</p>
 	</div>

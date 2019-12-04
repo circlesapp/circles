@@ -165,7 +165,7 @@ export default Vue.extend({
 .community__content {
 	flex: 1;
 	overflow-y: scroll;
-    overflow-x: hidden;
+	overflow-x: hidden;
 
 	position: relative;
 }

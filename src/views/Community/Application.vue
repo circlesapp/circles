@@ -281,8 +281,8 @@ export default Vue.extend({
 	border-radius: 5px;
 	padding: 10px;
 }
-.communityApplication__controlPanel .content{
-    border: 1px solid #3a3a3a;
+.communityApplication__controlPanel .content {
+	border: 1px solid #3a3a3a;
 }
 .communityApplication__controlPanel .titlewrapper {
 	display: flex;

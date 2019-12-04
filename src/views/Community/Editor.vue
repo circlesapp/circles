@@ -18,23 +18,23 @@
 			<div class="inputfield">
 				<h2>설명</h2>
 				<input type="text" placeholder="설명을 입력하세요" />
-			</div> -->
+			</div>-->
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
 				<div class="editor__menu__components__list">
 					<div
 						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'InformationLayout')"
+						@click="componentAdd($event,'InformationLayout')"
 						draggable
 					>동아리 소개</div>
 					<div
 						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'MembersLayout')"
+						@click="componentAdd($event,'MembersLayout')"
 						draggable
 					>멤버 소개</div>
 					<div
 						class="editor__menu__components__list__item"
-						@dragstart="onStartDrag($event,'ApplyButtonLayout')"
+						@click="componentAdd($event,'ApplyButtonLayout')"
 						draggable
 					>지원하기 버튼</div>
 				</div>
@@ -44,33 +44,35 @@
 				<button class="save" @click="commit">저장</button>
 			</div>
 		</div>
-		<div
-			class="editor__content"
-			@drop="onDrop"
-			@dragover="onDragOver"
-			@dragleave="onMouseOut"
-			@dragstart="isInContentDrag = true"
-			@mousedown="onClickIndex"
-			@contextmenu="onContextMenu"
-			ref="components"
-		>
-			<transition-group name="componentGrop" tag="div" class="editor__content__wrapper">
-				<component
-					draggable
-					class="editor__content__component"
-					:class="{'editor__content__component-gap':component.isDragGap}"
-					v-for="(component) in getComponentList"
-					:key="component.id"
-					:is="component.component"
-					ref="component"
-				>{{component}}</component>
-			</transition-group>
+		<div class="editor__content" ref="components">
+			<draggable
+				tag="div"
+				class="editor__content__wrapper"
+				v-model="componentList"
+				v-bind="dragOptions"
+				@start="drag=true"
+				@end="drag=false"
+			>
+				<transition-group type="transition" :name="!drag ? 'componentGrop' : null">
+					<component
+						class="editor__content__component"
+						:class="{'editor__content__component-gap':component.isDragGap}"
+						v-for="(component,idx) in componentList"
+						:key="component.id"
+						:is="component.component"
+						@contextmenu="onContextMenu($event,idx)"
+						ref="component"
+					>{{component}}</component>
+				</transition-group>
+			</draggable>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+// @ts-ignore
+import draggable from "vuedraggable";
 
 import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
 import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
@@ -80,7 +82,8 @@ export default Vue.extend({
 	components: {
 		InformationLayout,
 		MembersLayout,
-		ApplyButtonLayout
+		ApplyButtonLayout,
+		draggable
 	},
 	data() {
 		return {
@@ -88,7 +91,8 @@ export default Vue.extend({
 			currentComponent: "",
 			currentSwapIndex: -1 as number,
 			currentPositionY: -1 as number,
-			isInContentDrag: false
+			isInContentDrag: false,
+			drag: false
 		};
 	},
 	created() {
@@ -126,69 +130,16 @@ export default Vue.extend({
 				this.currentSwapIndex = 0;
 			}
 		},
-		onContextMenu(e: Event) {
+		onContextMenu(e: Event, idx: number) {
 			e.preventDefault();
-			this.componentList.splice(this.currentSwapIndex, 1);
+			this.componentList.splice(idx, 1);
 		},
-		onDragOver(e: DragEvent) {
-			let components = this.$refs.component as any[];
-			let pointY =
-				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
-			if (components) {
-				let heightSum = 0;
-				let isBreak = false;
-				for (let i = 0; i < components.length; i++) {
-					let ele = components[i].$el;
-					let nextEle = components[i + 1]
-						? components[i + 1].$el
-						: null;
-					heightSum += ele.clientHeight;
-					if (
-						heightSum > pointY &&
-						(nextEle
-							? pointY < heightSum + nextEle.clientHeight
-							: true)
-					) {
-						isBreak = true;
-						this.currentPositionY = i;
-						break;
-					}
-				}
-				if (!isBreak) {
-					this.currentPositionY = components.length;
-				}
-			} else {
-				this.currentPositionY = 0;
-			}
-			e.preventDefault();
-		},
-		onStartDrag(e: DragEvent, component: string) {
-			this.currentComponent = component;
-		},
-		onDrop(e: DragEvent) {
-			e.preventDefault();
-			if (!this.isInContentDrag) {
-				this.componentList.splice(this.currentPositionY, 0, {
-					component: this.currentComponent,
-					data: {},
-					isDragGap: false,
-					id: new Date().getTime()
-				});
-				this.currentPositionY = -1;
-			} else {
-				let tmp = this.componentList[this.currentPositionY];
-				this.componentList[this.currentPositionY] = this.componentList[
-					this.currentSwapIndex
-				];
-				this.componentList[this.currentSwapIndex] = tmp;
-
-				this.currentSwapIndex = -1;
-				this.currentPositionY = -1;
-				this.isInContentDrag = false;
-			}
-		},
-		onMouseOut(e: DragEvent) {
-			this.currentPositionY = -1;
+		componentAdd(e: MouseEvent, componentName: string) {
+			this.componentList.push({
+				component: componentName,
+				data: {},
+				id: new Date().getTime()
+			});
 		},
 		commit() {
 			this.$store.commit("pushLoading", {
@@ -206,14 +157,16 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		getComponentList(): any[] {
-			return this.componentList.map((x: any, idx: number) => {
-				x.isDragGap = idx == this.currentPositionY;
-				return x;
-			});
-		},
 		getClub(): any {
 			return this.$store.state.club;
+		},
+		dragOptions() {
+			return {
+				animation: 400,
+				disabled: false,
+				group: "description",
+				ghostClass: "ghost"
+			};
 		}
 	}
 });
@@ -262,8 +215,8 @@ export default Vue.extend({
 
 	z-index: 500;
 }
-.darkmode .editor__menu{
-    background-color: #282828;
+.darkmode .editor__menu {
+	background-color: #282828;
 }
 .editor__back {
 	display: flex;
@@ -330,8 +283,6 @@ export default Vue.extend({
 }
 
 .editor__menu__components__list__item {
-	cursor: grab;
-
 	border: solid 1px #ebebeb;
 
 	display: flex;
@@ -343,9 +294,6 @@ export default Vue.extend({
 
 	font-family: NanumSquareB;
 	font-size: 28px;
-}
-.editor__menu__components__list__item:active {
-	cursor: grabbing;
 }
 .editor__menu__action {
 	display: flex;
@@ -386,8 +334,6 @@ export default Vue.extend({
 	position: relative;
 }
 .editor__content__component {
-	transition: 0.5s;
-	position: relative;
 	margin-top: 10px;
 
 	width: 100%;
@@ -395,6 +341,10 @@ export default Vue.extend({
 
 .editor__content__component-gap {
 	box-shadow: 0 2px 20px 0 rgba(99, 99, 99, 0.4);
+	opacity: 0.5;
+}
+
+.ghost {
 	opacity: 0.5;
 }
 </style>

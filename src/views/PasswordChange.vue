@@ -25,7 +25,7 @@
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-    name : "PasswordChange",
+	name: "PasswordChange"
 });
 </script>
 
@@ -104,7 +104,7 @@ export default Vue.extend({
 	margin: 10% auto;
 	padding: 5px;
 
-    border: none;
+	border: none;
 	border-radius: 100px;
 	background: #273142;
 	color: white;

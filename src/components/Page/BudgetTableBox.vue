@@ -61,7 +61,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<BudgetTableItem v-for="budget in getOrderedBudgets" :key="budget.number" :data="budget" @contextmenu="$emit('contextmenu',$event)"></BudgetTableItem>
+			<BudgetTableItem
+				v-for="budget in getOrderedBudgets"
+				:key="budget.number"
+				:data="budget"
+				@contextmenu="$emit('contextmenu',$event)"
+			></BudgetTableItem>
 		</tbody>
 	</table>
 </template>
@@ -116,8 +121,8 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	color: #9cb2cd;
 }
-.darkmode .budgettablebox{
-    background-color: #282828;
+.darkmode .budgettablebox {
+	background-color: #282828;
 }
 .budgettablebox th {
 	padding: 20px;
