@@ -113,6 +113,8 @@ export default Vue.extend({
 }
 .darkmode .noticebar__content__clear:hover {
     box-shadow: none;
-    background-color: #282828;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+    background-color: white;
+    color: rgb(104, 104, 104);
 }
 </style>
