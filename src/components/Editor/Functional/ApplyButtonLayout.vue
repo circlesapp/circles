@@ -1,5 +1,5 @@
 <template>
-	<div class="applyButtonLayout">
+	<div class="applyButtonLayout" @contextmenu="$emit('contextmenu',$event)">
 		<button @click="$router.push({name:'page/applicant/main'})">지원하기</button>
 	</div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-	<div class="calendar__createpopup">
+	<div class="calendar__createpopup" @contextmenu="$emit('contextmenu',$event)">
 		<div class="calendar__createpopup__content">
 			<button class="calendar__createpopup__content__clear" @click="$emit('isUpdated', false)">
 				<i class="mdi mdi-close"></i>
