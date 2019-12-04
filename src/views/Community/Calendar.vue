@@ -3,6 +3,7 @@
 		<div class="calendar__title">
 			<p>{{year}}년</p>
 			<h2>{{month+1}}월</h2>
+            <!-- TODO: pMonth , mMonth를 이용해서 월 이동 UI에 넣어야함 -->
 		</div>
 		<div
 			class="calendar__content"
@@ -87,9 +88,6 @@ export default Vue.extend({
 	},
 	mounted() {
 		let now = new Date();
-		this.year = now.getFullYear();
-		this.month = now.getMonth();
-		this.currentDay = now.getDate();
 
 		this.startDay = new Date(this.year, this.month, 1); //현재달의 첫째 날
 		this.endDay = new Date(this.year, this.month, 0); //현재 달의 마지막 날
@@ -98,8 +96,37 @@ export default Vue.extend({
 		});
 		this.getSize();
 		this.reload();
+		this.calendarReload(now.getFullYear(), now.getMonth(), now.getDate());
 	},
 	methods: {
+		pMonth() {
+			this.month++;
+			if (this.month >= 12) {
+				this.year++;
+				this.month = 0;
+			}
+			this.allReload();
+		},
+		mMonth() {
+			this.month--;
+			if (this.month < 0) {
+				this.year--;
+				this.month = 11;
+			}
+			this.allReload();
+		},
+		allReload() {
+			this.calendarReload(this.year, this.month, this.currentDay);
+			this.reload();
+		},
+		calendarReload(year: number, month: number, currentDay: number) {
+			this.year = year;
+			this.month = month;
+			this.currentDay = currentDay;
+
+			this.startDay = new Date(this.year, this.month, 1); //현재달의 첫째 날
+			this.endDay = new Date(this.year, this.month, 0); //현재 달의 마지막 날
+		},
 		reload() {
 			this.isCreatePopup = false;
 			this.$store.commit("pushLoading", {
@@ -112,20 +139,24 @@ export default Vue.extend({
 				this.$store.commit("clearLoading", "GET_CLUB_CALENDAR");
 				calendars.forEach((calendar: any) => {
 					this.calendars = calendars;
-					let start =
-						new Date(calendar.start).getDate() +
-						this.startDay.getDay();
-					let end =
-						new Date(calendar.end).getDate() +
-						this.startDay.getDay();
-					this.drawLine(
-						(start - 1) % 7,
-						Math.floor((start - 1) / 7),
-						end % 7,
-						Math.floor((end - 1) / 7),
-						false,
-						calendar
-					);
+					let startDate = new Date(calendar.start);
+					if (
+						this.year == startDate.getFullYear() &&
+						this.month == startDate.getMonth()
+					) {
+						let start =
+							startDate.getDate() + this.startDay.getDay();
+						let endDate = new Date(calendar.end);
+						let end = endDate.getDate() + this.startDay.getDay();
+						this.drawLine(
+							(start - 1) % 7,
+							Math.floor((start - 1) / 7),
+							end % 7,
+							Math.floor((end - 1) / 7),
+							false,
+							calendar
+						);
+					}
 				});
 			});
 		},
