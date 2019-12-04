@@ -195,7 +195,7 @@ export default Vue.extend({
     data() {
         return {
             isOffline: false,
-            showNotice: true,
+            showNotice: false,
             showMenu: false,
             showProfile: false,
             showAlarm: false,
