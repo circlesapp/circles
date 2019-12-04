@@ -171,950 +171,960 @@
 		<transition name="loadingAnimation">
 			<LoadingBar v-if="isLoading"></LoadingBar>
 		</transition>
+		<Offline v-if="isOffline" @isUpdated="isOffline = false"/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Offline from "./components/Offline.vue";
 import LoadingBar from "./components/LoadingBar.vue";
 import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
-	name: "App",
-	components: {
-		LoadingBar,
-		TopLoadingBar
-	},
-	data() {
-		return {
-			showMenu: false,
-			showProfile: false,
-			showAlarm: false,
-			deferredPrompt: null as any,
-			routerAnimation: "",
+    name: "App",
+    components: {
+        Offline,
+        LoadingBar,
+        TopLoadingBar
+    },
+    data() {
+        return {
+            isOffline: false,
+            showMenu: false,
+            showProfile: false,
+            showAlarm: false,
+            deferredPrompt: null as any,
+            routerAnimation: "",
 
-			isMounteRequired: false,
-			idx: 0,
+            isMounteRequired: false,
+            idx: 0,
 
-			darkTheme: false,
-			barPositionX: "",
+            darkTheme: false,
+            barPositionX: "",
 
-			isAlarmLoading: false
-		};
-	},
-	created() {
-		let darkMode = localStorage.getItem("circles.darkMode");
-		this.darkTheme = darkMode == "true";
-		this.loginCheck();
-	},
-	mounted() {
-		let startX = 0;
-		let endX = 0;
-		addEventListener("touchstart", (e: TouchEvent) => {
-			startX = e.touches[0].clientX;
-			endX = e.touches[0].clientX;
-		});
-		addEventListener("touchmove", (e: TouchEvent) => {
-			endX = e.touches[0].clientX;
-		});
-		addEventListener("touchend", (e: TouchEvent) => {
-			let gap = endX - startX;
-			if (gap < -200) {
-				this.showMenu = false;
-			}
-			if (gap > 200) {
-				this.showMenu = true;
-			}
-		});
+            isAlarmLoading: false
+        };
+    },
+    created() {
+        let darkMode = localStorage.getItem("circles.darkMode");
+        this.darkTheme = darkMode == "true";
+        this.loginCheck();
+    },
+    mounted() {
+        let startX = 0;
+        let endX = 0;
+        addEventListener("touchstart", (e: TouchEvent) => {
+            startX = e.touches[0].clientX;
+            endX = e.touches[0].clientX;
+        });
+        addEventListener("touchmove", (e: TouchEvent) => {
+            endX = e.touches[0].clientX;
+        });
+        addEventListener("touchend", (e: TouchEvent) => {
+            let gap = endX - startX;
+            if (gap < -200) {
+                this.showMenu = false;
+            }
+            if (gap > 200) {
+                this.showMenu = true;
+            }
+        });
+        addEventListener("offline", () => {
+            this.isOffline = true;
+        });
+        addEventListener("online", () => {
+            this.isOffline = false;
+        });
 
-		let route: any = this.$route;
-		this.idx = ["home", "page", "community"].indexOf(
-			route.name.split("/")[0]
-		);
-		this.setBarPosition();
+        let route: any = this.$route;
+        this.idx = ["home", "page", "community"].indexOf(
+            route.name.split("/")[0]
+        );
+        this.setBarPosition();
 
-		window.addEventListener("beforeinstallprompt", (e: any) => {
-			e.preventDefault();
-			this.deferredPrompt = e;
-			e.prompt();
-		});
+        window.addEventListener("beforeinstallprompt", (e: any) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            e.prompt();
+        });
 
-		let routeList = [this.$route.name] as any[];
-		this.$router.beforeEach((to, from, next) => {
-			this.$store.state.loadingStack = [];
-			if (
-				routeList.length > 1 &&
-				to.name == routeList[routeList.length - 2]
-			) {
-				this.routerAnimation = "routerdown-animation";
-				routeList.splice(routeList.length - 1, 1);
-				setTimeout(function() {
-					next();
-				}, 15);
-				return;
-			} else {
-				this.routerAnimation = "routerup-animation";
-				routeList.push(to.name);
-				next();
-			}
-		});
-	},
+        let routeList = [this.$route.name] as any[];
+        this.$router.beforeEach((to, from, next) => {
+            this.$store.state.loadingStack = [];
+            if (
+                routeList.length > 1 &&
+                to.name == routeList[routeList.length - 2]
+            ) {
+                this.routerAnimation = "routerdown-animation";
+                routeList.splice(routeList.length - 1, 1);
+                setTimeout(function() {
+                    next();
+                }, 15);
+                return;
+            } else {
+                this.routerAnimation = "routerup-animation";
+                routeList.push(to.name);
+                next();
+            }
+        });
+    },
 
-	watch: {
-		$route(next, prev) {
-			this.idx = ["home", "page", "community"].indexOf(
-				next.name.split("/")[0]
-			);
-			if (this.idx != -1) {
-				if (this.$refs.bar as HTMLDivElement) {
-					this.setBarPosition();
-				}
-			}
-		},
-		darkTheme(next, prev) {
-			localStorage.setItem("circles.darkMode", next);
-		}
-	},
-	methods: {
-		setBarPosition() {
-			if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + "px";
-		},
-		toggleMenu() {
-			this.showMenu = !this.showMenu;
-		},
-		toggleProfile() {
-			this.showAlarm = false;
-			this.showProfile = !this.showProfile;
-		},
-		toggleAlarm() {
-			this.showProfile = false;
-			this.showAlarm = !this.showAlarm;
-			if (this.showAlarm) {
-				this.isAlarmLoading = true;
-				this.$store.dispatch("GET_ALARM").then(alarms => {
-					this.getUserInformation.alarms = alarms;
-					this.isAlarmLoading = false;
-				});
-			}
-		},
-		closeAll() {
-			this.showMenu = false;
-			this.showProfile = false;
-			this.showAlarm = false;
-		},
-		getDate(date: Date): string {
-			return new Date(date).toISOString().slice(0, 10);
-		},
-		deleteAlarm(id: number) {
-			this.isAlarmLoading = true;
-			this.$store.dispatch("REMOVE_ALARM", { id }).then(alarms => {
-				this.isAlarmLoading = false;
-				this.getUserInformation.alarms = alarms;
-			});
-		},
-		showPWA() {
-			this.deferredPrompt.prompt();
-		},
-		loginCheck() {
-			let token = localStorage.getItem("circles.loginToken");
-			let pushSubscription = localStorage.getItem(
-				"circles.pushSubscription"
-			);
-			if (token) {
-				this.$store.commit("pushLoading", {
-					name: "GET_USER_PROFILE",
-					message: "로그인 중"
-				});
-				this.$store
-					.dispatch("GET_USER_PROFILE", { token, pushSubscription })
-					.then(user => {
-						this.$store.state.userToken = token;
-						this.$store.commit("clearLoading", "GET_USER_PROFILE");
-					})
-					.catch(err => {
-						this.$store.state.userToken = "";
-						this.$store.commit("clearLoading", "GET_USER_PROFILE");
-					});
-			}
-		},
-		logout() {
-			localStorage.removeItem("circles.loginToken");
-			this.showProfile = false;
-			this.$store.state.userToken = "";
-			this.$store.state.userInformation = {};
-			this.$router.replace("/");
-		}
-	},
-	computed: {
-		isLoading() {
-			return this.$store.state.loadingStack.length > 0;
-		},
-		getBar() {
-			return this.$refs.bar;
-		},
-		getUserInformation(): any {
-			return this.$store.state.userInformation;
-		},
-		getUserImage() {
-			if (this.$store.state.userInformation.imgPath)
-				return (
-					this.$store.state.mainPath +
-					this.$store.state.userInformation.imgPath
-				);
-			else
-				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-		},
-		getClub() {
-			return this.$store.state.club;
-		},
-		isShowMenuRoute(): boolean {
-			return (
-				[
-					"login",
-					"register",
-					"passwordchange",
-					"page404",
-					"community/editor",
-					"site"
-				].indexOf(this.$route.name || "") == -1 &&
-				!(this.$route.name == "home" && !this.getUserInformation.name)
-			);
-		},
-		getRank() {
-			if (this.$store.state.club.name) {
-				try {
-					return this.$store.state.club.ranks.find(
-						(x: any) =>
-							this.$store.state.club.members.find(
-								(x: any) =>
-									x.user ==
-									this.$store.state.userInformation._id
-							).rank == x.id
-					).name;
-				} catch (e) {
-					return "-";
-				}
-			} else {
-				return "-";
-			}
-		},
-		isAdmin(): number {
-			let acceptPermissions = [32, 42];
-			if (
-				this.$store.state.club.ranks &&
-				this.$store.state.userInformation._id
-			) {
-				let user = this.$store.state.club.members.find(
-					(member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
-					}
-				);
-				if (user) {
-					let rank = this.$store.state.club.ranks.find(
-						(rank: any) => rank.id == user.rank
-					);
-					if (rank.isAdmin) {
-						return 1000;
-					} else {
-						return this.$store.state.club.ranks
-							.find((rank: any) => rank.id == user.rank)
-							.permission.find(
-								(permission: string) =>
-									acceptPermissions.indexOf(
-										parseInt(permission)
-									) != -1
-							);
-					}
-				} else return 0;
-			} else return 0;
-		},
-		communityPermissionRoute(): string {
-			return this.isAdmin == 1000
-				? "editclub"
-				: this.isAdmin == 32
-				? "application"
-				: this.isAdmin == 42
-				? "calendar"
-				: "";
-		}
-	}
+    watch: {
+        $route(next, prev) {
+            this.idx = ["home", "page", "community"].indexOf(
+                next.name.split("/")[0]
+            );
+            if (this.idx != -1) {
+                if (this.$refs.bar as HTMLDivElement) {
+                    this.setBarPosition();
+                }
+            }
+        },
+        darkTheme(next, prev) {
+            localStorage.setItem("circles.darkMode", next);
+        }
+    },
+    methods: {
+        setBarPosition() {
+            if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + "px";
+        },
+        toggleMenu() {
+            this.showMenu = !this.showMenu;
+        },
+        toggleProfile() {
+            this.showAlarm = false;
+            this.showProfile = !this.showProfile;
+        },
+        toggleAlarm() {
+            this.showProfile = false;
+            this.showAlarm = !this.showAlarm;
+            if (this.showAlarm) {
+                this.isAlarmLoading = true;
+                this.$store.dispatch("GET_ALARM").then(alarms => {
+                    this.getUserInformation.alarms = alarms;
+                    this.isAlarmLoading = false;
+                });
+            }
+        },
+        closeAll() {
+            this.showMenu = false;
+            this.showProfile = false;
+            this.showAlarm = false;
+        },
+        getDate(date: Date): string {
+            return new Date(date).toISOString().slice(0, 10);
+        },
+        deleteAlarm(id: number) {
+            this.isAlarmLoading = true;
+            this.$store.dispatch("REMOVE_ALARM", { id }).then(alarms => {
+                this.isAlarmLoading = false;
+                this.getUserInformation.alarms = alarms;
+            });
+        },
+        showPWA() {
+            this.deferredPrompt.prompt();
+        },
+        loginCheck() {
+            let token = localStorage.getItem("circles.loginToken");
+            let pushSubscription = localStorage.getItem(
+                "circles.pushSubscription"
+            );
+            if (token) {
+                this.$store.commit("pushLoading", {
+                    name: "GET_USER_PROFILE",
+                    message: "로그인 중"
+                });
+                this.$store
+                    .dispatch("GET_USER_PROFILE", { token, pushSubscription })
+                    .then(user => {
+                        this.$store.state.userToken = token;
+                        this.$store.commit("clearLoading", "GET_USER_PROFILE");
+                    })
+                    .catch(err => {
+                        this.$store.state.userToken = "";
+                        this.$store.commit("clearLoading", "GET_USER_PROFILE");
+                    });
+            }
+        },
+        logout() {
+            localStorage.removeItem("circles.loginToken");
+            this.showProfile = false;
+            this.$store.state.userToken = "";
+            this.$store.state.userInformation = {};
+            this.$router.replace("/");
+        }
+    },
+    computed: {
+        isLoading() {
+            return this.$store.state.loadingStack.length > 0;
+        },
+        getBar() {
+            return this.$refs.bar;
+        },
+        getUserInformation(): any {
+            return this.$store.state.userInformation;
+        },
+        getUserImage() {
+            if (this.$store.state.userInformation.imgPath)
+                return (
+                    this.$store.state.mainPath +
+                    this.$store.state.userInformation.imgPath
+                );
+            else
+                return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+        },
+        getClub() {
+            return this.$store.state.club;
+        },
+        isShowMenuRoute(): boolean {
+            return (
+                [
+                    "login",
+                    "register",
+                    "passwordchange",
+                    "page404",
+                    "community/editor",
+                    "site"
+                ].indexOf(this.$route.name || "") == -1 &&
+                !(this.$route.name == "home" && !this.getUserInformation.name)
+            );
+        },
+        getRank() {
+            if (this.$store.state.club.name) {
+                try {
+                    return this.$store.state.club.ranks.find(
+                        (x: any) =>
+                            this.$store.state.club.members.find(
+                                (x: any) =>
+                                    x.user ==
+                                    this.$store.state.userInformation._id
+                            ).rank == x.id
+                    ).name;
+                } catch (e) {
+                    return "-";
+                }
+            } else {
+                return "-";
+            }
+        },
+        isAdmin(): number {
+            let acceptPermissions = [32, 42];
+            if (
+                this.$store.state.club.ranks &&
+                this.$store.state.userInformation._id
+            ) {
+                let user = this.$store.state.club.members.find(
+                    (member: any) => {
+                        return (
+                            member.user == this.$store.state.userInformation._id
+                        );
+                    }
+                );
+                if (user) {
+                    let rank = this.$store.state.club.ranks.find(
+                        (rank: any) => rank.id == user.rank
+                    );
+                    if (rank.isAdmin) {
+                        return 1000;
+                    } else {
+                        return this.$store.state.club.ranks
+                            .find((rank: any) => rank.id == user.rank)
+                            .permission.find(
+                                (permission: string) =>
+                                    acceptPermissions.indexOf(
+                                        parseInt(permission)
+                                    ) != -1
+                            );
+                    }
+                } else return 0;
+            } else return 0;
+        },
+        communityPermissionRoute(): string {
+            return this.isAdmin == 1000
+                ? "editclub"
+                : this.isAdmin == 32
+                ? "application"
+                : this.isAdmin == 42
+                ? "calendar"
+                : "";
+        }
+    }
 });
 </script>
 
 <style>
 @font-face {
-	font-family: "AvenirBlack";
-	src: url("./assets/Avenir Black.ttf") format("truetype");
+    font-family: "AvenirBlack";
+    src: url("./assets/Avenir Black.ttf") format("truetype");
 }
 @font-face {
-	font-family: "NanumSquareB";
-	src: url("./assets/NanumSquareB.ttf") format("truetype");
+    font-family: "NanumSquareB";
+    src: url("./assets/NanumSquareB.ttf") format("truetype");
 }
 @font-face {
-	font-family: "NanumSquareEB";
-	src: url("./assets/NanumSquareEB.ttf") format("truetype");
+    font-family: "NanumSquareEB";
+    src: url("./assets/NanumSquareEB.ttf") format("truetype");
 }
 @font-face {
-	font-family: "NanumSquareR";
-	src: url("./assets/NanumSquareR.ttf") format("truetype");
+    font-family: "NanumSquareR";
+    src: url("./assets/NanumSquareR.ttf") format("truetype");
 }
 @font-face {
-	font-family: "NanumSquareL";
-	src: url("./assets/NanumSquareL.ttf") format("truetype");
+    font-family: "NanumSquareL";
+    src: url("./assets/NanumSquareL.ttf") format("truetype");
 }
 .menu-animation-enter-active,
 .menu-animation-leave-active {
-	transition: 0.5s;
-	overflow: hidden;
+    transition: 0.5s;
+    overflow: hidden;
 }
 .menu-animation-enter,
 .menu-animation-leave-to {
-	height: 0 !important;
+    height: 0 !important;
 }
 .menu-animation-leave,
 .menu-animation-enter-to {
-	height: 90 !important;
+    height: 90 !important;
 }
 .routerup-animation-enter-active,
 .routerup-animation-leave-active,
 .routerdown-animation-enter-active,
 .routerdown-animation-leave-active {
-	position: absolute;
-	top: 0;
-	left: 0;
-	transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 .routerup-animation-enter {
-	transform: translateY(100%);
+    transform: translateY(100%);
 }
 .routerup-animation-enter-to {
-	transform: translateY(0);
+    transform: translateY(0);
 }
 .routerup-animation-leave {
-	transform: translateY(0);
+    transform: translateY(0);
 }
 .routerup-animation-leave-to {
-	transform: translateY(-100%);
+    transform: translateY(-100%);
 }
 
 .routerdown-animation-enter {
-	transform: translateY(-100%);
+    transform: translateY(-100%);
 }
 .routerdown-animation-enter-to {
-	transform: translateY(0);
+    transform: translateY(0);
 }
 .routerdown-animation-leave {
-	transform: translateY(0);
+    transform: translateY(0);
 }
 .routerdown-animation-leave-to {
-	transform: translateY(100%);
+    transform: translateY(100%);
 }
 .fade-enter-active,
 .fade-leave-active {
-	transition: 0.5s;
-	position: absolute;
-	right: 0;
+    transition: 0.5s;
+    position: absolute;
+    right: 0;
 }
 .fade-enter,
 .fade-leave-to {
-	opacity: 0;
-	transform: translateY(5%);
+    opacity: 0;
+    transform: translateY(5%);
 }
 .fade-enter-to,
 .fade-leave {
-	opacity: 1;
-	transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 .loadingAnimation-enter-active,
 .loadingAnimation-leave-active {
-	transition: 0.3s;
+    transition: 0.3s;
 }
 .loadingAnimation-enter,
 .loadingAnimation-leave-to {
-	opacity: 0;
+    opacity: 0;
 }
 .loadingAnimation-enter-to,
 .loadingAnimation-leave {
-	opacity: 1;
+    opacity: 1;
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: "NanumSquareR";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "NanumSquareR";
 
-	line-height: 1.5em;
-	letter-spacing: 0.02em;
+    line-height: 1.5em;
+    letter-spacing: 0.02em;
 
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 i {
-	user-select: none;
+    user-select: none;
 }
 ::selection {
-	background-color: rgba(39, 49, 66, 0.2);
-	/* color: #273142; */
+    background-color: rgba(39, 49, 66, 0.2);
+    /* color: #273142; */
 }
 ::-webkit-scrollbar {
-	width: 4px;
-	height: 4px;
+    width: 4px;
+    height: 4px;
 }
 ::-webkit-scrollbar-button {
-	display: none;
+    display: none;
 }
 ::-webkit-scrollbar-thumb {
-	background: rgba(59, 67, 81, 0.2);
+    background: rgba(59, 67, 81, 0.2);
 }
 .darkmode ::-webkit-scrollbar-thumb {
-	background: #656565;
+    background: #656565;
 }
 ::-webkit-scrollbar-track {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 .darkmode ::-webkit-scrollbar-track {
-	background-color: #282828;
+    background-color: #282828;
 }
 #app {
-	display: flex;
-	flex-direction: column;
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 
-	background-color: #f5f7fa;
+    background-color: #f5f7fa;
 }
 #app.darkmode {
-	color: white;
-	background-color: #353535;
+    color: white;
+    background-color: #353535;
 }
 .menu {
-	width: 100%;
-	height: 90px;
+    width: 100%;
+    height: 90px;
 
-	background-color: #538fff;
-	color: white;
+    background-color: #538fff;
+    color: white;
 
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-	z-index: 1000;
+    z-index: 1000;
 
-	position: relative;
+    position: relative;
 }
 .darkmode .menu {
-	background-color: #232323;
+    background-color: #232323;
 }
 .menu__menubutton {
-	display: none;
+    display: none;
 
-	color: white;
-	font-weight: bold;
+    color: white;
+    font-weight: bold;
 
-	border: none;
-	background: none;
+    border: none;
+    background: none;
 
-	padding: 15px;
-	font-size: 2em;
+    padding: 15px;
+    font-size: 2em;
 }
 .menu__left {
-	display: flex;
-	align-items: center;
-	height: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 .menu__left__title {
-	margin-left: 40px;
-	font-family: "AvenirBlack";
-	font-weight: 900;
-	font-size: 38px;
+    margin-left: 40px;
+    font-family: "AvenirBlack";
+    font-weight: 900;
+    font-size: 38px;
 
-	cursor: pointer;
+    cursor: pointer;
 }
 .menu__left__list {
-	position: relative;
-	display: flex;
-	margin-left: 80px;
-	height: 100%;
+    position: relative;
+    display: flex;
+    margin-left: 80px;
+    height: 100%;
 }
 .menu__left__list__item {
-	width: 120px;
-	height: 100%;
+    width: 120px;
+    height: 100%;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-	font-size: 18px;
-	font-weight: 800;
-	color: white;
-	text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
 }
 .menu__left__list .btn__login {
-	color: #538fff;
+    color: #538fff;
 }
 .menu__left__list .btn__logout {
-	color: #dd4433 !important;
+    color: #dd4433 !important;
 }
 .menu__left__list__bar {
-	position: absolute;
-	bottom: 0;
-	left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 
-	width: 120px;
-	height: 5px;
+    width: 120px;
+    height: 5px;
 
-	background-color: white;
+    background-color: white;
 
-	transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 
 .menu__left__list__item__pwa {
-	display: none;
+    display: none;
 }
 
 .menu__left__list__circles {
-	display: none;
-	align-items: center;
-	color: #273142;
+    display: none;
+    align-items: center;
+    color: #273142;
 
-	padding-left: 15px;
-	padding-top: 20px;
+    padding-left: 15px;
+    padding-top: 20px;
 }
 .menu__left__list__circles img {
-	width: 120px;
-	height: 120px;
+    width: 120px;
+    height: 120px;
 }
 .menu__left__list__circles h1 {
-	font-size: 50px;
-	font-family: Avenir;
-	font-weight: bold;
-	margin-bottom: 20px;
+    font-size: 50px;
+    font-family: Avenir;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 .darkmode .menu__left__list__circles h1 {
-	color: white;
+    color: white;
 }
 .menu__left__list__profile {
-	display: none;
+    display: none;
 }
 .darkmode .menu__left__list__profile * {
-	color: white;
+    color: white;
 }
 .menu__left__list__profile .information__wrapper {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 
-	padding: 40px;
+    padding: 40px;
 }
 .menu__left__list__profile .information__wrapper img {
-	width: 70px;
-	height: 70px;
-	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
-	background-color: white;
-	border-radius: 100%;
-	margin-right: 20px;
+    width: 70px;
+    height: 70px;
+    box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+    background-color: white;
+    border-radius: 100%;
+    margin-right: 20px;
 }
 .menu__left__list__profile .information__wrapper .name {
-	font-family: NanumSquareEB;
-	font-size: 24px;
+    font-family: NanumSquareEB;
+    font-size: 24px;
 }
 .menu__left__list__profile .information__wrapper .clubs {
-	font-family: NanumSquareL;
-	font-size: 20px;
+    font-family: NanumSquareL;
+    font-size: 20px;
 }
 
 .menu__right__fixed {
-	display: flex;
-	align-items: center;
-	margin-left: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
 }
 .menu__right__alarm__wrapper {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-	position: relative;
+    position: relative;
 
-	cursor: pointer;
+    cursor: pointer;
 }
 .menu__right__alarm {
-	font-size: 36px;
+    font-size: 36px;
 }
 .menu__right__alarm__count {
-	position: absolute;
-	right: -5px;
-	top: 0;
+    position: absolute;
+    right: -5px;
+    top: 0;
 
-	font-size: 14px;
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
+    font-size: 14px;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 100%;
 
-	background-color: #f55246;
-	color: white;
+    background-color: #f55246;
+    color: white;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .menu__right__alarm__popup {
-	position: fixed;
+    position: fixed;
 
-	right: 70px;
-	top: 70px;
+    right: 70px;
+    top: 70px;
 
-	width: 350px;
-	height: 400px;
+    width: 350px;
+    height: 400px;
 
-	border-radius: 4px;
-	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
-	background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
+    background-color: white;
 
-	overflow-y: auto;
+    overflow-y: auto;
 }
 .darkmode .menu__right__alarm__popup {
-	background-color: #282828;
+    background-color: #282828;
 }
 .menu__right__alarm__popup__loading {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	z-index: 100;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: 100;
 }
 .menu__right__alarm__popup__item {
-	position: relative;
-	padding: 20px;
-	padding-right: 40px;
-	transition: 0.2s;
+    position: relative;
+    padding: 20px;
+    padding-right: 40px;
+    transition: 0.2s;
 }
 
 .menu__right__alarm__popup__item:nth-child(2n) {
-	background-color: #fafafa;
+    background-color: #fafafa;
 }
 .darkmode .menu__right__alarm__popup__item:nth-child(2n) {
-	background-color: #232323;
+    background-color: #232323;
 }
 .menu__right__alarm__popup__item p {
-	font-size: 16px;
-	color: #333333;
+    font-size: 16px;
+    color: #333333;
 }
 .darkmode .menu__right__alarm__popup__item p {
-	color: white;
+    color: white;
 }
 .menu__right__alarm__popup__item .date {
-	font-size: 14px;
-	color: #666666;
+    font-size: 14px;
+    color: #666666;
 }
 .darkmode .menu__right__alarm__popup__item .date {
-	color: #afaeae;
+    color: #afaeae;
 }
 .menu__right__alarm__popup__item .clear {
-	position: absolute;
-	right: 20px;
-	top: 0;
-	height: 100%;
-	width: 20px;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    height: 100%;
+    width: 20px;
 
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 
-	color: #f55246;
-	cursor: pointer;
+    color: #f55246;
+    cursor: pointer;
 }
 
 .menu__right {
-	cursor: pointer;
-	margin-left: 20px;
-	margin-right: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .menu__right > img {
-	width: 34px;
-	height: 34px;
-	border-radius: 50%;
-	background-color: #f5f7fa;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #f5f7fa;
 }
 .menu__right__profile {
-	position: fixed;
-	right: 10px;
-	top: 70px;
-	width: 300px;
-	border-radius: 4px;
-	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
-	background-color: white;
-	color: #273142;
-	z-index: 3000;
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    width: 300px;
+    border-radius: 4px;
+    box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.06);
+    background-color: white;
+    color: #273142;
+    z-index: 3000;
 }
 .darkmode .menu__right__profile {
-	color: white;
-	background-color: #282828;
+    color: white;
+    background-color: #282828;
 }
 .menu__right__profile__information {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 16px;
-	border-bottom: 1px solid #afaeae;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #afaeae;
 }
 .menu__right__profile__information .information__wrapper {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 .menu__right__profile__information img {
-	width: 49px;
-	height: 49px;
-	margin-right: 30px;
-	border-radius: 100%;
-	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
+    width: 49px;
+    height: 49px;
+    margin-right: 30px;
+    border-radius: 100%;
+    box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
 }
 .menu__right__profile__information .name {
-	font-family: "NanumSquareEB";
-	font-size: 20px;
+    font-family: "NanumSquareEB";
+    font-size: 20px;
 }
 .menu__right__profile__information .email {
-	font-family: "NanumSquareL";
-	font-size: 16px;
+    font-family: "NanumSquareL";
+    font-size: 16px;
 }
 
 .menu__right__list {
-	padding: 8px 0;
-	border-bottom: 1px solid #afaeae;
+    padding: 8px 0;
+    border-bottom: 1px solid #afaeae;
 }
 .menu__right__list__last {
-	border: 0;
+    border: 0;
 }
 .menu__right__list__link {
-	color: #3b4351;
-	text-decoration: none;
+    color: #3b4351;
+    text-decoration: none;
 }
 .darkmode .menu__right__list__link {
-	color: white;
+    color: white;
 }
 .menu__right__list__item {
-	display: flex;
-	align-items: center;
-	height: 40px;
-	padding: 0 16px;
-	cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 16px;
+    cursor: pointer;
 }
 .menu__right__list__item:hover {
-	background: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.08);
 }
 .menu__right__list__item i {
-	margin-right: 16px;
-	font-size: 24px;
-	color: #666;
+    margin-right: 16px;
+    font-size: 24px;
+    color: #666;
 }
 .menu__right__list__item__text {
-	font-family: "NanumSquareL";
-	font-size: 18px;
+    font-family: "NanumSquareL";
+    font-size: 18px;
 }
 .menu__right__darktheme {
-	justify-content: space-between;
+    justify-content: space-between;
 }
 .menu__right__darktheme__left {
-	display: inline-flex;
-	justify-content: flex-start;
-	align-items: center;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 .menu__right__darktheme__slider__wrapper {
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	width: 36px;
-	height: 14px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 36px;
+    height: 14px;
 }
 .menu__right__darktheme input {
-	width: 0;
-	height: 0;
-	visibility: hidden;
+    width: 0;
+    height: 0;
+    visibility: hidden;
 }
 .menu__right__darktheme__slider {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #eaeaea;
-	border-radius: 8px;
-	-webkit-transition: 0.3s;
-	-moz-transition: 0.3s;
-	-o-transition: 0.3s;
-	transition: 0.3s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #eaeaea;
+    border-radius: 8px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 .menu__right__darktheme__slider::before {
-	position: absolute;
-	top: -3px;
-	left: 0;
-	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
-	content: "";
-	width: 20px;
-	height: 20px;
-	background-color: #fafafa;
-	border-radius: 50%;
-	-webkit-transition: 0.3s;
-	-moz-transition: 0.3s;
-	-o-transition: 0.3s;
-	transition: 0.3s;
+    position: absolute;
+    top: -3px;
+    left: 0;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: #fafafa;
+    border-radius: 50%;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 input:checked + .menu__right__darktheme__slider {
-	background-color: #222;
+    background-color: #222;
 }
 input:focus + .menu__right__darktheme__slider {
-	box-shadow: 0 0 1px #222;
+    box-shadow: 0 0 1px #222;
 }
 input:checked + .menu__right__darktheme__slider:before {
-	-webkit-transform: translateX(17px);
-	-ms-transform: translateX(17px);
-	transform: translateX(17px);
+    -webkit-transform: translateX(17px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
 }
 .darkmode input:checked + .menu__right__darktheme__slider {
-	background-color: #3b4351;
+    background-color: #3b4351;
 }
 .menu__moblieprofile__dark {
-	padding: 40px;
-	font-size: 24px;
+    padding: 40px;
+    font-size: 24px;
 }
 .darkmode .menu__moblieprofile__dark,
 .darkmode .menu__moblieprofile__dark i {
-	color: white;
+    color: white;
 }
 
 .menu__right__search {
-	font-size: 40px;
-	color: white;
-	text-decoration: none;
-	margin-right: 20px;
+    font-size: 40px;
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
 }
 
 .submenu {
-	width: 100%;
-	height: 90px;
+    width: 100%;
+    height: 90px;
 
-	background-color: white;
-	color: #9cb2cd;
+    background-color: white;
+    color: #9cb2cd;
 
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-	transition: 0.5s;
-	overflow: hidden;
+    transition: 0.5s;
+    overflow: hidden;
 
-	position: relative;
+    position: relative;
 }
 .darkmode .submenu {
-	background-color: #282828;
+    background-color: #282828;
 }
 .submenu__list {
-	height: 100%;
-	margin-left: calc(120px + 8em);
-	display: flex;
+    height: 100%;
+    margin-left: calc(120px + 8em);
+    display: flex;
 }
 .submenu__list__item {
-	cursor: pointer;
+    cursor: pointer;
 
-	width: 120px;
-	height: 100%;
+    width: 120px;
+    height: 100%;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-	font-size: 14px;
-	font-weight: 800;
+    font-size: 14px;
+    font-weight: 800;
 
-	color: #9cb2cd;
-	text-decoration: none;
+    color: #9cb2cd;
+    text-decoration: none;
 }
 
 .submenu__list__item:hover {
-	background-color: #9cb2cd;
-	color: white;
+    background-color: #9cb2cd;
+    color: white;
 }
 .content {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	transition: 0.5s;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: 0.5s;
 }
 .content__router {
-	width: 100%;
-	height: 100%;
-	overflow-y: auto;
-	overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 @media screen and (max-width: 768px) {
-	.menu__right {
-		display: none;
-	}
-	.menu__left__title {
-		margin-left: 10px;
-	}
-	.menu__left__list {
-		position: fixed;
-		margin: 0;
-		top: 0;
-		left: -80vw;
+    .menu__right {
+        display: none;
+    }
+    .menu__left__title {
+        margin-left: 10px;
+    }
+    .menu__left__list {
+        position: fixed;
+        margin: 0;
+        top: 0;
+        left: -80vw;
 
-		width: 80vw;
-		height: 100vh;
-		background-color: white;
-		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
+        width: 80vw;
+        height: 100vh;
+        background-color: white;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
 
-		flex-direction: column;
+        flex-direction: column;
 
-		transition: 0.5s;
-	}
-	.darkmode .menu__left__list {
-		background-color: #232323;
-	}
-	.menu__left__list-show {
-		left: 0;
-	}
-	.menu__left__list__item {
-		display: block;
+        transition: 0.5s;
+    }
+    .darkmode .menu__left__list {
+        background-color: #232323;
+    }
+    .menu__left__list-show {
+        left: 0;
+    }
+    .menu__left__list__item {
+        display: block;
 
-		height: auto;
-		width: 100%;
+        height: auto;
+        width: 100%;
 
-		padding: 20px 40px;
-		color: #273142;
-		font-size: 24px;
-		transition: 0.5s;
+        padding: 20px 40px;
+        color: #273142;
+        font-size: 24px;
+        transition: 0.5s;
 
-		text-align: left;
-	}
-	.darkmode .menu__left__list__item {
-		color: white;
-	}
-	.menu__left__list__item__pwa {
-		display: block;
-	}
-	.menu__left__list__profile {
-		display: block;
-	}
+        text-align: left;
+    }
+    .darkmode .menu__left__list__item {
+        color: white;
+    }
+    .menu__left__list__item__pwa {
+        display: block;
+    }
+    .menu__left__list__profile {
+        display: block;
+    }
 
-	.menu__menubutton {
-		display: block;
-	}
+    .menu__menubutton {
+        display: block;
+    }
 
-	.menu__left__list__circles {
-		display: flex;
-	}
-	.menu__right__fixed {
-		margin-right: 20px;
-	}
+    .menu__left__list__circles {
+        display: flex;
+    }
+    .menu__right__fixed {
+        margin-right: 20px;
+    }
 
-	.menu__right__alarm__popup {
-		right: 20px;
-	}
+    .menu__right__alarm__popup {
+        right: 20px;
+    }
 }
 @media all and (display-mode: standalone) {
-	.menu__left__list__item__pwa {
-		display: none;
-	}
+    .menu__left__list__item__pwa {
+        display: none;
+    }
 }
 </style>
