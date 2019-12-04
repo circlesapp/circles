@@ -189,7 +189,7 @@ export default Vue.extend({
     },
     data() {
         return {
-            isOffline: true,
+            isOffline: false,
             showMenu: false,
             showProfile: false,
             showAlarm: false,
@@ -228,6 +228,12 @@ export default Vue.extend({
             if (gap > 200) {
                 this.showMenu = true;
             }
+        });
+        addEventListener("offline", () => {
+            this.isOffline = true;
+        });
+        addEventListener("online", () => {
+            this.isOffline = false;
         });
 
         let route: any = this.$route;
