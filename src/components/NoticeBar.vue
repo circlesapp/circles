@@ -43,7 +43,7 @@ export default Vue.extend({
     justify-content: space-between;
     align-items: center;
 
-    width: 80vw;
+    width: 600px;
     max-width: 600px;
     margin-bottom: 8px;
 
@@ -116,5 +116,14 @@ export default Vue.extend({
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
     background-color: white;
     color: rgb(104, 104, 104);
+}
+@media screen and (max-width: 768px) {
+    .noticebar__content {
+        margin: 8px;
+        border-radius: 10px;
+    }
+    .noticebar__content p {
+        font-size: 1.2em;
+    }
 }
 </style>
