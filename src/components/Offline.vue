@@ -4,8 +4,10 @@
 			<button class="offline__content__clear" @click="$emit('isUpdated', false)">
 				<i class="mdi mdi-close"></i>
 			</button>
-			<h3>이 페이지를 표시할 수 없습니다.</h3>
-			<h4>인터넷 연결 상태를 확인해보세요.</h4>
+            <p>
+                <h3>인터넷 연결 끊김</h3>
+                <h4>인터넷 연결 상태를 확인해보세요.</h4>
+            </p>
 			<div class="offline__logo"><div></div><span>Circles.</span></div>
 		</div>
 	</div>
@@ -84,6 +86,11 @@ export default Vue.extend({
     background-color: white;
     border-radius: 39px;
 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+
     width: 100%;
     max-width: 600px;
 
@@ -115,8 +122,8 @@ export default Vue.extend({
     color: white;
 }
 .offline__logo {
-    position: relative;
-    top: 50px;
+    position: absolute;
+    bottom: 20px;
 
     display: flex;
     justify-content: center;
