@@ -377,8 +377,8 @@ export default Vue.extend({
 	cursor: pointer;
 	background-color: #538fff;
 }
-.darkmode .communityMembers__memberTable thead tr{
-    background-color: #161616;
+.darkmode .communityMembers__memberTable thead tr {
+	background-color: #161616;
 }
 .communityMembers__memberTable .active {
 	background-color: #eeeeee;

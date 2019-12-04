@@ -236,7 +236,7 @@ export default Vue.extend({
 	position: relative;
 }
 .darkmode .award__createpopup__content {
-    color: white;
+	color: white;
 	background-color: #282828;
 }
 .award__createpopup__content h3 {
@@ -343,8 +343,8 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .award__createpopup__content__actions .create{
-    background-color: #363636;
+.darkmode .award__createpopup__content__actions .create {
+	background-color: #363636;
 }
 .award__createpopup__content__actions .create:hover {
 	background-color: #538fffde;

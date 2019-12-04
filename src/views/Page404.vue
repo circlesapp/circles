@@ -19,7 +19,7 @@ export default Vue.extend({});
 	background-color: #538fff;
 	color: white;
 
-    animation: notfound 2s infinite;
+	animation: notfound 2s infinite;
 }
 @keyframes notfound {
 	0% {

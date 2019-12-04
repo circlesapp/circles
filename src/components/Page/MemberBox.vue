@@ -49,13 +49,13 @@ export default Vue.extend({
 	border: 5px solid #f8fbff;
 	border-radius: 100%;
 }
-.darkmode .memberbox__img{
-    border: 5px solid #535353;
+.darkmode .memberbox__img {
+	border: 5px solid #535353;
 }
 .memberbox h3 {
 	font-family: "NanumSquareB";
 	font-size: 30px;
-    margin-top: 10px;
+	margin-top: 10px;
 	font-weight: normal;
 	text-align: center;
 	color: #202841;

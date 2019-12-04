@@ -202,7 +202,7 @@ export default Vue.extend({
 	background: none;
 }
 .darkmode .budget__createpopup__content .inputfield .inputfield__input {
-    color: white;
+	color: white;
 	border: solid 1px #3a3a3a;
 }
 .inputfield__inputuser {
@@ -236,8 +236,8 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .budget__createpopup__content__actions .create{
-    background-color: #363636;
+.darkmode .budget__createpopup__content__actions .create {
+	background-color: #363636;
 }
 .budget__createpopup__content__actions .create:hover {
 	background-color: #538fffde;

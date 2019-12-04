@@ -41,19 +41,19 @@ export default Vue.extend({
 .budgettableitem td {
 	font-family: "NanumSquareEB";
 }
-.budgettableitem__url{
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.budgettableitem__url {
+	max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-.budgettableitem__url a{
-    color: #9cb2cd;
+.budgettableitem__url a {
+	color: #9cb2cd;
 	font-size: 20px;
 	font-weight: 800;
 	text-decoration: underline;
 }
-.budgettableitem__url a:visited{
-    color: #538fff;
+.budgettableitem__url a:visited {
+	color: #538fff;
 }
 </style>

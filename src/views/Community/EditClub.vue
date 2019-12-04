@@ -307,10 +307,9 @@ export default Vue.extend({
 	position: relative;
 }
 .darkmode .editclub__content .inputfield .inputfield__input {
-    color: white;
+	color: white;
 	background: none;
 	border: solid 1px #3a3a3a;
-
 }
 .editclub__content .action {
 	margin-top: 20px;
@@ -334,8 +333,8 @@ export default Vue.extend({
 
 	cursor: pointer;
 }
-.darkmode .editclub__content .action .save{
-    background-color: #363636;
+.darkmode .editclub__content .action .save {
+	background-color: #363636;
 }
 .editclub__content .action .delete {
 	position: relative;
