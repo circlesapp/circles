@@ -1,8 +1,10 @@
 <template>
     <div class="noticebar">
         <div class="noticebar__content">
-            <div class="noticebar__logo"><div></div></div>
-            <p>알림바 테스트</p>
+            <div class="noticebar__content__left">
+                <div class="noticebar__logo"></div>
+                <p>알림바 테스트</p>
+            </div>
             <button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
                 <i class="mdi mdi-close"></i>
             </button>
@@ -29,50 +31,50 @@ export default Vue.extend({
     justify-content: center;
     align-items: flex-end;
 
-    width: 100vw;
-    height: 100vh;
-
-    top: 0;
+    top: auto;
     bottom: 0;
     left: 0;
     right: 0;
 
-    overflow: auto;
-
-    z-index: 2001;
+    user-select: none;
 }
 .noticebar__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     width: 80vw;
     max-width: 600px;
     margin-bottom: 8px;
 
+    padding: 0 10px;
+
     border-radius: 20px;
     background-color: white;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-
-    padding: 0 10px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     word-break: keep-all;
 }
 .darkmode .noticebar__content {
     background-color: #282828;
 }
+.noticebar__content__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .noticebar__logo {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.noticebar__logo div {
     width: 48px;
     height: 48px;
     background: url("../assets/circles_logo.png") no-repeat center;
     background-size: 100%;
 }
 .noticebar__content p {
+    margin-left: 4px;
+    font-size: 1.1em;
     color: #323232;
 }
 .darkmode .noticebar__content p {
