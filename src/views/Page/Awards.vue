@@ -149,7 +149,7 @@ export default Vue.extend({
 
 	margin-bottom: 20px;
 }
-.award__club {
+.darkmode .award__club {
 	background-color: #282828;
 }
 
