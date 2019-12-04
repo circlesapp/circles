@@ -364,8 +364,6 @@ export default Vue.extend({
 .calendar__actions {
     display: flex;
     flex-direction: row;
-
-    border-radius: 20px;
 }
 .calendar__button {
     display: flex;
@@ -376,8 +374,9 @@ export default Vue.extend({
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     background-color: white;
     color: #538fff;
-    width: 46px;
+    width: 52px;
     height: 46px;
+    border-radius: 50%;
 
     font-size: 30px;
 
@@ -392,6 +391,9 @@ export default Vue.extend({
 }
 .calendar__button:nth-child(2) {
     border-radius: 0 20px 20px 0;
+}
+.calendar__button:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 .calendar__content {
     background-color: white;
