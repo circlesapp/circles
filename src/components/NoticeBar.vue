@@ -51,12 +51,14 @@ export default Vue.extend({
 
     border-radius: 20px;
     background-color: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
 
     word-break: keep-all;
 }
 .darkmode .noticebar__content {
     background-color: #282828;
+    border: 0.5px solid rgb(104, 104, 104);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
 }
 .noticebar__content__left {
     display: flex;
