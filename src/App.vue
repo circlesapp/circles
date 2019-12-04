@@ -171,8 +171,10 @@
 		<transition name="loadingAnimation">
 			<LoadingBar v-if="isLoading"></LoadingBar>
 		</transition>
-		<Offline v-if="isOffline" @isUpdated="isOffline = false"/>
-		<NoticeBar v-if="showNotice" @isUpdated="showNotice = false"/>
+		<Offline v-if="isOffline" @isUpdated="isOffline = false" />
+		<transition name="loadingAnimation">
+			<NoticeBar v-if="showNotice" @isUpdated="showNotice = false" />
+		</transition>
 	</div>
 </template>
 
@@ -185,15 +187,15 @@ import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
 	name: "App",
 	components: {
-        Offline,
-        NoticeBar,
+		Offline,
+		NoticeBar,
 		LoadingBar,
 		TopLoadingBar
 	},
 	data() {
 		return {
-            isOffline: false,
-            showNotice: true,
+			isOffline: false,
+			showNotice: true,
 			showMenu: false,
 			showProfile: false,
 			showAlarm: false,
