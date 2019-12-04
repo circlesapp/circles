@@ -172,24 +172,28 @@
 			<LoadingBar v-if="isLoading"></LoadingBar>
 		</transition>
 		<Offline v-if="isOffline" @isUpdated="isOffline = false"/>
+		<NoticeBar v-if="showNotice" @isUpdated="showNotice = false"/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Offline from "./components/Offline.vue";
+import NoticeBar from "./components/NoticeBar.vue";
 import LoadingBar from "./components/LoadingBar.vue";
 import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
     name: "App",
     components: {
         Offline,
+        NoticeBar,
         LoadingBar,
         TopLoadingBar
     },
     data() {
         return {
             isOffline: false,
+            showNotice: true,
             showMenu: false,
             showProfile: false,
             showAlarm: false,
