@@ -848,6 +848,7 @@ i {
     height: 34px;
     border-radius: 50%;
     background-color: #f5f7fa;
+    cursor: pointer;
 }
 .menu__right__profile {
     position: fixed;
