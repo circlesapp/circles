@@ -1,11 +1,11 @@
 <template>
-	<div id="app" :class="{'darkmode':darkTheme}">
+	<div id="app" :class="{ darkmode: darkTheme }">
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
 					<i class="menu__menubutton mdi mdi-menu" @click="toggleMenu"></i>
 					<router-link tag="h1" class="menu__left__title" to="/">circles.</router-link>
-					<nav class="menu__left__list" :class="{'menu__left__list-show':showMenu}" @click="toggleMenu">
+					<nav class="menu__left__list" :class="{ 'menu__left__list-show': showMenu }" @click="toggleMenu">
 						<div class="menu__left__list__circles">
 							<img src="./assets/circles_logo.png" alt />
 							<router-link tag="h1" to="/">circles.</router-link>
@@ -14,8 +14,8 @@
 							<div class="information__wrapper">
 								<img :src="getUserImage" alt />
 								<div>
-									<h3 class="name">{{getUserInformation.name}}</h3>
-									<p class="clubs">{{getClub.name}} {{getRank}}</p>
+									<h3 class="name">{{ getUserInformation.name }}</h3>
+									<p class="clubs">{{ getClub.name }} {{ getRank }}</p>
 								</div>
 							</div>
 							<div
@@ -35,41 +35,50 @@
 						<router-link
 							to="/"
 							class="menu__left__list__item"
-							:class="{'menu__left__list__item-active':idx == 0}"
-						>메인</router-link>
+							:class="{ 'menu__left__list__item-active': idx == 0 }"
+							>메인</router-link
+						>
 						<router-link
 							:to="`/${getClub.name}/page/timeline`"
 							class="menu__left__list__item"
 							v-if="getClub.name"
-							:class="{'menu__left__list__item-active':idx == 1}"
-						>페이지</router-link>
+							:class="{ 'menu__left__list__item-active': idx == 1 }"
+							>페이지</router-link
+						>
 						<router-link
 							v-if="isAdmin"
 							:to="`/${getClub.name}/community/${communityPermissionRoute}`"
 							class="menu__left__list__item"
-							:class="{'menu__left__list__item-active':idx == 2}"
-						>커뮤니티</router-link>
+							:class="{ 'menu__left__list__item-active': idx == 2 }"
+							>커뮤니티</router-link
+						>
 						<router-link
 							v-if="getClub.name"
 							:to="`/${getClub.name}`"
 							class="menu__left__list__item"
-							:class="{'menu__left__list__item-active':idx == 3}"
-						>사이트</router-link>
+							:class="{ 'menu__left__list__item-active': idx == 3 }"
+							>사이트</router-link
+						>
 						<div
 							class="menu__left__list__item menu__left__list__item__pwa"
 							@click="showPWA"
 							v-if="deferredPrompt"
-						>앱 설치</div>
+						>
+							앱 설치
+						</div>
 						<router-link
 							v-if="!getUserInformation.name"
 							to="/login"
 							class="menu__left__list__item btn__login menu__left__list__item__pwa"
-						>로그인</router-link>
+							>로그인</router-link
+						>
 						<div
 							v-if="getUserInformation.name"
 							class="menu__left__list__item btn__logout menu__left__list__item__pwa"
 							@click="logout"
-						>로그아웃</div>
+						>
+							로그아웃
+						</div>
 						<div class="menu__left__list__bar" ref="bar" :style="`left:${barPositionX}`"></div>
 					</nav>
 				</header>
@@ -79,22 +88,24 @@
 							<i class="mdi mdi-magnify"></i>
 						</router-link>
 						<div class="menu__right__alarm__wrapper" @click="toggleAlarm" v-if="getUserInformation.name">
-							<span
-								class="menu__right__alarm__count"
-								v-if="getUserInformation.alarms.length > 0"
-							>{{getUserInformation.alarms.length}}</span>
+							<span class="menu__right__alarm__count" v-if="getUserInformation.alarms.length > 0">{{
+								getUserInformation.alarms.length
+							}}</span>
 							<i class="menu__right__alarm mdi mdi-bell-outline"></i>
 						</div>
 						<transition name="fade">
 							<div class="menu__right__alarm__popup" v-if="showAlarm">
-								<TopLoadingBar class="menu__right__alarm__popup__loading" v-if="isAlarmLoading"></TopLoadingBar>
+								<TopLoadingBar
+									class="menu__right__alarm__popup__loading"
+									v-if="isAlarmLoading"
+								></TopLoadingBar>
 								<div
 									class="menu__right__alarm__popup__item"
 									v-for="alarm in getUserInformation.alarms"
 									:key="alarm.createAt"
 								>
 									<p>
-										<span class="date">{{alarm.timeString}}</span>
+										<span class="date">{{ alarm.timeString }}</span>
 										<br />
 										<span v-html="alarm.message"></span>
 									</p>
@@ -110,8 +121,8 @@
 										<div class="information__wrapper">
 											<img :src="getUserImage" alt />
 											<div>
-												<h3 class="name">{{getUserInformation.name}}</h3>
-												<p class="email">{{getUserInformation.email}}</p>
+												<h3 class="name">{{ getUserInformation.name }}</h3>
+												<p class="email">{{ getUserInformation.email }}</p>
 											</div>
 										</div>
 									</div>
@@ -123,7 +134,9 @@
 										>
 											<div class="menu__right__list__item">
 												<i class="mdi mdi-account-group"></i>
-												<span class="menu__right__list__item__text">{{getClub.name || '-'}}</span>
+												<span class="menu__right__list__item__text">{{
+													getClub.name || "-"
+												}}</span>
 											</div>
 										</router-link>
 										<router-link
@@ -133,7 +146,7 @@
 										>
 											<div class="menu__right__list__item">
 												<i class="mdi mdi-shield-star"></i>
-												<span class="menu__right__list__item__text">{{getRank}}</span>
+												<span class="menu__right__list__item__text">{{ getRank }}</span>
 											</div>
 										</router-link>
 									</div>
@@ -151,7 +164,10 @@
 												<span class="menu__right__darktheme__slider"></span>
 											</div>
 										</div>
-										<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
+										<div
+											class="menu__right__list__item menu__right__profile__logout"
+											@click="logout"
+										>
 											<i class="mdi mdi-logout-variant"></i>
 											<span class="menu__right__list__item__text">로그아웃</span>
 										</div>
@@ -173,7 +189,7 @@
 		</transition>
 		<Offline v-if="isOffline" @isUpdated="isOffline = false" />
 		<transition name="loadingAnimation">
-			<NoticeBar v-if="showNotice" @isUpdated="showNotice = false" />
+			<NoticeBar v-if="isNoticeOn" @isUpdated="showNotice = false" />
 		</transition>
 	</div>
 </template>
@@ -195,7 +211,6 @@ export default Vue.extend({
     data() {
         return {
             isOffline: false,
-            showNotice: false,
             showMenu: false,
             showProfile: false,
             showAlarm: false,
@@ -291,6 +306,9 @@ export default Vue.extend({
         }
     },
     methods: {
+        showNotice(content) {
+            this.$store.state.noticeContent = content;
+        },
         setBarPosition() {
             if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + "px";
         },
@@ -361,6 +379,9 @@ export default Vue.extend({
         }
     },
     computed: {
+        isNoticeOn() {
+            return this.$store.state.showNotice;
+        },
         isLoading() {
             return this.$store.state.loadingStack.length > 0;
         },

@@ -3,7 +3,7 @@
 		<div class="noticebar__content">
 			<div class="noticebar__content__left">
 				<div class="noticebar__logo"></div>
-				<p>알림바 테스트</p>
+				<p>{{ getContent }}</p>
 			</div>
 			<button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
 				<i class="mdi mdi-close"></i>
@@ -19,6 +19,11 @@ export default Vue.extend({
 		addEventListener("keydown", e => {
 			if (e.keyCode == 27) this.$emit("isUpdated", false);
 		});
+	},
+	computed: {
+		getContent() {
+			return this.$store.state.noticeContent;
+		}
 	}
 });
 </script>

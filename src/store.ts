@@ -18,7 +18,9 @@ export default new Vuex.Store({
 		// mainPath : "http://localhost:3000/"
 		mainPath: `https://circlesapp.kr/api/`,
 		loadingStack: [] as LoadingData[],
-		pageLoadingStack: [] as LoadingData[]
+		pageLoadingStack: [] as LoadingData[],
+		showNotice: false,
+		noticeContent: ``
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -46,6 +48,14 @@ export default new Vuex.Store({
 		clearPageLoading(state, data: string) {
 			let idx = state.pageLoadingStack.findIndex((pageLoadingData: LoadingData) => pageLoadingData.name == data);
 			if (idx != -1) state.pageLoadingStack.splice(idx, 1);
+		},
+		showNotice(state, data: any) {
+			setTimeout(() => {
+				console.log("timeout");
+				state.showNotice = false;
+			}, 3000);
+			state.showNotice = true;
+			state.noticeContent = data;
 		}
 	},
 	actions: {
@@ -181,7 +191,7 @@ export default new Vuex.Store({
 				let pushSubscriptionJson = null;
 				if (pushSubscription) pushSubscriptionJson = JSON.parse(pushSubscription);
 
-                axios
+				axios
 					.post(`${state.mainPath}auth/getProfile`, pushSubscriptionJson, {
 						headers: {
 							Authorization: data.token
