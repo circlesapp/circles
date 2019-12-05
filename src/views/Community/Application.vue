@@ -10,28 +10,28 @@
 							학번
 							<i
 								class="mdi mdi-arrow-down"
-								:class="{'order-active':sortKey == 'number','order-rotate':sortBy}"
+								:class="{ 'order-active': sortKey == 'number', 'order-rotate': sortBy }"
 							></i>
 						</th>
 						<th style="width:50%;" @click="orderBy('owner.name')">
 							이름
 							<i
 								class="mdi mdi-arrow-down"
-								:class="{'order-active':sortKey == 'owner.name','order-rotate':sortBy}"
+								:class="{ 'order-active': sortKey == 'owner.name', 'order-rotate': sortBy }"
 							></i>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr
-						v-for="(application,idx) in getOrderedApplicants"
+						v-for="(application, idx) in getOrderedApplicants"
 						:key="application._id"
-						:class="{'active':currentApplicant == idx}"
-						@click="currentApplicant=idx"
+						:class="{ active: currentApplicant == idx }"
+						@click="currentApplicant = idx"
 					>
-						<td>{{idx+1}}</td>
-						<td>{{application.number}}</td>
-						<td>{{application.owner.name}}</td>
+						<td>{{ idx + 1 }}</td>
+						<td>{{ application.number }}</td>
+						<td>{{ application.owner.name }}</td>
 					</tr>
 					<tr v-if="applicants.length == 0" class="noapplications">
 						<td colspan="3">지원자가 없습니다.</td>
@@ -41,13 +41,13 @@
 			<div class="communityApplication__controlPanel" v-if="applicants.length">
 				<div class="userwrapper">
 					<div class="titlewrapper">
-						<h2 class="name">{{applicants[currentApplicant].owner.name}}</h2>
-						<h3 class="subcontent">{{applicants[currentApplicant].email}}</h3>
+						<h2 class="name">{{ applicants[currentApplicant].owner.name }}</h2>
+						<h3 class="subcontent">{{ applicants[currentApplicant].email }}</h3>
 					</div>
-					<h3 class="subcontent">번호 : {{applicants[currentApplicant].number}}</h3>
-					<h3 class="subcontent">전화번호 : {{applicants[currentApplicant].phone}}</h3>
+					<h3 class="subcontent">번호 : {{ applicants[currentApplicant].number }}</h3>
+					<h3 class="subcontent">전화번호 : {{ applicants[currentApplicant].phone }}</h3>
 					<h3 class="subcontent" style="margin-top:10px">소개 :</h3>
-					<p class="content subcontent">{{applicants[currentApplicant].content}}</p>
+					<p class="content subcontent">{{ applicants[currentApplicant].content }}</p>
 				</div>
 				<div class="action">
 					<div class="reject" @click="reject" v-if="checkPermission(33)">거절</div>
@@ -99,10 +99,7 @@ export default Vue.extend({
 				message: "동아리 지원서 수락하는 중"
 			});
 			this.$store
-				.dispatch(
-					"APPLICANT_ACCEPT",
-					this.applicants[this.currentApplicant]
-				)
+				.dispatch("APPLICANT_ACCEPT", this.applicants[this.currentApplicant])
 				.then(applicant => {
 					this.$store.commit("clearLoading", "APPLICANT_ACCEPT");
 					this.reload();
@@ -115,10 +112,7 @@ export default Vue.extend({
 				message: "동아리 지원서 거절하는 중"
 			});
 			this.$store
-				.dispatch(
-					"APPLICANT_REJECT",
-					this.applicants[this.currentApplicant]
-				)
+				.dispatch("APPLICANT_REJECT", this.applicants[this.currentApplicant])
 				.then(applicant => {
 					this.$store.commit("clearLoading", "APPLICANT_REJECT");
 
@@ -128,18 +122,12 @@ export default Vue.extend({
 		},
 		checkPermission(permission: number) {
 			if (this.$store.state.club.ranks) {
-				let user = this.$store.state.club.members.find(
-					(member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
-					}
-				);
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
 				if (user)
 					return (
-						this.$store.state.club.ranks.find(
-							(rank: any) => rank.id == user.rank
-						).isAdmin ||
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
 						this.$store.state.club.ranks
 							.find((rank: any) => rank.id == user.rank)
 							.permission.indexOf("" + permission) != -1
@@ -154,8 +142,7 @@ export default Vue.extend({
 				return this.applicants;
 			} else {
 				return this.applicants.sort((a: any, b: any): any => {
-					if (this.sortBy)
-						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
 			}
@@ -282,7 +269,8 @@ export default Vue.extend({
 	padding: 10px;
 }
 .communityApplication__controlPanel .content {
-	border: 1px solid #3a3a3a;
+	border: 1px solid #9cb2cd;
+	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
 }
 .communityApplication__controlPanel .titlewrapper {
 	display: flex;
