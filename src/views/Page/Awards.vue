@@ -4,7 +4,7 @@
 			<div class="award__contextmenu__item delete" @click="remove()">삭제</div>
 		</div>
 		<h2 class="award__club">
-			<img class="award__clubimage" :src="getClubImage" alt />
+			<img class="award__clubimage" :src="getClubImage" alt="club_logo" />
 			<div>
 				<h3>{{getClub.name}}</h3>
 				<p>{{getClub.school || '-'}}</p>

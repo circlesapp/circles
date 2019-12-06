@@ -19,8 +19,10 @@ export default new Vuex.Store({
 		mainPath: `https://circlesapp.kr/api/`,
 		loadingStack: [] as LoadingData[],
 		pageLoadingStack: [] as LoadingData[],
+		showNoticeTimer: 0 as number,
 		showNotice: false,
-		noticeContent: ``
+		noticeContent: ``,
+		darkTheme: false
 	},
 	mutations: {
 		setUserToken(state, data) {
@@ -50,12 +52,16 @@ export default new Vuex.Store({
 			if (idx != -1) state.pageLoadingStack.splice(idx, 1);
 		},
 		showNotice(state, data: any) {
-			setTimeout(() => {
-				console.log("timeout");
+			clearTimeout(state.showNoticeTimer);
+			state.showNoticeTimer = setTimeout(() => {
 				state.showNotice = false;
-			}, 3000);
+			}, 5000);
 			state.showNotice = true;
 			state.noticeContent = data;
+		},
+		closeNotice(state) {
+			clearTimeout(state.showNoticeTimer);
+			state.showNotice = false;
 		}
 	},
 	actions: {

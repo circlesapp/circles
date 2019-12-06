@@ -12,14 +12,16 @@ Vue.use(VueAnalytics, {
 });
 
 try {
-	if (Notification)
-		Notification.requestPermission(function(status) {
-			if (Notification.permission == "granted" && navigator) {
-			}
-		});
-} catch (err) {
-	console.log(err);
-}
+	if ("Notification" in window) {
+		if (Notification.permission == "granted") {
+			console.log("Notification granted");
+		} else if (Notification.permission == "denied") {
+			console.log("Notification denied");
+		} else {
+			Notification.requestPermission(function(status) {});
+		}
+	}
+} catch (err) {}
 
 new Vue({
 	router,

@@ -46,15 +46,13 @@ if (process.env.NODE_ENV === "production") {
 		},
 		registered(reg: ServiceWorkerRegistration) {
 			try {
-				if (Notification) {
-					pushReady();
+				if ("Notification" in window) {
 					if (Notification.permission == "granted") {
+						pushReady();
 						startNotification();
 					}
 				}
-			} catch (err) {
-				console.log(err);
-			}
+			} catch (err) {}
 			console.log("Service worker has been registered.");
 		},
 		cached() {

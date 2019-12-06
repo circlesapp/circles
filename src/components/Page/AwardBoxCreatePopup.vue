@@ -28,7 +28,7 @@
 					<h4>참가자</h4>
 					<div class="inputfield__input inputfield__inputuser" type="text">
 						<span class="inputfield__input__member" v-for="(member,idx) in target" :key="member._id">
-							<img :src="$store.state.mainPath+member.imgPath" alt />
+							<img :src="$store.state.mainPath+member.imgPath" alt="member_profile" />
 							{{member.name}}
 							<i class="mdi mdi-close" @click="removeTargetItem(idx)"></i>
 						</span>
@@ -49,7 +49,7 @@
 								:key="member._id"
 								@click="appendTargetItem(idx)"
 							>
-								<img :src="$store.state.mainPath+member.imgPath" alt />
+								<img :src="$store.state.mainPath+member.imgPath" alt="member_profile" />
 								{{member.name}}
 							</div>
 						</div>

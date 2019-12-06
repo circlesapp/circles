@@ -92,6 +92,10 @@ export default Vue.extend({
 	justify-content: center;
 	color: #273142;
 }
+.darkmode .login{
+    background-color: #282828;
+    color: white;
+}
 .login__wrapper {
 	width: 100%;
 	max-width: 640px;
@@ -158,6 +162,10 @@ export default Vue.extend({
 	border: solid 1px #eeeeee;
 	border-radius: 8px;
 }
+.darkmode .login__inputwrapper input{
+    color: white;
+    border: 1px solid #3a3a3a;
+}
 .login__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
 	padding: 22px 20px;
@@ -180,11 +188,17 @@ export default Vue.extend({
 	font-size: 30px;
 	font-family: "NanumSquareL";
 }
+.darkmode .login__button{
+    background-color: #353535;
+}
 .login__option {
 	font-family: "NanumSquareL";
 	color: #737c8c;
 	font-size: 24px;
 	text-align: center;
 	margin: 1.5%;
+}
+.darkmode .login__option{
+    color: white;
 }
 </style>

@@ -5,9 +5,9 @@
 				<div class="noticebar__logo"></div>
 				<p>{{ getContent }}</p>
 			</div>
-			<button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
+			<div class="noticebar__content__clear" @click="$emit('isUpdated', false)">
 				<i class="mdi mdi-close"></i>
-			</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -42,6 +42,7 @@ export default Vue.extend({
 	right: 0;
 
 	user-select: none;
+    z-index: 3000;
 }
 .noticebar__content {
 	display: flex;
@@ -59,6 +60,7 @@ export default Vue.extend({
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
 
 	word-break: keep-all;
+
 }
 .darkmode .noticebar__content {
 	background-color: #282828;
