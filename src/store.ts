@@ -21,7 +21,8 @@ export default new Vuex.Store({
 		pageLoadingStack: [] as LoadingData[],
 		showNoticeTimer: 0 as number,
 		showNotice: false,
-		noticeContent: ``
+		noticeContent: ``,
+		darkTheme: false
 	},
 	mutations: {
 		setUserToken(state, data) {

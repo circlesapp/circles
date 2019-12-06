@@ -17,6 +17,9 @@ export default Vue.extend({
 	background-color: white;
     padding: 40px;
 }
+.darkmode .informationLayout{
+    background-color: #282828;
+}
 .informationLayout h2 {
 	font-family: NanumSquareB;
 	font-size: 28px;

@@ -11,14 +11,10 @@
 					<i class="mdi mdi-beta"></i>
 				</sup>
 			</h1>
-			<!-- <div class="inputfield">
-				<h2>제목</h2>
-				<input type="text" placeholder="제목을 입력하세요" />
-			</div>
 			<div class="inputfield">
-				<h2>설명</h2>
-				<input type="text" placeholder="설명을 입력하세요" />
-			</div>-->
+				<h2>어두운 테마 미리보기</h2>
+                <!-- TODO: 체크바 만들기 -->
+			</div>
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
 				<div class="editor__menu__components__list">
@@ -294,6 +290,10 @@ export default Vue.extend({
 
 	font-family: NanumSquareB;
 	font-size: 28px;
+}
+.darkmode .editor__menu__components__list__item{
+    border: none;
+    background-color: #353535;
 }
 .editor__menu__action {
 	display: flex;

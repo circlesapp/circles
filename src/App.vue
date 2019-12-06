@@ -1,5 +1,5 @@
 <template>
-	<div id="app" :class="{ darkmode: darkTheme }">
+	<div id="app" :class="{ darkmode: $store.state.darkTheme }">
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
@@ -24,14 +24,14 @@
 							</div>
 							<div
 								class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark"
-								@click="darkTheme = !darkTheme"
+								@click="$store.state.darkTheme = !$store.state.darkTheme"
 							>
 								<div class="menu__right__darktheme__left">
 									<i class="mdi mdi-theme-light-dark"></i>
 									<span class="menu__right__list__item__text">다크 테마</span>
 								</div>
 								<div class="menu__right__darktheme__slider__wrapper">
-									<input v-model="darkTheme" type="checkbox" />
+									<input v-model="$store.state.darkTheme" type="checkbox" />
 									<span class="menu__right__darktheme__slider"></span>
 								</div>
 							</div>
@@ -149,14 +149,14 @@
 									<div class="menu__right__list menu__right__list__last">
 										<div
 											class="menu__right__list__item menu__right__darktheme"
-											@click="darkTheme = !darkTheme"
+											@click="$store.state.darkTheme = !$store.state.darkTheme"
 										>
 											<div class="menu__right__darktheme__left">
 												<i class="mdi mdi-theme-light-dark"></i>
 												<span class="menu__right__list__item__text">다크 테마</span>
 											</div>
 											<div class="menu__right__darktheme__slider__wrapper">
-												<input v-model="darkTheme" type="checkbox" />
+												<input v-model="$store.state.darkTheme" type="checkbox" />
 												<span class="menu__right__darktheme__slider"></span>
 											</div>
 										</div>
@@ -212,8 +212,6 @@ export default Vue.extend({
 
 			isMounteRequired: false,
 			idx: 0,
-
-			darkTheme: false,
 			barPositionX: "",
 
 			isAlarmLoading: false
@@ -221,7 +219,7 @@ export default Vue.extend({
 	},
 	created() {
 		let darkMode = localStorage.getItem("circles.darkMode");
-		this.darkTheme = darkMode == "true";
+		this.$store.state.darkTheme = darkMode == "true";
 		this.loginCheck();
 	},
 	mounted() {
