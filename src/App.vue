@@ -475,22 +475,27 @@ export default Vue.extend({
 @font-face {
 	font-family: "AvenirBlack";
 	src: url("./assets/Avenir Black.ttf") format("truetype");
+	font-display: swap;
 }
 @font-face {
 	font-family: "NanumSquareB";
 	src: url("./assets/NanumSquareB.ttf") format("truetype");
+	font-display: swap;
 }
 @font-face {
 	font-family: "NanumSquareEB";
 	src: url("./assets/NanumSquareEB.ttf") format("truetype");
+	font-display: swap;
 }
 @font-face {
 	font-family: "NanumSquareR";
 	src: url("./assets/NanumSquareR.ttf") format("truetype");
+	font-display: swap;
 }
 @font-face {
 	font-family: "NanumSquareL";
 	src: url("./assets/NanumSquareL.ttf") format("truetype");
+	font-display: swap;
 }
 .menu-animation-enter-active,
 .menu-animation-leave-active {
