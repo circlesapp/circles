@@ -455,11 +455,12 @@ export default Vue.extend({
 .home__function__content__item h3 {
 	font-family: NanumSquareEB;
 	font-size: 45px;
+    color: #273142;
 }
 .home__function__content__item p {
 	font-family: NanumSquareR;
 	font-size: 26px;
-	color: #afafaf;
+	color: #868686;
 
 	word-break: keep-all;
 }
