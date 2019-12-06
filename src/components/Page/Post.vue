@@ -406,6 +406,9 @@ export default Vue.extend({
 	font-size: 15px;
 	border-radius: 10px;
 }
+.darkmode .post__option{
+    background-color: #232323;
+}
 .post__option i {
 	font-size: 30px;
 }
@@ -479,6 +482,7 @@ textarea.post__content {
 	width: 100%;
 }
 .darkmode textarea.post__content {
+    color: white;
 	background-color: #353535;
 }
 .post__image {
