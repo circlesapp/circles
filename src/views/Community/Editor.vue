@@ -13,11 +13,16 @@
 			</h1>
 			<div class="inputfield">
 				<h2>어두운 테마 미리보기</h2>
-                <!-- TODO: 체크바 만들기 -->
+				<!-- TODO: 체크바 만들기 -->
 			</div>
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
 				<div class="editor__menu__components__list">
+					<div
+						class="editor__menu__components__list__item"
+						@click="componentAdd($event,'ClubTitleLayout')"
+						draggable
+					>동아리 타이틀</div>
 					<div
 						class="editor__menu__components__list__item"
 						@click="componentAdd($event,'InformationLayout')"
@@ -70,12 +75,14 @@ import Vue from "vue";
 // @ts-ignore
 import draggable from "vuedraggable";
 
+import ClubTitleLayout from "../../components/Editor/Functional/ClubTitleLayout.vue";
 import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
 import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
 import ApplyButtonLayout from "../../components/Editor/Functional/ApplyButtonLayout.vue";
 
 export default Vue.extend({
 	components: {
+        ClubTitleLayout,
 		InformationLayout,
 		MembersLayout,
 		ApplyButtonLayout,
@@ -291,9 +298,9 @@ export default Vue.extend({
 	font-family: NanumSquareB;
 	font-size: 28px;
 }
-.darkmode .editor__menu__components__list__item{
-    border: none;
-    background-color: #353535;
+.darkmode .editor__menu__components__list__item {
+	border: none;
+	background-color: #353535;
 }
 .editor__menu__action {
 	display: flex;

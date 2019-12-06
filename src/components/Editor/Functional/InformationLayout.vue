@@ -1,14 +1,18 @@
 <template>
 	<div class="informationLayout" @contextmenu="$emit('contextmenu',$event)">
 		<h2>동아리 소개</h2>
-		<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo harum optio aliquam facere, beatae voluptates cumque voluptatum fuga possimus, esse temporibus porro odio tenetur a doloribus sapiente sunt quo dolorum!</p>
+		<p>{{getClub.introduction}}</p>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-    
+    computed:{
+        getClub(){
+            return this.$store.state.club
+        }
+    }
 })
 </script>
 

@@ -10,7 +10,7 @@
 			>{{component}}</component>
 		</div>
 	</div>
-	<div class="page__notfound" v-else>
+	<div class="page__notfound" v-else-if="!isLoading">
 		빈 페이지 입니다.
 		<router-link class="link" to="/">돌아가기</router-link>
 	</div>
@@ -19,12 +19,14 @@
 <script lang="ts">
 import Vue from "vue";
 
+import ClubTitleLayout from "../components/Editor/Functional/ClubTitleLayout.vue";
 import InformationLayout from "../components/Editor/Functional/InformationLayout.vue";
 import MembersLayout from "../components/Editor/Functional/MembersLayout.vue";
 import ApplyButtonLayout from "../components/Editor/Functional/ApplyButtonLayout.vue";
 
 export default Vue.extend({
 	components: {
+		ClubTitleLayout,
 		InformationLayout,
 		MembersLayout,
 		ApplyButtonLayout
@@ -40,14 +42,17 @@ export default Vue.extend({
 			name: "GET_CLUB_PAGE",
 			message: "동아리 페이지 불러오는 중"
 		});
+		this.isLoading = true;
 		this.$store
 			.dispatch("GET_CLUB", this.$route.params.club)
 			.then(club => {
 				if (!club) this.$router.push("/");
 				this.componentList = club.page;
+				this.isLoading = false;
 				this.$store.commit("clearLoading", "GET_CLUB_PAGE");
 			})
 			.catch(err => {
+				this.isLoading = false;
 				this.$store.commit("clearLoading", "GET_CLUB_PAGE");
 				this.$router.push("/");
 			});
@@ -68,6 +73,7 @@ export default Vue.extend({
 	width: 100%;
 }
 .page__main__wrapper {
+	width: 100%;
 	max-width: 1280px;
 }
 .page__notfound {
@@ -87,5 +93,9 @@ export default Vue.extend({
 	font-family: NanumSquareEB;
 	font-size: 40px;
 	color: #bbbbbb;
+}
+.page__main__component {
+	width: 100%;
+	margin-top: 10px;
 }
 </style>
