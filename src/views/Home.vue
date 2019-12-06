@@ -624,7 +624,7 @@ export default Vue.extend({
 	background-color: #535353;
 }
 .home__login__profile__selectclub__list__item-current {
-	background-color: #538fff;
+	background-color: #538fff !important;
 	color: white;
 }
 

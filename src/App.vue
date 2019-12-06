@@ -592,6 +592,14 @@ i {
 	background-color: rgba(39, 49, 66, 0.2);
 	/* color: #273142; */
 }
+.darkmode ::selection{
+    background-color: #9cb2cd;
+}
+.darkmode input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #353535 inset;
+    -webkit-text-fill-color: #538fff !important;
+    border: 1px solid #538fff !important;
+}
 ::-webkit-scrollbar {
 	width: 4px;
 	height: 4px;

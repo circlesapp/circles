@@ -169,6 +169,10 @@ export default Vue.extend({
 	justify-content: center;
 	color: #273142;
 }
+.darkmode .register {
+    background-color: #282828;
+	color: white;
+}
 .register__wrapper {
 	width: 100%;
 	max-width: 1000px;
@@ -230,6 +234,10 @@ export default Vue.extend({
 	border: solid 1px #eeeeee;
 	border-radius: 8px;
 }
+.darkmode .register__inputwrapper input {
+	color: white;
+	border: 1px solid #3a3a3a;
+}
 .register__inputwrapper input[type="password"] {
 	font: large Verdana, sans-serif;
 	padding: 22px 20px;
@@ -248,6 +256,10 @@ export default Vue.extend({
 	max-height: 200px;
 	overflow-y: auto;
 }
+.darkmode .register__textarea{
+    color: white;
+	border: 1px solid #3a3a3a;
+}
 
 .register__button {
 	width: 30%;
@@ -261,6 +273,9 @@ export default Vue.extend({
 	color: white;
 	font-size: 30px;
 	font-family: "NanumSquareL";
+}
+.darkmode .register__button{
+    background-color: #353535;
 }
 
 .register__error {
