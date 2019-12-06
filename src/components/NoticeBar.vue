@@ -5,9 +5,9 @@
 				<div class="noticebar__logo"></div>
 				<p>{{ getContent }}</p>
 			</div>
-			<button class="noticebar__content__clear" @click="$emit('isUpdated', false)">
+			<div class="noticebar__content__clear" @click="$emit('isUpdated', false)">
 				<i class="mdi mdi-close"></i>
-			</button>
+			</div>
 		</div>
 	</div>
 </template>

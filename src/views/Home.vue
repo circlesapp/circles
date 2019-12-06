@@ -4,7 +4,8 @@
 			<div class="home__left">
 				<h2 class="home__title">
 					<span>빠르고 편리하게</span>
-					<br />동아리를 관리하고 <br />홍보해보세요
+					<br />동아리를 관리하고
+					<br />홍보해보세요
 				</h2>
 				<div class="home__content">
 					circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
@@ -76,6 +77,7 @@
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<a href="https://github.com/CirclesApp/FrontEnd" class="home__footer__right">
+				Github
 				<i class="mdi mdi-github-circle"></i>
 			</a>
 		</footer>
@@ -166,7 +168,8 @@ export default Vue.extend({
 	methods: {
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		reload() {
 			this.isShowCirclesCreatePopup = false;
@@ -177,7 +180,9 @@ export default Vue.extend({
 			this.$store
 				.dispatch("GET_USER_PROFILE", {
 					token: this.$store.state.userToken,
-					pushSubscription: localStorage.getItem("circles.pushSubscription")
+					pushSubscription: localStorage.getItem(
+						"circles.pushSubscription"
+					)
 				})
 				.then(user => {
 					this.$store.commit("clearLoading", "GET_USER_PROFILE");
@@ -185,7 +190,8 @@ export default Vue.extend({
 				.catch(err => {});
 		},
 		userInputKeyPress(e: any) {
-			if (this.targetCurrentIndex >= this.getClubs.length) this.targetCurrentIndex = this.getClubs.length;
+			if (this.targetCurrentIndex >= this.getClubs.length)
+				this.targetCurrentIndex = this.getClubs.length;
 			switch (e.keyCode) {
 				case 13:
 					this.selectClub(this.targetCurrentIndex);
@@ -194,7 +200,8 @@ export default Vue.extend({
 					if (this.targetCurrentIndex > 0) this.targetCurrentIndex--;
 					break;
 				case 40:
-					if (this.targetCurrentIndex < this.getClubs.length - 1) this.targetCurrentIndex++;
+					if (this.targetCurrentIndex < this.getClubs.length - 1)
+						this.targetCurrentIndex++;
 					break;
 			}
 		},
@@ -239,7 +246,9 @@ export default Vue.extend({
 					return this.$store.state.club.ranks.find(
 						(x: any) =>
 							this.$store.state.club.members.find(
-								(x: any) => x.user == this.$store.state.userInformation._id
+								(x: any) =>
+									x.user ==
+									this.$store.state.userInformation._id
 							).rank == x.id
 					).name;
 				} catch (e) {
@@ -251,11 +260,17 @@ export default Vue.extend({
 		},
 		getUserImage() {
 			if (this.$store.state.userInformation.imgPath)
-				return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+				return (
+					this.$store.state.mainPath +
+					this.$store.state.userInformation.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		getClubs(): any[] {
-			return this.getUserInformation.clubs.filter((club: any) => club.name.indexOf(this.searchClub) != -1);
+			return this.getUserInformation.clubs.filter(
+				(club: any) => club.name.indexOf(this.searchClub) != -1
+			);
 		}
 	}
 });
@@ -468,10 +483,12 @@ export default Vue.extend({
 }
 .home__footer__right {
 	text-decoration: none;
+    font-size: 0;
 }
 .home__footer__right i {
 	color: #1b1c30;
 	font-size: 50px;
+	content: "";
 }
 
 .home__login__profile {
