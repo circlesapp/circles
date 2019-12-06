@@ -11,12 +11,12 @@
 						@click="toggleMenu"
 					>
 						<div class="menu__left__list__circles">
-							<img src="./assets/circles_logo.png" alt />
+							<img src="./assets/circles_logo.png" alt="circles_logo" />
 							<router-link tag="h1" to="/">circles.</router-link>
 						</div>
 						<div class="menu__left__list__profile" v-if="getUserInformation.name" style="color:black;">
 							<div class="information__wrapper">
-								<img :src="getUserImage" alt />
+								<img :src="getUserImage" alt="user_profile" />
 								<div>
 									<h3 class="name">{{ getUserInformation.name }}</h3>
 									<p class="clubs">{{ getClub.name }} {{ getRank }}</p>
@@ -108,12 +108,12 @@
 							</div>
 						</transition>
 						<div class="menu__right" v-if="getUserInformation.name">
-							<img :src="getUserImage" @click="toggleProfile" />
+							<img :src="getUserImage" @click="toggleProfile" alt="user_profile" />
 							<transition name="fade">
 								<div class="menu__right__profile" v-if="showProfile">
 									<div class="menu__right__profile__information">
 										<div class="information__wrapper">
-											<img :src="getUserImage" alt />
+											<img :src="getUserImage" alt="user_profile" />
 											<div>
 												<h3 class="name">{{ getUserInformation.name }}</h3>
 												<p class="email">{{ getUserInformation.email }}</p>

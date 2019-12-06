@@ -13,6 +13,7 @@
 		<h3 class="post__title" v-if="!isCreate">
 			<img
 				:src="data.owner.imgPath ? getMainPath+data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+                alt="user_profile"
 			/>
 			<p>
 				<span class="clubname">{{data.owner.name}}</span>
@@ -38,14 +39,14 @@
 		/>
 		<article class="post__image" v-if="!isCreate&&(data ? data.imgPath.length : false)">
 			<div class="post__image__mainImage">
-				<img :src="getMainPath+data.imgPath[0]" alt />
+				<img :src="getMainPath+data.imgPath[0]" alt="content_image" />
 			</div>
 			<div class="post__image__sublist" v-if="data.imgPath.length > 2">
 				<div class="post__image__subImage">
-					<img :src="getMainPath+data.imgPath[1]" alt />
+					<img :src="getMainPath+data.imgPath[1]" alt="content_image" />
 				</div>
 				<div class="post__image__subImage">
-					<img :src="getMainPath+data.imgPath[1]" alt />
+					<img :src="getMainPath+data.imgPath[1]" alt="content_image" />
 				</div>
 			</div>
 		</article>

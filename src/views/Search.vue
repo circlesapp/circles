@@ -15,7 +15,7 @@
 				v-for="club in filterClub"
 				:key="club._id"
 			>
-				<img :src="getImgPath(club.imgPath)" alt />
+				<img :src="getImgPath(club.imgPath)" alt="club_logo" />
 				<h3>{{club.name}}</h3>
 				<h4>{{club.school || "-"}}</h4>
 				<p>{{club.introduction || "-"}}</p>

@@ -135,7 +135,7 @@
 						:key="club._id"
 						@click="selectClub(idx)"
 					>
-						<img :src="getImgPath(club.imgPath)" alt />
+						<img :src="getImgPath(club.imgPath)" alt="club_logo" />
 						{{ club.name }}
 					</div>
 				</div>

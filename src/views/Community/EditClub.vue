@@ -3,7 +3,7 @@
 		<div class="editclub__title">동아리 관리</div>
 		<div class="editclub__wrapper">
 			<label class="editclub__imgbox" :class="{ 'editclub__imgbox-ondrag': isOnDragOver }" @drop="onImageDrop" @dragover="onImageDropOver" @dragleave="isOnDragOver = false">
-				<img :src="getClubImage" alt />
+				<img :src="getClubImage" alt="club_logo" />
 				<p>
 					<b>
 						<input type="file" @change="onImageChange" />
