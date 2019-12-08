@@ -6,8 +6,12 @@
 				<h2>{{ month + 1 }}월</h2>
 			</div>
 			<div class="calendar__actions">
-				<button class="calendar__button" @click="mMonth"><i class="mdi mdi-chevron-left"></i></button>
-				<button class="calendar__button" @click="pMonth"><i class="mdi mdi-chevron-right"></i></button>
+				<button class="calendar__button" @click="mMonth">
+					<i class="mdi mdi-chevron-left"></i>
+				</button>
+				<button class="calendar__button" @click="pMonth">
+					<i class="mdi mdi-chevron-right"></i>
+				</button>
 			</div>
 		</div>
 		<div
@@ -21,12 +25,7 @@
 			@contextmenu="$event.preventDefault()"
 			ref="calendar"
 		>
-			<CalendarBoxCreatePopup
-				:start="start"
-				:end="end"
-				v-if="isCreatePopup"
-				@isUpdated="reload"
-			></CalendarBoxCreatePopup>
+			<CalendarBoxCreatePopup :start="start" :end="end" v-if="isCreatePopup" @isUpdated="reload"></CalendarBoxCreatePopup>
 			<div
 				class="calendar__content__day"
 				v-for="(day, idx) in getDays"
@@ -44,9 +43,7 @@
 							`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 +
 								20}px; background-color:${sc.color}`
 						"
-					>
-						{{ sc.content.content }}
-					</div>
+					>{{ sc.content.content }}</div>
 					<div
 						v-for="(sc, idx) in tmpLineData[idx] ? tmpLineData[idx] : []"
 						:key="idx + sc"
@@ -55,11 +52,11 @@
 							`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 +
 								20}px; background-color:${sc.color}`
 						"
-					>
-						CREATE
-					</div>
+					>CREATE</div>
 				</transition-group>
-				<span :class="{ 'calendar__content__day-today': day == currentDay }">{{ day == 0 ? "" : day }}</span>
+				<span
+					:class="{ 'calendar__content__day-today': day == currentDay && month == currentMonth && year == currentYear }"
+				>{{ day == 0 ? "" : day }}</span>
 			</div>
 		</div>
 	</div>
@@ -77,6 +74,8 @@ export default Vue.extend({
 		return {
 			year: 0,
 			month: 0,
+			currentYear: 0,
+			currentMonth: 0,
 			currentDay: 0,
 			startDay: new Date() as Date,
 			endDay: new Date() as Date,
@@ -108,6 +107,9 @@ export default Vue.extend({
 	},
 	mounted() {
 		let now = new Date();
+		this.currentYear = now.getFullYear();
+		this.currentMonth = now.getMonth();
+		this.currentDay = now.getDate();
 
 		this.startDay = new Date(this.year, this.month, 1); //현재달의 첫째 날
 		this.endDay = new Date(this.year, this.month, 0); //현재 달의 마지막 날
@@ -116,7 +118,7 @@ export default Vue.extend({
 		});
 		this.getSize();
 		this.reload();
-		this.calendarReload(now.getFullYear(), now.getMonth(), now.getDate());
+		this.calendarReload(this.currentYear, this.currentMonth);
 	},
 	methods: {
 		pMonth() {
@@ -136,13 +138,12 @@ export default Vue.extend({
 			this.allReload();
 		},
 		allReload() {
-			this.calendarReload(this.year, this.month, this.currentDay);
+			this.calendarReload(this.year, this.month);
 			this.reload();
 		},
-		calendarReload(year: number, month: number, currentDay: number) {
+		calendarReload(year: number, month: number) {
 			this.year = year;
 			this.month = month;
-			this.currentDay = currentDay;
 
 			this.startDay = new Date(this.year, this.month, 1); //현재달의 첫째 날
 			this.endDay = new Date(this.year, this.month, 0); //현재 달의 마지막 날
@@ -160,8 +161,12 @@ export default Vue.extend({
 				calendars.forEach((calendar: any) => {
 					this.calendars = calendars;
 					let startDate = new Date(calendar.start);
-					if (this.year == startDate.getFullYear() && this.month == startDate.getMonth()) {
-						let start = startDate.getDate() + this.startDay.getDay();
+					if (
+						this.year == startDate.getFullYear() &&
+						this.month == startDate.getMonth()
+					) {
+						let start =
+							startDate.getDate() + this.startDay.getDay();
 						let endDate = new Date(calendar.end);
 						let end = endDate.getDate() + this.startDay.getDay();
 						this.drawLine(
@@ -177,7 +182,8 @@ export default Vue.extend({
 			});
 		},
 		getSize() {
-			let calendar = (this.$refs.calendar as HTMLDivElement).getBoundingClientRect();
+			let calendar = (this.$refs
+				.calendar as HTMLDivElement).getBoundingClientRect();
 
 			this.calendarLeft = calendar.left;
 			this.calendarTop = calendar.top;
@@ -191,10 +197,17 @@ export default Vue.extend({
 			if (!this.isCreatePopup) {
 				this.getSize();
 				this.startPointX =
-					((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
+					((e as MouseEvent).clientX ||
+						(e as TouchEvent).touches[0].clientX) -
+					this.calendarLeft;
 				this.startPointY =
-					((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
-				let position = this.getPosition(this.startPointX, this.startPointY);
+					((e as MouseEvent).clientY ||
+						(e as TouchEvent).touches[0].clientY) -
+					this.calendarTop;
+				let position = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
 				this.isClick = true;
 			}
 		},
@@ -202,26 +215,60 @@ export default Vue.extend({
 			if (!this.isCreatePopup) {
 				this.isClick = false;
 				this.isCreatePopup = true;
-				let startPosition = this.getPosition(this.startPointX, this.startPointY);
-				let endPosition = this.getPosition(this.endPointX, this.endPointY);
-				this.start = new Date(this.year, this.month, this.getDays[startPosition[1] * 7 + startPosition[0]]);
-				this.end = new Date(this.year, this.month, this.getDays[endPosition[1] * 7 + endPosition[0]]);
+				let startPosition = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
+				let endPosition = this.getPosition(
+					this.endPointX,
+					this.endPointY
+				);
+				this.start = new Date(
+					this.year,
+					this.month,
+					this.getDays[startPosition[1] * 7 + startPosition[0]]
+				);
+				this.end = new Date(
+					this.year,
+					this.month,
+					this.getDays[endPosition[1] * 7 + endPosition[0]]
+				);
 			}
 		},
 		onClickDrag(e: MouseEvent | TouchEvent) {
 			if (this.isClick) {
 				this.endPointX =
-					((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
-				this.endPointY = ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
-				let startPosition = this.getPosition(this.startPointX, this.startPointY);
-				let endPosition = this.getPosition(this.endPointX, this.endPointY);
+					((e as MouseEvent).clientX ||
+						(e as TouchEvent).touches[0].clientX) -
+					this.calendarLeft;
+				this.endPointY =
+					((e as MouseEvent).clientY ||
+						(e as TouchEvent).touches[0].clientY) -
+					this.calendarTop;
+				let startPosition = this.getPosition(
+					this.startPointX,
+					this.startPointY
+				);
+				let endPosition = this.getPosition(
+					this.endPointX,
+					this.endPointY
+				);
 
 				this.tmpLineData = [];
-				this.drawLine(startPosition[0], startPosition[1], endPosition[0] + 1, endPosition[1], true);
+				this.drawLine(
+					startPosition[0],
+					startPosition[1],
+					endPosition[0] + 1,
+					endPosition[1],
+					true
+				);
 			}
 		},
 		getPosition(x: number, y: number) {
-			return [Math.floor(x / this.calendarItemWidth), Math.floor(y / this.calendarItemHeight)];
+			return [
+				Math.floor(x / this.calendarItemWidth),
+				Math.floor(y / this.calendarItemHeight)
+			];
 		},
 		drawLine(
 			startX: number,
@@ -234,14 +281,19 @@ export default Vue.extend({
 			let lineHeight = [0, 0, 0, 0, 0];
 			for (let i = startY; i <= endY; i++) {
 				let startJ = startY == i ? startX : 0;
-				for (let j = 0; j < (i == endY ? endX : 7); j++) if (this.lineData[i * 7 + j]) lineHeight[i]++;
+				for (let j = 0; j < (i == endY ? endX : 7); j++)
+					if (this.lineData[i * 7 + j]) lineHeight[i]++;
 			}
 			if (tmpMode) {
 				for (let i = startY; i <= endY; i++) {
 					let startJ = startY == i ? startX : 0;
-					if (!this.tmpLineData[i * 7 + startJ]) this.tmpLineData[i * 7 + startJ] = [];
+					if (!this.tmpLineData[i * 7 + startJ])
+						this.tmpLineData[i * 7 + startJ] = [];
 					this.tmpLineData[i * 7 + startJ].push({
-						width: i == endY ? endX - startJ : 7 - (startY == i ? startJ : 0),
+						width:
+							i == endY
+								? endX - startJ
+								: 7 - (startY == i ? startJ : 0),
 						height: lineHeight[i],
 						color: this.colors[this.colorIndex]
 					});
@@ -249,9 +301,13 @@ export default Vue.extend({
 			} else {
 				for (let i = startY; i <= endY; i++) {
 					let startJ = startY == i ? startX : 0;
-					if (!this.lineData[i * 7 + startJ]) this.lineData[i * 7 + startJ] = [];
+					if (!this.lineData[i * 7 + startJ])
+						this.lineData[i * 7 + startJ] = [];
 					this.lineData[i * 7 + startJ].push({
-						width: i == endY ? endX - startJ : 7 - (startY == i ? startJ : 0),
+						width:
+							i == endY
+								? endX - startJ
+								: 7 - (startY == i ? startJ : 0),
 						height: lineHeight[i],
 						color: this.colors[this.colorIndex],
 						content
