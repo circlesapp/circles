@@ -13,7 +13,7 @@
 			</transition-group>
 		</div>
 	</div>
-	<div class="timeline__notfound" v-else>작성된 타임라인이 없습니다.</div>
+	<div class="timeline__notfound" v-else>타임라인에 작성된 글이 없습니다.</div>
 </template>
 
 <script lang="ts">
