@@ -30,10 +30,7 @@
 									<i class="mdi mdi-theme-light-dark"></i>
 									<span class="menu__right__list__item__text">다크 테마</span>
 								</div>
-								<div class="menu__right__darktheme__slider__wrapper">
-									<input v-model="$store.state.darkTheme" type="checkbox" />
-									<span class="menu__right__darktheme__slider"></span>
-								</div>
+								<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
 							</div>
 						</div>
 						<router-link
@@ -155,10 +152,7 @@
 												<i class="mdi mdi-theme-light-dark"></i>
 												<span class="menu__right__list__item__text">다크 테마</span>
 											</div>
-											<div class="menu__right__darktheme__slider__wrapper">
-												<input v-model="$store.state.darkTheme" type="checkbox" />
-												<span class="menu__right__darktheme__slider"></span>
-											</div>
+											<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
 										</div>
 										<div class="menu__right__list__item menu__right__profile__logout" @click="logout">
 											<i class="mdi mdi-logout-variant"></i>
@@ -189,6 +183,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import SwitchButton from "./components/SwitchButton.vue";
 import Offline from "./components/Offline.vue";
 import NoticeBar from "./components/NoticeBar.vue";
 import LoadingBar from "./components/LoadingBar.vue";
@@ -196,6 +191,7 @@ import TopLoadingBar from "./components/TopLoadingBar.vue";
 export default Vue.extend({
 	name: "App",
 	components: {
+		SwitchButton,
 		Offline,
 		NoticeBar,
 		LoadingBar,
@@ -293,7 +289,7 @@ export default Vue.extend({
 				}
 			}
 		},
-		'$store.state.darkTheme'(next, prev) {
+		"$store.state.darkTheme"(next, prev) {
 			localStorage.setItem("circles.darkMode", next);
 		}
 	},

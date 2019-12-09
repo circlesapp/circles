@@ -13,7 +13,7 @@
 			</h1>
 			<div class="inputfield">
 				<h2>어두운 테마 미리보기</h2>
-				<!-- TODO: 체크바 만들기 -->
+				<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
 			</div>
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
@@ -75,6 +75,8 @@ import Vue from "vue";
 // @ts-ignore
 import draggable from "vuedraggable";
 
+import SwitchButton from "../../components/SwitchButton.vue";
+
 import ClubTitleLayout from "../../components/Editor/Functional/ClubTitleLayout.vue";
 import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
 import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
@@ -82,7 +84,9 @@ import ApplyButtonLayout from "../../components/Editor/Functional/ApplyButtonLay
 
 export default Vue.extend({
 	components: {
-        ClubTitleLayout,
+		SwitchButton,
+
+		ClubTitleLayout,
 		InformationLayout,
 		MembersLayout,
 		ApplyButtonLayout,
@@ -254,7 +258,10 @@ export default Vue.extend({
 	font-size: 20px;
 }
 .editor__menu .inputfield {
-	margin-top: 30px;
+	margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .editor__menu .inputfield:first-child {
 	margin-top: 0;
@@ -264,7 +271,6 @@ export default Vue.extend({
 	font-family: NanumSquareL;
 	font-size: 24px;
 
-	margin-bottom: 10px;
 }
 .editor__menu__components h2 {
 	margin-bottom: 20px;

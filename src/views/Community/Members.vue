@@ -206,11 +206,18 @@
 						<h2 class="name">{{getOrderedMembers[currentUser].user.name}}</h2>
 						<h3 class="rank">{{getRankString(getOrderedMembers[currentUser].rank)}}</h3>
 					</div>
-					<div class="rankSelect">
+					<div class="userInformation__item rankSelect">
 						<h3>직위</h3>
 						<select v-model="getOrderedMembers[currentUser].rank">
 							<option :value="rank.id" v-for="rank in getClub.ranks" :key="rank.id">{{rank.name}}</option>
 						</select>
+					</div>
+					<div class="userInformation__item isPass">
+						<h3>합격</h3>
+						<p>
+							결과 확인에 띄우기
+							<SwitchButton v-model="getOrderedMembers[currentUser].isPass"></SwitchButton>
+						</p>
 					</div>
 					<div class="action">
 						<button
@@ -228,7 +235,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+
+import SwitchButton from "@/components/SwitchButton.vue";
+
 export default Vue.extend({
+	components: {
+		SwitchButton
+	},
 	data() {
 		return {
 			members: [],
@@ -339,6 +352,7 @@ export default Vue.extend({
 <style>
 .communityMembers {
 	padding: 40px;
+    margin-bottom: 60px;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -597,8 +611,12 @@ export default Vue.extend({
 	font-family: NanumSquareB;
 	font-size: 20px;
 }
-.communityMembers__controlPanel .rankSelect {
+.userInformation__item {
 	margin: 10px;
+	margin-top: 20px;
+}
+.userInformation__item p{
+    margin-left: 0.5em;
 }
 .communityMembers__controlPanel .rankSelect select {
 	outline: 0;
@@ -630,6 +648,10 @@ export default Vue.extend({
 	background-color: #363636;
 }
 
+.communityMembers__controlPanel .isPass label {
+	margin-top: 10px;
+	margin-left: 0.5em;
+}
 @media screen and (max-width: 1279px) {
 	.communityMembers__wrapper {
 		flex-wrap: wrap;
