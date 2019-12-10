@@ -49,7 +49,7 @@
 								:key="member._id"
 								@click="appendTargetItem(idx)"
 							>
-								<img :src="$store.state.mainPath+member.imgPath" alt="member_profile" />
+								<img :src="member.imgPath ? $store.state.mainPath+member.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt="member_profile" />
 								{{member.name}}
 							</div>
 						</div>

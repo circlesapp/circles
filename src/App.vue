@@ -584,6 +584,9 @@ export default Vue.extend({
 i {
 	user-select: none;
 }
+img {
+	text-indent: -999px;
+}
 ::selection {
 	background-color: rgba(39, 49, 66, 0.2);
 	/* color: #273142; */
