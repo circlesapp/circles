@@ -1,25 +1,56 @@
 <template>
 	<div class="result">
-		<div class="result__item">
+		<div class="result__item" v-for="member in members" :key="member._id">
 			<div>
-				<p>20611</p>
-				<h3>박종훈</h3>
+				<p>{{getFilterEmail(member.email)}}</p>
+				<h3>{{member.name}}</h3>
 			</div>
-			<div class="result__item__information">현재 면접자</div>
-		</div>
-		<div class="result__item">
-			<div>
-				<p>20611</p>
-				<h3>박종훈</h3>
-			</div>
-			<div class="result__item__information">현재 면접자</div>
+			<div class="result__item__information">합격자</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.extend({
+	data() {
+		return {
+			members: []
+		};
+	},
+	created() {
+		let filterList = this.getClub.members
+			.filter(x => x.isPass)
+			.map(x => x.user);
+		this.$store.commit("pushPageLoading", {
+			name: "GET_CLUB_MEMBERS",
+			message: "동아리 부원 불러오는 중"
+		});
+		this.$store
+			.dispatch("GET_CLUB_MEMBERS")
+			.then(members => {
+				console.log(members);
+				this.$store.commit("clearPageLoading", "GET_CLUB_MEMBERS");
+				this.members = members.filter(
+					x => filterList.indexOf(x._id) != -1
+				);
+			})
+			.catch(err => {});
+	},
+	methods: {
+		getFilterEmail(email: string): string {
+			let splitEmail: string[] = email.split("@");
+			return `${splitEmail[0].substr(0, splitEmail[0].length - 2)}**@ ${
+				splitEmail[1]
+			}`;
+		}
+	},
+	computed: {
+		getClub() {
+			return this.$store.state.club;
+		}
+	}
+});
 </script>
 
 <style scoped>
