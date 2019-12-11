@@ -146,7 +146,7 @@ export default Vue.extend({
 			this.month = month;
 
 			this.startDay = new Date(this.year, this.month, 1); //현재달의 첫째 날
-			this.endDay = new Date(this.year, this.month, 0); //현재 달의 마지막 날
+			this.endDay = new Date(this.year, this.month + 1, 0); //현재 달의 마지막 날
 		},
 		reload() {
 			this.isCreatePopup = false;
@@ -334,7 +334,8 @@ export default Vue.extend({
 	},
 	computed: {
 		getDays(): any[] {
-			let arr = [...new Array(this.endDay.getDate()).keys()];
+			let arr = [...new Array(this.endDay.getDate() + 1).keys()];
+			if (this.startDay.getDay() == 0) arr.shift();
 			for (let i = 0; i < this.startDay.getDay() - 1; i++) {
 				arr.unshift(0);
 			}
@@ -444,6 +445,12 @@ export default Vue.extend({
 	font-size: 24px;
 
 	overflow: visible;
+}
+.calendar__content__day:nth-child(7n) {
+	color: #538fff;
+}
+.calendar__content__day:nth-child(7n + 1) {
+	color: #ff4475;
 }
 .darkmode .calendar__content__day {
 	border: 1px solid #5f5f5f;
