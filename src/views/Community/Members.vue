@@ -352,7 +352,7 @@ export default Vue.extend({
 <style>
 .communityMembers {
 	padding: 40px;
-    margin-bottom: 60px;
+	margin-bottom: 60px;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -615,8 +615,8 @@ export default Vue.extend({
 	margin: 10px;
 	margin-top: 20px;
 }
-.userInformation__item p{
-    margin-left: 0.5em;
+.userInformation__item p {
+	margin-left: 0.5em;
 }
 .communityMembers__controlPanel .rankSelect select {
 	outline: 0;

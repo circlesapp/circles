@@ -1,7 +1,7 @@
 <template>
 	<div class="clubtitleLayout">
 		<div class="clubtitleLayout__imgwrapper">
-			<img :src="getImgPath" alt="club_logo"/>
+			<img :src="getImgPath" alt="club_logo" />
 		</div>
 		<h1>{{getClub.name}}</h1>
 		<router-link :to="{'name':'page/timeline'}" tag="p">타임라인으로 이동하기</router-link>
@@ -57,10 +57,10 @@ export default Vue.extend({
 	margin-top: 20px;
 }
 .clubtitleLayout p {
-    cursor: pointer;
+	cursor: pointer;
 	color: #aaaaaa;
-    text-decoration: underline;
-    font-size: 24px;
-    margin-top: 20px;
+	text-decoration: underline;
+	font-size: 24px;
+	margin-top: 20px;
 }
 </style>

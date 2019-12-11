@@ -99,7 +99,10 @@ export default Vue.extend({
 				message: "동아리 지원서 수락하는 중"
 			});
 			this.$store
-				.dispatch("APPLICANT_ACCEPT", this.applicants[this.currentApplicant])
+				.dispatch(
+					"APPLICANT_ACCEPT",
+					this.applicants[this.currentApplicant]
+				)
 				.then(applicant => {
 					this.$store.commit("clearLoading", "APPLICANT_ACCEPT");
 					this.reload();
@@ -112,7 +115,10 @@ export default Vue.extend({
 				message: "동아리 지원서 거절하는 중"
 			});
 			this.$store
-				.dispatch("APPLICANT_REJECT", this.applicants[this.currentApplicant])
+				.dispatch(
+					"APPLICANT_REJECT",
+					this.applicants[this.currentApplicant]
+				)
 				.then(applicant => {
 					this.$store.commit("clearLoading", "APPLICANT_REJECT");
 
@@ -122,12 +128,18 @@ export default Vue.extend({
 		},
 		checkPermission(permission: number) {
 			if (this.$store.state.club.ranks) {
-				let user = this.$store.state.club.members.find((member: any) => {
-					return member.user == this.$store.state.userInformation._id;
-				});
+				let user = this.$store.state.club.members.find(
+					(member: any) => {
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
+					}
+				);
 				if (user)
 					return (
-						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
+						this.$store.state.club.ranks.find(
+							(rank: any) => rank.id == user.rank
+						).isAdmin ||
 						this.$store.state.club.ranks
 							.find((rank: any) => rank.id == user.rank)
 							.permission.indexOf("" + permission) != -1
@@ -142,7 +154,8 @@ export default Vue.extend({
 				return this.applicants;
 			} else {
 				return this.applicants.sort((a: any, b: any): any => {
-					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+					if (this.sortBy)
+						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
 			}

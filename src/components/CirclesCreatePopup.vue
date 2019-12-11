@@ -461,7 +461,7 @@ export default Vue.extend({
 }
 .inputfield__searchSchool__list__item {
 	padding: 10px;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .inputfield__searchSchool__list__item-active {

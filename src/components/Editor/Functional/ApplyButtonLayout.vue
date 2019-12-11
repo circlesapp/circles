@@ -17,16 +17,16 @@ export default {};
 .applyButtonLayout button {
 	font-family: NanumSquareB;
 	font-size: 28px;
-    border: none;
+	border: none;
 	border-radius: 10px;
 	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.05);
 	background-color: #538fff;
 	color: white;
 	padding: 15px 100px;
 
-    cursor: pointer;
+	cursor: pointer;
 }
-.darkmode .applyButtonLayout button{
-    background-color: #282828;
+.darkmode .applyButtonLayout button {
+	background-color: #282828;
 }
 </style>

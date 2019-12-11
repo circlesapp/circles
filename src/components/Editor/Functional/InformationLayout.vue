@@ -6,28 +6,28 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
-    computed:{
-        getClub(){
-            return this.$store.state.club
-        }
-    }
-})
+	computed: {
+		getClub() {
+			return this.$store.state.club;
+		}
+	}
+});
 </script>
 
 <style scoped>
 .informationLayout {
 	background-color: white;
-    padding: 40px;
+	padding: 40px;
 }
-.darkmode .informationLayout{
-    background-color: #282828;
+.darkmode .informationLayout {
+	background-color: #282828;
 }
 .informationLayout h2 {
 	font-family: NanumSquareB;
 	font-size: 28px;
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .informationLayout p {
 	font-family: NanumSquareL;

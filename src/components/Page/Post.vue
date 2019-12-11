@@ -13,7 +13,7 @@
 		<h3 class="post__title" v-if="!isCreate">
 			<img
 				:src="data.owner.imgPath ? getMainPath+data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
-                alt="user_profile"
+				alt="user_profile"
 			/>
 			<p>
 				<span class="clubname">{{data.owner.name}}</span>
@@ -406,8 +406,8 @@ export default Vue.extend({
 	font-size: 15px;
 	border-radius: 10px;
 }
-.darkmode .post__option{
-    background-color: #232323;
+.darkmode .post__option {
+	background-color: #232323;
 }
 .post__option i {
 	font-size: 30px;
@@ -482,7 +482,7 @@ textarea.post__content {
 	width: 100%;
 }
 .darkmode textarea.post__content {
-    color: white;
+	color: white;
 	background-color: #353535;
 }
 .post__image {

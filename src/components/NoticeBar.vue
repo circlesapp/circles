@@ -42,7 +42,7 @@ export default Vue.extend({
 	right: 0;
 
 	user-select: none;
-    z-index: 3000;
+	z-index: 3000;
 }
 .noticebar__content {
 	display: flex;
@@ -60,7 +60,6 @@ export default Vue.extend({
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
 
 	word-break: keep-all;
-
 }
 .darkmode .noticebar__content {
 	background-color: #282828;

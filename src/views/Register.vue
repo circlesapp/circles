@@ -170,7 +170,7 @@ export default Vue.extend({
 	color: #273142;
 }
 .darkmode .register {
-    background-color: #282828;
+	background-color: #282828;
 	color: white;
 }
 .register__wrapper {
@@ -256,8 +256,8 @@ export default Vue.extend({
 	max-height: 200px;
 	overflow-y: auto;
 }
-.darkmode .register__textarea{
-    color: white;
+.darkmode .register__textarea {
+	color: white;
 	border: 1px solid #3a3a3a;
 }
 
@@ -274,8 +274,8 @@ export default Vue.extend({
 	font-size: 30px;
 	font-family: "NanumSquareL";
 }
-.darkmode .register__button{
-    background-color: #353535;
+.darkmode .register__button {
+	background-color: #353535;
 }
 
 .register__error {

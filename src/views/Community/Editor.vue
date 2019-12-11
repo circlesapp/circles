@@ -259,9 +259,9 @@ export default Vue.extend({
 }
 .editor__menu .inputfield {
 	margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .editor__menu .inputfield:first-child {
 	margin-top: 0;
@@ -270,7 +270,6 @@ export default Vue.extend({
 .editor__menu__components h2 {
 	font-family: NanumSquareL;
 	font-size: 24px;
-
 }
 .editor__menu__components h2 {
 	margin-bottom: 20px;

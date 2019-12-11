@@ -377,10 +377,10 @@ export default Vue.extend({
 	opacity: 1;
 }
 .editclub__content .action .delete input {
-    position: relative;
-    top: 9px;
+	position: relative;
+	top: 9px;
 	padding: 10px;
-    margin-left: 10px;
+	margin-left: 10px;
 	font-size: 14px;
 
 	width: 50%;

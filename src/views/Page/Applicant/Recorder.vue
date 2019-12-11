@@ -143,8 +143,8 @@ export default Vue.extend({});
 	color: #9cb2cd;
 	background-color: white;
 }
-.darkmode .recorder__item{
-    background-color: #282828;
+.darkmode .recorder__item {
+	background-color: #282828;
 }
 .recorder__item__information {
 	align-self: flex-start;
@@ -161,17 +161,17 @@ export default Vue.extend({});
 	border-radius: 22px;
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
 }
-.darkmode .recorder__right{
-    background-color: #282828;
+.darkmode .recorder__right {
+	background-color: #282828;
 }
 .recorder__list {
 	flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
 }
 .recorder__list__item {
-    flex: 1;
+	flex: 1;
 	margin: 8px 40px;
 	font-family: "NanumSquareL";
 	font-size: 40px;
@@ -179,11 +179,12 @@ export default Vue.extend({});
 	display: flex;
 	justify-content: space-between;
 }
-.recorder__list__item span:nth-child(2){
-    margin: 0 50px;
+.recorder__list__item span:nth-child(2) {
+	margin: 0 50px;
 }
-.recorder__list__item span:nth-child(2),.recorder__list__item span:nth-child(3){
-    flex: 1;
+.recorder__list__item span:nth-child(2),
+.recorder__list__item span:nth-child(3) {
+	flex: 1;
 }
 .recorder__list__item-highlight {
 	font-family: "NanumSquareB" !important;
