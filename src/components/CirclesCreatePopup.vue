@@ -20,6 +20,7 @@
 					<h4>소속학교</h4>
 					<div class="inputfield__searchSchool">
 						<input
+							v-model="school"
 							v-on:input="school = $event.target.value"
 							class="inputfield__input"
 							type="text"
@@ -199,6 +200,10 @@ export default Vue.extend({
 	},
 	watch: {
 		school() {
+			if (this.school == "") {
+				this.schoolList = [];
+				this.isShowSearchSchool = true;
+			}
 			clearTimeout(this.schoolTimer);
 			this.schoolTimer = setTimeout(() => {
 				this.searchSchool();
