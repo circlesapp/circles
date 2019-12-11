@@ -63,7 +63,7 @@ export default Vue.extend({
             }
             this.searchTimer = setTimeout(() => {
                 this.filterClub = this.clubs.filter(
-                    (club: any) => club.name.indexOf(this.search) != -1
+                    (club: any) => club.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1 || club.school.toLowerCase().indexOf(this.search.toLowerCase()) != -1
                 );
             }, 300);
         }
