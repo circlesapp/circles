@@ -455,7 +455,7 @@ export default Vue.extend({
 .home__function__content__item h3 {
 	font-family: NanumSquareEB;
 	font-size: 45px;
-    color: #273142;
+	color: #273142;
 }
 .home__function__content__item p {
 	font-family: NanumSquareR;
@@ -484,7 +484,7 @@ export default Vue.extend({
 }
 .home__footer__right {
 	text-decoration: none;
-    font-size: 0;
+	font-size: 0;
 }
 .home__footer__right i {
 	color: #1b1c30;
@@ -616,6 +616,7 @@ export default Vue.extend({
 	height: 1.5em;
 	width: 1.5em;
 	margin-right: 10px;
+	border-radius: 5px;
 }
 .home__login__profile__selectclub__list__item-active {
 	background-color: #eeeeee;

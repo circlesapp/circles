@@ -21,7 +21,7 @@
 					<div class="inputfield__searchSchool">
 						<input
 							v-model="school"
-							v-on:input="school = $event.target.value"
+							@input="school = $event.target.value"
 							class="inputfield__input"
 							type="text"
 							placeholder="소속학교를 입력하세요"
