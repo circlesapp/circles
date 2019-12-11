@@ -65,6 +65,22 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
+		SEARCH_SCHOOL({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.get(`https://www.schoolcodekr.ml/api`, {
+						params: {
+							q: data
+						}
+					})
+					.then(school => {
+						resolve(school.data.school_infos);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		LOGIN({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios

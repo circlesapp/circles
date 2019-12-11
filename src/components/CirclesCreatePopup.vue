@@ -18,7 +18,32 @@
 				</div>
 				<div class="inputfield">
 					<h4>소속학교</h4>
-					<input v-model="school" class="inputfield__input" type="text" placeholder="소속학교를 입력하세요" />
+					<div class="inputfield__searchSchool">
+						<input
+							v-model="school"
+							class="inputfield__input"
+							type="text"
+							placeholder="소속학교를 입력하세요"
+							@blur="hideSchoolSearch"
+							@focus="showSchoolSearch"
+							@keydown="schoolKeyPress"
+						/>
+						<div class="inputfield__searchSchool__list" v-if="schoolList.length && isShowSearchSchool">
+							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>
+							<div
+								class="inputfield__searchSchool__list__item"
+								:class="{'inputfield__searchSchool__list__item-active':idx==schoolCurrentIndex}"
+								v-for="(school,idx) in schoolList"
+								:key="school.name"
+							>{{school.name}}</div>
+						</div>
+						<div
+							class="inputfield__searchSchool__list inputfield__searchSchool__list-nosearch"
+							v-else-if="isShowSearchSchool"
+						>
+							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>검색할 학교를 입력하세요
+						</div>
+					</div>
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
@@ -57,7 +82,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+
+import TopLoadingBar from "@/components/TopLoadingBar.vue";
+
 export default Vue.extend({
+	components: {
+		TopLoadingBar
+	},
 	data() {
 		return {
 			name: "",
@@ -65,7 +96,13 @@ export default Vue.extend({
 			introduction: "",
 			image: {} as any,
 
-			errorAlert: ""
+			errorAlert: "",
+
+			schoolTimer: 0,
+			schoolList: [] as { name: string }[],
+			schoolCurrentIndex: 0,
+			isShowSearchSchool: false,
+			isSchoolLoading: false
 		};
 	},
 	mounted() {
@@ -117,6 +154,55 @@ export default Vue.extend({
 						this.errorAlert = err.response.data.message;
 					});
 			});
+		},
+		schoolKeyPress(e: any) {
+			if (this.schoolCurrentIndex >= this.schoolList.length)
+				this.schoolCurrentIndex = this.schoolList.length;
+			switch (e.keyCode) {
+				case 13:
+					if (this.isShowSearchSchool && this.schoolList.length) {
+						this.isShowSearchSchool = false;
+						this.school = this.schoolList[
+							this.schoolCurrentIndex
+						].name;
+						this.schoolCurrentIndex = 0;
+					}
+					break;
+				case 38:
+					if (this.schoolCurrentIndex > 0) this.schoolCurrentIndex--;
+					break;
+				case 40:
+					if (this.schoolCurrentIndex < this.schoolList.length - 1)
+						this.schoolCurrentIndex++;
+					break;
+			}
+		},
+		searchSchool() {
+			this.isSchoolLoading = true;
+			this.$store
+				.dispatch("SEARCH_SCHOOL", this.school)
+				.then(data => {
+					this.isSchoolLoading = false;
+					this.schoolList = data;
+				})
+				.catch(err => {
+					this.isSchoolLoading = false;
+					this.schoolList = [];
+				});
+		},
+		showSchoolSearch() {
+			this.isShowSearchSchool = true;
+		},
+		hideSchoolSearch() {
+			this.isShowSearchSchool = false;
+		}
+	},
+	watch: {
+		school() {
+			clearTimeout(this.schoolTimer);
+			this.schoolTimer = setTimeout(() => {
+				this.searchSchool();
+			}, 500);
 		}
 	},
 	computed: {
@@ -344,5 +430,43 @@ export default Vue.extend({
 	color: #dd4433;
 
 	margin: 10px 0;
+}
+
+.inputfield__searchSchool {
+	position: relative;
+}
+.inputfield__searchSchool__list {
+	position: absolute;
+	left: 0;
+	top: 100%;
+
+	width: 100%;
+	min-height: 100px;
+	max-height: 300px;
+	overflow-y: scroll;
+
+	background-color: white;
+	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
+}
+.inputfield__searchSchool__list__item {
+	padding: 10px;
+}
+
+.inputfield__searchSchool__list__item-active {
+	background-color: #eeeeee;
+}
+.inputfield__searchSchool__list-nosearch {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 24px;
+	color: #a2a2a2;
+}
+
+.inputfield__searchSchool__list__loading {
+	position: absolute;
+	top: 0;
+	width: 100%;
 }
 </style>
