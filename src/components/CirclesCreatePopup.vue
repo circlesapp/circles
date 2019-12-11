@@ -36,6 +36,7 @@
 								:class="{'inputfield__searchSchool__list__item-active':idx==schoolCurrentIndex}"
 								v-for="(school,idx) in schoolList"
 								:key="school.name"
+								@click="selectSchool(school.name)"
 							>{{school.name}}</div>
 						</div>
 						<div
@@ -162,11 +163,9 @@ export default Vue.extend({
 			switch (e.keyCode) {
 				case 13:
 					if (this.isShowSearchSchool && this.schoolList.length) {
-						this.isShowSearchSchool = false;
-						this.school = this.schoolList[
-							this.schoolCurrentIndex
-						].name;
-						this.schoolCurrentIndex = 0;
+						this.selectSchool(
+							this.schoolList[this.schoolCurrentIndex].name
+						);
 					}
 					break;
 				case 38:
@@ -195,7 +194,14 @@ export default Vue.extend({
 			this.isShowSearchSchool = true;
 		},
 		hideSchoolSearch() {
+			setTimeout(() => {
+				this.isShowSearchSchool = false;
+			}, 100);
+		},
+		selectSchool(schoolName: string) {
 			this.isShowSearchSchool = false;
+			this.school = schoolName;
+			this.schoolCurrentIndex = 0;
 		}
 	},
 	watch: {
@@ -455,6 +461,7 @@ export default Vue.extend({
 }
 .inputfield__searchSchool__list__item {
 	padding: 10px;
+    cursor: pointer;
 }
 
 .inputfield__searchSchool__list__item-active {
