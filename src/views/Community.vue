@@ -3,7 +3,7 @@
 		<transition name="submenuAnimation">
 			<div class="submenu" v-if="$route.name != 'community/editor'">
 				<div class="submenu__list">
-					<router-link :to="{name:'community/editor'}" class="submenu__list__item" v-if="isAdmin">사이트 편집</router-link>
+					<router-link :to="{name:'community/editor'}" class="submenu__list__item" v-if="isAdmin">사이트편집</router-link>
 					<router-link :to="{name:'community/editclub'}" class="submenu__list__item" v-if="isAdmin">동아리관리</router-link>
 					<router-link :to="{name:'community/members'}" class="submenu__list__item" v-if="isAdmin">맴버관리</router-link>
 					<router-link
@@ -16,6 +16,11 @@
 						class="submenu__list__item"
 						v-if="checkPermission(42)"
 					>캘린더</router-link>
+					<router-link
+						:to="{name:'community/attendanceCheck'}"
+						class="submenu__list__item"
+						v-if="isAdmin"
+					>출석체크</router-link>
 				</div>
 			</div>
 		</transition>

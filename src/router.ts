@@ -20,6 +20,7 @@ import Recorder from "./views/Page/Applicant/Recorder.vue";
 import Result from "./views/Page/Applicant/Result.vue";
 import Editor from "./views/Community/Editor.vue";
 import EditClub from "./views/Community/EditClub.vue";
+import AttendanceCheck from "./views/Community/AttendanceCheck.vue";
 import Calendar from "./views/Community/Calendar.vue";
 import CommunityMembers from "./views/Community/Members.vue";
 import CommunityApplication from "./views/Community/Application.vue";
@@ -90,6 +91,7 @@ const router = new Router({
 			children: [
 				{ path: "editor", name: "community/editor", component: Editor },
 				{ path: "editclub", name: "community/editclub", component: EditClub },
+				{ path: "calendar", name: "community/attendanceCheck", component: AttendanceCheck },
 				{ path: "calendar", name: "community/calendar", component: Calendar },
 				{ path: "members", name: "community/members", component: CommunityMembers },
 				{ path: "application", name: "community/application", component: CommunityApplication }
