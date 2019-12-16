@@ -95,14 +95,26 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import VueSocketIOExt from "vue-socket.io-extended";
-// import io from "socket.io-client";
-
-// export default Vue.use(VueSocketIOExt, io("localhost:3000")).extend({
-// 	sockets: {},
-// 	created() {}
-// });
-export default Vue.extend({});
+import VueSocketIOExt from "vue-socket.io-extended";
+import io from "socket.io-client";
+export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
+	sockets: {
+		interview_getInterviewByClubName(data) {
+			console.log(data);
+		}
+	},
+	created() {
+		this.$socket.client.emit("interview_getInterviewByClubName", {
+			clubname: this.getClub.name
+		});
+	},
+	methods: {},
+	computed: {
+		getClub() {
+			return this.$store.state.club;
+		}
+	}
+});
 </script>
 <style scoped>
 .recorder {
