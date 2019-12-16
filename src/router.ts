@@ -24,6 +24,7 @@ import AttendanceCheck from "./views/Community/AttendanceCheck.vue";
 import Calendar from "./views/Community/Calendar.vue";
 import CommunityMembers from "./views/Community/Members.vue";
 import CommunityApplication from "./views/Community/Application.vue";
+import Interview from "./views/Community/Interview.vue";
 import Page404 from "./views/Page404.vue";
 
 Vue.use(Router);
@@ -94,7 +95,8 @@ const router = new Router({
 				{ path: "calendar", name: "community/attendanceCheck", component: AttendanceCheck },
 				{ path: "calendar", name: "community/calendar", component: Calendar },
 				{ path: "members", name: "community/members", component: CommunityMembers },
-				{ path: "application", name: "community/application", component: CommunityApplication }
+				{ path: "application", name: "community/application", component: CommunityApplication },
+				{ path: "interview", name: "community/interview", component: Interview }
 			]
 		},
 		{

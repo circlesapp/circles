@@ -21,6 +21,7 @@
 						class="submenu__list__item"
 						v-if="isAdmin"
 					>출석체크</router-link>
+					<router-link :to="{name:'community/interview'}" class="submenu__list__item" v-if="isAdmin">면접관리</router-link>
 				</div>
 			</div>
 		</transition>

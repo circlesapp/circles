@@ -4,7 +4,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import VueSocketIOExt from "vue-socket.io-extended";
+import io from "socket.io-client";
+export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
+	sockets: {}
+});
 </script>
 
 <style>
