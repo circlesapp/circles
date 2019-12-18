@@ -1,12 +1,8 @@
 <template>
 	<div class="interview">
 		<div class="interview__interviewers">
-			<h2 class="intreview__title">지원서</h2>
-			<draggable
-				:list="applicants"
-				class="interview__draggable"
-				:group="{ name: 'interviewers', pull: 'clone', put: false }"
-			>
+			<h2 class="intreview__title">지원자</h2>
+			<draggable :list="applicants" class="interview__draggable" group="interviewers">
 				<div class="interview__draggable__item" v-for="applicant in applicants" :key="applicant._id">
 					<div class="interview__draggable__item">
 						<p>{{applicant.name}}</p>
@@ -32,7 +28,7 @@
 						<p>{{idx+1}} | {{applicant.name}}</p>
 						<p>{{applicant.number}}</p>
 					</div>
-					<button class="interview__draggable__item__action" @click="interviewerClose(idx)">면접 종료</button>
+					<button class="interview__draggable__item__action" @click="interviewerClose(idx)">완료하기</button>
 				</div>
 			</draggable>
 		</div>
@@ -96,14 +92,17 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		this.$store
 			.dispatch("GET_CLUB_APPLICANT")
 			.then(applicants => {
+				let _ids = this.interviewers.map((x: any) => x._id);
 				this.$store.commit("clearLoading", "GET_CLUB_APPLICANT");
-				this.applicants = applicants.map(x => {
-					return {
-						name: x.name,
-						number: x.number,
-						_id: x._id
-					};
-				});
+				this.applicants = applicants
+					.map(x => {
+						return {
+							name: x.name,
+							number: x.number,
+							_id: x._id
+						};
+					})
+					.filter(x => _ids.indexOf(x._id) == -1);
 			})
 			.catch(err => {});
 	},
@@ -136,6 +135,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			}
 		},
 		interviewerClose(idx: number) {
+			this.applicants.push(this.interviewers[idx]);
 			this.interviewers.splice(idx, 1);
 			this.update();
 		}
@@ -200,6 +200,8 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 .interview__draggable .interview__draggable__item__content {
 	display: flex;
 	justify-content: space-between;
+    flex: 1;
+    margin-right: 10px;
 }
 .interview__draggable .interview__draggable__item__action {
 	display: flex;
@@ -241,12 +243,12 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 }
 
 @media screen and (max-width: 1200px) {
-    .interview{
-        flex-direction: column;
-    }
-    .interview > div{
-        margin-right: 0;
-        margin-bottom: 40px;
-    }
+	.interview {
+		flex-direction: column;
+	}
+	.interview > div {
+		margin-right: 0;
+		margin-bottom: 40px;
+	}
 }
 </style>
