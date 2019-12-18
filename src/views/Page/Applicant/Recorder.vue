@@ -3,90 +3,29 @@
 		<div class="recorder__left">
 			<div class="recorder__item">
 				<div>
-					<p>20611</p>
-					<h3>박종훈</h3>
+					<p>{{getFirst.number}}</p>
+					<h3>{{getFirst.name}}</h3>
 				</div>
 				<div class="recorder__item__information">현재 면접자</div>
 			</div>
 			<div class="recorder__item">
 				<div>
-					<p>20611</p>
-					<h3>박종훈</h3>
+					<p>{{getSecond.number}}</p>
+					<h3>{{getSecond.name}}</h3>
 				</div>
 				<div class="recorder__item__information">다음 면접자</div>
 			</div>
 		</div>
 		<div class="recorder__right">
 			<div class="recorder__list">
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item recorder__list__item-highlight">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
-				</div>
-				<div class="recorder__list__item">
-					<span>1</span>
-					<span>20611</span>
-					<span>박종훈</span>
+				<div
+					class="recorder__list__item"
+					v-for="(interviewer,idx) in interviewers"
+					:key="interviewer._id"
+				>
+					<span>{{idx+1}}</span>
+					<span>{{interviewer.number}}</span>
+					<span>{{interviewer.name}}</span>
 				</div>
 			</div>
 		</div>
@@ -99,23 +38,48 @@ import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
 export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	sockets: {
-		interview_getInterviewByClubName(data) {
-			console.log(data);
+		interview_getInterviewByClubName(this: any, data) {
+			this.$store.commit(
+				"clearLoading",
+				"interview_getInterviewByClubName"
+			);
+			this.isStart = data.result;
+			if (data.result) this.interviewers = data.data.interviewers;
+		},
+		interview_updateInterviewers(this: any, data) {
+			this.interviewers = data.data.interviewers;
 		}
 	},
+	data() {
+		return {
+			isStart: false,
+			interviewers: []
+		};
+	},
 	created() {
+		this.$store.commit("pushLoading", {
+			name: "interview_getInterviewByClubName",
+			message: "면접 불러오는 중"
+		});
 		this.$socket.client.emit("interview_getInterviewByClubName", {
 			clubname: this.getClub.name
 		});
 	},
 	methods: {},
 	computed: {
+		getFirst(): any {
+			return this.interviewers[0] || { name: "-", number: "-" };
+		},
+		getSecond(): any {
+			return this.interviewers[1] || { name: "-", number: "-" };
+		},
 		getClub() {
 			return this.$store.state.club;
 		}
 	}
 });
 </script>
+
 <style scoped>
 .recorder {
 	display: flex;
@@ -159,6 +123,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	background-color: #282828;
 }
 .recorder__item__information {
+	white-space: nowrap;
 	align-self: flex-start;
 	font-family: "NanumSquareL";
 	font-size: 40px;
@@ -183,7 +148,6 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	overflow-y: scroll;
 }
 .recorder__list__item {
-	flex: 1;
 	margin: 8px 40px;
 	font-family: "NanumSquareL";
 	font-size: 40px;

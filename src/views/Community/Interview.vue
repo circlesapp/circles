@@ -17,7 +17,12 @@
 		</div>
 		<div class="interview__applicant">
 			<h2 class="intreview__title">면접자</h2>
-			<draggable :list="interviewers" class="interview__draggable" group="interviewers">
+			<draggable
+				:list="interviewers"
+				class="interview__draggable"
+				group="interviewers"
+				@change="update"
+			>
 				<div
 					class="interview__draggable__item"
 					v-for="(applicant,idx) in interviewers"
@@ -27,13 +32,13 @@
 						<p>{{idx+1}} | {{applicant.name}}</p>
 						<p>{{applicant.number}}</p>
 					</div>
-					<button class="interview__draggable__item__action">면접 종료</button>
+					<button class="interview__draggable__item__action" @click="interviewerClose(idx)">면접 종료</button>
 				</div>
 			</draggable>
 		</div>
 		<div class="interview__action">
-			<button>면접 시작</button>
-			<button>면접 종료</button>
+			<button class="start" @click="start" v-if="!isStart">면접 시작</button>
+			<button class="close" @click="close" v-else>면접 종료</button>
 		</div>
 	</div>
 </template>
@@ -49,17 +54,38 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		draggable
 	},
 	sockets: {
-		interview_getInterviewByClubName(data) {
-			console.log(data);
+		interview_getInterviewByClubName(this: any, data) {
+			this.$store.commit(
+				"clearLoading",
+				"interview_getInterviewByClubName"
+			);
+			this.isStart = data.result;
+			if (data.result) this.interviewers = data.data.interviewers;
+		},
+		interview_startInterview(this: any, data) {
+			this.$store.commit("clearLoading", "interview_startInterview");
+			this.isStart = true;
+		},
+		interview_closeInterview(this: any, data) {
+			this.$store.commit("clearLoading", "interview_closeInterview");
+			this.isStart = false;
+		},
+		interview_updateInterviewers(this: any, data) {
+			this.interviewers = data.data.interviewers;
 		}
 	},
 	data() {
 		return {
 			applicants: [],
-			interviewers: []
+			interviewers: [],
+			isStart: false
 		};
 	},
 	created() {
+		this.$store.commit("pushLoading", {
+			name: "interview_getInterviewByClubName",
+			message: "면접 불러오는 중"
+		});
 		this.$socket.client.emit("interview_getInterviewByClubName", {
 			clubname: this.getClub.name
 		});
@@ -80,6 +106,39 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 				});
 			})
 			.catch(err => {});
+	},
+	methods: {
+		start() {
+			this.$store.commit("pushLoading", {
+				name: "interview_startInterview",
+				message: "면접 시작하는 중"
+			});
+			this.$socket.client.emit("interview_startInterview", {
+				clubname: this.getClub.name,
+				interviewers: this.interviewers
+			});
+		},
+		close() {
+			this.$store.commit("pushLoading", {
+				name: "interview_closeInterview",
+				message: "면접 끝내는 중"
+			});
+			this.$socket.client.emit("interview_closeInterview", {
+				clubname: this.getClub.name
+			});
+		},
+		update() {
+			if (this.isStart) {
+				this.$socket.client.emit("interview_updateInterviewers", {
+					clubname: this.getClub.name,
+					interviewers: this.interviewers
+				});
+			}
+		},
+		interviewerClose(idx: number) {
+			this.interviewers.splice(idx, 1);
+			this.update();
+		}
 	},
 	computed: {
 		getClub(): any {
@@ -121,6 +180,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 }
 .interview__action {
 	flex: 2;
+	min-width: 300px;
 }
 .interview__draggable {
 	height: 100%;
@@ -159,7 +219,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	cursor: pointer;
 }
 .interview__action > button {
-    width: 100%;
+	width: 100%;
 
 	display: flex;
 	justify-content: center;
@@ -176,6 +236,9 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	font-size: 28px;
 	cursor: pointer;
 
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+}
+.interview__action .close {
+	background-color: #ff4475;
 }
 </style>
