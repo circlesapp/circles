@@ -1051,9 +1051,12 @@ input:checked + .menu__right__darktheme__slider:before {
 	background-color: #282828;
 }
 .submenu__list {
+	width: 100%;
 	height: 100%;
 	margin-left: calc(120px + 8em);
-	display: flex;
+
+	overflow-x: auto;
+    white-space: nowrap;
 }
 .submenu__list__item {
 	cursor: pointer;
@@ -1061,7 +1064,7 @@ input:checked + .menu__right__darktheme__slider:before {
 	width: 120px;
 	height: 100%;
 
-	display: flex;
+	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 
