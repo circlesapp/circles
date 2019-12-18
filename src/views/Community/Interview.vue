@@ -64,11 +64,11 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		},
 		interview_startInterview(this: any, data) {
 			this.$store.commit("clearLoading", "interview_startInterview");
-			this.isStart = true;
+			this.isStart = data.result;
 		},
 		interview_closeInterview(this: any, data) {
 			this.$store.commit("clearLoading", "interview_closeInterview");
-			this.isStart = false;
+			this.isStart = !data.result;
 		},
 		interview_updateInterviewers(this: any, data) {
 			this.interviewers = data.data.interviewers;
@@ -235,10 +235,18 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 
 	font-size: 28px;
 	cursor: pointer;
-
-	margin-bottom: 20px;
 }
 .interview__action .close {
 	background-color: #ff4475;
+}
+
+@media screen and (max-width: 1200px) {
+    .interview{
+        flex-direction: column;
+    }
+    .interview > div{
+        margin-right: 0;
+        margin-bottom: 40px;
+    }
 }
 </style>

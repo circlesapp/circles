@@ -46,6 +46,14 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			this.isStart = data.result;
 			if (data.result) this.interviewers = data.data.interviewers;
 		},
+		interview_startInterview(this: any, data) {
+			if (data.result) this.interviewers = data.data.interviewers;
+			this.isStart = data.result;
+		},
+		interview_closeInterview(this: any, data) {
+			if (data.result) this.interviewers = [];
+			this.isStart = !data.result;
+		},
 		interview_updateInterviewers(this: any, data) {
 			this.interviewers = data.data.interviewers;
 		}
