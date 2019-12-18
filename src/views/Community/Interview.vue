@@ -200,8 +200,8 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 .interview__draggable .interview__draggable__item__content {
 	display: flex;
 	justify-content: space-between;
-    flex: 1;
-    margin-right: 10px;
+	flex: 1;
+	margin-right: 10px;
 }
 .interview__draggable .interview__draggable__item__action {
 	display: flex;

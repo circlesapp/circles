@@ -1056,7 +1056,7 @@ input:checked + .menu__right__darktheme__slider:before {
 	margin-left: calc(120px + 8em);
 
 	overflow-x: auto;
-    white-space: nowrap;
+	white-space: nowrap;
 }
 .submenu__list__item {
 	cursor: pointer;
