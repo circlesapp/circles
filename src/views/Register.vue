@@ -36,7 +36,18 @@
 						required
 					/>
 				</div>
-				<button class="register__emailSend" type="button">인증코드 발송</button>
+				<button class="register__emailSend" type="button" @click="sendEmail">인증코드 발송</button>
+			</div>
+			<div class="register__inputwrapper" v-if="isEmailSend">
+				<h3>인증코드 ({{Math.floor(emailSendExipredSecond/60)}}:{{emailSendExipredSecond%60}})</h3>
+				<input
+					minlength="6"
+					maxlength="6"
+					name="code"
+					placeholder="인증코드를 입력하세요."
+					v-model="code"
+					required
+				/>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
@@ -104,12 +115,36 @@ export default Vue.extend({
 			password: "",
 			checkPassword: "",
 			name: "",
+			code: "",
 			profileImage: null as any,
+
+			isEmailSend: false,
+			emailSendExipredInterval: 0,
+			emailSendExipredSecond: 300,
 
 			errorAlert: ""
 		};
 	},
 	methods: {
+		sendEmail() {
+			this.$store.commit("pushLoading", {
+				name: "SEND_EMAIL",
+				message: "이메일 보내는 중"
+			});
+			this.isEmailSend = false;
+			this.$store
+				.dispatch("SEND_EMAIL", { email: this.email })
+				.then(data => {
+					this.$store.commit("clearLoading", "SEND_EMAIL");
+					this.isEmailSend = true;
+					this.emailSendExipredSecond = 300;
+					clearInterval(this.emailSendExipredInterval);
+					this.emailSendExipredInterval = setInterval(() => {
+						this.emailSendExipredSecond--;
+					}, 1000);
+				})
+				.catch(err => console.log(err));
+		},
 		encodeBase64ImageFile(image: File): Promise<string> {
 			return new Promise<string>((resolve, reject) => {
 				if (!image) return resolve("");
@@ -127,53 +162,67 @@ export default Vue.extend({
 			this.profileImage = e.target.files[0];
 		},
 		register() {
-			this.$store.commit("pushLoading", {
-				name: "REGISTER",
-				message: "회원가입 하는 중"
-			});
-			this.encodeBase64ImageFile(this.profileImage)
-				.then(img => {
-					this.$store
-						.dispatch("REGISTER", {
-							email: this.email,
-							password: this.password,
-							name: this.name
-						})
-						.then(token => {
-							if (img) {
-								this.$store
-									.dispatch("SET_PROFILE_IMAGE", {
-										img
-									})
-									.then(() => {
-										this.$store.commit(
-											"clearLoading",
-											"REGISTER"
-										);
-										this.$router.push("/login");
-									})
-									.catch(err => {
-										this.$store.commit(
-											"clearLoading",
-											"REGISTER"
-										);
-										this.errorAlert =
-											err.response.data.message;
-									});
-							} else {
-								this.$store.commit("clearLoading", "REGISTER");
-								this.$router.push("/login");
-							}
-						})
-						.catch(err => {
-							this.$store.commit("clearLoading", "REGISTER");
-							this.errorAlert = err.response.data.message;
-						});
-				})
-				.catch(err => {
-					this.$store.commit("clearLoading", "REGISTER");
-					this.errorAlert = err.response.data.message;
+			if (this.password != this.checkPassword) {
+				this.errorAlert = "비밀번호가 일치하지 않습니다.";
+			} else if (!this.isEmailSend) {
+				this.errorAlert = "이메일 인증이 필요합니다.";
+			} else {
+				this.$store.commit("pushLoading", {
+					name: "REGISTER",
+					message: "회원가입 하는 중"
 				});
+				this.encodeBase64ImageFile(this.profileImage)
+					.then(img => {
+						this.$store
+							.dispatch("REGISTER", {
+								email: this.email,
+								password: this.password,
+								name: this.name,
+								code: this.code
+							})
+							.then(token => {
+								this.$store.commit(
+									"showNotice",
+									"회원가입에 성공하였습니다."
+								);
+								if (img) {
+									this.$store
+										.dispatch("SET_PROFILE_IMAGE", {
+											img
+										})
+										.then(() => {
+											this.$store.commit(
+												"clearLoading",
+												"REGISTER"
+											);
+											this.$router.push("/login");
+										})
+										.catch(err => {
+											this.$store.commit(
+												"clearLoading",
+												"REGISTER"
+											);
+											this.errorAlert =
+												err.response.data.message;
+										});
+								} else {
+									this.$store.commit(
+										"clearLoading",
+										"REGISTER"
+									);
+									this.$router.push("/login");
+								}
+							})
+							.catch(err => {
+								this.$store.commit("clearLoading", "REGISTER");
+								this.errorAlert = err.response.data.message;
+							});
+					})
+					.catch(err => {
+						this.$store.commit("clearLoading", "REGISTER");
+						this.errorAlert = err.response.data.message;
+					});
+			}
 		}
 	}
 });

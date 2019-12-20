@@ -219,7 +219,6 @@ export default Vue.extend({
 		this.loginCheck();
 	},
 	mounted() {
-		this.$store.commit("showNotice", "Notice 테스트");
 		let startX = 0;
 		let endX = 0;
 		addEventListener("touchstart", (e: TouchEvent) => {
