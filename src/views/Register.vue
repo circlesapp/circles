@@ -6,22 +6,9 @@
 				계정 만들기
 				<span>Register</span>
 			</h2>
-			<div class="register__inputwrapper">
+			<div class="register__inputwrapper" v-if="isEmailAuth">
 				<h3>이용약관</h3>
 				<Terms class="register__textarea" />
-			</div>
-			<div class="register__inputwrapper">
-				<h3>이름</h3>
-				<input
-					minlength="2"
-					maxlength="10"
-					autocomplete="username"
-					type="text"
-					name="name"
-					placeholder="이름을 입력하세요."
-					v-model="name"
-					required
-				/>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
@@ -34,22 +21,25 @@
 						placeholder="이메일을 입력하세요."
 						v-model="email"
 						required
+						:disabled="isEmailAuth"
 					/>
 				</div>
-				<button class="register__emailSend" type="button" @click="sendEmail">인증코드 발송</button>
+				<button class="register__emailSend" type="button" @click="sendEmail" v-if="!isEmailAuth">확인</button>
 			</div>
-			<div class="register__inputwrapper" v-if="isEmailSend">
-				<h3>인증코드 ({{Math.floor(emailSendExipredSecond/60)}}:{{emailSendExipredSecond%60}})</h3>
+			<div class="register__inputwrapper" v-if="isEmailAuth">
+				<h3>성명</h3>
 				<input
-					minlength="6"
-					maxlength="6"
-					name="code"
-					placeholder="인증코드를 입력하세요."
-					v-model="code"
+					minlength="2"
+					maxlength="10"
+					autocomplete="username"
+					type="text"
+					name="name"
+					placeholder="성명을 입력하세요."
+					v-model="name"
 					required
 				/>
 			</div>
-			<div class="register__rowwrapper">
+			<div class="register__rowwrapper" v-if="isEmailAuth">
 				<div class="register__inputwrapper">
 					<h3>비밀번호</h3>
 					<input
@@ -79,7 +69,7 @@
 					/>
 				</div>
 			</div>
-			<div class="register__inputwrapper">
+			<div class="register__inputwrapper" v-if="isEmailAuth">
 				<h3>프로필 사진</h3>
 				<label class="register__inputwrapper__file">
 					<input type="file" name="img" accept="image/*" @change="onChangeFile" />
@@ -95,7 +85,7 @@
 				<i class="mdi mdi-alert-circle"></i>
 				{{errorAlert}}
 			</div>
-			<button class="register__button">계정 만들기</button>
+			<button class="register__button" v-if="isEmailAuth">계정 만들기</button>
 		</form>
 	</div>
 </template>
@@ -111,7 +101,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			email: "",
+			email: "" as string,
 			password: "",
 			checkPassword: "",
 			name: "",
@@ -124,6 +114,10 @@ export default Vue.extend({
 
 			errorAlert: ""
 		};
+	},
+	created() {
+		this.email = (this.$route.query.email as string) || "";
+		this.code = (this.$route.query.code as string) || "";
 	},
 	methods: {
 		sendEmail() {
@@ -162,67 +156,77 @@ export default Vue.extend({
 			this.profileImage = e.target.files[0];
 		},
 		register() {
-			if (this.password != this.checkPassword) {
-				this.errorAlert = "비밀번호가 일치하지 않습니다.";
-			} else if (!this.isEmailSend) {
-				this.errorAlert = "이메일 인증이 필요합니다.";
-			} else {
-				this.$store.commit("pushLoading", {
-					name: "REGISTER",
-					message: "회원가입 하는 중"
-				});
-				this.encodeBase64ImageFile(this.profileImage)
-					.then(img => {
-						this.$store
-							.dispatch("REGISTER", {
-								email: this.email,
-								password: this.password,
-								name: this.name,
-								code: this.code
-							})
-							.then(token => {
-								this.$store.commit(
-									"showNotice",
-									"회원가입에 성공하였습니다."
-								);
-								if (img) {
-									this.$store
-										.dispatch("SET_PROFILE_IMAGE", {
-											img
-										})
-										.then(() => {
-											this.$store.commit(
-												"clearLoading",
-												"REGISTER"
-											);
-											this.$router.push("/login");
-										})
-										.catch(err => {
-											this.$store.commit(
-												"clearLoading",
-												"REGISTER"
-											);
-											this.errorAlert =
-												err.response.data.message;
-										});
-								} else {
+			if (this.isEmailAuth) {
+				if (this.password != this.checkPassword) {
+					this.errorAlert = "비밀번호가 일치하지 않습니다.";
+				} else if (!this.isEmailSend) {
+					this.errorAlert = "이메일 인증이 필요합니다.";
+				} else {
+					this.$store.commit("pushLoading", {
+						name: "REGISTER",
+						message: "회원가입 하는 중"
+					});
+					this.encodeBase64ImageFile(this.profileImage)
+						.then(img => {
+							this.$store
+								.dispatch("REGISTER", {
+									email: this.email,
+									password: this.password,
+									name: this.name,
+									code: this.code
+								})
+								.then(token => {
+									this.$store.commit(
+										"showNotice",
+										"회원가입에 성공하였습니다."
+									);
+									if (img) {
+										this.$store
+											.dispatch("SET_PROFILE_IMAGE", {
+												img
+											})
+											.then(() => {
+												this.$store.commit(
+													"clearLoading",
+													"REGISTER"
+												);
+												this.$router.push("/login");
+											})
+											.catch(err => {
+												this.$store.commit(
+													"clearLoading",
+													"REGISTER"
+												);
+												this.errorAlert =
+													err.response.data.message;
+											});
+									} else {
+										this.$store.commit(
+											"clearLoading",
+											"REGISTER"
+										);
+										this.$router.push("/login");
+									}
+								})
+								.catch(err => {
 									this.$store.commit(
 										"clearLoading",
 										"REGISTER"
 									);
-									this.$router.push("/login");
-								}
-							})
-							.catch(err => {
-								this.$store.commit("clearLoading", "REGISTER");
-								this.errorAlert = err.response.data.message;
-							});
-					})
-					.catch(err => {
-						this.$store.commit("clearLoading", "REGISTER");
-						this.errorAlert = err.response.data.message;
-					});
+									this.errorAlert = err.response.data.message;
+								});
+						})
+						.catch(err => {
+							this.$store.commit("clearLoading", "REGISTER");
+							this.errorAlert = err.response.data.message;
+						});
+				}
 			}
+		}
+	},
+	computed: {
+		isEmailAuth() {
+			return this.$route.query.token && this.$route.query.email;
 		}
 	}
 });
@@ -245,7 +249,6 @@ export default Vue.extend({
 
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 }
 .register__rowwrapper {
 	width: 100%;
@@ -298,6 +301,9 @@ export default Vue.extend({
 
 	border: solid 1px #eeeeee;
 	border-radius: 8px;
+}
+.register__inputwrapper input:disabled {
+	background-color: #eeeeee;
 }
 .darkmode .register__inputwrapper input {
 	color: white;
