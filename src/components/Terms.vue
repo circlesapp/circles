@@ -12,7 +12,7 @@
 			은(는) 회사는 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
 		</p>
 		<p class="ls2">
-			○ 본 방침은부터
+			○ 본 방침은
 			<em class="emphasis">2019</em>년 <em class="emphasis">9</em>월 <em class="emphasis">3</em>일부터 시행됩니다.
 		</p>
 		<br />
@@ -127,9 +127,9 @@
 		<br />① Circles. Team(‘https://circlesapp.kr’이하 ‘Circles.) 은(는) 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와
 		같이 개인정보 보호책임자를 지정하고 있습니다.
 		<p class="ls2">
-			<br />▶ 개인정보 보호책임자 <br />성명 : 김현우 <br />직책 : EDCAN 5기 <br />직급 : 대표 <br />연락처 : 0507-0079-7709, admin@hyunwoo.kim, <br />※ 개인정보 보호 담당부서로 연결됩니다.
+			<br />▶ 개인정보 보호책임자 <br />성명 : 김현우 <br />직책 : EDCAN 5기 <br />직급 : 대표 <br />연락처 : 0507-0079-7709, admin@hyunwoo.kim <br />※ 개인정보 보호 담당부서로 연결됩니다.
 			<br />
-			<br />▶ 개인정보 보호 담당부서 <br />부서명 : Circles. Team <br />담당자 : 김현우 <br />연락처 : 0507-0079-7709, admin@hyunwoo.kim, <br />② 정보주체께서는 Circles.
+			<br />▶ 개인정보 보호 담당부서 <br />부서명 : Circles. Team <br />담당자 : 김현우 <br />연락처 : 0507-0079-7709, admin@hyunwoo.kim <br />② 정보주체께서는 Circles.
 			Team(‘https://circlesapp.kr’이하 ‘Circles.) 의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로
 			문의하실 수 있습니다. Circles. Team(‘https://circlesapp.kr’이하 ‘Circles.) 은(는) 정보주체의 문의에 대해 지체 없이 답변 및 처리해드릴 것입니다.
 		</p>
