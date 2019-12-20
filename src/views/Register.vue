@@ -1,6 +1,6 @@
 <template>
 	<div class="register">
-		<div class="register__wrapper">
+		<form class="register__wrapper" action="javascript:void(0);" @submit="register">
 			<h1 class="register__title">circles.</h1>
 			<h2 class="register__text">
 				계정 만들기
@@ -10,23 +10,25 @@
 				<h3>이용약관</h3>
 				<Terms class="register__textarea" />
 			</div>
+			<div class="register__inputwrapper">
+				<h3>이름</h3>
+				<input
+					minlength="2"
+					maxlength="10"
+					autocomplete="username"
+					type="text"
+					name="name"
+					placeholder="이름을 입력하세요."
+					v-model="name"
+					required
+				/>
+			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
-					<h3>이름</h3>
-					<input
-						minlength="2"
-						maxlength="10"
-						type="text"
-						name="name"
-						placeholder="이름을 입력하세요."
-						v-model="name"
-						required
-					/>
-				</div>
-				<div class="register__inputwrapper" style="margin-left:20px;">
 					<h3>이메일</h3>
 					<input
 						minlength="4"
+						autocomplete="email"
 						type="email"
 						name="email"
 						placeholder="이메일을 입력하세요."
@@ -34,40 +36,56 @@
 						required
 					/>
 				</div>
+				<button class="register__emailSend" type="button">인증코드 발송</button>
 			</div>
 			<div class="register__rowwrapper">
 				<div class="register__inputwrapper">
 					<h3>비밀번호</h3>
 					<input
 						required
+						autocomplete="new-password"
 						minlength="4"
 						maxlength="24"
 						type="password"
 						name="password"
 						placeholder="비밀번호를 입력하세요."
-						@keypress="enterPress"
 						v-model="password"
 					/>
 				</div>
 				<div class="register__inputwrapper">
-					<h3>프로필 사진</h3>
-					<label class="register__inputwrapper__file">
-						<input type="file" name="img" accept="image/*" @change="onChangeFile" />
-						<div class="circles__createpopup__content__image__button">
-							<i class="mdi mdi-image-plus"></i>
-						</div>
-						<div class="circles__createpopup__content__image__imagenames" v-if="profileImage">
-							<span class="imagename">{{profileImage.name}}</span>
-						</div>
-					</label>
+					<h3>비밀번호 확인</h3>
+					<input
+						required
+						autocomplete="new-password"
+						minlength="4"
+						maxlength="24"
+						type="password"
+						name="password"
+						placeholder="비밀번호를 다시 입력하세요."
+						v-model="checkPassword"
+						class="checkPassword"
+						:class="{'checkPassword-clear': password && checkPassword == password,'checkPassword-declear': checkPassword && checkPassword != password}"
+					/>
 				</div>
+			</div>
+			<div class="register__inputwrapper">
+				<h3>프로필 사진</h3>
+				<label class="register__inputwrapper__file">
+					<input type="file" name="img" accept="image/*" @change="onChangeFile" />
+					<div class="circles__createpopup__content__image__button">
+						<i class="mdi mdi-image-plus"></i>
+					</div>
+					<div class="circles__createpopup__content__image__imagenames">
+						<span class="imagename">{{ profileImage ? profileImage.name : "사진 없음"}}</span>
+					</div>
+				</label>
 			</div>
 			<div class="register__error" v-if="errorAlert">
 				<i class="mdi mdi-alert-circle"></i>
 				{{errorAlert}}
 			</div>
-			<button class="register__button" @click="register">계정 만들기</button>
-		</div>
+			<button class="register__button">계정 만들기</button>
+		</form>
 	</div>
 </template>
 
@@ -84,6 +102,7 @@ export default Vue.extend({
 		return {
 			email: "",
 			password: "",
+			checkPassword: "",
 			name: "",
 			profileImage: null as any,
 
@@ -91,9 +110,6 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		enterPress(e: any) {
-			if (e.keyCode == 13) this.register();
-		},
 		encodeBase64ImageFile(image: File): Promise<string> {
 			return new Promise<string>((resolve, reject) => {
 				if (!image) return resolve("");
@@ -294,5 +310,52 @@ export default Vue.extend({
 }
 .register__inputwrapper__file input {
 	display: none;
+}
+
+.register__emailSend {
+	position: relative;
+	top: 66px;
+
+	border: 1px solid #eeeeee;
+	border-radius: 5px;
+	background: none;
+	background-color: #3a3a3a;
+
+	width: 150px;
+	height: fit-content;
+	padding: 18px 10px;
+
+	font-family: "NanumSquareL";
+	font-size: 20px;
+	color: white;
+
+	cursor: pointer;
+	transition: 0.2s;
+}
+.register__emailSend:hover {
+	background-color: #273142;
+}
+.register__emailSend:active {
+	background-color: #538fff;
+}
+.checkPassword {
+	transition: 0.2s;
+}
+.checkPassword-clear {
+	border: 1px solid #538fff !important;
+}
+.checkPassword-declear {
+	border: 1px solid #dd4433 !important;
+}
+
+@media screen and (max-width: 768px) {
+	.register__rowwrapper {
+		flex-direction: column;
+	}
+	.register__emailSend {
+		top: 0;
+		width: calc(100% - 20px);
+		align-self: center;
+	}
 }
 </style>

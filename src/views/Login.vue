@@ -1,6 +1,6 @@
 <template>
 	<div class="login">
-		<div class="login__wrapper">
+		<form class="login__wrapper" action="javascript:void(0);" @submit="login">
 			<h1 class="login__title">circles.</h1>
 			<h2 class="login__text">
 				로그인
@@ -8,15 +8,26 @@
 			</h2>
 			<div class="login__inputwrapper">
 				<h3>이메일</h3>
-				<input name="email" type="email" placeholder="이메일을 입력하세요." v-model="email" />
+				<input
+					minlength="4"
+					autocomplete="email"
+					type="email"
+					name="email"
+					placeholder="이메일을 입력하세요."
+					v-model="email"
+					required
+				/>
 			</div>
 			<div class="login__inputwrapper">
 				<h3>비밀번호</h3>
 				<input
-					name="password"
+					required
+					autocomplete="new-password"
+					minlength="4"
+					maxlength="24"
 					type="password"
+					name="password"
 					placeholder="비밀번호를 입력하세요."
-					@keypress="enterPress"
 					v-model="password"
 				/>
 			</div>
@@ -24,10 +35,10 @@
 				<i class="mdi mdi-alert-circle"></i>
 				{{errorAlert}}
 			</p>
-			<button class="login__button" @click="login">로그인</button>
+			<button class="login__button" type="submit">로그인</button>
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
 			<router-link to="/passwordchange" class="login__option" style="margin-bottom:10%;">비밀번호 재설정 ></router-link>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -45,9 +56,6 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		enterPress(e: any) {
-			if (e.keyCode == 13) this.login();
-		},
 		login() {
 			this.$store.commit("pushLoading", {
 				name: "LOGIN",
