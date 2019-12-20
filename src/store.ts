@@ -94,11 +94,39 @@ export default new Vuex.Store({
 						reject(err);
 					});
 			});
-        },
-        SEND_EMAIL({ commit, state }, data) {
+		},
+		CHANGE_PASSWORD({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
-					.post(`${state.mainPath}auth/requestCodedByEmail`, data)
+					.post(`${state.mainPath}auth/changePassword`, data)
+					.then(user => {
+						commit(`setUserToken`, user.data.data);
+						event("action", "LOGIN", "login", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		SEND_REGISTER_EMAIL({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/requestRegisterdByEmail`, data)
+					.then(user => {
+						commit(`setUserToken`, user.data.data);
+						event("action", "SEND_EMAIL", "sendmail", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
+		SEND_CHANGEPASSWORD_EMAIL({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/requestChangePassworddByEmail`, data)
 					.then(user => {
 						commit(`setUserToken`, user.data.data);
 						event("action", "SEND_EMAIL", "sendmail", user.data.data);

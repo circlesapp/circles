@@ -86,6 +86,7 @@
 				{{errorAlert}}
 			</div>
 			<button class="register__button" v-if="isEmailAuth">계정 만들기</button>
+			<button class="register__button" type="button" @click="$router.push({name:'login'})" v-else>돌아가기</button>
 		</form>
 	</div>
 </template>
@@ -108,34 +109,27 @@ export default Vue.extend({
 			code: "",
 			profileImage: null as any,
 
-			isEmailSend: false,
-			emailSendExipredInterval: 0,
-			emailSendExipredSecond: 300,
-
 			errorAlert: ""
 		};
 	},
 	created() {
 		this.email = (this.$route.query.email as string) || "";
-		this.code = (this.$route.query.code as string) || "";
+		this.code = (this.$route.query.token as string) || "";
 	},
 	methods: {
 		sendEmail() {
 			this.$store.commit("pushLoading", {
-				name: "SEND_EMAIL",
+				name: "SEND_REGISTER_EMAIL",
 				message: "이메일 보내는 중"
 			});
-			this.isEmailSend = false;
 			this.$store
-				.dispatch("SEND_EMAIL", { email: this.email })
+				.dispatch("SEND_REGISTER_EMAIL", { email: this.email })
 				.then(data => {
-					this.$store.commit("clearLoading", "SEND_EMAIL");
-					this.isEmailSend = true;
-					this.emailSendExipredSecond = 300;
-					clearInterval(this.emailSendExipredInterval);
-					this.emailSendExipredInterval = setInterval(() => {
-						this.emailSendExipredSecond--;
-					}, 1000);
+					this.$store.commit("clearLoading", "SEND_REGISTER_EMAIL");
+					this.$store.commit(
+						"showNotice",
+						`${this.email} 메일을 확인하세요`
+					);
 				})
 				.catch(err => console.log(err));
 		},
@@ -159,8 +153,6 @@ export default Vue.extend({
 			if (this.isEmailAuth) {
 				if (this.password != this.checkPassword) {
 					this.errorAlert = "비밀번호가 일치하지 않습니다.";
-				} else if (!this.isEmailSend) {
-					this.errorAlert = "이메일 인증이 필요합니다.";
 				} else {
 					this.$store.commit("pushLoading", {
 						name: "REGISTER",
@@ -190,7 +182,7 @@ export default Vue.extend({
 													"clearLoading",
 													"REGISTER"
 												);
-												this.$router.push("/login");
+												this.$router.replace("/login");
 											})
 											.catch(err => {
 												this.$store.commit(
@@ -205,7 +197,7 @@ export default Vue.extend({
 											"clearLoading",
 											"REGISTER"
 										);
-										this.$router.push("/login");
+										this.$router.replace("/login");
 									}
 								})
 								.catch(err => {
@@ -249,6 +241,7 @@ export default Vue.extend({
 
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 }
 .register__rowwrapper {
 	width: 100%;
