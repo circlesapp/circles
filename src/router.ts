@@ -80,7 +80,6 @@ const router = new Router({
 				{ path: "budgets", name: "page/budgets", component: Budgets },
 				{
 					path: "applicant",
-					name: "page/applicant",
 					component: Applicant,
 					children: [
 						{ path: "", name: "page/applicant/main", component: ApplicantMain },
