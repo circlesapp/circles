@@ -15,7 +15,6 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 	return outputArray;
 }
 
-//0DPpRHxMgLTWBLaPx89EWzdwm9LgMnINQrlc7rUZHyI
 let applicationServerKey = "BOv3hzFFm8Vac3tXPsNT9CmOEBvJA3kUfJ3C0QMI33VaeN8Gl8hs9GBcg1xtECK53YeF7dm9Dzc8YQfdmno8z28";
 function pushReady() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {

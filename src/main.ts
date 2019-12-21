@@ -21,7 +21,9 @@ try {
 			Notification.requestPermission(function(status) {});
 		}
 	}
-} catch (err) {}
+} catch (err) {
+	console.log("No Notification");
+}
 
 new Vue({
 	router,
