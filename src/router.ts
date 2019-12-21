@@ -6,6 +6,7 @@ import Search from "./views/Search.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import PasswordChange from "./views/PasswordChange.vue";
+import Sitemap from "./views/Sitemap.vue";
 import Page from "./views/Page.vue";
 import Site from "./views/Site.vue";
 import Community from "./views/Community.vue";
@@ -57,6 +58,11 @@ const router = new Router({
 			path: "/passwordchange",
 			name: "passwordchange",
 			component: PasswordChange
+		},
+		{
+			path: "/sitemap",
+			name: "sitemap",
+			component: Sitemap
 		},
 		{
 			path: "/:club",
