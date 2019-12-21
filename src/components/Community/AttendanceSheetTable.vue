@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<AttendanceSheetItem v-for="member in getOrderedItems" :key="member._id" :data="member" @click="$emit('click', $event)" />
+				<AttendanceSheetItem v-for="member in getOrderedItems" :key="member._id" :data="member" />
 			</tbody>
 		</table>
 	</div>

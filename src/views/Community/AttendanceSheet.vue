@@ -6,9 +6,10 @@
 		<div class="attendanceSheet__head">
 			<div class="attendanceSheet__head__wrapper">
 				<h2 class="attendanceSheet__title">출석부</h2>
+				<p class="attendanceSheet__description">출석부는 접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable :members="members" @click="createEditor($event)" />
+		<AttendanceSheetTable :members="members" @click="createEditor($event)" @ifChangeState="changeState" />
 	</div>
 </template>
 
@@ -21,10 +22,23 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			// members: [] as any[]
 			members: [
-				{ id: 0, name: "박종훈", role: "부장", day1: true, day2: false, day3: true, day4: false },
-				{ id: 1, name: "김현우", role: "부원", day1: false, day2: true, day3: true, day4: false }
+				{
+					id: 0,
+					name: "박종훈",
+					role: "부장",
+					day1: { state: 1, comment: "가나다라마" },
+					day2: { state: 2, comment: "가나다라마" },
+					day3: { state: 0, comment: "가나다라마" }
+				},
+				{
+					id: 1,
+					name: "김현우",
+					role: "부원",
+					day1: { state: 0, comment: "가나다라마" },
+					day2: { state: 1, comment: "가나다라마" },
+					day3: { state: 2, comment: "가나다라마" }
+				}
 			],
 			showEditor: false,
 			currentId: ""
@@ -34,6 +48,13 @@ export default Vue.extend({
 		// this.reload();
 	},
 	methods: {
+		changeState(e: any) {
+			this.currentId = e.id;
+			console.log(e.day);
+		},
+		createEditor(e: any) {
+			console.log(e);
+		}
 		// reload() {
 		// 	this.isShowBudgetCreatePopup = false;
 		// 	this.$store.commit("pushPageLoading", {
@@ -143,24 +164,20 @@ export default Vue.extend({
 	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
 }
 .attendanceSheet__head__wrapper {
-	display: flex;
-	align-items: center;
 }
 .attendanceSheet__title {
-	margin-bottom: 30px;
 	font-family: "NanumSquareEB";
 	font-size: 38px;
 	font-weight: 800;
 }
-.attendanceSheet__price {
-	font-size: 20px;
+.attendanceSheet__description {
+	font-size: 16px;
 	font-weight: 800;
 	color: #9cb2cd;
-	margin-left: 20px;
 	margin-bottom: 20px;
 }
 
-.attendanceSheet__contextmenu {
+.attendanceSheet__editor {
 	position: fixed;
 
 	width: 100px;
@@ -172,21 +189,21 @@ export default Vue.extend({
 
 	z-index: 100;
 }
-.attendanceSheet__contextmenu__item {
+.attendanceSheet__editor__item {
 	cursor: pointer;
 	padding: 10px;
 	color: #273142;
 
 	text-align: center;
 }
-.attendanceSheet__contextmenu__item.delete {
+.attendanceSheet__editor__item.delete {
 	color: #e02020;
 }
-.attendanceSheet__contextmenu__item:hover {
+.attendanceSheet__editor__item:hover {
 	background-color: #9cb2cd;
 	color: white;
 }
-.attendanceSheet__contextmenu__item.delete:hover {
+.attendanceSheet__editor__item.delete:hover {
 	background-color: #e02020;
 }
 </style>
