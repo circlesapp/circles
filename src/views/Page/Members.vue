@@ -20,7 +20,7 @@ export default Vue.extend({
 	created() {
 		this.$store.commit("pushPageLoading", {
 			name: "GET_CLUB_MEMBERS",
-			message: "동아리 부원 불러오는 중"
+			message: "동아리 멤버 불러오는 중"
 		});
 		this.$store
 			.dispatch("GET_CLUB_MEMBERS")

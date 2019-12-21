@@ -26,7 +26,7 @@ export default Vue.extend({
 				{
 					id: 0,
 					name: "박종훈",
-					role: "부장",
+					role: "대표",
 					day1: { state: 1, comment: "가나다라마" },
 					day2: { state: 2, comment: "가나다라마" },
 					day3: { state: 0, comment: "가나다라마" }
@@ -34,7 +34,7 @@ export default Vue.extend({
 				{
 					id: 1,
 					name: "김현우",
-					role: "부원",
+					role: "멤버",
 					day1: { state: 0, comment: "가나다라마" },
 					day2: { state: 1, comment: "가나다라마" },
 					day3: { state: 2, comment: "가나다라마" }

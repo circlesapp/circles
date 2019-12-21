@@ -1,12 +1,8 @@
 <template>
 	<div class="memberbox">
-		<img
-			class="memberbox__img"
-			:src="data.imgPath ? getMainPath+data.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
-			alt="member_profile"
-		/>
-		<h3>{{data.name}}</h3>
-		<h4>부원</h4>
+		<img class="memberbox__img" :src="data.imgPath ? getMainPath + data.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt="member_profile" />
+		<h3>{{ data.name }}</h3>
+		<h4>멤버</h4>
 		<!-- TODO: 컨텐츠 처리해야함 -->
 		<p>안녕하세요</p>
 	</div>
