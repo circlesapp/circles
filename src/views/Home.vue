@@ -332,6 +332,13 @@ export default Vue.extend({
     background-color: white;
     color: #538fff;
     border-radius: 11px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+    transition: 0.2s;
+    cursor: pointer;
+}
+.home__start:hover {
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4);
 }
 
 .home__right {
