@@ -51,7 +51,9 @@ if (process.env.NODE_ENV === "production") {
 						startNotification();
 					}
 				}
-			} catch (err) {}
+			} catch (err) {
+				console.log("No Notification");
+			}
 			console.log("Service worker has been registered.");
 		},
 		cached() {
