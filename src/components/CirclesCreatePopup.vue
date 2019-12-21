@@ -8,13 +8,7 @@
 			<div class="circles__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>동아리명</h4>
-					<input
-						ref="startInput"
-						v-model="name"
-						class="inputfield__input"
-						type="text"
-						placeholder="동아리명을 입력하세요"
-					/>
+					<input ref="startInput" v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>소속학교</h4>
@@ -33,28 +27,22 @@
 							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>
 							<div
 								class="inputfield__searchSchool__list__item"
-								:class="{'inputfield__searchSchool__list__item-active':idx==schoolCurrentIndex}"
-								v-for="(school,idx) in schoolList"
+								:class="{ 'inputfield__searchSchool__list__item-active': idx == schoolCurrentIndex }"
+								v-for="(school, idx) in schoolList"
 								:key="school.name"
 								@click="selectSchool(school.name)"
-							>{{school.name}}</div>
+							>
+								{{ school.name }}
+							</div>
 						</div>
-						<div
-							class="inputfield__searchSchool__list inputfield__searchSchool__list-nosearch"
-							v-else-if="isShowSearchSchool"
-						>
+						<div class="inputfield__searchSchool__list inputfield__searchSchool__list-nosearch" v-else-if="isShowSearchSchool">
 							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>검색할 학교를 입력하세요
 						</div>
 					</div>
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
-					<input
-						v-model="introduction"
-						class="inputfield__input"
-						type="text"
-						placeholder="동아리 소개를 입력하세요"
-					/>
+					<input v-model="introduction" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
 				</div>
 				<div class="inputfield">
 					<h4>동아리 로고</h4>
@@ -65,7 +53,7 @@
 								<i class="mdi mdi-image-plus"></i>
 							</div>
 							<div class="circles__createpopup__content__image__imagenames">
-								<span class="imagename">{{image.name}}</span>
+								<span class="imagename">{{ image.name }}</span>
 							</div>
 						</label>
 					</span>
@@ -73,7 +61,7 @@
 			</div>
 			<div class="circles__createpopup__content__error" v-if="errorAlert">
 				<i class="mdi mdi-alert-circle"></i>
-				{{errorAlert}}
+				{{ errorAlert }}
 			</div>
 			<div class="circles__createpopup__content__actions">
 				<button class="create" @click="create">만들기</button>
@@ -158,22 +146,18 @@ export default Vue.extend({
 			});
 		},
 		schoolKeyPress(e: any) {
-			if (this.schoolCurrentIndex >= this.schoolList.length)
-				this.schoolCurrentIndex = this.schoolList.length;
+			if (this.schoolCurrentIndex >= this.schoolList.length) this.schoolCurrentIndex = this.schoolList.length;
 			switch (e.keyCode) {
 				case 13:
 					if (this.isShowSearchSchool && this.schoolList.length) {
-						this.selectSchool(
-							this.schoolList[this.schoolCurrentIndex].name
-						);
+						this.selectSchool(this.schoolList[this.schoolCurrentIndex].name);
 					}
 					break;
 				case 38:
 					if (this.schoolCurrentIndex > 0) this.schoolCurrentIndex--;
 					break;
 				case 40:
-					if (this.schoolCurrentIndex < this.schoolList.length - 1)
-						this.schoolCurrentIndex++;
+					if (this.schoolCurrentIndex < this.schoolList.length - 1) this.schoolCurrentIndex++;
 					break;
 			}
 		},
@@ -459,6 +443,10 @@ export default Vue.extend({
 	background-color: white;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
 }
+.darkmode .inputfield__searchSchool__list {
+	background-color: #333;
+}
+
 .inputfield__searchSchool__list__item {
 	padding: 10px;
 	cursor: pointer;
@@ -467,6 +455,10 @@ export default Vue.extend({
 .inputfield__searchSchool__list__item-active {
 	background-color: #eeeeee;
 }
+.darkmode .inputfield__searchSchool__list__item-active {
+	background-color: #464646;
+}
+
 .inputfield__searchSchool__list-nosearch {
 	display: flex;
 	justify-content: center;
