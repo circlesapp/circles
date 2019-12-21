@@ -1,8 +1,6 @@
 <template>
 	<div class="attendanceCheck">
-		<div class="attendanceCheck__datepick">
-            날짜
-        </div>
+		<div class="attendanceCheck__datepick">날짜</div>
 	</div>
 </template>
 
