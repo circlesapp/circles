@@ -9,7 +9,7 @@
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable :dates="dates" :datas="datas" @click="createEditor($event)" @changeState="changeState" />
+		<AttendanceSheetTable :colors="colors" :dates="dates" :datas="datas" @click="createEditor($event)" @changeState="changeState" />
 	</div>
 </template>
 
@@ -32,15 +32,15 @@ export default Vue.extend({
 			colors: {
 				red: "#db4437",
 				orange: "#fe9900",
-				yellow: "#e6ba3a",
-				green: "0f8f50",
-				blue: "4682f4",
-				purple: "6834b7"
+				yellow: "#f5bf4f",
+				green: "#0f8f50",
+				blue: "#4682f4",
+				purple: "#6834b7"
 			},
 			dates: [
-				{ date: "2019-12-01", label: "나눔축제" },
-				{ date: "2019-12-02", label: "DDP" },
-				{ date: "2019-12-03", label: "SETEC" }
+				{ idx: 0, date: "2019-12-01", label: "나눔축제" },
+				{ idx: 1, date: "2019-12-02", label: "DDP" },
+				{ idx: 2, date: "2019-12-03", label: "SETEC" }
 			],
 			members: [] as any[],
 			datas: [
@@ -104,10 +104,12 @@ export default Vue.extend({
 	methods: {
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
-			this.datas[idx].attendances[this.dates[e.day].date].state++;
-			if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
-				this.datas[idx].attendances[this.dates[e.day].date].state = 0;
-			}
+			this.datas[idx].attendances[this.dates[e.day].date].state = e.state;
+
+			// this.datas[idx].attendances[this.dates[e.day].date].state++;
+			// if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
+			// 	this.datas[idx].attendances[this.dates[e.day].date].state = 0;
+			// }
 		},
 		createEditor(e: any) {
 			console.log(e);

@@ -11,7 +11,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<AttendanceSheetItem :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
+				<AttendanceSheetItem :colors="colors" :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
 	</div>
@@ -25,6 +25,7 @@ export default Vue.extend({
 		AttendanceSheetItem
 	},
 	props: {
+		colors: Object,
 		dates: Array,
 		datas: Array
 	},
@@ -43,7 +44,7 @@ export default Vue.extend({
 			}
 		},
 		changeState(e: any) {
-			this.$emit("changeState", { id: e.id, day: e.day });
+			this.$emit("changeState", { id: e.id, day: e.day, state: e.state });
 		},
 		datePick(d: any) {}
 	},
