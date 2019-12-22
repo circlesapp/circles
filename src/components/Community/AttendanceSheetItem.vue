@@ -9,8 +9,7 @@
 				<button v-else-if="data.attendances[dates[0].date].state == 1" class="state__1">출석</button>
 				<button v-else-if="data.attendances[dates[0].date].state == 2" class="state__2">지각</button>
 			</div>
-			<div></div>
-			<button>편집</button>
+			<textarea v-model="data.attendances[dates[0].date].comment"></textarea>
 		</td>
 		<td>
 			<div class="attendanceSheetItem__state" @click="$emit('changeState', { id: data._id, day: 1 })">
@@ -18,6 +17,7 @@
 				<button v-else-if="data.attendances[dates[1].date].state == 1" class="state__1">출석</button>
 				<button v-else-if="data.attendances[dates[1].date].state == 2" class="state__2">지각</button>
 			</div>
+			<textarea v-model="data.attendances[dates[1].date].comment"></textarea>
 		</td>
 		<td>
 			<div class="attendanceSheetItem__state" @click="$emit('changeState', { id: data._id, day: 2 })">
@@ -25,6 +25,7 @@
 				<button v-else-if="data.attendances[dates[2].date].state == 1" class="state__1">출석</button>
 				<button v-else-if="data.attendances[dates[2].date].state == 2" class="state__2">지각</button>
 			</div>
+			<textarea v-model="data.attendances[dates[2].date].comment"></textarea>
 		</td>
 	</tr>
 </template>
