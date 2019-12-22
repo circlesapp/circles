@@ -39,7 +39,6 @@ export default Vue.extend({
 	padding: 50px;
 
 	position: relative;
-	transition: 0.5s;
 }
 .darkTheme .awardbox {
 	background-color: #282828;

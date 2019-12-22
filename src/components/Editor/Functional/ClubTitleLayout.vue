@@ -3,8 +3,8 @@
 		<div class="clubtitleLayout__imgwrapper">
 			<img :src="getImgPath" alt="club_logo" />
 		</div>
-		<h1>{{getClub.name}}</h1>
-		<router-link :to="{'name':'page/timeline'}" tag="p">타임라인으로 이동하기</router-link>
+		<h1>{{ getClub.name }}</h1>
+		<router-link :to="{ name: 'page/timeline' }" tag="p">타임라인으로 이동하기</router-link>
 	</div>
 </template>
 
@@ -16,10 +16,8 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		getImgPath(): string {
-			if (this.getClub.imgPath)
-				return this.$store.state.mainPath + this.getClub.imgPath;
-			else
-				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.getClub.imgPath) return this.$store.state.mainPath + this.getClub.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		}
 	}
 });

@@ -90,8 +90,6 @@ export default Vue.extend({
 	background-color: white;
 	font-family: "NanumSquareEB";
 	color: #9cb2cd;
-
-	transition: 0.5s;
 }
 .darkTheme .budgettablebox {
 	background-color: #282828;

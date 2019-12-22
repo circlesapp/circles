@@ -349,7 +349,6 @@ export default Vue.extend({
 	touch-action: none;
 
 	position: relative;
-	transition: 0.5s;
 }
 .darkTheme .calendar__content {
 	background-color: #282828;
@@ -400,8 +399,6 @@ export default Vue.extend({
 	background-color: #538fff;
 
 	opacity: 0.8;
-
-	transition: 0.5s;
 
 	text-align: right;
 	color: white;

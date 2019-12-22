@@ -23,8 +23,6 @@ export default {};
 	background-color: #538fff;
 	color: white;
 	padding: 15px 100px;
-
-	transition: 0.5s;
 	cursor: pointer;
 }
 .darkTheme .applyButtonLayout button {

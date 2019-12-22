@@ -338,7 +338,6 @@ export default Vue.extend({
 	position: relative;
 
 	overflow: hidden;
-	transition: 0.5s;
 }
 .darkTheme .post {
 	background-color: #282828;

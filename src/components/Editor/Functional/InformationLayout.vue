@@ -1,7 +1,7 @@
 <template>
-	<div class="informationLayout" @contextmenu="$emit('contextmenu',$event)">
+	<div class="informationLayout" @contextmenu="$emit('contextmenu', $event)">
 		<h2>동아리 소개</h2>
-		<p>{{getClub.introduction}}</p>
+		<p>{{ getClub.introduction }}</p>
 	</div>
 </template>
 

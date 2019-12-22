@@ -190,8 +190,6 @@ export default Vue.extend({
 
 	overflow-y: auto;
 
-	transition: 0.5s;
-
 	z-index: 500;
 }
 .darkTheme .editor__menu {

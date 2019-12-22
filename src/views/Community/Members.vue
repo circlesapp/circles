@@ -8,31 +8,20 @@
 						<th style="width:10%; text-align:center;">번호</th>
 						<th style="width:40%;" @click="orderBy('user.name')">
 							이름
-							<i
-								class="mdi mdi-arrow-down"
-								:class="{'order-active':sortKey == 'user.name','order-rotate':sortBy}"
-							></i>
+							<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'user.name', 'order-rotate': sortBy }"></i>
 						</th>
 						<th style="width:50%;" @click="orderBy('rank')">
 							역할
-							<i
-								class="mdi mdi-arrow-down"
-								:class="{'order-active':sortKey == 'rank','order-rotate':sortBy}"
-							></i>
+							<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'rank', 'order-rotate': sortBy }"></i>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr
-						v-for="(member,idx) in getOrderedMembers"
-						:key="member._id"
-						@click="currentUser=idx"
-						:class="{'active':currentUser == idx}"
-					>
-						<td>{{idx}}</td>
-						<td>{{member.user.name}}</td>
+					<tr v-for="(member, idx) in getOrderedMembers" :key="member._id" @click="currentUser = idx" :class="{ active: currentUser == idx }">
+						<td>{{ idx }}</td>
+						<td>{{ member.user.name }}</td>
 						<td>
-							{{getRankString(member.rank)}}
+							{{ getRankString(member.rank) }}
 							<i class="mdi mdi-key" v-if="member.rank == 'admin'"></i>
 						</td>
 					</tr>
@@ -44,148 +33,75 @@
 					<div class="rankEditor__wrapper">
 						<div class="ranks__wrapper">
 							<ul class="ranks">
-								<li
-									:class="{'ranks__item-active':currentRank == idx}"
-									v-for="(rank,idx) in getClub.ranks"
-									:key="idx"
-									@click="currentRank=idx"
-								>
-									<input
-										type="text"
-										v-if="getClub.ranks[idx].name != 'admin' && getClub.ranks[idx].name != 'default'"
-										v-model="rank.name"
-									/>
-									<span v-else>{{rank.name}}</span>
+								<li :class="{ 'ranks__item-active': currentRank == idx }" v-for="(rank, idx) in getClub.ranks" :key="idx" @click="currentRank = idx">
+									<input type="text" v-if="getClub.ranks[idx].name != 'admin' && getClub.ranks[idx].name != 'default'" v-model="rank.name" />
+									<span v-else>{{ rank.name }}</span>
 								</li>
 								<li class="rankcreate" @click="appendRank">+</li>
 							</ul>
 							<div class="rankPermission">
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="1"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="1" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									글 쓰기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="2"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="2" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									글 읽기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="3"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="3" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									글 삭제 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="11"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="11" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									수상 쓰기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="12"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="12" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									수상 읽기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="13"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="13" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									수상 삭제 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="31"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="31" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									지원서 수락 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="32"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="32" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									지원서 읽기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="33"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="33" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									지원서 삭제 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="41"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="41" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									캘린더 생성 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="42"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="42" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									캘린더 읽기 권한
 								</label>
 								<label>
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].permission"
-										value="43"
-										:disabled="getClub.ranks[currentRank].isAdmin"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].permission" value="43" :disabled="getClub.ranks[currentRank].isAdmin" />
 									<span></span>
 									캘린더 삭제 권한
 								</label>
 								<label class="admin">
-									<input
-										type="checkbox"
-										v-model="getClub.ranks[currentRank].isAdmin"
-										:disabled="getClub.ranks[currentRank].name == 'admin'"
-									/>
+									<input type="checkbox" v-model="getClub.ranks[currentRank].isAdmin" :disabled="getClub.ranks[currentRank].name == 'admin'" />
 									<span></span>
 									관리자 권한
 								</label>
@@ -193,23 +109,19 @@
 						</div>
 
 						<div class="rankAction">
-							<div
-								class="delete"
-								v-if="getClub.ranks[currentRank].name != 'admin' && getClub.ranks[currentRank].name != 'default'"
-								@click="removeRank(currentRank)"
-							>삭제</div>
+							<div class="delete" v-if="getClub.ranks[currentRank].name != 'admin' && getClub.ranks[currentRank].name != 'default'" @click="removeRank(currentRank)">삭제</div>
 						</div>
 					</div>
 				</div>
 				<div class="userInformation" v-if="getOrderedMembers[currentUser]">
 					<div class="titlewrapper">
-						<h2 class="name">{{getOrderedMembers[currentUser].user.name}}</h2>
-						<h3 class="rank">{{getRankString(getOrderedMembers[currentUser].rank)}}</h3>
+						<h2 class="name">{{ getOrderedMembers[currentUser].user.name }}</h2>
+						<h3 class="rank">{{ getRankString(getOrderedMembers[currentUser].rank) }}</h3>
 					</div>
 					<div class="userInformation__item rankSelect">
 						<h3>역할</h3>
 						<select v-model="getOrderedMembers[currentUser].rank">
-							<option :value="rank.id" v-for="rank in getClub.ranks" :key="rank.id">{{rank.name}}</option>
+							<option :value="rank.id" v-for="rank in getClub.ranks" :key="rank.id">{{ rank.name }}</option>
 						</select>
 					</div>
 					<div class="userInformation__item isPass">
@@ -220,11 +132,7 @@
 						</p>
 					</div>
 					<div class="action">
-						<button
-							class="fire"
-							@click="fire"
-							v-if="getOrderedMembers[currentUser].user._id != getClub.owner"
-						>퇴출</button>
+						<button class="fire" @click="fire" v-if="getOrderedMembers[currentUser].user._id != getClub.owner">퇴출</button>
 						<button class="save" @click="commit">변경 사항 저장</button>
 					</div>
 				</div>
@@ -263,10 +171,7 @@ export default Vue.extend({
 			this.$store
 				.dispatch("GET_CLUB_DETAIL_MEMBERS")
 				.then(members => {
-					this.$store.commit(
-						"clearLoading",
-						"GET_CLUB_DETAIL_MEMBERS"
-					);
+					this.$store.commit("clearLoading", "GET_CLUB_DETAIL_MEMBERS");
 
 					this.members = members;
 				})
@@ -339,8 +244,7 @@ export default Vue.extend({
 				return this.members;
 			} else {
 				return this.members.sort((a: any, b: any): any => {
-					if (this.sortBy)
-						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
 			}
@@ -554,12 +458,7 @@ export default Vue.extend({
 .communityMembers__controlPanel .rankPermission label input:checked + span {
 	background-color: #538fff;
 }
-.darkTheme
-	.communityMembers__controlPanel
-	.rankPermission
-	label
-	input:checked
-	+ span {
+.darkTheme .communityMembers__controlPanel .rankPermission label input:checked + span {
 	background-color: white;
 }
 .communityMembers__controlPanel .rankPermission label input:disabled + span {

@@ -1,13 +1,8 @@
 <template>
-	<div class="membersLayout" @contextmenu="$emit('contextmenu',$event)">
+	<div class="membersLayout" @contextmenu="$emit('contextmenu', $event)">
 		<h2>멤버 소개</h2>
 		<div class="membersLayout__list">
-			<MemberBox
-				class="membersLayout__list__item"
-				v-for="(member,idx) in members"
-				:key="idx"
-				:data="member"
-			></MemberBox>
+			<MemberBox class="membersLayout__list__item" v-for="(member, idx) in members" :key="idx" :data="member"></MemberBox>
 		</div>
 	</div>
 </template>

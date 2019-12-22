@@ -126,7 +126,6 @@ export default Vue.extend({
 	align-items: center;
 
 	margin-bottom: 20px;
-	transition: 0.5s;
 }
 .darkTheme .award__club {
 	background-color: #282828;
@@ -169,7 +168,6 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	font-size: 45px;
 	color: #273142;
-	transition: 0.5s;
 }
 .darkTheme .award__club h3 {
 	color: white;
@@ -214,7 +212,7 @@ export default Vue.extend({
 	color: #9cb2cd;
 	font-size: 40px;
 
-	transition: 0.5s;
+	transition: 0.2s;
 	transform: scale(0.99);
 }
 .award__list__item__create:hover {

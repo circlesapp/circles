@@ -2,7 +2,7 @@
 	<div class="applicant__main">
 		<div class="applicant__main__item" v-if="isJoinCurrentClub">
 			<i class="mdi mdi-check"></i>
-			<h2>{{getUserInformation.name}} 님</h2>
+			<h2>{{ getUserInformation.name }} 님</h2>
 			<p>
 				이미 가입한
 				<br />동아리 입니다.
@@ -16,22 +16,17 @@
 				<br />이용 가능합니다.
 			</p>
 		</div>
-		<router-link
-			v-else
-			tag="div"
-			:to="{name:'page/applicant/application'}"
-			class="applicant__main__item"
-		>
+		<router-link v-else tag="div" :to="{ name: 'page/applicant/application' }" class="applicant__main__item">
 			<i class="mdi mdi-file-document"></i>
-			<h2>지원서 {{getIsModificationText}}</h2>
+			<h2>지원서 {{ getIsModificationText }}</h2>
 			<p>
 				동아리 지원을 위한
 				<br />
-				지원서를 {{getIsModificationText}}합니다.
+				지원서를 {{ getIsModificationText }}합니다.
 			</p>
 			<div class="modification" v-if="isModification">지원서 수정 ></div>
 		</router-link>
-		<router-link tag="div" :to="{name:'page/applicant/recorder'}" class="applicant__main__item">
+		<router-link tag="div" :to="{ name: 'page/applicant/recorder' }" class="applicant__main__item">
 			<i class="mdi mdi-voice"></i>
 			<h2>페이저 수신기</h2>
 			<p>
@@ -39,7 +34,7 @@
 				<br />페이저 수신기입니다.
 			</p>
 		</router-link>
-		<router-link tag="div" :to="{name:'page/applicant/result'}" class="applicant__main__item">
+		<router-link tag="div" :to="{ name: 'page/applicant/result' }" class="applicant__main__item">
 			<i class="mdi mdi-clipboard-check"></i>
 			<h2>결과 확인</h2>
 			<p>
@@ -82,11 +77,7 @@ export default Vue.extend({
 	computed: {
 		isJoinCurrentClub() {
 			try {
-				return (
-					this.$store.state.userInformation.clubs.findIndex(
-						(x: any) => x._id == this.$store.state.club._id
-					) != -1
-				);
+				return this.$store.state.userInformation.clubs.findIndex((x: any) => x._id == this.$store.state.club._id) != -1;
 			} catch (e) {
 				return false;
 			}
@@ -126,7 +117,6 @@ export default Vue.extend({
 	justify-content: center;
 	align-items: center;
 
-	transition: 0.5s;
 	cursor: pointer;
 }
 .darkTheme .applicant__main__item {
