@@ -71,7 +71,11 @@
 							class="menu__left__list__item btn__logout menu__left__list__item__pwa"
 							@click="logout"
 						>로그아웃</div>
-						<div class="menu__left__list__bar" ref="bar" :style="`left:${barPositionX}`"></div>
+						<div
+							class="menu__left__list__bar"
+							ref="bar"
+							:style="`left:${barPositionX};${idx == -1 ? 'display:none;' :''}`"
+						></div>
 					</nav>
 				</header>
 				<transition name="fade">
