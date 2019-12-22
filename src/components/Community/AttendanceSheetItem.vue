@@ -36,11 +36,6 @@ export default Vue.extend({
 	props: {
 		dates: Array,
 		data: Object
-	},
-	methods: {
-		changeState(day: number) {
-			this.data.day1.state = 1;
-		}
 	}
 });
 </script>
