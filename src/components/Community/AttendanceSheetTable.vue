@@ -6,14 +6,13 @@
 					<th @click="orderBy('id')"># <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<th @click="datePick(1)">D1</th>
-					<th @click="datePick(2)">D2</th>
-					<th @click="datePick(3)">D3</th>
-					<th @click="datePick(4)">D4</th>
+					<th @click="datePick(1)">{{ dates[0] }}</th>
+					<th @click="datePick(2)">{{ dates[1] }}</th>
+					<th @click="datePick(3)">{{ dates[2] }}</th>
 				</tr>
 			</thead>
 			<tbody>
-				<AttendanceSheetItem v-for="member in getOrderedItems" :key="member._id" :data="member" />
+				<AttendanceSheetItem :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
 	</div>
@@ -27,7 +26,8 @@ export default Vue.extend({
 		AttendanceSheetItem
 	},
 	props: {
-		members: Array
+		dates: Array,
+		datas: Array
 	},
 	data() {
 		return {
@@ -42,14 +42,18 @@ export default Vue.extend({
 			} else {
 				this.sortKey = key;
 			}
-		}
+		},
+		changeState(e: any) {
+			this.$emit("changeState", { id: e.id, day: e.day });
+		},
+		datePick(d: any) {}
 	},
 	computed: {
 		getOrderedItems(): any {
 			if (this.sortKey == "") {
-				return this.members;
+				return this.datas;
 			} else {
-				return this.members.sort((a: any, b: any): any => {
+				return this.datas.sort((a: any, b: any): any => {
 					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
