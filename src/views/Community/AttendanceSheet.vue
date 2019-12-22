@@ -9,7 +9,7 @@
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable :dates="dates" :datas="datas" :currentDate="currentDate" @click="createEditor($event)" @changeState="changeState" />
+		<AttendanceSheetTable :dates="dates" :datas="datas" @click="createEditor($event)" @changeState="changeState" />
 	</div>
 </template>
 
@@ -63,12 +63,7 @@ export default Vue.extend({
 	},
 	methods: {
 		changeState(e: any) {
-			let idx = this.datas.findIndex(x => {
-				x._id == e.id;
-				// console.log(this.datas[key]);
-				// console.log(key);
-				// key.id == e.id;
-			});
+			let idx = this.datas.findIndex(x => x._id == e.id);
 			console.log(this.datas[idx]);
 			// let dayN = `day${e.day.toString()}`;
 			// // this.members[idx].dayN.state++;

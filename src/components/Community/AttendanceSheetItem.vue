@@ -5,25 +5,25 @@
 		<td>{{ data.role }}</td>
 		<td>
 			<div class="attendanceSheetItem__state" @click="$emit('changeState', { id: data._id, day: 1 })">
-				<button v-if="data.attendances[dates[0]].state == 0" class="state__0">결석</button>
-				<button v-else-if="data.attendances[dates[0]].state == 1" class="state__1">출석</button>
-				<button v-else-if="data.attendances[dates[0]].state == 2" class="state__2">지각</button>
+				<button v-if="data.attendances[dates[0].date].state == 0" class="state__0">결석</button>
+				<button v-else-if="data.attendances[dates[0].date].state == 1" class="state__1">출석</button>
+				<button v-else-if="data.attendances[dates[0].date].state == 2" class="state__2">지각</button>
 			</div>
 			<div></div>
 			<button>편집</button>
 		</td>
 		<td>
 			<div class="attendanceSheetItem__state" @click="$emit('changeState', { id: data._id, day: 2 })">
-				<button v-if="data.attendances[dates[1]].state == 0" class="state__0">결석</button>
-				<button v-else-if="data.attendances[dates[1]].state == 1" class="state__1">출석</button>
-				<button v-else-if="data.attendances[dates[1]].state == 2" class="state__2">지각</button>
+				<button v-if="data.attendances[dates[1].date].state == 0" class="state__0">결석</button>
+				<button v-else-if="data.attendances[dates[1].date].state == 1" class="state__1">출석</button>
+				<button v-else-if="data.attendances[dates[1].date].state == 2" class="state__2">지각</button>
 			</div>
 		</td>
 		<td>
 			<div class="attendanceSheetItem__state" @click="$emit('changeState', { id: data._id, day: 3 })">
-				<button v-if="data.attendances[dates[2]].state == 0" class="state__0">결석</button>
-				<button v-else-if="data.attendances[dates[2]].state == 1" class="state__1">출석</button>
-				<button v-else-if="data.attendances[dates[2]].state == 2" class="state__2">지각</button>
+				<button v-if="data.attendances[dates[2].date].state == 0" class="state__0">결석</button>
+				<button v-else-if="data.attendances[dates[2].date].state == 1" class="state__1">출석</button>
+				<button v-else-if="data.attendances[dates[2].date].state == 2" class="state__2">지각</button>
 			</div>
 		</td>
 	</tr>
