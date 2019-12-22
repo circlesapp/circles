@@ -6,7 +6,7 @@
 					<th class="sortable" @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th class="sortable" @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th>
-						<span @click="datePick(0)">{{ dates[0].date }}</span>
+						<input type="date" v-model="dates[0].date" />
 						<br /><input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
 					</th>
 					<th>
