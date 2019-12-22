@@ -18,52 +18,30 @@
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
 				<div class="editor__menu__components__list">
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event,'ClubTitleLayout')"
-						draggable
-					>동아리 타이틀</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event,'InformationLayout')"
-						draggable
-					>동아리 소개</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event,'MembersLayout')"
-						draggable
-					>멤버 소개</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event,'ApplyButtonLayout')"
-						draggable
-					>지원하기 버튼</div>
+					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'ClubTitleLayout')" draggable>동아리 타이틀</div>
+					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'InformationLayout')" draggable>동아리 소개</div>
+					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'MembersLayout')" draggable>멤버 소개</div>
+					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'ApplyButtonLayout')" draggable>지원하기 버튼</div>
 				</div>
 			</div>
 			<div class="editor__menu__action">
-				<button class="exit" @click="$router.push({name:'home'})">나가기</button>
+				<button class="exit" @click="$router.push({ name: 'home' })">나가기</button>
 				<button class="save" @click="commit">저장</button>
 			</div>
 		</div>
 		<div class="editor__content" ref="components">
-			<draggable
-				tag="div"
-				class="editor__content__wrapper"
-				v-model="componentList"
-				v-bind="dragOptions"
-				@start="drag=true"
-				@end="drag=false"
-			>
+			<draggable tag="div" class="editor__content__wrapper" v-model="componentList" v-bind="dragOptions" @start="drag = true" @end="drag = false">
 				<transition-group type="transition" :name="!drag ? 'componentGrop' : null">
 					<component
 						class="editor__content__component"
-						:class="{'editor__content__component-gap':component.isDragGap}"
-						v-for="(component,idx) in componentList"
+						:class="{ 'editor__content__component-gap': component.isDragGap }"
+						v-for="(component, idx) in componentList"
 						:key="component.id"
 						:is="component.component"
-						@contextmenu="onContextMenu($event,idx)"
+						@contextmenu="onContextMenu($event, idx)"
 						ref="component"
-					>{{component}}</component>
+						>{{ component }}</component
+					>
 				</transition-group>
 			</draggable>
 		</div>
@@ -108,23 +86,15 @@ export default Vue.extend({
 	methods: {
 		onClickIndex(e: MouseEvent) {
 			let components = this.$refs.component as any[];
-			let pointY =
-				e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
+			let pointY = e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
 			if (components) {
 				let heightSum = 0;
 				let isBreak = false;
 				for (let i = 0; i < components.length; i++) {
 					let ele = components[i].$el;
-					let nextEle = components[i + 1]
-						? components[i + 1].$el
-						: null;
+					let nextEle = components[i + 1] ? components[i + 1].$el : null;
 					heightSum += ele.clientHeight;
-					if (
-						heightSum > pointY &&
-						(nextEle
-							? pointY < heightSum + nextEle.clientHeight
-							: true)
-					) {
+					if (heightSum > pointY && (nextEle ? pointY < heightSum + nextEle.clientHeight : true)) {
 						isBreak = true;
 						this.currentSwapIndex = i;
 						break;
@@ -219,6 +189,8 @@ export default Vue.extend({
 	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.09);
 
 	overflow-y: auto;
+
+	transition: 0.5s;
 
 	z-index: 500;
 }

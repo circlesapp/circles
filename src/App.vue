@@ -523,6 +523,8 @@ input:-webkit-autofill {
 	overflow: hidden;
 
 	background-color: #f5f7fa;
+
+	transition: 0.5s;
 }
 #app.darkTheme {
 	color: white;

@@ -26,37 +26,27 @@
 			ref="calendar"
 		>
 			<CalendarBoxCreatePopup :start="start" :end="end" v-if="isCreatePopup" @isUpdated="reload"></CalendarBoxCreatePopup>
-			<div
-				class="calendar__content__day"
-				v-for="(day, idx) in getDays"
-				:key="idx"
-				ref="calendarItem"
-				@click="isCreatePopup = false"
-			>
+			<div class="calendar__content__day" v-for="(day, idx) in getDays" :key="idx" ref="calendarItem" @click="isCreatePopup = false">
 				<transition-group name="barAnimation">
 					<div
 						v-for="sc in lineData[idx] ? lineData[idx] : []"
 						:key="sc.content._id"
 						class="calendar__content__day__bar"
 						@click="removeCalendar(sc.content._id)"
-						:style="
-							`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 +
-								20}px; background-color:${sc.color}`
-						"
-					>{{ sc.content.content }}</div>
+						:style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 + 20}px; background-color:${sc.color}`"
+					>
+						{{ sc.content.content }}
+					</div>
 					<div
 						v-for="(sc, idx) in tmpLineData[idx] ? tmpLineData[idx] : []"
 						:key="idx + sc"
 						class="calendar__content__day__bar calendar__content__day__bar-create"
-						:style="
-							`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 +
-								20}px; background-color:${sc.color}`
-						"
-					>CREATE</div>
+						:style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 + 20}px; background-color:${sc.color}`"
+					>
+						CREATE
+					</div>
 				</transition-group>
-				<span
-					:class="{ 'calendar__content__day-today': day == currentDay && month == currentMonth && year == currentYear }"
-				>{{ day == 0 ? "" : day }}</span>
+				<span :class="{ 'calendar__content__day-today': day == currentDay && month == currentMonth && year == currentYear }">{{ day == 0 ? "" : day }}</span>
 			</div>
 		</div>
 	</div>
@@ -161,29 +151,17 @@ export default Vue.extend({
 				calendars.forEach((calendar: any) => {
 					this.calendars = calendars;
 					let startDate = new Date(calendar.start);
-					if (
-						this.year == startDate.getFullYear() &&
-						this.month == startDate.getMonth()
-					) {
-						let start =
-							startDate.getDate() + this.startDay.getDay();
+					if (this.year == startDate.getFullYear() && this.month == startDate.getMonth()) {
+						let start = startDate.getDate() + this.startDay.getDay();
 						let endDate = new Date(calendar.end);
 						let end = endDate.getDate() + this.startDay.getDay();
-						this.drawLine(
-							(start - 1) % 7,
-							Math.floor((start - 1) / 7),
-							end % 7,
-							Math.floor((end - 1) / 7),
-							false,
-							calendar
-						);
+						this.drawLine((start - 1) % 7, Math.floor((start - 1) / 7), end % 7, Math.floor((end - 1) / 7), false, calendar);
 					}
 				});
 			});
 		},
 		getSize() {
-			let calendar = (this.$refs
-				.calendar as HTMLDivElement).getBoundingClientRect();
+			let calendar = (this.$refs.calendar as HTMLDivElement).getBoundingClientRect();
 
 			this.calendarLeft = calendar.left;
 			this.calendarTop = calendar.top;
@@ -196,18 +174,9 @@ export default Vue.extend({
 		onClick(e: MouseEvent | TouchEvent) {
 			if (!this.isCreatePopup) {
 				this.getSize();
-				this.startPointX =
-					((e as MouseEvent).clientX ||
-						(e as TouchEvent).touches[0].clientX) -
-					this.calendarLeft;
-				this.startPointY =
-					((e as MouseEvent).clientY ||
-						(e as TouchEvent).touches[0].clientY) -
-					this.calendarTop;
-				let position = this.getPosition(
-					this.startPointX,
-					this.startPointY
-				);
+				this.startPointX = ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
+				this.startPointY = ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
+				let position = this.getPosition(this.startPointX, this.startPointY);
 				this.isClick = true;
 			}
 		},
@@ -215,85 +184,38 @@ export default Vue.extend({
 			if (!this.isCreatePopup) {
 				this.isClick = false;
 				this.isCreatePopup = true;
-				let startPosition = this.getPosition(
-					this.startPointX,
-					this.startPointY
-				);
-				let endPosition = this.getPosition(
-					this.endPointX,
-					this.endPointY
-				);
-				this.start = new Date(
-					this.year,
-					this.month,
-					this.getDays[startPosition[1] * 7 + startPosition[0]]
-				);
-				this.end = new Date(
-					this.year,
-					this.month,
-					this.getDays[endPosition[1] * 7 + endPosition[0]]
-				);
+				let startPosition = this.getPosition(this.startPointX, this.startPointY);
+				let endPosition = this.getPosition(this.endPointX, this.endPointY);
+				this.start = new Date(this.year, this.month, this.getDays[startPosition[1] * 7 + startPosition[0]]);
+				this.end = new Date(this.year, this.month, this.getDays[endPosition[1] * 7 + endPosition[0]]);
 			}
 		},
 		onClickDrag(e: MouseEvent | TouchEvent) {
 			if (this.isClick) {
-				this.endPointX =
-					((e as MouseEvent).clientX ||
-						(e as TouchEvent).touches[0].clientX) -
-					this.calendarLeft;
-				this.endPointY =
-					((e as MouseEvent).clientY ||
-						(e as TouchEvent).touches[0].clientY) -
-					this.calendarTop;
-				let startPosition = this.getPosition(
-					this.startPointX,
-					this.startPointY
-				);
-				let endPosition = this.getPosition(
-					this.endPointX,
-					this.endPointY
-				);
+				this.endPointX = ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
+				this.endPointY = ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
+				let startPosition = this.getPosition(this.startPointX, this.startPointY);
+				let endPosition = this.getPosition(this.endPointX, this.endPointY);
 
 				this.tmpLineData = [];
-				this.drawLine(
-					startPosition[0],
-					startPosition[1],
-					endPosition[0] + 1,
-					endPosition[1],
-					true
-				);
+				this.drawLine(startPosition[0], startPosition[1], endPosition[0] + 1, endPosition[1], true);
 			}
 		},
 		getPosition(x: number, y: number) {
-			return [
-				Math.floor(x / this.calendarItemWidth),
-				Math.floor(y / this.calendarItemHeight)
-			];
+			return [Math.floor(x / this.calendarItemWidth), Math.floor(y / this.calendarItemHeight)];
 		},
-		drawLine(
-			startX: number,
-			startY: number,
-			endX: number,
-			endY: number,
-			tmpMode: boolean = false,
-			content: string = ""
-		) {
+		drawLine(startX: number, startY: number, endX: number, endY: number, tmpMode: boolean = false, content: string = "") {
 			let lineHeight = [0, 0, 0, 0, 0];
 			for (let i = startY; i <= endY; i++) {
 				let startJ = startY == i ? startX : 0;
-				for (let j = 0; j < (i == endY ? endX : 7); j++)
-					if (this.lineData[i * 7 + j]) lineHeight[i]++;
+				for (let j = 0; j < (i == endY ? endX : 7); j++) if (this.lineData[i * 7 + j]) lineHeight[i]++;
 			}
 			if (tmpMode) {
 				for (let i = startY; i <= endY; i++) {
 					let startJ = startY == i ? startX : 0;
-					if (!this.tmpLineData[i * 7 + startJ])
-						this.tmpLineData[i * 7 + startJ] = [];
+					if (!this.tmpLineData[i * 7 + startJ]) this.tmpLineData[i * 7 + startJ] = [];
 					this.tmpLineData[i * 7 + startJ].push({
-						width:
-							i == endY
-								? endX - startJ
-								: 7 - (startY == i ? startJ : 0),
+						width: i == endY ? endX - startJ : 7 - (startY == i ? startJ : 0),
 						height: lineHeight[i],
 						color: this.colors[this.colorIndex]
 					});
@@ -301,13 +223,9 @@ export default Vue.extend({
 			} else {
 				for (let i = startY; i <= endY; i++) {
 					let startJ = startY == i ? startX : 0;
-					if (!this.lineData[i * 7 + startJ])
-						this.lineData[i * 7 + startJ] = [];
+					if (!this.lineData[i * 7 + startJ]) this.lineData[i * 7 + startJ] = [];
 					this.lineData[i * 7 + startJ].push({
-						width:
-							i == endY
-								? endX - startJ
-								: 7 - (startY == i ? startJ : 0),
+						width: i == endY ? endX - startJ : 7 - (startY == i ? startJ : 0),
 						height: lineHeight[i],
 						color: this.colors[this.colorIndex],
 						content
@@ -431,6 +349,7 @@ export default Vue.extend({
 	touch-action: none;
 
 	position: relative;
+	transition: 0.5s;
 }
 .darkTheme .calendar__content {
 	background-color: #282828;

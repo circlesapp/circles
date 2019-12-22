@@ -87,21 +87,13 @@ export default Vue.extend({
 	computed: {
 		isCreateAble() {
 			if (this.$store.state.club.ranks) {
-				let user = this.$store.state.club.members.find(
-					(member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
-					}
-				);
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
 				if (user)
 					return (
-						this.$store.state.club.ranks.find(
-							(rank: any) => rank.id == user.rank
-						).isAdmin ||
-						this.$store.state.club.ranks
-							.find((rank: any) => rank.id == user.rank)
-							.permission.indexOf(21) != -1
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.indexOf(21) != -1
 					);
 				else return false;
 			} else return false;

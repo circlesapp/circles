@@ -1,6 +1,6 @@
 <template>
-	<div class="applyButtonLayout" @contextmenu="$emit('contextmenu',$event)">
-		<button @click="$router.push({name:'page/applicant/main'})">지원하기</button>
+	<div class="applyButtonLayout" @contextmenu="$emit('contextmenu', $event)">
+		<button @click="$router.push({ name: 'page/applicant/main' })">지원하기</button>
 	</div>
 </template>
 
@@ -24,6 +24,7 @@ export default {};
 	color: white;
 	padding: 15px 100px;
 
+	transition: 0.5s;
 	cursor: pointer;
 }
 .darkTheme .applyButtonLayout button {

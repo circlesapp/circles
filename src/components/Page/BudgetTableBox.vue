@@ -4,69 +4,40 @@
 			<tr class="head">
 				<th @click="orderBy('item')">
 					품목
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'item','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('size')">
 					규격
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'size','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'size', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('price')">
 					단가
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'price','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'price', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('quantity')">
 					수량
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'quantity','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'quantity', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('shopping')">
 					배송료
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'shopping','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'shopping', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('total')">
 					금액
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'total','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'total', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('url')">
 					URL
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'url','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'url', 'order-rotate': sortBy }"></i>
 				</th>
 				<th @click="orderBy('date')">
 					비고
-					<i
-						class="mdi mdi-arrow-down"
-						:class="{'order-active':sortKey == 'date','order-rotate':sortBy}"
-					></i>
+					<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'date', 'order-rotate': sortBy }"></i>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<BudgetTableItem
-				v-for="budget in getOrderedBudgets"
-				:key="budget.number"
-				:data="budget"
-				@contextmenu="$emit('contextmenu',$event)"
-			></BudgetTableItem>
+			<BudgetTableItem v-for="budget in getOrderedBudgets" :key="budget.number" :data="budget" @contextmenu="$emit('contextmenu', $event)"></BudgetTableItem>
 		</tbody>
 	</table>
 </template>
@@ -102,8 +73,7 @@ export default Vue.extend({
 				return this.budgets;
 			} else {
 				return this.budgets.sort((a: any, b: any): any => {
-					if (this.sortBy)
-						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
 			}
@@ -120,6 +90,8 @@ export default Vue.extend({
 	background-color: white;
 	font-family: "NanumSquareEB";
 	color: #9cb2cd;
+
+	transition: 0.5s;
 }
 .darkTheme .budgettablebox {
 	background-color: #282828;
