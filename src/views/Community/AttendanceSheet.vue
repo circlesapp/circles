@@ -6,10 +6,10 @@
 		<div class="attendanceSheet__head">
 			<div class="attendanceSheet__head__wrapper">
 				<h2 class="attendanceSheet__title">출석부</h2>
-				<p class="attendanceSheet__description">출석부는 접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
+				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable :members="members" @click="createEditor($event)" @ifChangeState="changeState" />
+		<AttendanceSheetTable :dates="dates" :datas="datas" :currentDate="currentDate" @click="createEditor($event)" @changeState="changeState" />
 	</div>
 </template>
 
@@ -22,22 +22,27 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			members: [
+			dates: ["2019-12-01", "2019-12-02", "2019-12-03"],
+			members: [] as any[],
+			datas: [
 				{
-					id: 0,
+					_id: "5dcde7e2ea5d132a98c914ba",
 					name: "박종훈",
 					role: "대표",
-					day1: { state: 1, comment: "가나다라마" },
-					day2: { state: 2, comment: "가나다라마" },
-					day3: { state: 0, comment: "가나다라마" }
-				},
-				{
-					id: 1,
-					name: "김현우",
-					role: "멤버",
-					day1: { state: 0, comment: "가나다라마" },
-					day2: { state: 1, comment: "가나다라마" },
-					day3: { state: 2, comment: "가나다라마" }
+					attendances: {
+						"2019-12-01": {
+							state: 1,
+							comment: "가나다라마"
+						},
+						"2019-12-02": {
+							state: 1,
+							comment: "가나다라마"
+						},
+						"2019-12-03": {
+							state: 1,
+							comment: "가나다라마"
+						}
+					}
 				}
 			],
 			showEditor: false,
@@ -45,12 +50,27 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		// this.reload();
+		this.$store
+			.dispatch("GET_CLUB_MEMBERS")
+			.then(members => {
+				this.members = members;
+			})
+			.catch(err => {});
 	},
 	methods: {
 		changeState(e: any) {
-			this.currentId = e.id;
-			console.log(e.day);
+			let idx = this.datas.findIndex(x => {
+				x._id == e.id;
+				// console.log(this.datas[key]);
+				// console.log(key);
+				// key.id == e.id;
+			});
+			console.log(this.datas[idx]);
+			// let dayN = `day${e.day.toString()}`;
+			// // this.members[idx].dayN.state++;
+			// if (++this.members[idx].dayN.state > 2) {
+			// 	this.members[idx].dayN.state = 0;
+			// }
 		},
 		createEditor(e: any) {
 			console.log(e);
