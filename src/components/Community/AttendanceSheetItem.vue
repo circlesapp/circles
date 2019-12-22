@@ -4,7 +4,7 @@
 		<td>{{ data.role }}</td>
 		<td v-for="day in dates" :key="day.idx">
 			<div class="attendanceSheetItem__state">
-				<i :class="getState(day.idx) !== 3 ? getState(day.idx) : ''"></i>
+				<i :class="getState(day.idx)"></i>
 				<div class="attendanceSheetItem__state__custom" :style="'background:' + data.attendances[dates[day.idx].date].color">{{ data.attendances[dates[day.idx].date].comment }}</div>
 				<div class="attendanceSheetItem__state__picker">
 					<div @click="changeState(data._id, day.idx, 0)">
@@ -19,7 +19,7 @@
 					<div @click="changeState(data._id, day.idx, 3)" class="attendanceSheetItem__state__picker__option">
 						<i class="state3 mdi mdi-settings-outline"></i>
 						<div v-if="data.attendances[dates[day.idx].date].state == 3" class="attendanceSheetItem__color__picker">
-							<input type="text" v-model="data.attendances[dates[day.idx].date].comment" />
+							<input type="text" v-model="data.attendances[dates[day.idx].date].comment" placeholder="레이블 입력" />
 							<div class="attendanceSheetItem__state__colors">
 								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendances[dates[day.idx].date].color = color"></div>
 							</div>
@@ -55,9 +55,6 @@ export default Vue.extend({
 					break;
 				case 2:
 					output = "state2 mdi mdi-close";
-					break;
-				case 3:
-					// output = "state3 mdi mdi-settings-outline";
 					break;
 			}
 			return output;
@@ -127,6 +124,7 @@ td:hover .attendanceSheetItem__state__picker,
 
 	font-family: "NanumSquareL";
 	font-size: 16px;
+	text-align: center;
 
 	border: none;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -136,6 +134,11 @@ td:hover .attendanceSheetItem__state__picker,
 .attendanceSheetItem input:hover {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+.darkmode .attendanceSheetItem input {
+	background: #444;
+	color: white;
+}
+
 .attendanceSheetItem__state__colors {
 	padding: 0 !important;
 	position: absolute;

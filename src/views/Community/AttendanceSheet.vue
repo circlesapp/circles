@@ -36,7 +36,7 @@ export default Vue.extend({
 				green: "#0f8f50",
 				blue: "#4682f4",
 				purple: "#6834b7",
-				black: "#333"
+				black: "#444"
 			},
 			dates: [
 				{ idx: 0, date: "2019-12-01", label: "나눔축제" },
