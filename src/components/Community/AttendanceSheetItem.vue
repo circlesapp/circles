@@ -5,7 +5,13 @@
 		<td v-for="day in dates" :key="day.idx">
 			<div class="attendanceSheetItem__state">
 				<i :class="getState(day.idx)"></i>
-				<div class="attendanceSheetItem__state__custom" :style="'background:' + data.attendances[dates[day.idx].date].color">{{ data.attendances[dates[day.idx].date].comment }}</div>
+				<input
+					type="text"
+					v-model="data.attendances[dates[day.idx].date].comment"
+					:style="'background:' + data.attendances[dates[day.idx].date].color"
+					placeholder="레이블 입력"
+					v-if="data.attendances[dates[day.idx].date].state === 3"
+				/>
 				<div class="attendanceSheetItem__state__picker">
 					<div @click="changeState(data._id, day.idx, 0)">
 						<i class="state0 mdi mdi-circle-outline"></i>
@@ -19,9 +25,10 @@
 					<div @click="changeState(data._id, day.idx, 3)" class="attendanceSheetItem__state__picker__option">
 						<i class="state3 mdi mdi-settings-outline"></i>
 						<div v-if="data.attendances[dates[day.idx].date].state == 3" class="attendanceSheetItem__color__picker">
-							<input type="text" v-model="data.attendances[dates[day.idx].date].comment" placeholder="레이블 입력" />
 							<div class="attendanceSheetItem__state__colors">
-								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendances[dates[day.idx].date].color = color"></div>
+								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendances[dates[day.idx].date].color = color">
+									<i class="mdi mdi-check" v-if="color === data.attendances[dates[day.idx].date].color"></i>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -71,15 +78,11 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	text-align: center;
 }
-.attendanceSheetItem__state__custom {
-	border-radius: 15px;
-	color: white;
-}
 .attendanceSheetItem__state__picker {
 	display: none;
 	position: absolute;
 	top: 50px;
-	left: -10px;
+	left: 18px;
 
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	background-color: white;
@@ -116,17 +119,16 @@ td:hover .attendanceSheetItem__state__picker,
 }
 
 .attendanceSheetItem input {
-	position: absolute;
-	top: -29px;
-	left: -150px;
-	width: 179px;
-	height: 33px;
+	width: 160px;
+	height: 30px;
 
 	font-family: "NanumSquareL";
 	font-size: 16px;
 	text-align: center;
+	color: white;
 
 	border: none;
+	border-radius: 15px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
 	transition: 0.2s;
@@ -141,13 +143,19 @@ td:hover .attendanceSheetItem__state__picker,
 
 .attendanceSheetItem__state__colors {
 	padding: 0 !important;
-	position: absolute;
-	left: -4px;
-	top: 0;
+	position: relative;
+	left: -160px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	background: white;
 	border-radius: 20px;
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+.darkmode .attendanceSheetItem__state__colors {
+	background: #555;
 }
 .attendanceSheetItem__state__colors div {
 	padding: 0;
@@ -156,17 +164,23 @@ td:hover .attendanceSheetItem__state__picker,
 	border-radius: 50%;
 	margin: 2px;
 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	cursor: pointer;
 }
 .attendanceSheetItem__state__colors div:hover {
 	opacity: 0.8;
+}
+.attendanceSheetItem__state__colors div i {
+	color: white;
 }
 
 .attendanceSheetItem__color__picker {
 	display: none;
 
 	position: absolute;
-	padding: 0;
 
 	z-index: 100;
 }
