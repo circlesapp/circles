@@ -73,6 +73,7 @@ export default Vue.extend({
 .attendanceSheetItem__state__picker div {
 	padding: 5px 15px;
 
+	background: white;
 	font-size: 15px;
 
 	transition: 0.2s;
