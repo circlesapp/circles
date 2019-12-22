@@ -57,7 +57,7 @@ export default Vue.extend({
 						},
 						"2019-12-02": {
 							state: 3,
-							color: "purple",
+							color: "orange",
 							comment: `인정 결석`
 						},
 						"2019-12-03": {
@@ -86,6 +86,28 @@ export default Vue.extend({
 							state: 0,
 							color: "",
 							comment: ``
+						}
+					}
+				},
+				{
+					_id: "5dcd86c7ea5d132a98c9148b",
+					name: "표영우",
+					role: "멤버",
+					attendances: {
+						"2019-12-01": {
+							state: 0,
+							color: "",
+							comment: ``
+						},
+						"2019-12-02": {
+							state: 0,
+							color: "",
+							comment: ``
+						},
+						"2019-12-03": {
+							state: 3,
+							color: "#444",
+							comment: `외부 활동`
 						}
 					}
 				}
