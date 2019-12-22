@@ -90,7 +90,7 @@ export default Vue.extend({
 					}
 				},
 				{
-					_id: "5dcd86c7ea5d132a98c9148b",
+					_id: "5dcd86c7ea5d132aa8c9148b",
 					name: "표영우",
 					role: "멤버",
 					attendances: {
