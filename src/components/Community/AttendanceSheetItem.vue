@@ -4,11 +4,9 @@
 		<td>{{ data.role }}</td>
 		<td v-for="day in dates" :key="day.idx">
 			<div class="attendanceSheetItem__state">
-				<i :class="getState(day.idx)"></i>
-				<div
-					class="attendanceSheetItem__state__picker"
-					:class="{ 'attendanceSheetItem__state__picker-active': idx == stateCurrentIndex }"
-				>
+				<i :class="getState(day.idx) !== 3 ? getState(day.idx) : ''"></i>
+				<div class="attendanceSheetItem__state__custom" :style="'background:' + data.attendances[dates[day.idx].date].color">{{ data.attendances[dates[day.idx].date].comment }}</div>
+				<div class="attendanceSheetItem__state__picker">
 					<div @click="changeState(data._id, day.idx, 0)">
 						<i class="state0 mdi mdi-circle-outline"></i>
 					</div>
@@ -20,13 +18,10 @@
 					</div>
 					<div @click="changeState(data._id, day.idx, 3)" class="attendanceSheetItem__state__picker__option">
 						<i class="state3 mdi mdi-settings-outline"></i>
-						<div
-							v-if="data.attendances[dates[day.idx].date].state == 3"
-							class="attendanceSheetItem__color__picker"
-						>
+						<div v-if="data.attendances[dates[day.idx].date].state == 3" class="attendanceSheetItem__color__picker">
 							<input type="text" v-model="data.attendances[dates[day.idx].date].comment" />
 							<div class="attendanceSheetItem__state__colors">
-								<div v-for="color in colors" :key="color" :style="'background:' + color"></div>
+								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendances[dates[day.idx].date].color = color"></div>
 							</div>
 						</div>
 					</div>
@@ -39,12 +34,6 @@
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-	data() {
-		return {
-			idx: 0,
-			stateCurrentIndex: 0
-		};
-	},
 	props: {
 		colors: Object,
 		dates: Array,
@@ -68,7 +57,7 @@ export default Vue.extend({
 					output = "state2 mdi mdi-close";
 					break;
 				case 3:
-					output = "state3 mdi mdi-settings-outline";
+					// output = "state3 mdi mdi-settings-outline";
 					break;
 			}
 			return output;
@@ -80,20 +69,27 @@ export default Vue.extend({
 <style>
 .attendanceSheetItem td {
 	padding: 20px;
+	position: relative;
+
+	font-family: "NanumSquareEB";
 	text-align: center;
 }
-.attendanceSheetItem td {
-	position: relative;
-	font-family: "NanumSquareEB";
+.attendanceSheetItem__state__custom {
+	border-radius: 15px;
+	color: white;
 }
 .attendanceSheetItem__state__picker {
 	display: none;
 	position: absolute;
-	top: 60px;
+	top: 50px;
+	left: -10px;
 
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	background-color: white;
 	z-index: 100;
+}
+.darkmode .attendanceSheetItem__state__picker {
+	background-color: #444;
 }
 td:hover .attendanceSheetItem__state__picker,
 .attendanceSheetItem__state__picker:hover {
@@ -118,13 +114,23 @@ td:hover .attendanceSheetItem__state__picker,
 .state3 {
 	color: #333;
 }
+.darkmode .state3 {
+	color: white;
+}
 
 .attendanceSheetItem input {
 	position: absolute;
-	left: 35px;
-	top: -22.5px;
+	top: -29px;
+	left: -150px;
+	width: 179px;
+	height: 33px;
+
+	font-family: "NanumSquareL";
+	font-size: 16px;
+
 	border: none;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
 	transition: 0.2s;
 }
 .attendanceSheetItem input:hover {
@@ -154,14 +160,14 @@ td:hover .attendanceSheetItem__state__picker,
 }
 
 .attendanceSheetItem__color__picker {
-    display: none;
+	display: none;
 
 	position: absolute;
 	padding: 0;
 
 	z-index: 100;
 }
-.attendanceSheetItem__state__picker__option:hover .attendanceSheetItem__color__picker{
-    display: block;
+.attendanceSheetItem__state__picker__option:hover .attendanceSheetItem__color__picker {
+	display: block;
 }
 </style>

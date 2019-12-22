@@ -35,7 +35,8 @@ export default Vue.extend({
 				yellow: "#f5bf4f",
 				green: "#0f8f50",
 				blue: "#4682f4",
-				purple: "#6834b7"
+				purple: "#6834b7",
+				black: "#333"
 			},
 			dates: [
 				{ idx: 0, date: "2019-12-01", label: "나눔축제" },
@@ -105,6 +106,7 @@ export default Vue.extend({
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
 			this.datas[idx].attendances[this.dates[e.day].date].state = e.state;
+			if (e.state !== 3) this.datas[idx].attendances[this.dates[e.day].date].comment = ``;
 
 			// this.datas[idx].attendances[this.dates[e.day].date].state++;
 			// if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
