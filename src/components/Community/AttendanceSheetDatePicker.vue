@@ -85,7 +85,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .attendanceSheetDatePicker__content__close {
+.darkTheme .attendanceSheetDatePicker__content__close {
 	background-color: #282828;
 	color: white;
 }
@@ -93,7 +93,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .attendanceSheetDatePicker__content__close:hover {
+.darkTheme .attendanceSheetDatePicker__content__close:hover {
 	box-shadow: none;
 	background-color: white;
 	color: #282828;
@@ -110,7 +110,7 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .attendanceSheetDatePicker__content {
+.darkTheme .attendanceSheetDatePicker__content {
 	background-color: #282828;
 }
 .attendanceSheetDatePicker__content h3 {
@@ -119,7 +119,7 @@ export default Vue.extend({
 	color: #2e2e2e;
 	margin-bottom: 20px;
 }
-.darkmode .attendanceSheetDatePicker__content h3 {
+.darkTheme .attendanceSheetDatePicker__content h3 {
 	color: white;
 }
 </style>

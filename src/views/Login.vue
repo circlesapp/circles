@@ -105,7 +105,7 @@ export default Vue.extend({
 	justify-content: center;
 	color: #273142;
 }
-.darkmode .login {
+.darkTheme .login {
 	background-color: #282828;
 	color: white;
 }
@@ -207,7 +207,7 @@ export default Vue.extend({
 	border: solid 1px #eeeeee;
 	border-radius: 8px;
 }
-.darkmode .login__inputwrapper input {
+.darkTheme .login__inputwrapper input {
 	color: white;
 	border: 1px solid #3a3a3a;
 }
@@ -245,7 +245,7 @@ export default Vue.extend({
 .login__button:hover {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
 }
-.darkmode .login__button {
+.darkTheme .login__button {
 	background-color: #353535;
 }
 
@@ -256,7 +256,7 @@ export default Vue.extend({
 	text-align: center;
 	margin: 1.5%;
 }
-.darkmode .login__option {
+.darkTheme .login__option {
 	color: white;
 }
 </style>

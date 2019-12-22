@@ -139,11 +139,11 @@ export default Vue.extend({
 .budgets__head__add:hover {
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
-.darkmode .budgets__head__add {
+.darkTheme .budgets__head__add {
 	background-color: #538fff;
 	color: white;
 }
-.darkmode .budgets__head__add:hover {
+.darkTheme .budgets__head__add:hover {
 	background-color: #538fffe1;
 	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
 }

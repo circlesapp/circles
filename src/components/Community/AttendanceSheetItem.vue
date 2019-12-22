@@ -88,7 +88,7 @@ export default Vue.extend({
 	background-color: white;
 	z-index: 100;
 }
-.darkmode .attendanceSheetItem__state__picker {
+.darkTheme .attendanceSheetItem__state__picker {
 	background-color: #444;
 }
 td:hover .attendanceSheetItem__state__picker,
@@ -114,7 +114,7 @@ td:hover .attendanceSheetItem__state__picker,
 .state3 {
 	color: #333;
 }
-.darkmode .state3 {
+.darkTheme .state3 {
 	color: white;
 }
 
@@ -135,7 +135,7 @@ td:hover .attendanceSheetItem__state__picker,
 .attendanceSheetItem input:hover {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-.darkmode .attendanceSheetItem input {
+.darkTheme .attendanceSheetItem input {
 	background: #444;
 	color: white;
 }
@@ -153,7 +153,7 @@ td:hover .attendanceSheetItem__state__picker,
 	border-radius: 20px;
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
-.darkmode .attendanceSheetItem__state__colors {
+.darkTheme .attendanceSheetItem__state__colors {
 	background: #555;
 }
 .attendanceSheetItem__state__colors div {

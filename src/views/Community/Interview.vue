@@ -169,7 +169,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	background-color: white;
 	margin-right: 40px;
 }
-.darkmode .interview > div {
+.darkTheme .interview > div {
 	background-color: #252525;
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.1);
 }

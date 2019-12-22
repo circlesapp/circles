@@ -43,7 +43,7 @@ export default Vue.extend({
 	width: 100%;
 	background-color: #538fff;
 }
-.darkmode .membersLayout {
+.darkTheme .membersLayout {
 	background-color: #282828;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }

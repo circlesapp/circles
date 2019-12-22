@@ -374,7 +374,7 @@ export default Vue.extend({
 	width: 50%;
 	border-collapse: collapse;
 }
-.darkmode .communityMembers__memberTable {
+.darkTheme .communityMembers__memberTable {
 	background-color: #282828;
 }
 .communityMembers__memberTable td {
@@ -391,13 +391,13 @@ export default Vue.extend({
 	cursor: pointer;
 	background-color: #538fff;
 }
-.darkmode .communityMembers__memberTable thead tr {
+.darkTheme .communityMembers__memberTable thead tr {
 	background-color: #161616;
 }
 .communityMembers__memberTable .active {
 	background-color: #eeeeee;
 }
-.darkmode .communityMembers__memberTable .active {
+.darkTheme .communityMembers__memberTable .active {
 	color: #9cb2cd;
 	background-color: #232323;
 }
@@ -424,7 +424,7 @@ export default Vue.extend({
 	border-bottom: 1px solid #dfdfdf;
 	cursor: pointer;
 }
-.darkmode .communityMembers__memberTable tbody tr {
+.darkTheme .communityMembers__memberTable tbody tr {
 	border-bottom: 1px solid #3a3a3a;
 }
 .communityMembers__memberTable tbody td {
@@ -450,7 +450,7 @@ export default Vue.extend({
 
 	padding: 30px;
 }
-.darkmode .communityMembers__controlPanel {
+.darkTheme .communityMembers__controlPanel {
 	background-color: #282828;
 }
 .communityMembers__controlPanel .rankEditor__wrapper {
@@ -488,7 +488,7 @@ export default Vue.extend({
 
 	border-radius: 100px;
 }
-.darkmode .communityMembers__controlPanel .ranks li {
+.darkTheme .communityMembers__controlPanel .ranks li {
 	background-color: #363636;
 }
 .communityMembers__controlPanel .ranks li input {
@@ -507,7 +507,7 @@ export default Vue.extend({
 .communityMembers__controlPanel .ranks .ranks__item-active {
 	background-color: #538fff;
 }
-.darkmode .communityMembers__controlPanel .ranks .ranks__item-active {
+.darkTheme .communityMembers__controlPanel .ranks .ranks__item-active {
 	background-color: #232323;
 }
 .communityMembers__controlPanel .rankPermission {
@@ -548,13 +548,13 @@ export default Vue.extend({
 	margin-right: 10px;
 	transition: 0.2s;
 }
-.darkmode .communityMembers__controlPanel .rankPermission label span {
+.darkTheme .communityMembers__controlPanel .rankPermission label span {
 	border: 2.5px solid white;
 }
 .communityMembers__controlPanel .rankPermission label input:checked + span {
 	background-color: #538fff;
 }
-.darkmode
+.darkTheme
 	.communityMembers__controlPanel
 	.rankPermission
 	label
@@ -636,14 +636,14 @@ export default Vue.extend({
 
 	margin-top: 10px;
 }
-.darkmode .communityMembers__controlPanel .rankSelect select {
+.darkTheme .communityMembers__controlPanel .rankSelect select {
 	color: white;
 	background-color: #363636;
 }
 .communityMembers__controlPanel .rankSelect option {
 	border: 0;
 }
-.darkmode .communityMembers__controlPanel .rankSelect option {
+.darkTheme .communityMembers__controlPanel .rankSelect option {
 	color: white;
 	background-color: #363636;
 }

@@ -110,7 +110,7 @@ export default Vue.extend({
 
 	padding-bottom: 50px;
 }
-.darkmode .search__main {
+.darkTheme .search__main {
 	background-color: #282828;
 }
 .search__main h2 {
@@ -138,7 +138,7 @@ export default Vue.extend({
 	display: flex;
 	align-items: center;
 }
-.darkmode .search__input {
+.darkTheme .search__input {
 	background-color: #656565;
 }
 .search__input input {
@@ -151,7 +151,7 @@ export default Vue.extend({
 	font-weight: 300;
 	padding-left: 10px;
 }
-.darkmode .search__input input {
+.darkTheme .search__input input {
 	color: white;
 }
 .search__input i {
@@ -181,7 +181,7 @@ export default Vue.extend({
 
 	text-decoration: none;
 }
-.darkmode .search__list__item {
+.darkTheme .search__list__item {
 	background-color: #282828;
 }
 .search__list__item h3 {
@@ -192,7 +192,7 @@ export default Vue.extend({
 
 	margin-top: 20px;
 }
-.darkmode .search__list__item h3 {
+.darkTheme .search__list__item h3 {
 	color: white;
 }
 .search__list__item h4 {
@@ -219,7 +219,7 @@ export default Vue.extend({
 	width: 80%;
 	overflow-x: hidden;
 }
-.darkmode .search__list__item p {
+.darkTheme .search__list__item p {
 	color: #919eab;
 }
 .search__list__item img {

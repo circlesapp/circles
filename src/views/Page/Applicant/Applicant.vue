@@ -129,7 +129,7 @@ export default Vue.extend({
 	transition: 0.5s;
 	cursor: pointer;
 }
-.darkmode .applicant__main__item {
+.darkTheme .applicant__main__item {
 	background-color: #282828;
 }
 .applicant__main__item-disable {

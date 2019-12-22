@@ -118,7 +118,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .calendar__createpopup__content__clear {
+.darkTheme .calendar__createpopup__content__clear {
 	background-color: #282828;
 	color: white;
 }
@@ -126,7 +126,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .calendar__createpopup__content__clear:hover {
+.darkTheme .calendar__createpopup__content__clear:hover {
 	box-shadow: none;
 	background-color: white;
 	color: #282828;
@@ -143,7 +143,7 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .calendar__createpopup__content {
+.darkTheme .calendar__createpopup__content {
 	background-color: #282828;
 }
 .calendar__createpopup__content h3 {
@@ -152,7 +152,7 @@ export default Vue.extend({
 	color: #2e2e2e;
 	margin-bottom: 20px;
 }
-.darkmode .calendar__createpopup__content h3 {
+.darkTheme .calendar__createpopup__content h3 {
 	color: white;
 }
 .calendar__createpopup__content__inputs {
@@ -178,7 +178,7 @@ export default Vue.extend({
 	position: relative;
 	background: none;
 }
-.darkmode .calendar__createpopup__content .inputfield .inputfield__input {
+.darkTheme .calendar__createpopup__content .inputfield .inputfield__input {
 	color: white;
 	border: solid 1px #3a3a3a;
 }
@@ -214,7 +214,7 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .calendar__createpopup__content__actions .create {
+.darkTheme .calendar__createpopup__content__actions .create {
 	background-color: #363636;
 }
 .calendar__createpopup__content__actions .create:hover {

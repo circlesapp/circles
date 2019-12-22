@@ -66,7 +66,7 @@ input:checked + .switchbutton:before {
 	-ms-transform: translateX(17px);
 	transform: translateX(17px);
 }
-.darkmode input:checked + .switchbutton {
+.darkTheme input:checked + .switchbutton {
 	background-color: #3b4351;
 }
 </style>

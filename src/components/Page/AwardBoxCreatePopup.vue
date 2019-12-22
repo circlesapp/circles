@@ -214,7 +214,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .award__createpopup__content__clear {
+.darkTheme .award__createpopup__content__clear {
 	background-color: #282828;
 	color: white;
 }
@@ -222,7 +222,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .award__createpopup__content__clear:hover {
+.darkTheme .award__createpopup__content__clear:hover {
 	box-shadow: none;
 	background-color: white;
 	color: #282828;
@@ -239,7 +239,7 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .award__createpopup__content {
+.darkTheme .award__createpopup__content {
 	color: white;
 	background-color: #282828;
 }
@@ -249,7 +249,7 @@ export default Vue.extend({
 	color: #2e2e2e;
 	margin-bottom: 20px;
 }
-.darkmode .award__createpopup__content h3 {
+.darkTheme .award__createpopup__content h3 {
 	color: white;
 }
 .award__createpopup__content__inputs {
@@ -275,7 +275,7 @@ export default Vue.extend({
 	position: relative;
 	background: none;
 }
-.darkmode .award__createpopup__content .inputfield .inputfield__input {
+.darkTheme .award__createpopup__content .inputfield .inputfield__input {
 	border: solid 1px #3a3a3a;
 }
 .inputfield__inputuser {
@@ -347,7 +347,7 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .award__createpopup__content__actions .create {
+.darkTheme .award__createpopup__content__actions .create {
 	background-color: #363636;
 }
 .award__createpopup__content__actions .create:hover {

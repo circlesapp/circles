@@ -480,8 +480,9 @@ export default Vue.extend({
 	padding: 0 60px;
 	padding-bottom: 60px;
 	position: relative;
+	transition: 0.5s;
 }
-.darkmode .home__login__profile {
+.darkTheme .home__login__profile {
 	background-color: #232323;
 }
 .home__login__profile h1 {
@@ -505,7 +506,7 @@ export default Vue.extend({
 	margin: 0 60px;
 	padding: 50px;
 }
-.darkmode .home__login__list {
+.darkTheme .home__login__list {
 	color: white;
 	background-color: #2c2c2c;
 }
@@ -562,7 +563,7 @@ export default Vue.extend({
 	width: 100%;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }
-.darkmode .home__login__profile__selectclub__search {
+.darkTheme .home__login__profile__selectclub__search {
 	background-color: #232323;
 	color: white;
 	border: 1px solid #aaaaaa;
@@ -573,7 +574,7 @@ export default Vue.extend({
 
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.05);
 }
-.darkmode .home__login__profile__selectclub__list {
+.darkTheme .home__login__profile__selectclub__list {
 	background-color: #232323;
 }
 .home__login__profile__selectclub__list__item {
@@ -585,7 +586,7 @@ export default Vue.extend({
 
 	cursor: pointer;
 }
-.darkmode .home__login__profile__selectclub__list__item {
+.darkTheme .home__login__profile__selectclub__list__item {
 	color: white;
 }
 .home__login__profile__selectclub__list__item img {
@@ -597,7 +598,7 @@ export default Vue.extend({
 .home__login__profile__selectclub__list__item-active {
 	background-color: #eeeeee;
 }
-.darkmode .home__login__profile__selectclub__list__item-active {
+.darkTheme .home__login__profile__selectclub__list__item-active {
 	background-color: #535353;
 }
 .home__login__profile__selectclub__list__item-current {

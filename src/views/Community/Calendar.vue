@@ -412,12 +412,12 @@ export default Vue.extend({
 .calendar__button:hover {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-.darkmode .calendar__button {
+.darkTheme .calendar__button {
 	background-color: #538fff;
 	color: white;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
 }
-.darkmode .calendar__button:hover {
+.darkTheme .calendar__button:hover {
 	background-color: #538fffe1;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
 }
@@ -432,7 +432,7 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .calendar__content {
+.darkTheme .calendar__content {
 	background-color: #282828;
 }
 .calendar__content__day {
@@ -452,7 +452,7 @@ export default Vue.extend({
 .calendar__content__day:nth-child(7n + 1) {
 	color: #ff4475;
 }
-.darkmode .calendar__content__day {
+.darkTheme .calendar__content__day {
 	border: 1px solid #5f5f5f;
 }
 .calendar__content__day span {

@@ -254,7 +254,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .circles__createpopup__content__clear {
+.darkTheme .circles__createpopup__content__clear {
 	background-color: #282828;
 	color: white;
 }
@@ -262,7 +262,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .circles__createpopup__content__clear:hover {
+.darkTheme .circles__createpopup__content__clear:hover {
 	box-shadow: none;
 	background-color: white;
 	color: #282828;
@@ -279,7 +279,7 @@ export default Vue.extend({
 
 	position: relative;
 }
-.darkmode .circles__createpopup__content {
+.darkTheme .circles__createpopup__content {
 	background-color: #282828;
 }
 .circles__createpopup__content h3 {
@@ -288,7 +288,7 @@ export default Vue.extend({
 	color: #2e2e2e;
 	margin-bottom: 20px;
 }
-.darkmode .circles__createpopup__content h3 {
+.darkTheme .circles__createpopup__content h3 {
 	color: white;
 }
 .circles__createpopup__content__inputs {
@@ -314,7 +314,7 @@ export default Vue.extend({
 	position: relative;
 	background: none;
 }
-.darkmode .circles__createpopup__content .inputfield .inputfield__input {
+.darkTheme .circles__createpopup__content .inputfield .inputfield__input {
 	color: white;
 	border: solid 1px #3a3a3a;
 }
@@ -388,7 +388,7 @@ export default Vue.extend({
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.22);
 	color: #eeeeee;
 }
-.darkmode .circles__createpopup__content__actions .create {
+.darkTheme .circles__createpopup__content__actions .create {
 	background-color: #363636;
 }
 .circles__createpopup__content__actions .create:hover {
@@ -443,7 +443,7 @@ export default Vue.extend({
 	background-color: white;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
 }
-.darkmode .inputfield__searchSchool__list {
+.darkTheme .inputfield__searchSchool__list {
 	background-color: #333;
 }
 
@@ -455,7 +455,7 @@ export default Vue.extend({
 .inputfield__searchSchool__list__item-active {
 	background-color: #eeeeee;
 }
-.darkmode .inputfield__searchSchool__list__item-active {
+.darkTheme .inputfield__searchSchool__list__item-active {
 	background-color: #464646;
 }
 

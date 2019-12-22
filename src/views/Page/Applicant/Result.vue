@@ -83,7 +83,7 @@ export default Vue.extend({
 	font-family: "NanumSquareL";
 	font-size: 40px;
 }
-.darkmode .result__item {
+.darkTheme .result__item {
 	background-color: #282828;
 }
 @media screen and (max-width: 1200px) {

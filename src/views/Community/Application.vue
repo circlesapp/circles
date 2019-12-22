@@ -188,7 +188,7 @@ export default Vue.extend({
 	width: 50%;
 	border-collapse: collapse;
 }
-.darkmode .communityApplication__memberTable {
+.darkTheme .communityApplication__memberTable {
 	background-color: #282828;
 }
 .communityApplication__memberTable td {
@@ -205,7 +205,7 @@ export default Vue.extend({
 	cursor: pointer;
 	background-color: #538fff;
 }
-.darkmode .communityApplication__memberTable thead tr {
+.darkTheme .communityApplication__memberTable thead tr {
 	background-color: #161616;
 }
 .communityApplication__memberTable th {
@@ -234,13 +234,13 @@ export default Vue.extend({
 	border-bottom: 1px solid #dfdfdf;
 	cursor: pointer;
 }
-.darkmode .communityApplication__memberTable tbody tr {
+.darkTheme .communityApplication__memberTable tbody tr {
 	border-bottom: 1px solid #3a3a3a;
 }
 .communityApplication__memberTable .active {
 	background-color: #eeeeee;
 }
-.darkmode .communityApplication__memberTable .active {
+.darkTheme .communityApplication__memberTable .active {
 	background-color: #232323;
 }
 .communityApplication__memberTable tbody td {
@@ -262,7 +262,7 @@ export default Vue.extend({
 
 	padding: 30px;
 }
-.darkmode .communityApplication__controlPanel {
+.darkTheme .communityApplication__controlPanel {
 	background-color: #282828;
 }
 .communityApplication__controlPanel .name {

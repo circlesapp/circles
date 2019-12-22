@@ -236,7 +236,7 @@ export default Vue.extend({
 	justify-content: center;
 	color: #273142;
 }
-.darkmode .register {
+.darkTheme .register {
 	background-color: #282828;
 	color: white;
 }
@@ -336,10 +336,10 @@ header {
 	cursor: not-allowed;
 	background-color: #eeeeee;
 }
-.darkmode .register__inputwrapper input:disabled {
+.darkTheme .register__inputwrapper input:disabled {
 	background-color: #444;
 }
-.darkmode .register__inputwrapper input {
+.darkTheme .register__inputwrapper input {
 	color: white;
 	border: 1px solid #3a3a3a;
 }
@@ -365,7 +365,7 @@ header {
 	max-height: 200px;
 	overflow-y: auto;
 }
-.darkmode .register__textarea {
+.darkTheme .register__textarea {
 	color: white;
 	border: 1px solid #3a3a3a;
 }
@@ -390,7 +390,7 @@ header {
 .register__button:hover {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
 }
-.darkmode .register__button {
+.darkTheme .register__button {
 	background-color: #353535;
 }
 

@@ -26,7 +26,7 @@ export default {};
 
 	cursor: pointer;
 }
-.darkmode .applyButtonLayout button {
+.darkTheme .applyButtonLayout button {
 	background-color: #282828;
 }
 </style>

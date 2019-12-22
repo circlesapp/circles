@@ -148,7 +148,7 @@ export default Vue.extend({
 .passwordchange__rowwrapper > div {
 	flex: 1;
 }
-.darkmode .passwordchange {
+.darkTheme .passwordchange {
 	background-color: #282828;
 	color: white;
 }
@@ -236,7 +236,7 @@ export default Vue.extend({
 	border: solid 1px #eeeeee;
 	border-radius: 8px;
 }
-.darkmode .passwordchange__inputwrapper input {
+.darkTheme .passwordchange__inputwrapper input {
 	color: white;
 	border: 1px solid #3a3a3a;
 }
@@ -266,7 +266,7 @@ export default Vue.extend({
 	font-size: 30px;
 	font-family: "NanumSquareL";
 }
-.darkmode .passwordchange__button {
+.darkTheme .passwordchange__button {
 	background-color: #353535;
 }
 .passwordchange__content {

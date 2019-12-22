@@ -1,17 +1,13 @@
 <template>
-	<div
-		class="awardbox"
-		:class="{'awardbox-created':data.isCreated}"
-		@contextmenu="$emit('contextmenu',$event)"
-	>
+	<div class="awardbox" :class="{ 'awardbox-created': data.isCreated }" @contextmenu="$emit('contextmenu', $event)">
 		<div>
-			<h2>{{data.title}}</h2>
+			<h2>{{ data.title }}</h2>
 			<p>
-				{{data.subtitle}}&nbsp;&nbsp;
-				<span v-for="user in data.target" :key="user.name">{{user.name}}</span>
+				{{ data.subtitle }}&nbsp;&nbsp;
+				<span v-for="user in data.target" :key="user.name">{{ user.name }}</span>
 			</p>
 		</div>
-		<h3>{{data.level}}</h3>
+		<h3>{{ data.level }}</h3>
 	</div>
 </template>
 
@@ -43,8 +39,9 @@ export default Vue.extend({
 	padding: 50px;
 
 	position: relative;
+	transition: 0.5s;
 }
-.darkmode .awardbox {
+.darkTheme .awardbox {
 	background-color: #282828;
 }
 .awardbox input {
@@ -62,7 +59,7 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	font-size: 45px;
 }
-.darkmode .awardbox h2 {
+.darkTheme .awardbox h2 {
 	color: white;
 }
 .awardbox p {

@@ -1,5 +1,5 @@
 <template>
-	<div class="post" :class="{'post-modif':isModifPost,'post-loading':isLoading}">
+	<div class="post" :class="{ 'post-modif': isModifPost, 'post-loading': isLoading }">
 		<div class="post__option" v-if="isShowOption">
 			<p @click="modifPost" v-if="!isModifPost">
 				<i class="mdi mdi-pencil"></i>
@@ -11,42 +11,29 @@
 			</p>
 		</div>
 		<h3 class="post__title" v-if="!isCreate">
-			<img
-				:src="data.owner.imgPath ? getMainPath+data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
-				alt="user_profile"
-			/>
+			<img :src="data.owner.imgPath ? getMainPath + data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt="user_profile" />
 			<p>
-				<span class="clubname">{{data.owner.name}}</span>
+				<span class="clubname">{{ data.owner.name }}</span>
 				님이
-				<span v-if="data.imgPath.length">사진 {{data.imgPath.length}}장을 업로드했습니다.</span>
+				<span v-if="data.imgPath.length">사진 {{ data.imgPath.length }}장을 업로드했습니다.</span>
 				<span v-else>글을 업로드했습니다.</span>
 				<br />
-				<span class="moment">{{data.timeString}}</span>
+				<span class="moment">{{ data.timeString }}</span>
 			</p>
-			<i
-				class="mdi mdi-dots-horizontal post__menu"
-				@click="toggleOption"
-				v-if="getPermissionModifAndDelete"
-			></i>
+			<i class="mdi mdi-dots-horizontal post__menu" @click="toggleOption" v-if="getPermissionModifAndDelete"></i>
 		</h3>
-		<pre class="post__content" v-if="!isModifPost">{{data.content}}</pre>
-		<textarea
-			class="post__content create"
-			placeholder="글 작성하기"
-			@keypress="pressEnter"
-			v-model="modifContent"
-			v-else
-		/>
-		<article class="post__image" v-if="!isCreate&&(data ? data.imgPath.length : false)">
+		<pre class="post__content" v-if="!isModifPost">{{ data.content }}</pre>
+		<textarea class="post__content create" placeholder="글 작성하기" @keypress="pressEnter" v-model="modifContent" v-else />
+		<article class="post__image" v-if="!isCreate && (data ? data.imgPath.length : false)">
 			<div class="post__image__mainImage">
-				<img :src="getMainPath+data.imgPath[0]" alt="content_image" />
+				<img :src="getMainPath + data.imgPath[0]" alt="content_image" />
 			</div>
 			<div class="post__image__sublist" v-if="data.imgPath.length > 2">
 				<div class="post__image__subImage">
-					<img :src="getMainPath+data.imgPath[1]" alt="content_image" />
+					<img :src="getMainPath + data.imgPath[1]" alt="content_image" />
 				</div>
 				<div class="post__image__subImage">
-					<img :src="getMainPath+data.imgPath[1]" alt="content_image" />
+					<img :src="getMainPath + data.imgPath[1]" alt="content_image" />
 				</div>
 			</div>
 		</article>
@@ -59,24 +46,24 @@
 							<i class="mdi mdi-image-plus"></i>
 						</div>
 						<div class="post__modification__image__imagenames">
-							<span v-for="(image,idx) in getImages" :key="idx" class="imagename">{{image.name}}</span>
+							<span v-for="(image, idx) in getImages" :key="idx" class="imagename">{{ image.name }}</span>
 						</div>
 					</label>
 				</span>
 				<div>
 					<span style="color:#e02020; margin-right:20px;" v-if="!isCreate" @click="modifPost">취소</span>
-					<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? '작성' :'확인'}}</span>
+					<span style="color:#538fff;" @click="changeContentSave">{{ isCreate ? "작성" : "확인" }}</span>
 				</div>
 			</div>
 		</div>
 		<div class="post__action" v-else-if="!isCreate">
 			<p class="post__action__heart" @click="toggleLike">
-				<i class="mdi" :class="isLike ?'mdi-heart' : 'mdi-heart-outline'"></i>
-				{{data.likes.length}}
+				<i class="mdi" :class="isLike ? 'mdi-heart' : 'mdi-heart-outline'"></i>
+				{{ data.likes.length }}
 			</p>
 			<p class="post__action__comment" @click="toggleComments">
 				<i class="mdi mdi-comment"></i>
-				{{comments.length ? comments.length : data.comments.length}}
+				{{ comments.length ? comments.length : data.comments.length }}
 			</p>
 		</div>
 		<div class="post__comments" v-if="!isModifPost && isShowComments">
@@ -87,18 +74,11 @@
 			<div class="post__comments__list">
 				<div class="post__comments__list__item" v-for="comment in comments" :key="comment._id">
 					<h4>
-						<img
-							:src="comment.owner.imgPath ? getMainPath+comment.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
-							alt
-						/>
-						{{comment.owner.name}}
+						<img :src="comment.owner.imgPath ? getMainPath + comment.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt />
+						{{ comment.owner.name }}
 					</h4>
-					<p>{{comment.message}}</p>
-					<div
-						class="post__comments__list__item__remove"
-						v-if="checkOwner(comment.owner)"
-						@click="removeComment(comment._id)"
-					>
+					<p>{{ comment.message }}</p>
+					<div class="post__comments__list__item__remove" v-if="checkOwner(comment.owner)" @click="removeComment(comment._id)">
 						<i class="mdi mdi-close"></i>
 					</div>
 				</div>
@@ -321,30 +301,19 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		isLike(): boolean {
-			if (this.getUserInformation)
-				return (
-					this.data.likes.indexOf(this.getUserInformation._id) != -1
-				);
+			if (this.getUserInformation) return this.data.likes.indexOf(this.getUserInformation._id) != -1;
 			else return false;
 		},
 		getPermissionModifAndDelete(): boolean {
 			if (this.getUserInformation._id == this.data.owner._id) return true;
 			else {
 				if (this.getClub.ranks) {
-					if (
-						this.getClub.owner ==
-						this.$store.state.userInformation._id
-					)
-						return true;
+					if (this.getClub.owner == this.$store.state.userInformation._id) return true;
 					let user = this.getClub.members.find((member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
+						return member.user == this.$store.state.userInformation._id;
 					});
 					if (user) {
-						let permission = this.getClub.ranks.find(
-							(rank: any) => rank.id == user.rank
-						).permission;
+						let permission = this.getClub.ranks.find((rank: any) => rank.id == user.rank).permission;
 						return permission.indexOf(3) != -1;
 					} else return false;
 				} else return false;
@@ -369,14 +338,14 @@ export default Vue.extend({
 	position: relative;
 
 	overflow: hidden;
-	transition: 0.2s;
+	transition: 0.5s;
 }
-.darkmode .post {
+.darkTheme .post {
 	background-color: #282828;
 	color: white;
 }
 .post-modif {
-	border: 1px solid #538fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 .post-loading {
 	background-color: #fefefe;
@@ -406,7 +375,7 @@ export default Vue.extend({
 	font-size: 15px;
 	border-radius: 10px;
 }
-.darkmode .post__option {
+.darkTheme .post__option {
 	background-color: #232323;
 }
 .post__option i {
@@ -481,7 +450,7 @@ textarea.post__content {
 	padding: 10px;
 	width: 100%;
 }
-.darkmode textarea.post__content {
+.darkTheme textarea.post__content {
 	color: white;
 	background-color: #353535;
 }
@@ -501,7 +470,7 @@ textarea.post__content {
 	align-items: center;
 	overflow: hidden;
 }
-.darkmode .post__image__mainImage {
+.darkTheme .post__image__mainImage {
 	background-color: #353535;
 }
 .post__image__sublist {
@@ -519,7 +488,7 @@ textarea.post__content {
 	align-items: center;
 	overflow: hidden;
 }
-.darkmode .post__image__subImage {
+.darkTheme .post__image__subImage {
 	background-color: #353535;
 }
 .post__image__subImage:nth-child(1) {
@@ -592,7 +561,7 @@ textarea.post__content {
 
 	cursor: pointer;
 }
-.darkmode .post__action p {
+.darkTheme .post__action p {
 	color: white;
 }
 .post__action__heart i {
@@ -623,7 +592,7 @@ textarea.post__content {
 	flex: 7;
 	border-bottom: 1px solid #919eab;
 }
-.darkmode .post__comments__editwrapper input {
+.darkTheme .post__comments__editwrapper input {
 	color: white;
 	background-color: #353535;
 }
@@ -643,7 +612,7 @@ textarea.post__content {
 	border-top: 1px solid #eeeeee;
 	position: relative;
 }
-.darkmode .post__comments__list__item {
+.darkTheme .post__comments__list__item {
 	border-top: 1px solid #5f5f5f;
 }
 .post__comments__list__item:first-child {
@@ -659,7 +628,7 @@ textarea.post__content {
 	font-weight: normal;
 	color: #202841;
 }
-.darkmode .post__comments__list__item h4 {
+.darkTheme .post__comments__list__item h4 {
 	color: white;
 }
 .post__comments__list__item img {
@@ -674,7 +643,7 @@ textarea.post__content {
 .post__comments__list__item p {
 	color: #202841;
 }
-.darkmode .post__comments__list__item p {
+.darkTheme .post__comments__list__item p {
 	color: #f8fbff;
 }
 .post__comments__list__item__remove {

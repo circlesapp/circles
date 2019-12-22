@@ -21,7 +21,7 @@ export default Vue.extend({
 	background-color: white;
 	padding: 40px;
 }
-.darkmode .informationLayout {
+.darkTheme .informationLayout {
 	background-color: #282828;
 }
 .informationLayout h2 {

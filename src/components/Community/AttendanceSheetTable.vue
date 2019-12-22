@@ -87,7 +87,7 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	color: #9cb2cd;
 }
-.darkmode .attendanceSheetTable {
+.darkTheme .attendanceSheetTable {
 	background-color: #282828;
 }
 .attendanceSheetTable th {

@@ -61,7 +61,7 @@ export default Vue.extend({
 
 	word-break: keep-all;
 }
-.darkmode .noticebar__content {
+.darkTheme .noticebar__content {
 	background-color: #282828;
 	border: 0.5px solid rgb(104, 104, 104);
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
@@ -85,7 +85,7 @@ export default Vue.extend({
 	font-size: 1.1em;
 	color: #323232;
 }
-.darkmode .noticebar__content p {
+.darkTheme .noticebar__content p {
 	color: white;
 }
 .noticebar__content__clear {
@@ -109,7 +109,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .noticebar__content__clear {
+.darkTheme .noticebar__content__clear {
 	background-color: #282828;
 	color: white;
 }
@@ -117,7 +117,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .noticebar__content__clear:hover {
+.darkTheme .noticebar__content__clear:hover {
 	box-shadow: none;
 	box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
 	background-color: white;

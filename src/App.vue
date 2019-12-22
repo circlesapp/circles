@@ -1,5 +1,5 @@
 <template>
-	<div id="app" :class="{ darkmode: $store.state.darkTheme }">
+	<div id="app" :class="{ darkTheme: $store.state.darkTheme }">
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
@@ -161,8 +161,8 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		let darkMode = localStorage.getItem("circles.darkMode");
-		this.$store.state.darkTheme = darkMode == "true";
+		let darkTheme = localStorage.getItem("circles.darkTheme");
+		this.$store.state.darkTheme = darkTheme == "true";
 		this.loginCheck();
 	},
 	mounted() {
@@ -229,7 +229,7 @@ export default Vue.extend({
 			}
 		},
 		"$store.state.darkTheme"(next, prev) {
-			localStorage.setItem("circles.darkMode", next);
+			localStorage.setItem("circles.darkTheme", next);
 		}
 	},
 	methods: {
@@ -486,14 +486,14 @@ img {
 	background-color: rgba(39, 49, 66, 0.2);
 	/* color: #273142; */
 }
-.darkmode ::selection {
+.darkTheme ::selection {
 	background-color: #9cb2cd;
 }
 input:-webkit-autofill {
 	-webkit-text-fill-color: #538fff !important;
 	border: 1px solid #538fff !important;
 }
-.darkmode input:-webkit-autofill {
+.darkTheme input:-webkit-autofill {
 	box-shadow: 0 0 0px 1000px #353535 inset;
 }
 ::-webkit-scrollbar {
@@ -506,13 +506,13 @@ input:-webkit-autofill {
 ::-webkit-scrollbar-thumb {
 	background: rgba(59, 67, 81, 0.2);
 }
-.darkmode ::-webkit-scrollbar-thumb {
+.darkTheme ::-webkit-scrollbar-thumb {
 	background: #656565;
 }
 ::-webkit-scrollbar-track {
 	background-color: #f0f0f0;
 }
-.darkmode ::-webkit-scrollbar-track {
+.darkTheme ::-webkit-scrollbar-track {
 	background-color: #282828;
 }
 #app {
@@ -524,7 +524,7 @@ input:-webkit-autofill {
 
 	background-color: #f5f7fa;
 }
-#app.darkmode {
+#app.darkTheme {
 	color: white;
 	background-color: #353535;
 }
@@ -542,8 +542,9 @@ input:-webkit-autofill {
 	z-index: 1000;
 
 	position: relative;
+	transition: 0.5s;
 }
-.darkmode .menu {
+.darkTheme .menu {
 	background-color: #232323;
 }
 .menu__menubutton {
@@ -631,13 +632,13 @@ input:-webkit-autofill {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-.darkmode .menu__left__list__circles h1 {
+.darkTheme .menu__left__list__circles h1 {
 	color: white;
 }
 .menu__left__list__profile {
 	display: none;
 }
-.darkmode .menu__left__list__profile * {
+.darkTheme .menu__left__list__profile * {
 	color: white;
 }
 .menu__left__list__profile .information__wrapper {
@@ -711,7 +712,7 @@ input:-webkit-autofill {
 
 	overflow-y: auto;
 }
-.darkmode .menu__right__alarm__popup {
+.darkTheme .menu__right__alarm__popup {
 	background-color: #282828;
 }
 .menu__right__alarm__popup__loading {
@@ -730,21 +731,21 @@ input:-webkit-autofill {
 .menu__right__alarm__popup__item:nth-child(2n) {
 	background-color: #fafafa;
 }
-.darkmode .menu__right__alarm__popup__item:nth-child(2n) {
+.darkTheme .menu__right__alarm__popup__item:nth-child(2n) {
 	background-color: #232323;
 }
 .menu__right__alarm__popup__item p {
 	font-size: 16px;
 	color: #333333;
 }
-.darkmode .menu__right__alarm__popup__item p {
+.darkTheme .menu__right__alarm__popup__item p {
 	color: white;
 }
 .menu__right__alarm__popup__item .date {
 	font-size: 14px;
 	color: #666666;
 }
-.darkmode .menu__right__alarm__popup__item .date {
+.darkTheme .menu__right__alarm__popup__item .date {
 	color: #afaeae;
 }
 .menu__right__alarm__popup__item .clear {
@@ -783,7 +784,7 @@ input:-webkit-autofill {
 	color: #273142;
 	z-index: 3000;
 }
-.darkmode .menu__right__profile {
+.darkTheme .menu__right__profile {
 	color: white;
 	background-color: #282828;
 }
@@ -825,7 +826,7 @@ input:-webkit-autofill {
 	color: #3b4351;
 	text-decoration: none;
 }
-.darkmode .menu__right__list__link {
+.darkTheme .menu__right__list__link {
 	color: white;
 }
 .menu__right__list__item {
@@ -907,15 +908,16 @@ input:checked + .menu__right__darktheme__slider:before {
 	-ms-transform: translateX(17px);
 	transform: translateX(17px);
 }
-.darkmode input:checked + .menu__right__darktheme__slider {
+.darkTheme input:checked + .menu__right__darktheme__slider {
 	background-color: #3b4351;
 }
 .menu__moblieprofile__dark {
 	padding: 40px;
 	font-size: 24px;
 }
-.darkmode .menu__moblieprofile__dark,
-.darkmode .menu__moblieprofile__dark i {
+.darkTheme .menu__moblieprofile__dark,
+.darkTheme .menu__moblieprofile__dark i {
+	transition: 0.5s;
 	color: white;
 }
 
@@ -942,7 +944,7 @@ input:checked + .menu__right__darktheme__slider:before {
 
 	position: relative;
 }
-.darkmode .submenu {
+.darkTheme .submenu {
 	background-color: #282828;
 }
 .submenu__list {
@@ -1009,7 +1011,7 @@ input:checked + .menu__right__darktheme__slider:before {
 
 		transition: 0.5s;
 	}
-	.darkmode .menu__left__list {
+	.darkTheme .menu__left__list {
 		background-color: #232323;
 	}
 	.menu__left__list-show {
@@ -1028,7 +1030,7 @@ input:checked + .menu__right__darktheme__slider:before {
 
 		text-align: left;
 	}
-	.darkmode .menu__left__list__item {
+	.darkTheme .menu__left__list__item {
 		color: white;
 	}
 	.menu__left__list__item__pwa {

@@ -291,7 +291,7 @@ export default Vue.extend({
 
 	height: fit-content;
 }
-.darkmode .editclub__content {
+.darkTheme .editclub__content {
 	background-color: #282828;
 }
 .editclub__content .inputfield {
@@ -312,7 +312,7 @@ export default Vue.extend({
 	width: 100%;
 	position: relative;
 }
-.darkmode .editclub__content .inputfield .inputfield__input {
+.darkTheme .editclub__content .inputfield .inputfield__input {
 	color: white;
 	background: none;
 	border: solid 1px #3a3a3a;
@@ -346,10 +346,10 @@ export default Vue.extend({
 .editclub__content .action .save:hover {
 	background-color: #538fffe1;
 }
-.darkmode .editclub__content .action .save {
+.darkTheme .editclub__content .action .save {
 	background-color: #363636;
 }
-.darkmode .editclub__content .action .save:hover {
+.darkTheme .editclub__content .action .save:hover {
 	background-color: #474747;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
 }

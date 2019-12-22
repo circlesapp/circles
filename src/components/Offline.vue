@@ -73,7 +73,7 @@ export default Vue.extend({
 	-o-transition: 0.2s;
 	transition: 0.2s;
 }
-.darkmode .offline__content__clear {
+.darkTheme .offline__content__clear {
 	background-color: #282828;
 	color: white;
 }
@@ -81,7 +81,7 @@ export default Vue.extend({
 	box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 	background-color: white;
 }
-.darkmode .offline__content__clear:hover {
+.darkTheme .offline__content__clear:hover {
 	box-shadow: none;
 	background-color: white;
 	color: #282828;
@@ -105,7 +105,7 @@ export default Vue.extend({
 	text-align: center;
 	word-break: keep-all;
 }
-.darkmode .offline__content {
+.darkTheme .offline__content {
 	background-color: #282828;
 }
 .offline__content h3 {
@@ -114,7 +114,7 @@ export default Vue.extend({
 	color: #538fff;
 	margin-bottom: 20px;
 }
-.darkmode .offline__content h3 {
+.darkTheme .offline__content h3 {
 	color: white;
 }
 .offline__content h4 {
@@ -122,7 +122,7 @@ export default Vue.extend({
 	color: #273142;
 	margin-bottom: 20px;
 }
-.darkmode .offline__content h4 {
+.darkTheme .offline__content h4 {
 	color: white;
 }
 .offline__logo {
@@ -144,7 +144,7 @@ export default Vue.extend({
 	font-family: Avenir;
 	font-size: 1.2em;
 }
-.darkmode .offline__logo span {
+.darkTheme .offline__logo span {
 	color: white;
 }
 </style>

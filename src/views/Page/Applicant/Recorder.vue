@@ -127,7 +127,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	color: #9cb2cd;
 	background-color: white;
 }
-.darkmode .recorder__item {
+.darkTheme .recorder__item {
 	background-color: #282828;
 }
 .recorder__item__information {
@@ -146,7 +146,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	border-radius: 22px;
 	box-shadow: 0 2px 38px 0 rgba(0, 0, 0, 0.03);
 }
-.darkmode .recorder__right {
+.darkTheme .recorder__right {
 	background-color: #282828;
 }
 .recorder__list {

@@ -34,7 +34,7 @@ export default Vue.extend({
 	padding: 100px;
 	background-color: white;
 }
-.darkmode .clubtitleLayout {
+.darkTheme .clubtitleLayout {
 	background-color: #282828;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }
@@ -45,7 +45,7 @@ export default Vue.extend({
 	background-color: #eeeeee;
 	overflow: hidden;
 }
-.darkmode .clubtitleLayout__imgwrapper {
+.darkTheme .clubtitleLayout__imgwrapper {
 	background-color: #353535;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 }

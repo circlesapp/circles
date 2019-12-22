@@ -222,7 +222,7 @@ export default Vue.extend({
 
 	z-index: 500;
 }
-.darkmode .editor__menu {
+.darkTheme .editor__menu {
 	background-color: #282828;
 }
 .editor__back {
@@ -303,7 +303,7 @@ export default Vue.extend({
 	font-family: NanumSquareB;
 	font-size: 28px;
 }
-.darkmode .editor__menu__components__list__item {
+.darkTheme .editor__menu__components__list__item {
 	border: none;
 	background-color: #353535;
 }

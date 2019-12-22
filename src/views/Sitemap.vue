@@ -65,7 +65,7 @@ export default Vue.extend({
 
 	text-decoration: none;
 }
-.darkmode .clubs__list__item {
+.darkTheme .clubs__list__item {
 	background-color: #282828;
 }
 .clubs__list__item h3 {
@@ -76,7 +76,7 @@ export default Vue.extend({
 
 	margin-top: 20px;
 }
-.darkmode .clubs__list__item h3 {
+.darkTheme .clubs__list__item h3 {
 	color: white;
 }
 .clubs__list__item h4 {
@@ -103,7 +103,7 @@ export default Vue.extend({
 	width: 80%;
 	overflow-x: hidden;
 }
-.darkmode .clubs__list__item p {
+.darkTheme .clubs__list__item p {
 	color: #919eab;
 }
 .clubs__list__item img {

@@ -14,7 +14,7 @@
 		</div>
 		<div class="page__content" ref="page__content">
 			<transition name="routerfade-animation">
-				<router-view class="page__content__router" v-if="!isLocalLoading"></router-view>
+				<router-view v-if="!isLocalLoading"></router-view>
 			</transition>
 		</div>
 	</div>

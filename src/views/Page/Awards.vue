@@ -6,23 +6,13 @@
 		<h2 class="award__club">
 			<img class="award__clubimage" :src="getClubImage" alt="club_logo" />
 			<div>
-				<h3>{{getClub.name}}</h3>
-				<p>{{getClub.school || '-'}}</p>
+				<h3>{{ getClub.name }}</h3>
+				<p>{{ getClub.school || "-" }}</p>
 			</div>
 		</h2>
 		<div class="award__list">
-			<AwardBox
-				class="award__list__item"
-				v-for="award in awards"
-				:data="award"
-				:key="award._id"
-				@contextmenu="createContextMenu($event,award._id)"
-			></AwardBox>
-			<div
-				class="award__list__item award__list__item__create"
-				v-if="isCreateAble"
-				@click="appendAwards"
-			>+</div>
+			<AwardBox class="award__list__item" v-for="award in awards" :data="award" :key="award._id" @contextmenu="createContextMenu($event, award._id)"></AwardBox>
+			<div class="award__list__item award__list__item__create" v-if="isCreateAble" @click="appendAwards">+</div>
 		</div>
 		<AwardBoxCreatePopup @isUpdated="reload" v-if="isShowAwardCreatePopup"></AwardBoxCreatePopup>
 	</div>
@@ -102,30 +92,18 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		getClubImage() {
-			if (this.$store.state.club.imgPath)
-				return (
-					this.$store.state.mainPath + this.$store.state.club.imgPath
-				);
-			else
-				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.$store.state.club.imgPath) return this.$store.state.mainPath + this.$store.state.club.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		isCreateAble() {
 			if (this.$store.state.club.ranks) {
-				let user = this.$store.state.club.members.find(
-					(member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
-					}
-				);
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
 				if (user)
 					return (
-						this.$store.state.club.ranks.find(
-							(rank: any) => rank.id == user.rank
-						).isAdmin ||
-						this.$store.state.club.ranks
-							.find((rank: any) => rank.id == user.rank)
-							.permission.indexOf(11) != -1
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.indexOf(11) != -1
 					);
 				else return false;
 			} else return false;
@@ -148,8 +126,9 @@ export default Vue.extend({
 	align-items: center;
 
 	margin-bottom: 20px;
+	transition: 0.5s;
 }
-.darkmode .award__club {
+.darkTheme .award__club {
 	background-color: #282828;
 }
 
@@ -190,8 +169,9 @@ export default Vue.extend({
 	font-family: "NanumSquareEB";
 	font-size: 45px;
 	color: #273142;
+	transition: 0.5s;
 }
-.darkmode .award__club h3 {
+.darkTheme .award__club h3 {
 	color: white;
 }
 .award__club p {
