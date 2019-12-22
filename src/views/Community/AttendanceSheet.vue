@@ -22,7 +22,11 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			dates: ["2019-12-01", "2019-12-02", "2019-12-03"],
+			dates: [
+				{ date: "2019-12-01", label: "나눔축제" },
+				{ date: "2019-12-02", label: "DDP" },
+				{ date: "2019-12-03", label: "SETEC" }
+			],
 			members: [] as any[],
 			datas: [
 				{

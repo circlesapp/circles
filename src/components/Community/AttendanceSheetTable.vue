@@ -6,9 +6,9 @@
 					<th @click="orderBy('id')"># <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<th @click="datePick(1)">{{ dates[0] }}</th>
-					<th @click="datePick(2)">{{ dates[1] }}</th>
-					<th @click="datePick(3)">{{ dates[2] }}</th>
+					<th @click="datePick(1)">{{ dates[0].date }}<br />{{ dates[0].label }}</th>
+					<th @click="datePick(2)">{{ dates[1].date }}<br />{{ dates[1].label }}</th>
+					<th @click="datePick(3)">{{ dates[2].date }}<br />{{ dates[2].label }}</th>
 				</tr>
 			</thead>
 			<tbody>
