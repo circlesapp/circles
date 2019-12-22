@@ -54,15 +54,15 @@ export default Vue.extend({
 					role: "멤버",
 					attendances: {
 						"2019-12-01": {
-							state: 1,
+							state: 2,
 							comment: "나눔을 통한 실천"
 						},
 						"2019-12-02": {
-							state: 0,
+							state: 1,
 							comment: "실천을 통한 나눔"
 						},
 						"2019-12-03": {
-							state: 2,
+							state: 0,
 							comment: "나눔과 실천"
 						}
 					}

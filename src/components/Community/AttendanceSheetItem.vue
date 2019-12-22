@@ -52,6 +52,7 @@ export default Vue.extend({
 	border: none;
 	border-radius: 7px;
 	padding: 5px 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
 	font-size: 15px;
 	color: white;
@@ -60,22 +61,22 @@ export default Vue.extend({
 	cursor: pointer;
 }
 .attendanceSheetItem__state .state__0 {
-	background: #fe0200;
-}
-.attendanceSheetItem__state .state__0:hover {
-	background: #fe0200d1;
-}
-.attendanceSheetItem__state .state__1 {
 	background: #21a564;
 }
-.attendanceSheetItem__state .state__1:hover {
+.attendanceSheetItem__state .state__0:hover {
 	background: #21a564d1;
 }
-.attendanceSheetItem__state .state__2 {
+.attendanceSheetItem__state .state__1 {
 	background: #fe9a00;
 }
-.attendanceSheetItem__state .state__2:hover {
+.attendanceSheetItem__state .state__1:hover {
 	background: #fe9a00d1;
+}
+.attendanceSheetItem__state .state__2 {
+	background: #fe0200;
+}
+.attendanceSheetItem__state .state__2:hover {
+	background: #fe0200d1;
 }
 
 .attendanceSheetItem textarea {
