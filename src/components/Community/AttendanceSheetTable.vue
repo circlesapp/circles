@@ -3,26 +3,38 @@
 		<table>
 			<thead>
 				<tr>
-					<th @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<th @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<th @click="datePick(0)">{{ dates[0].date }}<br />{{ dates[0].label }}</th>
-					<th @click="datePick(1)">{{ dates[1].date }}<br />{{ dates[1].label }}</th>
-					<th @click="datePick(2)">{{ dates[2].date }}<br />{{ dates[2].label }}</th>
+					<th class="sortable" @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
+					<th class="sortable" @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
+					<th>
+						<span @click="datePick(0)">{{ dates[0].date }}</span>
+						<br /><input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
+					</th>
+					<th>
+						<span @click="datePick(1)">{{ dates[1].date }}</span>
+						<br /><input type="text" v-model="dates[1].label" placeholder="레이블 입력" />
+					</th>
+					<th>
+						<span @click="datePick(2)">{{ dates[2].date }}</span>
+						<br /><input type="text" v-model="dates[2].label" placeholder="레이블 입력" />
+					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<AttendanceSheetItem :colors="colors" :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
+		<AttendanceSheetDatePicker :dates="dates" v-if="showDatePicker" @isUpdated="showDatePicker = false" />
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import AttendanceSheetItem from "./AttendanceSheetItem.vue";
+import AttendanceSheetDatePicker from "./AttendanceSheetDatePicker.vue";
 export default Vue.extend({
 	components: {
-		AttendanceSheetItem
+		AttendanceSheetItem,
+		AttendanceSheetDatePicker
 	},
 	props: {
 		colors: Object,
@@ -32,7 +44,8 @@ export default Vue.extend({
 	data() {
 		return {
 			sortKey: "",
-			sortBy: false
+			sortBy: false,
+			showDatePicker: false
 		};
 	},
 	methods: {
@@ -43,10 +56,12 @@ export default Vue.extend({
 				this.sortKey = key;
 			}
 		},
+		datePick(day: number) {
+			this.showDatePicker = true;
+		},
 		changeState(e: any) {
 			this.$emit("changeState", { id: e.id, day: e.day, state: e.state });
-		},
-		datePick(d: any) {}
+		}
 	},
 	computed: {
 		getOrderedItems(): any {
@@ -79,9 +94,12 @@ export default Vue.extend({
 	padding: 20px;
 	position: relative;
 	user-select: none;
+}
+.attendanceSheetTable .sortable {
 	cursor: pointer;
 }
-.attendanceSheetTable .head i {
+
+.attendanceSheetTable thead i {
 	position: absolute;
 	right: 10%;
 
@@ -89,15 +107,27 @@ export default Vue.extend({
 	transition: 0.2s;
 }
 
-.attendanceSheetTable .head th:hover i {
+.attendanceSheetTable thead th:hover i {
 	opacity: 0.5;
 }
-.attendanceSheetTable .head i.order-active {
+.attendanceSheetTable thead i.order-active {
 	display: inline-block;
 	opacity: 1 !important;
 	transform: rotate(180deg);
 }
-.attendanceSheetTable .head i.order-rotate {
+.attendanceSheetTable thead i.order-rotate {
 	transform: rotate(0deg);
+}
+
+.attendanceSheetTable th span {
+	cursor: pointer;
+}
+.attendanceSheetTable th input {
+	max-width: 180px;
+	border: none;
+	background: transparent;
+	text-align: center;
+	font-size: 20px;
+	color: #9cb0cd;
 }
 </style>
