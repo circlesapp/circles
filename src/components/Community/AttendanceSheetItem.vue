@@ -119,8 +119,7 @@ td:hover .attendanceSheetItem__state__picker,
 }
 
 .attendanceSheetItem input {
-	width: 160px;
-	height: 30px;
+	padding: 5px 0;
 
 	font-family: "NanumSquareL";
 	font-size: 16px;
