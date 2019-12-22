@@ -39,11 +39,11 @@ export default Vue.extend({
 							comment: "가나다라마"
 						},
 						"2019-12-02": {
-							state: 1,
+							state: 0,
 							comment: "가나다라마"
 						},
 						"2019-12-03": {
-							state: 1,
+							state: 2,
 							comment: "가나다라마"
 						}
 					}
@@ -64,12 +64,10 @@ export default Vue.extend({
 	methods: {
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
-			console.log(this.datas[idx]);
-			// let dayN = `day${e.day.toString()}`;
-			// // this.members[idx].dayN.state++;
-			// if (++this.members[idx].dayN.state > 2) {
-			// 	this.members[idx].dayN.state = 0;
-			// }
+			this.datas[idx].attendances[this.dates[e.day].date].state++;
+			if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
+				this.datas[idx].attendances[this.dates[e.day].date].state = 0;
+			}
 		},
 		createEditor(e: any) {
 			console.log(e);
