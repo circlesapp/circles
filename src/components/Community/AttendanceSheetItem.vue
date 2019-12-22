@@ -1,6 +1,5 @@
 <template>
 	<tr class="attendanceSheetItem">
-		<td>{{ data._id }}</td>
 		<td>{{ data.name }}</td>
 		<td>{{ data.role }}</td>
 		<td>

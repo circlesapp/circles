@@ -14,6 +14,13 @@
 </template>
 
 <script lang="ts">
+/*
+	출결 상태 레이블
+	0: 출석
+	1: 지각
+	2: 결석
+	3: 사용자화
+*/
 import Vue from "vue";
 import AttendanceSheetTable from "../../components/Community/AttendanceSheetTable.vue";
 export default Vue.extend({
@@ -22,6 +29,14 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			colors: {
+				red: "#db4437",
+				orange: "#fe9900",
+				yellow: "#e6ba3a",
+				green: "0f8f50",
+				blue: "4682f4",
+				purple: "6834b7"
+			},
 			dates: [
 				{ date: "2019-12-01", label: "나눔축제" },
 				{ date: "2019-12-02", label: "DDP" },
@@ -36,15 +51,18 @@ export default Vue.extend({
 					attendances: {
 						"2019-12-01": {
 							state: 1,
-							comment: "가나다라마"
+							color: "",
+							comment: ``
 						},
 						"2019-12-02": {
-							state: 0,
-							comment: "가나다라마"
+							state: 3,
+							color: "purple",
+							comment: `인정 결석`
 						},
 						"2019-12-03": {
 							state: 2,
-							comment: "가나다라마"
+							color: "",
+							comment: ``
 						}
 					}
 				},
@@ -55,15 +73,18 @@ export default Vue.extend({
 					attendances: {
 						"2019-12-01": {
 							state: 2,
-							comment: "나눔을 통한 실천"
+							color: "",
+							comment: ``
 						},
 						"2019-12-02": {
 							state: 1,
-							comment: "실천을 통한 나눔"
+							color: "",
+							comment: ``
 						},
 						"2019-12-03": {
 							state: 0,
-							comment: "나눔과 실천"
+							color: "",
+							comment: ``
 						}
 					}
 				}
