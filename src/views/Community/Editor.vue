@@ -18,10 +18,26 @@
 			<div class="editor__menu__components">
 				<h2>컴포넌트 추가</h2>
 				<div class="editor__menu__components__list">
-					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'ClubTitleLayout')" draggable>동아리 타이틀</div>
-					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'InformationLayout')" draggable>동아리 소개</div>
-					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'MembersLayout')" draggable>멤버 소개</div>
-					<div class="editor__menu__components__list__item" @click="componentAdd($event, 'ApplyButtonLayout')" draggable>지원하기 버튼</div>
+					<div
+						class="editor__menu__components__list__item"
+						@click="componentAdd($event, 'ClubTitleLayout')"
+						draggable
+					>동아리 타이틀</div>
+					<div
+						class="editor__menu__components__list__item"
+						@click="componentAdd($event, 'InformationLayout')"
+						draggable
+					>동아리 소개</div>
+					<div
+						class="editor__menu__components__list__item"
+						@click="componentAdd($event, 'MembersLayout')"
+						draggable
+					>멤버 소개</div>
+					<div
+						class="editor__menu__components__list__item"
+						@click="componentAdd($event, 'ApplyButtonLayout')"
+						draggable
+					>지원하기 버튼</div>
 				</div>
 			</div>
 			<div class="editor__menu__action">
@@ -30,7 +46,14 @@
 			</div>
 		</div>
 		<div class="editor__content" ref="components">
-			<draggable tag="div" class="editor__content__wrapper" v-model="componentList" v-bind="dragOptions" @start="drag = true" @end="drag = false">
+			<draggable
+				tag="div"
+				class="editor__content__wrapper"
+				v-model="componentList"
+				v-bind="dragOptions"
+				@start="drag = true"
+				@end="drag = false"
+			>
 				<transition-group type="transition" :name="!drag ? 'componentGrop' : null">
 					<component
 						class="editor__content__component"
@@ -40,8 +63,7 @@
 						:is="component.component"
 						@contextmenu="onContextMenu($event, idx)"
 						ref="component"
-						>{{ component }}</component
-					>
+					>{{ component }}</component>
 				</transition-group>
 			</draggable>
 		</div>
@@ -73,10 +95,6 @@ export default Vue.extend({
 	data() {
 		return {
 			componentList: [] as any,
-			currentComponent: "",
-			currentSwapIndex: -1 as number,
-			currentPositionY: -1 as number,
-			isInContentDrag: false,
 			drag: false
 		};
 	},
@@ -84,29 +102,6 @@ export default Vue.extend({
 		this.componentList = this.getClub.page || [];
 	},
 	methods: {
-		onClickIndex(e: MouseEvent) {
-			let components = this.$refs.component as any[];
-			let pointY = e.clientY + (this.$refs.components as HTMLDivElement).scrollTop;
-			if (components) {
-				let heightSum = 0;
-				let isBreak = false;
-				for (let i = 0; i < components.length; i++) {
-					let ele = components[i].$el;
-					let nextEle = components[i + 1] ? components[i + 1].$el : null;
-					heightSum += ele.clientHeight;
-					if (heightSum > pointY && (nextEle ? pointY < heightSum + nextEle.clientHeight : true)) {
-						isBreak = true;
-						this.currentSwapIndex = i;
-						break;
-					}
-				}
-				if (!isBreak) {
-					this.currentSwapIndex = components.length;
-				}
-			} else {
-				this.currentSwapIndex = 0;
-			}
-		},
 		onContextMenu(e: Event, idx: number) {
 			e.preventDefault();
 			this.componentList.splice(idx, 1);
@@ -221,7 +216,7 @@ export default Vue.extend({
 	margin-bottom: 40px;
 }
 .editor__menu h1 > span {
-	font-family: "AvenirBlack";
+	font-family: AvenirBlack;
 	font-weight: 800;
 }
 .editor__menu i {
