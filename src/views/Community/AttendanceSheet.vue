@@ -125,86 +125,13 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
 			this.datas[idx].attendance[e.day].state = e.state;
-			if (e.state !== 3) this.datas[idx].attendances[e.day].comment = ``;
-
-			// this.datas[idx].attendances[this.dates[e.day].date].state++;
-			// if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
-			// 	this.datas[idx].attendances[this.dates[e.day].date].state = 0;
-			// }
-		},
-		createEditor(e: any) {
-			console.log(e);
+			if (e.state !== 3) this.datas[idx].attendance[e.day].comment = ``;
 		}
-		// reload() {
-		// 	this.isShowBudgetCreatePopup = false;
-		// 	this.$store.commit("pushPageLoading", {
-		// 		name: "GET_CLUB_attendanceSheet",
-		// 		message: "동아리 예산 불러오는 중"
-		// 	});
-		// 	this.$store
-		// 		.dispatch("GET_CLUB_attendanceSheet")
-		// 		.then(attendanceSheet => {
-		// 			this.$store.commit("clearPageLoading", "GET_CLUB_attendanceSheet");
-		// 			this.attendanceSheet = attendanceSheet.map((data: any) => {
-		// 				data.total = data.price * data.quantity + data.shopping;
-		// 				return data;
-		// 			});
-		// 		})
-		// 		.catch(err => {});
-		// }
-		// createContextMenu(e: any) {
-		// 	e.e.preventDefault();
-		// 	if (this.isCreateAble) {
-		// 		this.showContextMenu = true;
-		// 		this.currentId = e.id;
-		// 		this.$nextTick(() => {
-		// 			let contextmenu: any = this.$refs.contextmenu;
-		// 			contextmenu.style.left = e.e.x + "px";
-		// 			contextmenu.style.top = e.e.y + "px";
-		// 		});
-		// 	}
-		// },
-		// remove() {
-		// 	if (this.currentId) {
-		// 		this.$store.commit("pushPageLoading", {
-		// 			name: "BUDGET_DELETE",
-		// 			message: "동아리 예산 삭제 중"
-		// 		});
-		// 		this.$store
-		// 			.dispatch("BUDGET_DELETE", { _id: this.currentId })
-		// 			.then(award => {
-		// 				this.$store.commit("clearPageLoading", "BUDGET_DELETE");
-		// 				this.reload();
-		// 			})
-		// 			.catch(err => {});
-		// 	}
-		// }
 	},
 	computed: {
 		getClub() {
 			return this.$store.state.club;
 		}
-		// isCreateAble() {
-		// 	if (this.$store.state.club.ranks) {
-		// 		let user = this.$store.state.club.members.find(
-		// 			(member: any) => {
-		// 				return (
-		// 					member.user == this.$store.state.userInformation._id
-		// 				);
-		// 			}
-		// 		);
-		// 		if (user)
-		// 			return (
-		// 				this.$store.state.club.ranks.find(
-		// 					(rank: any) => rank.id == user.rank
-		// 				).isAdmin ||
-		// 				this.$store.state.club.ranks
-		// 					.find((rank: any) => rank.id == user.rank)
-		// 					.permission.indexOf(21) != -1
-		// 			);
-		// 		else return false;
-		// 	} else return false;
-		// }
 	}
 });
 </script>
