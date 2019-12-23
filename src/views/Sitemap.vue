@@ -12,7 +12,29 @@
 					<router-link :to="`/${club.name}/page/timeline`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>페이지</router-link>
 					<div class="clubs__list__item__link__select"></div>
 				</div>
-				<div class="clubs__list__item__indent"></div>
+				<div class="clubs__list__item__indent">
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/page/timeline`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>타임라인</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/page/awards`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>수상실적</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/page/members`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>멤버소개</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/page/budgets`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>예산공개</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/page/applicant`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>채용</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+				</div>
+
 				<div class="clubs__list__item__wrapper">
 					<router-link :to="`/${club.name}/community/${communityPermissionRoute(club)}`" v-if="isAdmin(club)" class="clubs__list__item__link"
 						><i class="mdi mdi-chevron-right"></i>커뮤니티</router-link
@@ -33,8 +55,7 @@ import Vue from "vue";
 export default Vue.extend({
 	data() {
 		return {
-			clubs: [] as any[],
-			selectedClub: ""
+			clubs: [] as any[]
 		};
 	},
 	created() {
@@ -76,16 +97,6 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		getUserInformation(): any {
-			return this.$store.state.userInformation;
-		},
-		getUserImage() {
-			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-		},
-		getClub() {
-			return this.$store.state.club;
-		},
 		getRank() {
 			if (this.$store.state.club.name) {
 				try {
@@ -105,7 +116,6 @@ export default Vue.extend({
 .clubs__list {
 	padding: 0 40px;
 	width: 100%;
-	text-align: center;
 }
 .clubs__list__item {
 	width: 30%;
@@ -152,10 +162,13 @@ export default Vue.extend({
 .clubs__list__item__divider {
 	width: 80%;
 	height: 1px;
+	margin: 5px 0 10px 0;
 	border-bottom: 1px solid #9cb1cd;
 }
 .clubs__list__item__wrapper {
-	display: inline-block;
+	/* display: inline; */
+	box-sizing: border-box;
+	width: fit-content;
 }
 .clubs__list__item__link {
 	color: #9cb1cd;
@@ -163,10 +176,15 @@ export default Vue.extend({
 	transition: 0.2s;
 }
 .clubs__list__item__wrapper:hover .clubs__list__item__link__select {
+	width: 70%;
+	opacity: 1;
+}
+.clubs__list__item__indent .clubs__list__item__wrapper:hover .clubs__list__item__link__select {
+	width: 76%;
 	opacity: 1;
 }
 .clubs__list__item__link__select {
-	width: 70%;
+	width: 0;
 	height: 1px;
 
 	margin-left: 17px;
@@ -175,10 +193,10 @@ export default Vue.extend({
 
 	opacity: 0;
 
-	transition: 0.2s;
+	transition: 0.3s;
 }
 .clubs__list__item__indent {
-	margin-left: 10px;
+	margin-left: 15px;
 }
 @media screen and (max-width: 768px) {
 	.clubs__list {
