@@ -4,13 +4,12 @@
 			<div class="home__left">
 				<h2 class="home__title">
 					<span>빠르고 편리하게</span>
-					<br />동아리를 관리하고 <br />홍보해보세요
+					<br />동아리를 관리하고
+					<br />홍보해보세요
 				</h2>
 				<div class="home__content">
 					circles.는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
-					<span>
-						으로, 자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지, 그리고 동아리 맴버만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
-					</span>
+					<span>으로, 자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지, 그리고 동아리 맴버만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.</span>
 				</div>
 				<router-link tag="button" to="/login" class="home__start">지금 시작하기</router-link>
 			</div>
@@ -43,9 +42,7 @@
 						<i class="mdi mdi-file-document"></i>
 						<h3>동아리 페이지</h3>
 					</div>
-					<p>
-						circles 에디터를 통해 쉽고 빠르게 동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물, 수상 실적, 멤버 소개, 채용 공고, 그리고 예산안의 공개 및 작성이 가능합니다.
-					</p>
+					<p>circles 에디터를 통해 쉽고 빠르게 동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물, 수상 실적, 멤버 소개, 채용 공고, 그리고 예산안의 공개 및 작성이 가능합니다.</p>
 				</div>
 				<div class="home__function__content__item">
 					<div>
@@ -73,7 +70,7 @@
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
 				<a href="mailto:admin@circlesapp.kr" style="margin-right:10px">
-					<i class="mdi mdi-email"></i>
+					<i class="mdi mdi-email">&nbsp;</i>
 				</a>
 				<a href="https://github.com/CirclesApp/">
 					<i class="mdi mdi-github-circle"></i>
@@ -90,7 +87,10 @@
 			</div>
 		</div>
 		<div class="home__login__list">
-			<div class="home__login__list__applicant" :class="{ 'home__login__list__applicant-disable': getUserInformation.applicants.length == 0 }">
+			<div
+				class="home__login__list__applicant"
+				:class="{ 'home__login__list__applicant-disable': getUserInformation.applicants.length == 0 }"
+			>
 				<h2>신청한 동아리</h2>
 				<span class="time"></span>
 				<ul>
@@ -106,14 +106,22 @@
 					</router-link>
 				</ul>
 			</div>
-			<div class="home__login__profile__selectclub" :class="{ 'home__login__profile__selectclub-disable': getUserInformation.applicants.length == 0 }">
+			<div
+				class="home__login__profile__selectclub"
+				:class="{ 'home__login__profile__selectclub-disable': getUserInformation.applicants.length == 0 }"
+			>
 				<div class="home__login__profile__selectclub__header">
 					<h2>가입한 동아리</h2>
 					<button @click="isShowCirclesCreatePopup = true">
 						<i class="mdi mdi-plus"></i>
 					</button>
 				</div>
-				<input @keydown="userInputKeyPress" v-model="searchClub" type="text" class="home__login__profile__selectclub__search" />
+				<input
+					@keydown="userInputKeyPress"
+					v-model="searchClub"
+					type="text"
+					class="home__login__profile__selectclub__search"
+				/>
 				<div class="home__login__profile__selectclub__list">
 					<div
 						class="home__login__profile__selectclub__list__item"
@@ -156,7 +164,8 @@ export default Vue.extend({
 	methods: {
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		reload() {
 			this.isShowCirclesCreatePopup = false;
@@ -167,7 +176,9 @@ export default Vue.extend({
 			this.$store
 				.dispatch("GET_USER_PROFILE", {
 					token: this.$store.state.userToken,
-					pushSubscription: localStorage.getItem("circles.pushSubscription")
+					pushSubscription: localStorage.getItem(
+						"circles.pushSubscription"
+					)
 				})
 				.then(user => {
 					this.$store.commit("clearLoading", "GET_USER_PROFILE");
@@ -175,7 +186,8 @@ export default Vue.extend({
 				.catch(err => {});
 		},
 		userInputKeyPress(e: any) {
-			if (this.targetCurrentIndex >= this.getClubs.length) this.targetCurrentIndex = this.getClubs.length;
+			if (this.targetCurrentIndex >= this.getClubs.length)
+				this.targetCurrentIndex = this.getClubs.length;
 			switch (e.keyCode) {
 				case 13:
 					this.selectClub(this.targetCurrentIndex);
@@ -184,7 +196,8 @@ export default Vue.extend({
 					if (this.targetCurrentIndex > 0) this.targetCurrentIndex--;
 					break;
 				case 40:
-					if (this.targetCurrentIndex < this.getClubs.length - 1) this.targetCurrentIndex++;
+					if (this.targetCurrentIndex < this.getClubs.length - 1)
+						this.targetCurrentIndex++;
 					break;
 			}
 		},
@@ -226,7 +239,14 @@ export default Vue.extend({
 		getRank() {
 			if (this.$store.state.club.name) {
 				try {
-					return this.$store.state.club.ranks.find((x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id).name;
+					return this.$store.state.club.ranks.find(
+						(x: any) =>
+							this.$store.state.club.members.find(
+								(x: any) =>
+									x.user ==
+									this.$store.state.userInformation._id
+							).rank == x.id
+					).name;
 				} catch (e) {
 					return "-";
 				}
@@ -235,11 +255,18 @@ export default Vue.extend({
 			}
 		},
 		getUserImage() {
-			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.$store.state.userInformation.imgPath)
+				return (
+					this.$store.state.mainPath +
+					this.$store.state.userInformation.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		getClubs(): any[] {
-			return this.getUserInformation.clubs.filter((club: any) => club.name.indexOf(this.searchClub) != -1);
+			return this.getUserInformation.clubs.filter(
+				(club: any) => club.name.indexOf(this.searchClub) != -1
+			);
 		}
 	}
 });
