@@ -1,7 +1,44 @@
 <template>
 	<div>
 		<div class="clubs__list">
-			<div class="clubs__list__item"></div>
+			<div class="clubs__list__item">
+				<div class="clubs__list__item__header">
+					<h1>circles.</h1>
+				</div>
+				<div class="clubs__list__item__divider"></div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>메인</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/login" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>로그인</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/register" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>회원가입</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/passwordChange" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>비밀번호 재설정</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/sitemap" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>사이트맵</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+			</div>
+			<div class="clubs__list__item">
+				<div class="clubs__list__item__header">
+					<img :src="getUserImage" alt="user_profile" />
+					<h3>{{ getUserInformation.name }}</h3>
+				</div>
+				<div class="clubs__list__item__divider"></div>
+				<div class="clubs__list__item__wrapper">
+					<router-link to="/profile" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>프로필</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+			</div>
+			<div></div>
 			<div v-for="club in clubs" :key="club._id" class="clubs__list__item">
 				<div class="clubs__list__item__header">
 					<img :src="getImgPath(club.imgPath)" alt="club_logo" />
@@ -36,12 +73,10 @@
 				</div>
 
 				<div class="clubs__list__item__wrapper">
-					<router-link :to="`/${club.name}/community/${communityPermissionRoute(club)}`" v-if="isAdmin(club)" class="clubs__list__item__link"
-						><i class="mdi mdi-chevron-right"></i>커뮤니티</router-link
-					>
+					<router-link :to="`/${club.name}/community/`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>커뮤니티</router-link>
 					<div class="clubs__list__item__link__select"></div>
 				</div>
-				<div class="clubs__list__item__indent" v-if="isAdmin(club)">
+				<div class="clubs__list__item__indent">
 					<div class="clubs__list__item__wrapper">
 						<router-link :to="`/${club.name}/community/attendanceSheet`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>출석부</router-link>
 						<div class="clubs__list__item__link__select"></div>
@@ -101,44 +136,11 @@ export default Vue.extend({
 				this.clubs = clubs;
 			})
 			.catch(err => {});
-		console.log(this.$store.state.club);
 	},
 	methods: {
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
 			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-		},
-		checkPermission(permission: number) {
-			if (this.$store.state.club.ranks) {
-				let user = this.$store.state.club.members.find((member: any) => {
-					return member.user == this.$store.state.userInformation._id;
-				});
-				if (user)
-					return (
-						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
-						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.indexOf("" + permission) != -1
-					);
-				else return false;
-			} else return false;
-		},
-		isAdmin(currentClub: string): number {
-			let acceptPermissions = [32, 42];
-			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
-				let user = this.$store.state.club.members.find((member: any) => {
-					return member.user == this.$store.state.userInformation._id;
-				});
-				if (user) {
-					let rank = this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank);
-					if (rank.isAdmin) {
-						return 1000;
-					} else {
-						return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.find((permission: string) => acceptPermissions.indexOf(parseInt(permission)) != -1);
-					}
-				} else return 0;
-			} else return 0;
-		},
-		communityPermissionRoute(club: string): string {
-			return this.isAdmin(club) == 1000 ? "editclub" : this.isAdmin(club) == 32 ? "application" : this.isAdmin(club) == 42 ? "calendar" : "";
 		}
 	},
 	computed: {
@@ -152,6 +154,13 @@ export default Vue.extend({
 			} else {
 				return "-";
 			}
+		},
+		getUserImage() {
+			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		getUserInformation(): any {
+			return this.$store.state.userInformation;
 		}
 	}
 });
@@ -192,6 +201,10 @@ export default Vue.extend({
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
 
 	background-color: #f8fbff;
+}
+.clubs__list__item h1 {
+	font-family: Avenir;
+	font-size: 30px;
 }
 .clubs__list__item h3 {
 	font-family: NanumSquareB;
