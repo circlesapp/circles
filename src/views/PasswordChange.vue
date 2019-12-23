@@ -38,13 +38,7 @@
 					:class="{ 'checkPassword-clear': password && checkPassword == password, 'checkPassword-declear': checkPassword && checkPassword != password }"
 				/>
 			</div>
-			<div class="passwordchange__wrapper" v-if="isEmailAuth">
-				<p class="passwordchange__content">
-					가입시 입력한 이메일로
-					<br />비밀번호 재설정이 가능합니다
-				</p>
-				<button class="passwordchange__button" type="submit">승인</button>
-			</div>
+			<button class="passwordchange__button" type="submit" v-if="isEmailAuth">승인</button>
 			<div v-else style="flex:2"></div>
 		</form>
 	</div>
@@ -240,11 +234,6 @@ export default Vue.extend({
 }
 .darkTheme .passwordchange__button {
 	background-color: #353535;
-}
-.passwordchange__content {
-	font-family: "NanumSquareL";
-	font-size: 23px;
-	text-align: center;
 }
 
 .passwordchange__emailSend {

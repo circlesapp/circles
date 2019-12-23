@@ -19,45 +19,18 @@
 			<div class="register__rowwrapper" style="flex:1">
 				<div class="register__inputwrapper">
 					<h3>이메일</h3>
-					<input
-						minlength="4"
-						autocomplete="email"
-						type="email"
-						name="email"
-						placeholder="이메일을 입력하세요."
-						v-model="email"
-						required
-						:disabled="isEmailAuth"
-					/>
+					<input minlength="4" autocomplete="email" type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" required :disabled="isEmailAuth" />
 				</div>
 				<button class="register__emailSend" type="button" @click="sendEmail" v-if="!isEmailAuth">확인</button>
 			</div>
 			<div class="register__inputwrapper" v-if="isEmailAuth">
 				<h3>성명</h3>
-				<input
-					minlength="2"
-					maxlength="10"
-					autocomplete="username"
-					type="text"
-					name="name"
-					placeholder="성명을 입력하세요."
-					v-model="name"
-					required
-				/>
+				<input minlength="2" maxlength="10" autocomplete="username" type="text" name="name" placeholder="성명을 입력하세요." v-model="name" required />
 			</div>
 			<div class="register__rowwrapper" v-if="isEmailAuth">
 				<div class="register__inputwrapper">
 					<h3>비밀번호</h3>
-					<input
-						required
-						autocomplete="new-password"
-						minlength="4"
-						maxlength="24"
-						type="password"
-						name="password"
-						placeholder="비밀번호를 입력하세요."
-						v-model="password"
-					/>
+					<input required autocomplete="new-password" minlength="4" maxlength="24" type="password" name="password" placeholder="비밀번호를 입력하세요." v-model="password" />
 				</div>
 				<div class="register__inputwrapper">
 					<h3>비밀번호 확인</h3>
@@ -71,7 +44,7 @@
 						placeholder="비밀번호를 다시 입력하세요."
 						v-model="checkPassword"
 						class="checkPassword"
-						:class="{'checkPassword-clear': password && checkPassword == password,'checkPassword-declear': checkPassword && checkPassword != password}"
+						:class="{ 'checkPassword-clear': password && checkPassword == password, 'checkPassword-declear': checkPassword && checkPassword != password }"
 					/>
 				</div>
 			</div>
@@ -83,20 +56,19 @@
 						<i class="mdi mdi-image-plus"></i>
 					</div>
 					<div class="circles__createpopup__content__image__imagenames">
-						<span class="imagename">{{ profileImage ? profileImage.name : "사진 없음"}}</span>
+						<span class="imagename">{{ profileImage ? profileImage.name : "사진 없음" }}</span>
 					</div>
 				</label>
 			</div>
 			<div class="register__error" v-if="errorAlert">
 				<i class="mdi mdi-alert-circle"></i>
-				{{errorAlert}}
+				{{ errorAlert }}
 			</div>
 			<button class="register__button" v-if="isEmailAuth">계정 만들기</button>
 			<div v-if="!isEmailAuth" style="flex:2"></div>
 		</form>
 	</div>
 </template>
-
 
 <script lang="ts">
 import Vue from "vue";
@@ -132,10 +104,8 @@ export default Vue.extend({
 				.dispatch("SEND_REGISTER_EMAIL", { email: this.email })
 				.then(data => {
 					this.$store.commit("clearLoading", "SEND_REGISTER_EMAIL");
-					this.$store.commit(
-						"showNotice",
-						`${this.email} 메일함을 확인해주세요.`
-					);
+					this.$store.commit("showNotice", `${this.email} 메일함을 확인해주세요.`);
+					this.$router.replace("/login");
 				})
 				.catch(err => console.log(err));
 		},
@@ -174,43 +144,27 @@ export default Vue.extend({
 									code: this.code
 								})
 								.then(token => {
-									this.$store.commit(
-										"showNotice",
-										"회원가입에 성공하였습니다."
-									);
+									this.$store.commit("showNotice", "회원가입에 성공하였습니다.");
 									if (img) {
 										this.$store
 											.dispatch("SET_PROFILE_IMAGE", {
 												img
 											})
 											.then(() => {
-												this.$store.commit(
-													"clearLoading",
-													"REGISTER"
-												);
+												this.$store.commit("clearLoading", "REGISTER");
 												this.$router.replace("/login");
 											})
 											.catch(err => {
-												this.$store.commit(
-													"clearLoading",
-													"REGISTER"
-												);
-												this.errorAlert =
-													err.response.data.message;
+												this.$store.commit("clearLoading", "REGISTER");
+												this.errorAlert = err.response.data.message;
 											});
 									} else {
-										this.$store.commit(
-											"clearLoading",
-											"REGISTER"
-										);
+										this.$store.commit("clearLoading", "REGISTER");
 										this.$router.replace("/login");
 									}
 								})
 								.catch(err => {
-									this.$store.commit(
-										"clearLoading",
-										"REGISTER"
-									);
+									this.$store.commit("clearLoading", "REGISTER");
 									this.errorAlert = err.response.data.message;
 								});
 						})
