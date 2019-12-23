@@ -3,8 +3,8 @@
 		<div class="application__title">
 			<i class="mdi mdi-file-document"></i>
 			<div>
-				<h2>지원서 {{getIsModificationText}}</h2>
-				<p>동아리 지원을 위한 지원서를 {{getIsModificationText}}합니다.</p>
+				<h2>지원서 {{ getIsModificationText }}</h2>
+				<p>동아리 지원을 위한 지원서를 {{ getIsModificationText }}합니다.</p>
 			</div>
 		</div>
 		<div class="application__wrapper">
@@ -15,12 +15,7 @@
 				</div>
 				<div class="application__inputbox">
 					<h3>이메일</h3>
-					<input
-						v-model="email"
-						type="text"
-						placeholder="이메일을 입력하세요"
-						:disabled="getUserInformation.email"
-					/>
+					<input v-model="email" type="text" placeholder="이메일을 입력하세요" :disabled="getUserInformation.email" />
 				</div>
 				<div class="application__inputbox">
 					<h3>학번</h3>
@@ -38,7 +33,7 @@
 				</div>
 				<div class="application__action">
 					<button class="save" @click="save" v-if="isModification">임시 저장</button>
-					<button class="submit" @click="submit">{{getIsModificationText}}</button>
+					<button class="submit" @click="submit">{{ getIsModificationText }}</button>
 				</div>
 			</div>
 		</div>
@@ -102,32 +97,28 @@ export default Vue.extend({
 				});
 		},
 		save() {
-			this.$store.commit("pushLoading", {
-				name: "APPLICANT_MODIFICATION",
-				message: "지원서 수정하는 중"
-			});
-			this.$store
-				.dispatch("APPLICANT_MODIFICATION", {
-					name: this.name,
-					email: this.email,
-					number: this.number,
-					phone: this.phone,
-					content: this.content
-				})
-				.then(data => {
-					this.$store.commit(
-						"clearLoading",
-						"APPLICANT_MODIFICATION"
-					);
-					this.reload();
-				})
-				.catch(err => {
-					this.$store.commit(
-						"clearLoading",
-						"APPLICANT_MODIFICATION"
-					);
-					console.log(err);
+			if (this.name.trim().length > 0 && this.email.trim().length > 0 && this.number.trim().length > 0 && this.phone.trim().length > 0 && this.content.trim().length > 0) {
+				this.$store.commit("pushLoading", {
+					name: "APPLICANT_MODIFICATION",
+					message: "지원서 수정하는 중"
 				});
+				this.$store
+					.dispatch("APPLICANT_MODIFICATION", {
+						name: this.name,
+						email: this.email,
+						number: this.number,
+						phone: this.phone,
+						content: this.content
+					})
+					.then(data => {
+						this.$store.commit("clearLoading", "APPLICANT_MODIFICATION");
+						this.reload();
+					})
+					.catch(err => {
+						this.$store.commit("clearLoading", "APPLICANT_MODIFICATION");
+						console.log(err);
+					});
+			}
 		},
 		submit() {
 			if (this.isModification) {
@@ -144,17 +135,11 @@ export default Vue.extend({
 						content: this.content
 					})
 					.then(data => {
-						this.$store.commit(
-							"clearLoading",
-							"APPLICANT_MODIFICATION"
-						);
+						this.$store.commit("clearLoading", "APPLICANT_MODIFICATION");
 						this.$router.back();
 					})
 					.catch(err => {
-						this.$store.commit(
-							"clearLoading",
-							"APPLICANT_MODIFICATION"
-						);
+						this.$store.commit("clearLoading", "APPLICANT_MODIFICATION");
 						console.log(err);
 					});
 			} else {
