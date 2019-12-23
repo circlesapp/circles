@@ -15,7 +15,6 @@ export default new Vuex.Store({
 		userToken: ``,
 		userInformation: {},
 		club: {} as any,
-		// mainPath : "http://localhost:3000/"
 		mainPath: `https://circlesapp.kr/api/`,
 		loadingStack: [] as LoadingData[],
 		pageLoadingStack: [] as LoadingData[],
@@ -95,13 +94,27 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		WITHDRAWACCOUNT({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/withdrawAccount`, data)
+					.then(user => {
+						commit(`setUserToken`, user.data.data);
+						event("action", "WITHDRAWACCOUNT", "withdrawaccount", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		CHANGE_PASSWORD({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
 					.post(`${state.mainPath}auth/changePassword`, data)
 					.then(user => {
 						commit(`setUserToken`, user.data.data);
-						event("action", "LOGIN", "login", user.data.data);
+						event("action", "CHANGE_PASSWORD", "changepassword", user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -115,7 +128,7 @@ export default new Vuex.Store({
 					.post(`${state.mainPath}auth/requestRegisterdByEmail`, data)
 					.then(user => {
 						commit(`setUserToken`, user.data.data);
-						event("action", "SEND_EMAIL", "sendmail", user.data.data);
+						event("action", "SEND_REGISTER_EMAIL", "register_email", user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {
@@ -129,7 +142,7 @@ export default new Vuex.Store({
 					.post(`${state.mainPath}auth/requestChangePassworddByEmail`, data)
 					.then(user => {
 						commit(`setUserToken`, user.data.data);
-						event("action", "SEND_EMAIL", "sendmail", user.data.data);
+						event("action", "SEND_CHANGEPASSWORD_EMAIL", "changepasswrod_email", user.data.data);
 						resolve(user.data.data);
 					})
 					.catch(err => {

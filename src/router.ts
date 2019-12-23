@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import VueAnalytics from "vue-analytics";
 import Home from "./views/Home.vue";
+import Profile from "./views/Profile.vue";
 import Search from "./views/Search.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
@@ -38,6 +39,11 @@ const router = new Router({
 			path: "/",
 			name: "home",
 			component: Home
+		},
+		{
+			path: "/profile",
+			name: "profile",
+			component: Profile
 		},
 		{
 			path: "/search",
