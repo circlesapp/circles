@@ -41,8 +41,7 @@ export default Vue.extend({
 	data() {
 		return {
 			sortKey: "",
-			sortBy: false,
-			showDatePicker: false
+			sortBy: false
 		};
 	},
 	methods: {
@@ -52,9 +51,6 @@ export default Vue.extend({
 			} else {
 				this.sortKey = key;
 			}
-		},
-		datePick(day: number) {
-			this.showDatePicker = true;
 		},
 		changeState(e: any) {
 			this.$emit("changeState", { id: e.id, day: e.day, state: e.state });
