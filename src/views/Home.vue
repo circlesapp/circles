@@ -55,8 +55,7 @@
 						<h3>동아리 커뮤니티</h3>
 					</div>
 					<p>
-						동아리 멤버만을 위한 내부 커뮤니티로, 동아리 전용 클라우드 스토리지, 출결 관리, 주소록, 캘린더, To-do 리스트 및 과제 관리, 투표 및 설문조사, 회비 관리, 채용 관리, 멤버간 채팅
-						등의 기능이 포함되어 있습니다.
+						동아리 멤버만을 위한 내부 커뮤니티로, 출석부, 캘린더, 멤버 관리, 채용 관리, 면접 관리 등의 기능이 포함되어 있습니다.
 					</p>
 				</div>
 				<div class="home__function__content__item">
@@ -78,10 +77,11 @@
 				<img src="../assets/medal01.webp" alt="Medal for GitHub 500+ Commits" />
 				<img src="../assets/medal02.webp" alt="Medal for 400K+ Total Code Bytes" />
 				<img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
-				<div onclick="window.open('mailto:admin@circlesapp.kr')" style="margin-right:10px">
+				<div class="home__footer__right__button" @click="$router.push('/sitemap')"><i class="mdi mdi-sitemap"></i></div>
+				<div class="home__footer__right__button" onclick="window.open('mailto:admin@circlesapp.kr')">
 					<i class="mdi mdi-email"></i>
 				</div>
-				<div onclick="window.open('https://github.com/CirclesApp/')">
+				<div class="home__footer__right__button" onclick="window.open('https://github.com/CirclesApp/')">
 					<i class="mdi mdi-github-circle"></i>
 				</div>
 			</div>
@@ -448,29 +448,6 @@ export default Vue.extend({
 	word-break: keep-all;
 }
 
-.home__medalwrapper {
-	width: 100%;
-	color: #273142;
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 600px;
-}
-.home__medal__title {
-	font-family: NanumSquareEB;
-	font-size: 61px;
-}
-.home__medal__content {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.home__medal__content img {
-	width: 20vw;
-	height: auto;
-}
-
 .home__footer {
 	width: 100%;
 	height: 100px;
@@ -499,7 +476,7 @@ export default Vue.extend({
 	width: 40px;
 	height: auto;
 
-	margin-right: 20px;
+	margin-right: 10px;
 	transition: 0.3s;
 	z-index: 100;
 	transform-origin: bottom;
@@ -508,12 +485,13 @@ export default Vue.extend({
 	transform: scale(3);
 	transform: translate3d(0, -100, 0);
 }
-.home__footer__right div {
-	text-decoration: none;
+.home__footer__right__button {
+	margin-left: 10px;
 }
-.home__footer__right div i {
+.home__footer__right__button i {
 	color: #1b1c30;
 	font-size: 50px;
+	cursor: pointer;
 }
 
 .home__login__profile {
