@@ -7,7 +7,7 @@
 					<br />동아리를 관리하고 <br />홍보해보세요
 				</h2>
 				<div class="home__content">
-					<b style="font-family:Avenir">circles.</b>는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
+					<b style="font-family:AvenirBlack">circles.</b>는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
 					<span
 						>으로, 자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지, 그리고 동아리 맴버만이 사용할 수 있는 내부 커뮤니티를 제작할 수
 						있습니다.</span
@@ -45,7 +45,7 @@
 						<h3>동아리 페이지</h3>
 					</div>
 					<p>
-						<span style="font-family:Avenir">circles.</span> 에디터를 통해 쉽고 빠르게 동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물, 수상 실적, 멤버 소개, 채용 공고, 그리고
+						<span style="font-family:AvenirBlack">circles.</span> 에디터를 통해 쉽고 빠르게 동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물, 수상 실적, 멤버 소개, 채용 공고, 그리고
 						예산안의 공개 및 작성이 가능합니다.
 					</p>
 				</div>
@@ -62,10 +62,10 @@
 				<div class="home__function__content__item">
 					<div>
 						<i class="mdi mdi-pencil"></i>
-						<h3><span style="font-family:Avenir">circles.</span> Editor</h3>
+						<h3><span style="font-family:AvenirBlack">circles.</span> Editor</h3>
 					</div>
 					<p>
-						동아리 페이지를 자신이 원하는 대로 만들 수 있는 <span style="font-family:Avenir">circles.</span> Editor는 멤버소개, 동아리일정 예산공지, 수상실적 등 정보를 선택해서 페이지를
+						동아리 페이지를 자신이 원하는 대로 만들 수 있는 <span style="font-family:AvenirBlack">circles.</span> Editor는 멤버소개, 동아리일정 예산공지, 수상실적 등 정보를 선택해서 페이지를
 						제작하고, 지원하기 버튼을 통해 동아리의 지원을 받을 수 있습니다.
 					</p>
 				</div>
@@ -483,7 +483,7 @@ export default Vue.extend({
 }
 .home__footer__left {
 	color: #1b1c30;
-	font-family: Avenir;
+	font-family: AvenirBlack;
 	font-size: 42px;
 	font-weight: 900;
 }

@@ -221,7 +221,7 @@ export default Vue.extend({
 	margin-bottom: 40px;
 }
 .editor__menu h1 > span {
-	font-family: "Avenir";
+	font-family: "AvenirBlack";
 	font-weight: 800;
 }
 .editor__menu i {

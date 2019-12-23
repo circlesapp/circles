@@ -203,7 +203,7 @@ export default Vue.extend({
 	background-color: #f8fbff;
 }
 .clubs__list__item h1 {
-	font-family: Avenir;
+	font-family: AvenirBlack;
 	font-size: 30px;
 }
 .clubs__list__item h3 {

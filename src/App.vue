@@ -378,8 +378,8 @@ export default Vue.extend({
 
 <style>
 /* @font-face {
-	font-family: "Avenir";
-	src: url("./assets/Avenir Black.ttf") format("truetype");
+	font-family: "AvenirBlack";
+	src: url("./assets/AvenirBlack Black.ttf") format("truetype");
 	font-display: swap;
 }
 @font-face {
@@ -588,7 +588,7 @@ input:-webkit-autofill {
 }
 .menu__left__title {
 	margin-left: 40px;
-	font-family: "Avenir";
+	font-family: "AvenirBlack";
 	font-weight: 900;
 	font-size: 38px;
 
@@ -654,7 +654,7 @@ input:-webkit-autofill {
 }
 .menu__left__list__circles h1 {
 	font-size: 50px;
-	font-family: Avenir;
+	font-family: AvenirBlack;
 	font-weight: bold;
 }
 .darkTheme .menu__left__list__circles h1 {

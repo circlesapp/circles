@@ -142,7 +142,7 @@ export default Vue.extend({
 }
 .offline__logo span {
 	color: #273142;
-	font-family: Avenir;
+	font-family: AvenirBlack;
 	font-size: 1.2em;
 }
 .darkTheme .offline__logo span {

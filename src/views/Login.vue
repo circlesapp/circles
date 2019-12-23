@@ -144,7 +144,7 @@ export default Vue.extend({
 .login__title {
 	font-size: 50px;
 	margin: 20px;
-	font-family: "Avenir";
+	font-family: "AvenirBlack";
 	text-align: center;
 }
 .login__text {
