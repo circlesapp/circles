@@ -108,6 +108,19 @@ export default Vue.extend({
 			if (imgPath) return this.$store.state.mainPath + imgPath;
 			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
+		checkPermission(permission: number) {
+			if (this.$store.state.club.ranks) {
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
+				if (user)
+					return (
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin ||
+						this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.indexOf("" + permission) != -1
+					);
+				else return false;
+			} else return false;
+		},
 		isAdmin(currentClub: string): number {
 			let acceptPermissions = [32, 42];
 			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
@@ -172,8 +185,8 @@ export default Vue.extend({
 	align-items: center;
 }
 .clubs__list__item img {
-	width: 40px;
-	height: 40px;
+	width: 36px;
+	height: 36px;
 	border-radius: 100%;
 
 	box-shadow: 0 2px 39px 0 rgba(83, 143, 255, 0.22);
@@ -194,11 +207,10 @@ export default Vue.extend({
 .clubs__list__item__divider {
 	width: 80%;
 	height: 1px;
-	margin: 5px 0 10px 0;
+	margin: 8px 0 14px 0;
 	border-bottom: 1px solid #9cb1cd;
 }
 .clubs__list__item__wrapper {
-	/* display: inline; */
 	box-sizing: border-box;
 	width: fit-content;
 }
