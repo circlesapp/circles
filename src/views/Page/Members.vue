@@ -1,6 +1,6 @@
 <template>
 	<div class="members">
-		<MemberBox v-for="user in members" class="mbmbers__item" :key="user._id" :data="user"></MemberBox>
+		<MemberBox v-for="user in members" class="members__item" :key="user._id" :data="user"></MemberBox>
 	</div>
 </template>
 
@@ -33,18 +33,17 @@ export default Vue.extend({
 });
 </script>
 
-
 <style>
 .members {
 	display: flex;
 	flex-wrap: wrap;
 }
-.mbmbers__item {
+.members__item {
 	flex: 1;
 	flex-basis: 30%;
 }
 @media screen and (max-width: 768px) {
-	.mbmbers__item {
+	.members__item {
 		flex-basis: 100%;
 	}
 }
