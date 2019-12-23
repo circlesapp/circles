@@ -10,11 +10,11 @@
 						<br /><input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
 					</th>
 					<th>
-						<span @click="datePick(1)">{{ dates[1].date }}</span>
+						<input type="date" v-model="dates[1].date" />
 						<br /><input type="text" v-model="dates[1].label" placeholder="레이블 입력" />
 					</th>
 					<th>
-						<span @click="datePick(2)">{{ dates[2].date }}</span>
+						<input type="date" v-model="dates[2].date" />
 						<br /><input type="text" v-model="dates[2].label" placeholder="레이블 입력" />
 					</th>
 				</tr>
@@ -23,18 +23,15 @@
 				<AttendanceSheetItem :colors="colors" :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
-		<AttendanceSheetDatePicker :dates="dates" v-if="showDatePicker" @isUpdated="showDatePicker = false" />
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import AttendanceSheetItem from "./AttendanceSheetItem.vue";
-import AttendanceSheetDatePicker from "./AttendanceSheetDatePicker.vue";
 export default Vue.extend({
 	components: {
-		AttendanceSheetItem,
-		AttendanceSheetDatePicker
+		AttendanceSheetItem
 	},
 	props: {
 		colors: Object,
@@ -124,6 +121,7 @@ export default Vue.extend({
 }
 .attendanceSheetTable th input {
 	max-width: 180px;
+
 	border: none;
 	background: transparent;
 	text-align: center;

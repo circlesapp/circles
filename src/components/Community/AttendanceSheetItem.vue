@@ -7,10 +7,10 @@
 				<i :class="getState(day.idx)"></i>
 				<input
 					type="text"
-					v-model="data.attendances[dates[day.idx].date].comment"
-					:style="'background:' + data.attendances[dates[day.idx].date].color"
+					v-model="data.attendance[day.idx].comment"
+					:style="'background:' + data.attendance[day.idx].color"
 					placeholder="레이블 입력"
-					v-if="data.attendances[dates[day.idx].date].state === 3"
+					v-if="data.attendance[day.idx].state === 3"
 				/>
 				<div class="attendanceSheetItem__state__picker">
 					<div @click="changeState(data._id, day.idx, 0)">
@@ -22,12 +22,12 @@
 					<div @click="changeState(data._id, day.idx, 2)">
 						<i class="state2 mdi mdi-close"></i>
 					</div>
-					<div @click="changeState(data._id, day.idx, 3)" class="attendanceSheetItem__state__picker__option">
+					<div @click="changeState(data._id, day.idx, 3)" class="attendanceSheetItem__state__picker__custom">
 						<i class="state3 mdi mdi-settings-outline"></i>
-						<div v-if="data.attendances[dates[day.idx].date].state == 3" class="attendanceSheetItem__color__picker">
-							<div class="attendanceSheetItem__state__colors">
-								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendances[dates[day.idx].date].color = color">
-									<i class="mdi mdi-check" v-if="color === data.attendances[dates[day.idx].date].color"></i>
+						<div v-if="data.attendance[day.idx].state == 3" class="attendanceSheetItem__state__picker__custom__outerwrapper">
+							<div class="attendanceSheetItem__state__picker__custom__innerwrapper">
+								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendance[day.idx].color = color">
+									<i class="mdi mdi-check" v-if="color === data.attendance[day.idx].color"></i>
 								</div>
 							</div>
 						</div>
@@ -52,7 +52,7 @@ export default Vue.extend({
 		},
 		getState(day: string): string {
 			let output = "";
-			let state = this.data.attendances[this.dates[day].date].state;
+			let state = this.data.attendance[day].state;
 			switch (state) {
 				case 0:
 					output = "state0 mdi mdi-circle-outline";
@@ -66,6 +66,9 @@ export default Vue.extend({
 			}
 			return output;
 		}
+	},
+	computed: {
+		getRole() {}
 	}
 });
 </script>
@@ -84,6 +87,7 @@ export default Vue.extend({
 	top: 50px;
 	left: 18px;
 
+	border-radius: 20px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	background-color: white;
 	z-index: 100;
@@ -119,7 +123,8 @@ td:hover .attendanceSheetItem__state__picker,
 }
 
 .attendanceSheetItem input {
-	padding: 5px 0;
+	width: 150px;
+	height: 30px;
 
 	font-family: "NanumSquareL";
 	font-size: 16px;
@@ -140,10 +145,24 @@ td:hover .attendanceSheetItem__state__picker,
 	color: white;
 }
 
-.attendanceSheetItem__state__colors {
+.attendanceSheetItem__state__picker__custom__outerwrapper {
+	display: none;
+
+	position: absolute;
+
+	z-index: 100;
+}
+.attendanceSheetItem__state__picker__custom:hover .attendanceSheetItem__state__picker__custom__outerwrapper {
+	display: block;
+}
+
+.attendanceSheetItem__state__picker__custom__innerwrapper {
+	width: 180px;
+	height: 30px;
+
 	padding: 0 !important;
 	position: relative;
-	left: -160px;
+	left: -165px;
 
 	display: flex;
 	justify-content: center;
@@ -152,11 +171,13 @@ td:hover .attendanceSheetItem__state__picker,
 	background: white;
 	border-radius: 20px;
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+
+	transition: 0.2s;
 }
-.darkTheme .attendanceSheetItem__state__colors {
+.darkTheme .attendanceSheetItem__state__picker__custom__innerwrapper {
 	background: #555;
 }
-.attendanceSheetItem__state__colors div {
+.attendanceSheetItem__state__picker__custom__innerwrapper div {
 	padding: 0;
 	width: 20px;
 	height: 20px;
@@ -169,21 +190,10 @@ td:hover .attendanceSheetItem__state__picker,
 
 	cursor: pointer;
 }
-.attendanceSheetItem__state__colors div:hover {
+.attendanceSheetItem__state__picker__custom__innerwrapper div:hover {
 	opacity: 0.8;
 }
-.attendanceSheetItem__state__colors div i {
+.attendanceSheetItem__state__picker__custom__innerwrapper div i {
 	color: white;
-}
-
-.attendanceSheetItem__color__picker {
-	display: none;
-
-	position: absolute;
-
-	z-index: 100;
-}
-.attendanceSheetItem__state__picker__option:hover .attendanceSheetItem__color__picker {
-	display: block;
 }
 </style>
