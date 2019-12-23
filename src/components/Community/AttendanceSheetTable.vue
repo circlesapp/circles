@@ -5,45 +5,21 @@
 				<tr>
 					<th class="sortable" @click="orderBy('name')">
 						성명
-						<i
-							class="mdi mdi-arrow-down"
-							:class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"
-						></i>
+						<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"></i>
 					</th>
 					<th class="sortable" @click="orderBy('role')">
 						역할
-						<i
-							class="mdi mdi-arrow-down"
-							:class="{ 'order-active': sortKey == 'role', 'order-rotate': sortBy }"
-						></i>
+						<i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'role', 'order-rotate': sortBy }"></i>
 					</th>
-					<th>
-						<input type="date" v-model="dates[0].date" />
+					<th v-for="(day, idx) in dates" :key="idx">
+						<input type="date" v-model="dates[idx].date" />
 						<br />
-						<input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
-					</th>
-					<th>
-						<input type="date" v-model="dates[1].date" />
-						<br />
-						<input type="text" v-model="dates[1].label" placeholder="레이블 입력" />
-					</th>
-					<th>
-						<input type="date" v-model="dates[2].date" />
-						<br />
-						<input type="text" v-model="dates[2].label" placeholder="레이블 입력" />
+						<input type="text" v-model="dates[idx].label" placeholder="레이블 입력" />
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<AttendanceSheetItem
-					@change="$emit('change',$event)"
-					:colors="colors"
-					:dates="dates"
-					v-for="data in getOrderedItems"
-					:key="data._id"
-					:data="data"
-					@changeState="changeState"
-				/>
+				<AttendanceSheetItem @change="$emit('change', $event)" :colors="colors" :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
 	</div>
@@ -85,8 +61,7 @@ export default Vue.extend({
 				return this.datas;
 			} else {
 				return this.datas.sort((a: any, b: any): any => {
-					if (this.sortBy)
-						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+					if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
 					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
 				});
 			}

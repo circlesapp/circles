@@ -2,13 +2,13 @@
 	<tr class="attendanceSheetItem">
 		<td>{{ data.name }}</td>
 		<td>{{ data.role }}</td>
-		<td v-for="(day,idx) in dates" :key="idx">
+		<td v-for="(day, idx) in dates" :key="idx">
 			<div class="attendanceSheetItem__state">
 				<i :class="getState(idx)"></i>
 				<input
 					type="text"
 					v-model="data.attendance[idx].comment"
-                    @change="$emit('change',$event)"
+					@change="$emit('change', $event)"
 					:style="'background:' + data.attendance[idx].color"
 					placeholder="레이블 입력"
 					v-if="data.attendance[idx].state === 3"
@@ -23,22 +23,11 @@
 					<div @click="changeState(data._id, idx, 2)">
 						<i class="state2 mdi mdi-close"></i>
 					</div>
-					<div
-						@click="changeState(data._id, idx, 3)"
-						class="attendanceSheetItem__state__picker__custom"
-					>
+					<div @click="changeState(data._id, idx, 3)" class="attendanceSheetItem__state__picker__custom">
 						<i class="state3 mdi mdi-settings-outline"></i>
-						<div
-							v-if="data.attendance[idx].state == 3"
-							class="attendanceSheetItem__state__picker__custom__outerwrapper"
-						>
+						<div v-if="data.attendance[idx].state == 3" class="attendanceSheetItem__state__picker__custom__outerwrapper">
 							<div class="attendanceSheetItem__state__picker__custom__innerwrapper">
-								<div
-									v-for="color in colors"
-									:key="color"
-									:style="'background:' + color"
-									@click="data.attendance[idx].color = color"
-								>
+								<div v-for="color in colors" :key="color" :style="'background:' + color" @click="data.attendance[idx].color = color">
 									<i class="mdi mdi-check" v-if="color === data.attendance[idx].color"></i>
 								</div>
 							</div>
@@ -164,8 +153,7 @@ td:hover .attendanceSheetItem__state__picker,
 
 	z-index: 100;
 }
-.attendanceSheetItem__state__picker__custom:hover
-	.attendanceSheetItem__state__picker__custom__outerwrapper {
+.attendanceSheetItem__state__picker__custom:hover .attendanceSheetItem__state__picker__custom__outerwrapper {
 	display: block;
 }
 
