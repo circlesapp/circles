@@ -11,7 +11,7 @@
 						></i>
 					</th>
 					<th v-for="(day, idx) in dates" :key="idx">
-						<input type="date" v-model="dates[idx].date" />
+						<input type="date" :value="day.date" @change="changeDate($event,idx)" />
 						<br />
 						<input type="text" v-model="dates[idx].label" placeholder="레이블 입력" />
 					</th>
@@ -60,6 +60,22 @@ export default Vue.extend({
 		},
 		changeState(e: any) {
 			this.$emit("changeState", { id: e.id, day: e.day, state: e.state });
+		},
+		changeDate(e: KeyboardEvent, idx: number) {
+			let next = (e.target as HTMLInputElement).value;
+			let prevString = "" + (this.dates[idx] as any).date;
+			(this.dates[idx] as any).date = next.toString();
+			this.datas.forEach(member => {
+				let idx = (member as any).attendance.findIndex(
+					x => x.name == prevString
+				);
+				(member as any).attendance[idx].name = next.toString();
+			});
+			this.$emit("change", e);
+		},
+		stringToDate(str: string) {
+			console.log(new Date(str));
+			return new Date(str);
 		}
 	},
 	computed: {
