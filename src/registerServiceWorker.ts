@@ -32,7 +32,7 @@ function startNotification() {
 	navigator.serviceWorker.getRegistration().then(function(reg) {
 		var options = {
 			body: "circles. 서비스를 이용해주셔서 감사합니다.",
-			icon: "logo_192.png",
+			icon: "logo_128.png",
 			vibrate: [100, 50, 100]
 		};
 		reg!.showNotification("circles.", options);
