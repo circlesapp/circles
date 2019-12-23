@@ -274,6 +274,7 @@ export default Vue.extend({
 	color: #9cb1cd;
 	text-decoration: none;
 	transition: 0.2s;
+	cursor: pointer;
 }
 .clubs__list__item__wrapper:hover .clubs__list__item__link__select {
 	width: 70%;
