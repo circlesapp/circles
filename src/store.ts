@@ -21,7 +21,8 @@ export default new Vuex.Store({
 		showNoticeTimer: 0 as number,
 		showNotice: false,
 		noticeContent: ``,
-		darkTheme: false
+		darkTheme: false,
+		slimMode: false
 	},
 	mutations: {
 		setUserToken(state, data) {
