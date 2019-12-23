@@ -8,14 +8,12 @@
 					<h3>{{ club.name }}</h3>
 				</div>
 				<div class="clubs__list__item__divider"></div>
-				<router-link to="/">메인</router-link>
-				<router-link :to="`/${club.name}/page/timeline`">페이지</router-link>
-				<router-link v-if="isAdmin" :to="`/${club.name}/community/${communityPermissionRoute}`" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 2 }"
-					>커뮤니티</router-link
-				>
+				<router-link :to="`/${club.name}/page/timeline`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 페이지</router-link>
+				<div class="clubs__list__item__indent"></div>
+				<router-link :to="`/${club.name}/community/${communityPermissionRoute}`" v-if="isAdmin" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 커뮤니티</router-link>
+				<router-link :to="`/${club.name}`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 사이트</router-link>
 			</div>
 		</div>
-		<!-- :to="`/${club.name}/page/timeline`" -->
 	</div>
 </template>
 
@@ -48,15 +46,6 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		isNoticeOn() {
-			return this.$store.state.showNotice;
-		},
-		isLoading() {
-			return this.$store.state.loadingStack.length > 0;
-		},
-		getBar() {
-			return this.$refs.bar;
-		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
 		},
@@ -160,32 +149,14 @@ export default Vue.extend({
 	height: 1px;
 	border-bottom: 1px solid #9cb1cd;
 }
-.clubs__list__item h4 {
-	font-family: NanumSquareB;
-	font-size: 26px;
-	font-weight: normal;
-	color: #919eab;
-
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	width: 80%;
-	overflow-x: hidden;
+.clubs__list__item__link {
+	color: #9cb1cd;
+	text-decoration: none;
 }
-.clubs__list__item p {
-	font-family: NanumSquareR;
-	font-size: 27px;
-	font-weight: normal;
-	color: #202841;
-
-	margin-top: 20px;
-
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	width: 80%;
-	overflow-x: hidden;
+.clubs__list__item__link:hover {
 }
-.darkTheme .clubs__list__item p {
-	color: #919eab;
+.clubs__list__item__indent {
+	margin-left: 10px;
 }
 @media screen and (max-width: 768px) {
 	.clubs__list {
