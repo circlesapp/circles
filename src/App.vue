@@ -382,26 +382,50 @@ export default Vue.extend({
 	src: url("./assets/AvenirBlack.ttf") format("truetype");
 	font-display: swap;
 }
-/* @font-face {
-	font-family: "NanumSquareB";
-	src: url("./assets/NanumSquareB.ttf") format("truetype");
-	font-display: swap;
-}
 @font-face {
-	font-family: "NanumSquareEB";
-	src: url("./assets/NanumSquareEB.ttf") format("truetype");
+	font-family: "NanumSquareL";
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareL.eot");
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareL.eot?#iefix")
+			format("embedded-opentype"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareL.woff")
+			format("woff"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareL.ttf")
+			format("truetype");
 	font-display: swap;
 }
 @font-face {
 	font-family: "NanumSquareR";
-	src: url("./assets/NanumSquareR.ttf") format("truetype");
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareR.eot");
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareR.eot?#iefix")
+			format("embedded-opentype"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareR.woff")
+			format("woff"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareR.ttf")
+			format("truetype");
 	font-display: swap;
 }
 @font-face {
-	font-family: "NanumSquareL";
-	src: url("./assets/NanumSquareL.ttf") format("truetype");
+	font-family: "NanumSquareB";
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareB.eot");
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareB.eot?#iefix")
+			format("embedded-opentype"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareB.woff")
+			format("woff"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareB.ttf")
+			format("truetype");
 	font-display: swap;
-} */
+}
+@font-face {
+	font-family: "NanumSquareEB";
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareEB.eot");
+	src: url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareEB.eot?#iefix")
+			format("embedded-opentype"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareEB.woff")
+			format("woff"),
+		url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/NanumSquareEB.ttf")
+			format("truetype");
+	font-display: swap;
+}
 .menu-animation-enter-active,
 .menu-animation-leave-active {
 	transition: 0.5s;
