@@ -15,31 +15,13 @@
 			<div class="passwordchange__rowwrapper" v-if="!isEmailAuth">
 				<div class="passwordchange__inputwrapper">
 					<h3>이메일</h3>
-					<input
-						minlength="4"
-						autocomplete="email"
-						type="email"
-						name="email"
-						placeholder="이메일을 입력하세요."
-						v-model="email"
-						required
-						:disabled="isEmailAuth"
-					/>
+					<input minlength="4" autocomplete="email" type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" required :disabled="isEmailAuth" />
 				</div>
 				<button class="passwordchange__emailSend" type="button" @click="sendEmail">확인</button>
 			</div>
 			<div class="passwordchange__inputwrapper" v-if="isEmailAuth">
 				<h3>비밀번호</h3>
-				<input
-					required
-					autocomplete="new-password"
-					minlength="4"
-					maxlength="24"
-					type="password"
-					name="password"
-					placeholder="비밀번호를 입력하세요."
-					v-model="password"
-				/>
+				<input required autocomplete="new-password" minlength="4" maxlength="24" type="password" name="password" placeholder="비밀번호를 입력하세요." v-model="password" />
 			</div>
 			<div class="passwordchange__inputwrapper" v-if="isEmailAuth">
 				<h3>비밀번호 확인</h3>
@@ -53,7 +35,7 @@
 					placeholder="비밀번호를 다시 입력하세요."
 					v-model="checkPassword"
 					class="checkPassword"
-					:class="{'checkPassword-clear': password && checkPassword == password,'checkPassword-declear': checkPassword && checkPassword != password}"
+					:class="{ 'checkPassword-clear': password && checkPassword == password, 'checkPassword-declear': checkPassword && checkPassword != password }"
 				/>
 			</div>
 			<div class="passwordchange__wrapper" v-if="isEmailAuth">
@@ -61,13 +43,12 @@
 					가입시 입력한 이메일로
 					<br />비밀번호 재설정이 가능합니다
 				</p>
-				<button class="passwordchange__button" type="submit">비밀번호 변경</button>
+				<button class="passwordchange__button" type="submit">승인</button>
 			</div>
 			<div v-else style="flex:2"></div>
 		</form>
 	</div>
 </template>
-
 
 <script lang="ts">
 import Vue from "vue";
@@ -94,14 +75,8 @@ export default Vue.extend({
 			this.$store
 				.dispatch("SEND_CHANGEPASSWORD_EMAIL", { email: this.email })
 				.then(data => {
-					this.$store.commit(
-						"clearLoading",
-						"SEND_CHANGEPASSWORD_EMAIL"
-					);
-					this.$store.commit(
-						"showNotice",
-						`${this.email} 메일함을 확인해주세요.`
-					);
+					this.$store.commit("clearLoading", "SEND_CHANGEPASSWORD_EMAIL");
+					this.$store.commit("showNotice", `${this.email} 메일함을 확인해주세요.`);
 					this.$router.push("/");
 				})
 				.catch(err => console.log(err));
@@ -117,10 +92,7 @@ export default Vue.extend({
 							newPassword: this.password
 						})
 						.then(data => {
-							this.$store.commit(
-								"showNotice",
-								"비밀번호 변경에 성공하였습니다."
-							);
+							this.$store.commit("showNotice", "비밀번호가 재설정되었습니다.");
 							this.$router.replace({ name: "login" });
 						});
 				}
