@@ -75,9 +75,9 @@
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
-				<img src="../assets/medal01.png" />
-				<img src="../assets/medal02.png" />
-				<img src="../assets/medal03.png" />
+				<img src="../assets/medal01.webp" />
+				<img src="../assets/medal02.webp" />
+				<img src="../assets/medal03.webp" />
 				<a href="mailto:admin@circlesapp.kr" style="margin-right:10px">
 					<i class="mdi mdi-email">&nbsp;</i>
 				</a>
