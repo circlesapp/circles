@@ -542,6 +542,9 @@ input:-webkit-autofill {
 	color: white;
 	background-color: #353535;
 }
+#app.darkTheme * {
+	transition: 0.5s;
+}
 .menu {
 	width: 100%;
 	height: 90px;
