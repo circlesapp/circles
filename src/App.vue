@@ -270,10 +270,6 @@ export default Vue.extend({
 			this.isOffline = false;
 		});
 
-		let route: any = this.$route;
-		this.idx = ["home", "page", "community"].indexOf(
-			route.name.split("/")[0]
-		);
 		this.setBarPosition();
 
 		window.addEventListener("beforeinstallprompt", (e: any) => {
