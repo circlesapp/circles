@@ -277,6 +277,7 @@ export default Vue.extend({
 }
 .darkTheme .award__createpopup__content .inputfield .inputfield__input {
 	border: solid 1px #3a3a3a;
+	color: white;
 }
 .inputfield__inputuser {
 	display: flex;
@@ -288,6 +289,9 @@ export default Vue.extend({
 	border: none;
 	background: none;
 	min-width: 100px;
+}
+.darkTheme .inputfield__input__userfield{
+    color: white;
 }
 .inputfield__input__userfield__autocomplete {
 	position: absolute;
@@ -301,6 +305,9 @@ export default Vue.extend({
 	background-color: white;
 	box-shadow: 0 2px 6px 0 rgba(47, 83, 151, 0.1);
 }
+.darkTheme .inputfield__input__userfield__autocomplete {
+	background-color: #2e2e2e;
+}
 .inputfield__input__userfield__autocomplete .member {
 	display: flex;
 	align-items: center;
@@ -311,6 +318,10 @@ export default Vue.extend({
 .inputfield__input__userfield__autocomplete .member-active,
 .inputfield__input__userfield__autocomplete .member:hover {
 	background-color: #eeeeee;
+}
+.darkTheme .inputfield__input__userfield__autocomplete .member-active,
+.darkTheme .inputfield__input__userfield__autocomplete .member:hover {
+	background-color: #3a3a3a;
 }
 .inputfield__input__userfield__autocomplete img {
 	height: 1.25em;
@@ -366,6 +377,10 @@ export default Vue.extend({
 	display: flex;
 	align-items: center;
 	margin-right: 10px;
+}
+.darkTheme .inputfield__input__member{
+    background-color: #3a3a3a;
+    color: white;
 }
 .inputfield__input__member img {
 	width: 1.25em;
