@@ -73,36 +73,36 @@
 				</div>
 
 				<div class="clubs__list__item__wrapper">
-					<router-link :to="`/${club.name}/community/`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>커뮤니티</router-link>
+					<div class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>커뮤니티</div>
 					<div class="clubs__list__item__link__select"></div>
 				</div>
 				<div class="clubs__list__item__indent">
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/attendanceSheet`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>출석부</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 'admin', 'community/attendanceSheet')"><i class="mdi mdi-chevron-right"></i>출석부</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/calendar`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>캘린더</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 42, 'community/calendar')"><i class="mdi mdi-chevron-right"></i>캘린더</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/editor`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>사이트편집</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 'admin', 'community/editor')"><i class="mdi mdi-chevron-right"></i>사이트편집</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/editclub`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>동아리관리</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 'admin', 'community/editclub')"><i class="mdi mdi-chevron-right"></i>동아리관리</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/members`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>멤버관리</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 'admin', 'community/members')"><i class="mdi mdi-chevron-right"></i>멤버관리</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/application`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>채용관리</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 32, 'community/application')"><i class="mdi mdi-chevron-right"></i>채용관리</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 					<div class="clubs__list__item__wrapper">
-						<router-link :to="`/${club.name}/community/interview`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>면접관리</router-link>
+						<div class="clubs__list__item__link" @click="checkPermission(club, 'admin', 'community/interview')"><i class="mdi mdi-chevron-right"></i>면접관리</div>
 						<div class="clubs__list__item__link__select"></div>
 					</div>
 				</div>
@@ -141,6 +141,38 @@ export default Vue.extend({
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
 			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		checkPermission(_club: any, permission: any, next: string) {
+			this.$store.state.club = _club;
+			if (permission == "admin") {
+				if (this.isAdmin) {
+					this.$router.push(`${_club.name}/${next}`);
+				} else {
+					this.$store.commit("showNotice", `권한이 없습니다.`);
+				}
+			} else {
+				if (this.$store.state.club.ranks) {
+					let user = this.$store.state.club.members.find((member: any) => {
+						if (member.user == this.$store.state.userInformation._id) {
+							return this.$router.push(`${_club.name}/${next}`);
+						} else {
+							return this.$store.commit("showNotice", `권한이 없습니다.`);
+						}
+					});
+					if (
+						user &&
+						(this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin() ||
+							this.$store.state.club.ranks
+								.find((rank: any) => rank.id == user.rank)
+								.parseInt(permission)
+								.indexOf("" + parseInt(permission)) != -1)
+					) {
+						return this.$router.push(`${_club.name}/${next}`);
+					}
+				} else {
+					return this.$store.commit("showNotice", `권한이 없습니다.`);
+				}
+			}
 		}
 	},
 	computed: {
@@ -161,6 +193,16 @@ export default Vue.extend({
 		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
+		},
+		isAdmin() {
+			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
+				if (user) {
+					return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin;
+				} else return false;
+			} else return false;
 		}
 	}
 });
@@ -170,6 +212,7 @@ export default Vue.extend({
 .clubs__list {
 	padding: 0 40px;
 	width: 100%;
+	user-select: none;
 }
 .clubs__list__item {
 	width: 30%;
