@@ -71,88 +71,6 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			},
 			datas: [] as any,
 			dates: [] as any,
-			// dates: [
-			// 	{ date: "2019-12-01", label: "출석부1" },
-			// 	{ date: "2019-12-02", label: "출석부2" },
-			// 	{ date: "2019-12-03", label: "출석부3" }
-			// ] as any[],
-			// datas: [
-			// 	{
-			// 		_id: "5dcde7e2ea5d132a98c914ba",
-			// 		name: "박종훈",
-			// 		role: "대표",
-			// 		attendance: [
-			// 			{
-			// 				name: "2019-12-01",
-			// 				state: 1,
-			// 				color: "",
-			// 				comment: ``
-			// 			},
-			// 			{
-			// 				name: "2019-12-02",
-			// 				state: 3,
-			// 				color: "orange",
-			// 				comment: `인정 결석`
-			// 			},
-			// 			{
-			// 				name: "2019-12-03",
-			// 				state: 2,
-			// 				color: "",
-			// 				comment: ``
-			// 			}
-			// 		]
-			// 	},
-			// 	{
-			// 		_id: "5dcd86c7ea5d132a98c9148b",
-			// 		name: "김현우",
-			// 		role: "멤버",
-			// 		attendance: [
-			// 			{
-			// 				name: "2019-12-01",
-			// 				state: 1,
-			// 				color: "",
-			// 				comment: ``
-			// 			},
-			// 			{
-			// 				name: "2019-12-02",
-			// 				state: 0,
-			// 				color: "",
-			// 				comment: ``
-			// 			},
-			// 			{
-			// 				name: "2019-12-03",
-			// 				state: 2,
-			// 				color: "",
-			// 				comment: ``
-			// 			}
-			// 		]
-			// 	},
-			// 	{
-			// 		_id: "5dcd86c7ea5d132aa8c9148b",
-			// 		name: "표영우",
-			// 		role: "멤버",
-			// 		attendance: [
-			// 			{
-			// 				name: "2019-12-01",
-			// 				state: 1,
-			// 				color: "",
-			// 				comment: ``
-			// 			},
-			// 			{
-			// 				name: "2019-12-02",
-			// 				state: 0,
-			// 				color: "",
-			// 				comment: ``
-			// 			},
-			// 			{
-			// 				name: "2019-12-03",
-			// 				state: 2,
-			// 				color: "#444",
-			// 				comment: `외부활동`
-			// 			}
-			// 		]
-			// 	}
-			// ] as any[],
 			showEditor: false,
 			currentId: ""
 		};
@@ -161,9 +79,6 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		this.$socket.client.emit("attendance_getAttendanceByClubName", {
 			clubname: this.getClub.name
 		});
-		// this.$socket.client.emit("attendance_deleteAttendance", {
-		// 	clubname: this.getClub.name
-		// });
 	},
 	watch: {},
 	methods: {
@@ -227,8 +142,6 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 .darkTheme .attendanceSheet__head__add:hover {
 	background-color: #538fffe1;
 	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
-}
-.attendanceSheet__head__wrapper {
 }
 .attendanceSheet__title {
 	font-family: "NanumSquareEB";
