@@ -7,14 +7,14 @@
 						성명
 						<i
 							class="mdi mdi-arrow-down"
-							:class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"
+							:class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"
 						></i>
 					</th>
 					<th class="sortable" @click="orderBy('role')">
 						역할
 						<i
 							class="mdi mdi-arrow-down"
-							:class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"
+							:class="{ 'order-active': sortKey == 'role', 'order-rotate': sortBy }"
 						></i>
 					</th>
 					<th>
@@ -147,5 +147,12 @@ export default Vue.extend({
 	text-align: center;
 	font-size: 20px;
 	color: #9cb0cd;
+}
+.order-active {
+	opacity: 1 !important;
+	transform: rotate(180deg);
+}
+.order-rotate {
+	transform: rotate(0deg);
 }
 </style>
