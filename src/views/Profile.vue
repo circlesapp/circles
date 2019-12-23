@@ -2,40 +2,32 @@
 	<div class="profile">
 		<div class="profile__title">프로필 편집</div>
 		<div class="profile__wrapper">
-			<label
-				class="profile__imgbox"
-				:class="{ 'profile__imgbox-ondrag': isOnDragOver }"
-				@drop="onImageDrop"
-				@dragover="onImageDropOver"
-				@dragleave="isOnDragOver = false"
-			>
+			<label class="profile__imgbox" :class="{ 'profile__imgbox-ondrag': isOnDragOver }" @drop="onImageDrop" @dragover="onImageDropOver" @dragleave="isOnDragOver = false">
 				<img :src="getProfileImage" alt="profile_logo" />
 				<p>
 					<b>
 						<input type="file" @change="onImageChange" />
-						프로필 이미지 수정
-					</b>하기
-					<br />또는
-					<b>드래그 앤 드롭</b>으로 이미지 업로드
+						프로필 이미지 수정 </b
+					>하기 <br />또는 <b>드래그 앤 드롭</b>으로 이미지 업로드
 				</p>
 			</label>
 			<div class="profile__content">
 				<div class="inputfield">
 					<h4>이메일</h4>
-					<input v-model="email" class="inputfield__input" type="text" placeholder="이메일" disabled />
+					<input v-model="email" class="inputfield__input" type="email" placeholder="이메일" disabled />
 				</div>
 				<div class="inputfield">
 					<h4>이름</h4>
 					<input v-model="name" class="inputfield__input" type="text" placeholder="이름을 입력하세요" />
 				</div>
 				<div class="inputfield">
-					<h4>상태 메세지</h4>
-					<input v-model="message" class="inputfield__input" type="text" placeholder="상태 메세지를 입력하세요" />
+					<h4>상태 메시지</h4>
+					<input v-model="message" class="inputfield__input" type="text" placeholder="상태 메시지를 입력하세요" />
 				</div>
 				<div class="action">
 					<div>
-						<button class="delete">계정 삭제</button>
 						<button class="save" @click="changePassword">비밀번호 변경</button>
+						<button class="delete">계정 삭제</button>
 					</div>
 					<button class="save" @click="save">저장</button>
 				</div>
@@ -109,8 +101,8 @@ export default Vue.extend({
 					.dispatch("SET_PROFILE_IMAGE", {
 						img: this.imageFileBase64
 					})
-					.then((data) => {
-                        console.log(data)
+					.then(data => {
+						console.log(data);
 						this.$store.commit("clearLoading", "SET_PROFILE_IMAGE");
 						this.$store
 							.dispatch("CHANGE_INFORMATION", {
@@ -118,14 +110,8 @@ export default Vue.extend({
 								message: this.message
 							})
 							.then(data => {
-								this.$store.commit(
-									"clearLoading",
-									"CHANGE_INFORMATION"
-								);
-								this.$store.commit(
-									"showNotice",
-									`프로필 수정 성공`
-								);
+								this.$store.commit("clearLoading", "CHANGE_INFORMATION");
+								this.$store.commit("showNotice", `프로필 수정 성공`);
 							});
 					})
 					.catch(err => {});
@@ -136,10 +122,7 @@ export default Vue.extend({
 						message: this.message
 					})
 					.then(data => {
-						this.$store.commit(
-							"clearLoading",
-							"CHANGE_INFORMATION"
-						);
+						this.$store.commit("clearLoading", "CHANGE_INFORMATION");
 						this.$store.commit("showNotice", `프로필 수정 성공`);
 					});
 			}
@@ -152,14 +135,8 @@ export default Vue.extend({
 			this.$store
 				.dispatch("SEND_CHANGEPASSWORD_EMAIL", { email: this.email })
 				.then(data => {
-					this.$store.commit(
-						"clearLoading",
-						"SEND_CHANGEPASSWORD_EMAIL"
-					);
-					this.$store.commit(
-						"showNotice",
-						`${this.email} 메일함을 확인해주세요.`
-					);
+					this.$store.commit("clearLoading", "SEND_CHANGEPASSWORD_EMAIL");
+					this.$store.commit("showNotice", `${this.email} 메일함을 확인해주세요.`);
 				})
 				.catch(err => console.log(err));
 		},
@@ -172,22 +149,16 @@ export default Vue.extend({
 			this.reload();
 		},
 		imageFile() {
-			this.encodeBase64ImageFile(this.imageFile).then(
-				(imagebase64: string) => {
-					this.imageFileBase64 = imagebase64;
-				}
-			);
+			this.encodeBase64ImageFile(this.imageFile).then((imagebase64: string) => {
+				this.imageFileBase64 = imagebase64;
+			});
 		}
 	},
 	computed: {
 		getProfileImage(): string {
 			if (this.imageFileBase64) return this.imageFileBase64;
-			else if (this.getUserInformation.imgPath)
-				return (
-					this.$store.state.mainPath + this.getUserInformation.imgPath
-				);
-			else
-				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			else if (this.getUserInformation.imgPath) return this.$store.state.mainPath + this.getUserInformation.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		getUserInformation(): any {
 			return this.$store.state.userInformation;
@@ -318,12 +289,7 @@ export default Vue.extend({
 	color: white;
 
 	margin: 10px;
-	padding: 10px 50px;
 	word-break: keep-all;
-
-	font-size: 20px;
-
-	border-radius: 100px;
 
 	-webkit-transition: 0.2s;
 	-moz-transition: 0.2s;
@@ -331,21 +297,30 @@ export default Vue.extend({
 	transition: 0.2s;
 	cursor: pointer;
 }
-.profile__content .action button:hover {
-	background-color: #538fffe1;
-}
-.darkTheme .profile__content .action button {
-	background-color: #363636;
-}
-.darkTheme .profile__content .action button:hover {
-	background-color: #474747;
-	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
-}
 .profile__content .action button.save {
+	padding: 10px 50px;
+	font-size: 20px;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+	border-radius: 100px;
 	background-color: #538fff;
 }
+.profile__content .action button.save:hover {
+	background-color: #538fffe1;
+}
+.darkTheme .profile__content .action button.save {
+	background-color: #363636;
+}
+.darkTheme .profile__content .action button.save:hover {
+	background-color: #474747;
+}
 .profile__content .action button.delete {
-	background-color: #ff4475;
+	border: none;
+	color: #ff4475;
+	background: transparent;
+	text-decoration: underline;
+}
+.darkTheme .profile__content .action button.delete {
+	color: rgba(255, 255, 255, 0.9);
 }
 @media screen and (max-width: 1279px) {
 	.profile__wrapper {
