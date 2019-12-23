@@ -5,18 +5,18 @@
 				<tr>
 					<th class="sortable" @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th class="sortable" @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<!-- <th>
+					<th>
 						<input type="date" v-model="dates[0].date" />
 						<br /><input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
 					</th>
 					<th>
-						<span @click="datePick(1)">{{ dates[1].date }}</span>
+						<input type="date" v-model="dates[1].date" />
 						<br /><input type="text" v-model="dates[1].label" placeholder="레이블 입력" />
 					</th>
 					<th>
-						<span @click="datePick(2)">{{ dates[2].date }}</span>
+						<input type="date" v-model="dates[2].date" />
 						<br /><input type="text" v-model="dates[2].label" placeholder="레이블 입력" />
-					</th> -->
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -121,6 +121,7 @@ export default Vue.extend({
 }
 .attendanceSheetTable th input {
 	max-width: 180px;
+
 	border: none;
 	background: transparent;
 	text-align: center;
