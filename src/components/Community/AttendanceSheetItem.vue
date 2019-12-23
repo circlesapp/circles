@@ -2,34 +2,34 @@
 	<tr class="attendanceSheetItem">
 		<td>{{ data.name }}</td>
 		<td>{{ data.role }}</td>
-		<td v-for="day in dates" :key="day.idx">
+		<td v-for="(day,idx) in dates" :key="idx">
 			<div class="attendanceSheetItem__state">
-				<i :class="getState(day.idx)"></i>
+				<i :class="getState(idx)"></i>
 				<input
 					type="text"
-					v-model="data.attendance[day.idx].comment"
+					v-model="data.attendance[idx].comment"
                     @change="$emit('change',$event)"
-					:style="'background:' + data.attendance[day.idx].color"
+					:style="'background:' + data.attendance[idx].color"
 					placeholder="레이블 입력"
-					v-if="data.attendance[day.idx].state === 3"
+					v-if="data.attendance[idx].state === 3"
 				/>
 				<div class="attendanceSheetItem__state__picker">
-					<div @click="changeState(data._id, day.idx, 0)">
+					<div @click="changeState(data._id, idx, 0)">
 						<i class="state0 mdi mdi-circle-outline"></i>
 					</div>
-					<div @click="changeState(data._id, day.idx, 1)">
+					<div @click="changeState(data._id, idx, 1)">
 						<i class="state1 mdi mdi-triangle-outline"></i>
 					</div>
-					<div @click="changeState(data._id, day.idx, 2)">
+					<div @click="changeState(data._id, idx, 2)">
 						<i class="state2 mdi mdi-close"></i>
 					</div>
 					<div
-						@click="changeState(data._id, day.idx, 3)"
+						@click="changeState(data._id, idx, 3)"
 						class="attendanceSheetItem__state__picker__custom"
 					>
 						<i class="state3 mdi mdi-settings-outline"></i>
 						<div
-							v-if="data.attendance[day.idx].state == 3"
+							v-if="data.attendance[idx].state == 3"
 							class="attendanceSheetItem__state__picker__custom__outerwrapper"
 						>
 							<div class="attendanceSheetItem__state__picker__custom__innerwrapper">
@@ -37,9 +37,9 @@
 									v-for="color in colors"
 									:key="color"
 									:style="'background:' + color"
-									@click="data.attendance[day.idx].color = color"
+									@click="data.attendance[idx].color = color"
 								>
-									<i class="mdi mdi-check" v-if="color === data.attendance[day.idx].color"></i>
+									<i class="mdi mdi-check" v-if="color === data.attendance[idx].color"></i>
 								</div>
 							</div>
 						</div>

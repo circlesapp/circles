@@ -73,9 +73,9 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			// datas: [] as any,
 			// dates: [] as any,
 			dates: [
-				{ idx: 0, date: "2019-12-01", label: "출석부1" },
-				{ idx: 1, date: "2019-12-02", label: "출석부2" },
-				{ idx: 2, date: "2019-12-03", label: "출석부3" }
+				{ date: "2019-12-01", label: "출석부1" },
+				{ date: "2019-12-02", label: "출석부2" },
+				{ date: "2019-12-03", label: "출석부3" }
 			] as any[],
 			datas: [
 				{
@@ -179,6 +179,9 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 				dates: this.dates,
 				datas: this.datas
 			});
+		},
+		createAttendanceSheet() {
+			this.dates.push({});
 		}
 	},
 	computed: {
