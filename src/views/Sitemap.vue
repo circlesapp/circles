@@ -8,10 +8,21 @@
 					<h3>{{ club.name }}</h3>
 				</div>
 				<div class="clubs__list__item__divider"></div>
-				<router-link :to="`/${club.name}/page/timeline`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 페이지</router-link>
+				<div class="clubs__list__item__wrapper">
+					<router-link :to="`/${club.name}/page/timeline`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>페이지</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
 				<div class="clubs__list__item__indent"></div>
-				<router-link :to="`/${club.name}/community/${communityPermissionRoute}`" v-if="isAdmin" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 커뮤니티</router-link>
-				<router-link :to="`/${club.name}`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i> 사이트</router-link>
+				<div class="clubs__list__item__wrapper">
+					<router-link :to="`/${club.name}/community/${communityPermissionRoute(club)}`" v-if="isAdmin(club)" class="clubs__list__item__link"
+						><i class="mdi mdi-chevron-right"></i>커뮤니티</router-link
+					>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
+				<div class="clubs__list__item__wrapper">
+					<router-link :to="`/${club.name}`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>사이트</router-link>
+					<div class="clubs__list__item__link__select"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -43,36 +54,8 @@ export default Vue.extend({
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
 			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-		}
-	},
-	computed: {
-		getUserInformation(): any {
-			return this.$store.state.userInformation;
 		},
-		getUserImage() {
-			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-		},
-		getClub() {
-			return this.$store.state.club;
-		},
-		isShowMenuRoute(): boolean {
-			return (
-				["login", "register", "passwordchange", "page404", "community/editor", "site"].indexOf(this.$route.name || "") == -1 && !(this.$route.name == "home" && !this.getUserInformation.name)
-			);
-		},
-		getRank() {
-			if (this.$store.state.club.name) {
-				try {
-					return this.$store.state.club.ranks.find((x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id).name;
-				} catch (e) {
-					return "-";
-				}
-			} else {
-				return "-";
-			}
-		},
-		isAdmin(): number {
+		isAdmin(club: string): number {
 			let acceptPermissions = [32, 42];
 			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
 				let user = this.$store.state.club.members.find((member: any) => {
@@ -88,8 +71,31 @@ export default Vue.extend({
 				} else return 0;
 			} else return 0;
 		},
-		communityPermissionRoute(): string {
-			return this.isAdmin == 1000 ? "editclub" : this.isAdmin == 32 ? "application" : this.isAdmin == 42 ? "calendar" : "";
+		communityPermissionRoute(club: string): string {
+			return this.isAdmin(club) == 1000 ? "editclub" : this.isAdmin(club) == 32 ? "application" : this.isAdmin(club) == 42 ? "calendar" : "";
+		}
+	},
+	computed: {
+		getUserInformation(): any {
+			return this.$store.state.userInformation;
+		},
+		getUserImage() {
+			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+		},
+		getClub() {
+			return this.$store.state.club;
+		},
+		getRank() {
+			if (this.$store.state.club.name) {
+				try {
+					return this.$store.state.club.ranks.find((x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id).name;
+				} catch (e) {
+					return "-";
+				}
+			} else {
+				return "-";
+			}
 		}
 	}
 });
@@ -103,6 +109,8 @@ export default Vue.extend({
 }
 .clubs__list__item {
 	width: 30%;
+	margin: 20px;
+	padding: 20px;
 
 	display: inline-flex;
 	justify-content: center;
@@ -112,9 +120,6 @@ export default Vue.extend({
 	border-radius: 20px;
 	box-shadow: 0 2px 63px 0 rgba(0, 0, 0, 0.04);
 	background-color: white;
-
-	margin: 20px;
-	padding: 20px;
 }
 .darkTheme .clubs__list__item {
 	background-color: #282828;
@@ -135,7 +140,7 @@ export default Vue.extend({
 }
 .clubs__list__item h3 {
 	font-family: NanumSquareB;
-	font-size: 30px;
+	font-size: 24px;
 	font-weight: normal;
 	color: #202841;
 
@@ -149,11 +154,28 @@ export default Vue.extend({
 	height: 1px;
 	border-bottom: 1px solid #9cb1cd;
 }
+.clubs__list__item__wrapper {
+	display: inline-block;
+}
 .clubs__list__item__link {
 	color: #9cb1cd;
 	text-decoration: none;
+	transition: 0.2s;
 }
-.clubs__list__item__link:hover {
+.clubs__list__item__wrapper:hover .clubs__list__item__link__select {
+	opacity: 1;
+}
+.clubs__list__item__link__select {
+	width: 70%;
+	height: 1px;
+
+	margin-left: 17px;
+
+	border-bottom: 1px solid #9cb1cd;
+
+	opacity: 0;
+
+	transition: 0.2s;
 }
 .clubs__list__item__indent {
 	margin-left: 10px;
