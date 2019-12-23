@@ -5,7 +5,7 @@
 				<tr>
 					<th class="sortable" @click="orderBy('name')">성명 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
 					<th class="sortable" @click="orderBy('role')">역할 <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'item', 'order-rotate': sortBy }"></i></th>
-					<th>
+					<!-- <th>
 						<input type="date" v-model="dates[0].date" />
 						<br /><input type="text" v-model="dates[0].label" placeholder="레이블 입력" />
 					</th>
@@ -16,25 +16,22 @@
 					<th>
 						<span @click="datePick(2)">{{ dates[2].date }}</span>
 						<br /><input type="text" v-model="dates[2].label" placeholder="레이블 입력" />
-					</th>
+					</th> -->
 				</tr>
 			</thead>
 			<tbody>
 				<AttendanceSheetItem :colors="colors" :dates="dates" v-for="data in getOrderedItems" :key="data._id" :data="data" @changeState="changeState" />
 			</tbody>
 		</table>
-		<AttendanceSheetDatePicker :dates="dates" v-if="showDatePicker" @isUpdated="showDatePicker = false" />
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import AttendanceSheetItem from "./AttendanceSheetItem.vue";
-import AttendanceSheetDatePicker from "./AttendanceSheetDatePicker.vue";
 export default Vue.extend({
 	components: {
-		AttendanceSheetItem,
-		AttendanceSheetDatePicker
+		AttendanceSheetItem
 	},
 	props: {
 		colors: Object,
