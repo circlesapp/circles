@@ -5,11 +5,7 @@
 				<header class="menu__left">
 					<i class="menu__menubutton mdi mdi-menu" @click="toggleMenu"></i>
 					<router-link tag="h1" class="menu__left__title" to="/">circles.</router-link>
-					<nav
-						class="menu__left__list"
-						:class="{ 'menu__left__list-show': showMenu }"
-						@click="toggleMenu"
-					>
+					<nav class="menu__left__list" :class="{ 'menu__left__list-show': showMenu }" @click="toggleMenu">
 						<div class="menu__left__list__circles">
 							<img src="./assets/circles_logo.png" alt="circles_logo" />
 							<router-link tag="h1" to="/">circles.</router-link>
@@ -22,10 +18,7 @@
 									<p class="clubs">{{ getClub.name }} {{ getRank }}</p>
 								</div>
 							</div>
-							<div
-								class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark"
-								@click="$store.state.darkTheme = !$store.state.darkTheme"
-							>
+							<div class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark" @click="$store.state.darkTheme = !$store.state.darkTheme">
 								<div class="menu__right__darktheme__left">
 									<i class="mdi mdi-theme-light-dark"></i>
 									<span class="menu__right__list__item__text">다크 테마</span>
@@ -33,49 +26,18 @@
 								<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
 							</div>
 						</div>
-						<router-link
-							to="/"
-							class="menu__left__list__item"
-							:class="{ 'menu__left__list__item-active': idx == 0 }"
-						>메인</router-link>
-						<router-link
-							:to="`/${getClub.name}/page/timeline`"
-							class="menu__left__list__item"
-							v-if="getClub.name"
-							:class="{ 'menu__left__list__item-active': idx == 1 }"
-						>페이지</router-link>
-						<router-link
-							v-if="isAdmin"
-							:to="`/${getClub.name}/community/${communityPermissionRoute}`"
-							class="menu__left__list__item"
-							:class="{ 'menu__left__list__item-active': idx == 2 }"
-						>커뮤니티</router-link>
-						<router-link
-							v-if="getClub.name"
-							:to="`/${getClub.name}`"
-							class="menu__left__list__item"
-							:class="{ 'menu__left__list__item-active': idx == 3 }"
-						>사이트</router-link>
-						<div
-							class="menu__left__list__item menu__left__list__item__pwa"
-							@click="showPWA"
-							v-if="deferredPrompt"
-						>앱 설치</div>
-						<router-link
-							v-if="!getUserInformation.name"
-							to="/login"
-							class="menu__left__list__item btn__login menu__left__list__item__pwa"
-						>로그인</router-link>
-						<div
-							v-if="getUserInformation.name"
-							class="menu__left__list__item btn__logout menu__left__list__item__pwa"
-							@click="logout"
-						>로그아웃</div>
-						<div
-							class="menu__left__list__bar"
-							ref="bar"
-							:style="`left:${barPositionX};${idx == -1 ? 'display:none;' : ''}`"
-						></div>
+						<router-link to="/" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 0 }">메인</router-link>
+						<router-link :to="`/${getClub.name}/page/timeline`" class="menu__left__list__item" v-if="getClub.name" :class="{ 'menu__left__list__item-active': idx == 1 }"
+							>페이지</router-link
+						>
+						<router-link v-if="isAdmin" :to="`/${getClub.name}/community/${communityPermissionRoute}`" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 2 }"
+							>커뮤니티</router-link
+						>
+						<router-link v-if="getClub.name" :to="`/${getClub.name}`" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 3 }">사이트</router-link>
+						<div class="menu__left__list__item menu__left__list__item__pwa" @click="showPWA" v-if="deferredPrompt">앱 설치</div>
+						<router-link v-if="!getUserInformation.name" to="/login" class="menu__left__list__item btn__login menu__left__list__item__pwa">로그인</router-link>
+						<div v-if="getUserInformation.name" class="menu__left__list__item btn__logout menu__left__list__item__pwa" @click="logout">로그아웃</div>
+						<div class="menu__left__list__bar" ref="bar" :style="`left:${barPositionX};${idx == -1 ? 'display:none;' : ''}`"></div>
 					</nav>
 				</header>
 				<transition name="fade">
@@ -84,20 +46,13 @@
 							<i class="mdi mdi-magnify"></i>
 						</router-link>
 						<div class="menu__right__alarm__wrapper" @click="toggleAlarm" v-if="getUserInformation.name">
-							<span
-								class="menu__right__alarm__count"
-								v-if="getUserInformation.alarms.length > 0"
-							>{{ getUserInformation.alarms.length }}</span>
+							<span class="menu__right__alarm__count" v-if="getUserInformation.alarms.length > 0">{{ getUserInformation.alarms.length }}</span>
 							<i class="menu__right__alarm mdi mdi-bell-outline"></i>
 						</div>
 						<transition name="fade">
 							<div class="menu__right__alarm__popup" v-if="showAlarm">
 								<TopLoadingBar class="menu__right__alarm__popup__loading" v-if="isAlarmLoading"></TopLoadingBar>
-								<div
-									class="menu__right__alarm__popup__item"
-									v-for="alarm in getUserInformation.alarms"
-									:key="alarm.createAt"
-								>
+								<div class="menu__right__alarm__popup__item" v-for="alarm in getUserInformation.alarms" :key="alarm.createAt">
 									<p>
 										<span class="date">{{ alarm.timeString }}</span>
 										<br />
@@ -121,21 +76,13 @@
 										</div>
 									</div>
 									<div class="menu__right__list" v-if="getRank !== '-' && isAdmin">
-										<router-link
-											class="menu__right__list__link"
-											v-if="getRank !== '-'"
-											:to="`/${getClub.name}/page/timeline`"
-										>
+										<router-link class="menu__right__list__link" v-if="getRank !== '-'" :to="`/${getClub.name}/page/timeline`">
 											<div class="menu__right__list__item">
 												<i class="mdi mdi-account-group"></i>
 												<span class="menu__right__list__item__text">{{ getClub.name || "-" }}</span>
 											</div>
 										</router-link>
-										<router-link
-											class="menu__right__list__link"
-											v-if="isAdmin"
-											:to="`/${getClub.name}/community/members`"
-										>
+										<router-link class="menu__right__list__link" v-if="isAdmin" :to="`/${getClub.name}/community/members`">
 											<div class="menu__right__list__item">
 												<i class="mdi mdi-shield-star"></i>
 												<span class="menu__right__list__item__text">{{ getRank }}</span>
@@ -143,20 +90,14 @@
 										</router-link>
 									</div>
 									<div class="menu__right__list menu__right__list__last">
-										<div
-											class="menu__right__list__item menu__right__darktheme"
-											@click="$store.state.darkTheme = !$store.state.darkTheme"
-										>
+										<div class="menu__right__list__item menu__right__darktheme" @click="$store.state.darkTheme = !$store.state.darkTheme">
 											<div class="menu__right__darktheme__left">
 												<i class="mdi mdi-theme-light-dark"></i>
 												<span class="menu__right__list__item__text">다크 테마</span>
 											</div>
 											<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
 										</div>
-										<div
-											class="menu__right__list__item menu__right__profile__logout"
-											@click="$router.push('profile')"
-										>
+										<div class="menu__right__list__item menu__right__profile__logout" @click="$router.push('/profile')">
 											<i class="mdi mdi-account-edit"></i>
 											<span class="menu__right__list__item__text">프로필 편집</span>
 										</div>
@@ -251,9 +192,7 @@ export default Vue.extend({
 		});
 
 		let route: any = this.$route;
-		this.idx = ["home", "page", "community"].indexOf(
-			route.name.split("/")[0]
-		);
+		this.idx = ["home", "page", "community"].indexOf(route.name.split("/")[0]);
 		this.setBarPosition();
 
 		window.addEventListener("beforeinstallprompt", (e: any) => {
@@ -265,10 +204,7 @@ export default Vue.extend({
 		let routeList = [this.$route.name] as any[];
 		this.$router.beforeEach((to, from, next) => {
 			this.$store.state.loadingStack = [];
-			if (
-				routeList.length > 1 &&
-				to.name == routeList[routeList.length - 2]
-			) {
+			if (routeList.length > 1 && to.name == routeList[routeList.length - 2]) {
 				this.routerAnimation = "routerdown-animation";
 				routeList.splice(routeList.length - 1, 1);
 				setTimeout(function() {
@@ -285,9 +221,7 @@ export default Vue.extend({
 
 	watch: {
 		$route(next, prev) {
-			this.idx = ["home", "page", "community"].indexOf(
-				next.name.split("/")[0]
-			);
+			this.idx = ["home", "page", "community"].indexOf(next.name.split("/")[0]);
 			if (this.idx != -1) {
 				if (this.$refs.bar as HTMLDivElement) {
 					this.setBarPosition();
@@ -343,9 +277,7 @@ export default Vue.extend({
 		},
 		loginCheck() {
 			let token = localStorage.getItem("circles.loginToken");
-			let pushSubscription = localStorage.getItem(
-				"circles.pushSubscription"
-			);
+			let pushSubscription = localStorage.getItem("circles.pushSubscription");
 			if (token) {
 				this.$store.commit("pushLoading", {
 					name: "GET_USER_PROFILE",
@@ -385,41 +317,21 @@ export default Vue.extend({
 			return this.$store.state.userInformation;
 		},
 		getUserImage() {
-			if (this.$store.state.userInformation.imgPath)
-				return (
-					this.$store.state.mainPath +
-					this.$store.state.userInformation.imgPath
-				);
-			else
-				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
+			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		getClub() {
 			return this.$store.state.club;
 		},
 		isShowMenuRoute(): boolean {
 			return (
-				[
-					"login",
-					"register",
-					"passwordchange",
-					"page404",
-					"community/editor",
-					"site"
-				].indexOf(this.$route.name || "") == -1 &&
-				!(this.$route.name == "home" && !this.getUserInformation.name)
+				["login", "register", "passwordchange", "page404", "community/editor", "site"].indexOf(this.$route.name || "") == -1 && !(this.$route.name == "home" && !this.getUserInformation.name)
 			);
 		},
 		getRank() {
 			if (this.$store.state.club.name) {
 				try {
-					return this.$store.state.club.ranks.find(
-						(x: any) =>
-							this.$store.state.club.members.find(
-								(x: any) =>
-									x.user ==
-									this.$store.state.userInformation._id
-							).rank == x.id
-					).name;
+					return this.$store.state.club.ranks.find((x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id).name;
 				} catch (e) {
 					return "-";
 				}
@@ -429,44 +341,22 @@ export default Vue.extend({
 		},
 		isAdmin(): number {
 			let acceptPermissions = [32, 42];
-			if (
-				this.$store.state.club.ranks &&
-				this.$store.state.userInformation._id
-			) {
-				let user = this.$store.state.club.members.find(
-					(member: any) => {
-						return (
-							member.user == this.$store.state.userInformation._id
-						);
-					}
-				);
+			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
+				let user = this.$store.state.club.members.find((member: any) => {
+					return member.user == this.$store.state.userInformation._id;
+				});
 				if (user) {
-					let rank = this.$store.state.club.ranks.find(
-						(rank: any) => rank.id == user.rank
-					);
+					let rank = this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank);
 					if (rank.isAdmin) {
 						return 1000;
 					} else {
-						return this.$store.state.club.ranks
-							.find((rank: any) => rank.id == user.rank)
-							.permission.find(
-								(permission: string) =>
-									acceptPermissions.indexOf(
-										parseInt(permission)
-									) != -1
-							);
+						return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.find((permission: string) => acceptPermissions.indexOf(parseInt(permission)) != -1);
 					}
 				} else return 0;
 			} else return 0;
 		},
 		communityPermissionRoute(): string {
-			return this.isAdmin == 1000
-				? "editclub"
-				: this.isAdmin == 32
-				? "application"
-				: this.isAdmin == 42
-				? "calendar"
-				: "";
+			return this.isAdmin == 1000 ? "editclub" : this.isAdmin == 32 ? "application" : this.isAdmin == 42 ? "calendar" : "";
 		}
 	}
 });
