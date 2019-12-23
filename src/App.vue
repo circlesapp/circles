@@ -558,6 +558,7 @@ input:-webkit-autofill {
 
 	z-index: 1000;
 
+	user-select: none;
 	position: relative;
 	transition: 0.5s;
 }
