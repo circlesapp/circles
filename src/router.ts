@@ -60,7 +60,6 @@ const router = new Router({
 				{ path: "budgets", name: "page/budgets", component: () => import("./views/Page/Budgets.vue") },
 				{
 					path: "applicant",
-					name: "page/applicant",
 					component: () => import("./views/Page/Applicant.vue"),
 					children: [
 						{ path: "", name: "page/applicant/main", component: () => import("./views/Page/Applicant/Applicant.vue") },
