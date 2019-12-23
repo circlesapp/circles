@@ -2,13 +2,21 @@
 	<div class="editclub">
 		<div class="editclub__title">동아리 관리</div>
 		<div class="editclub__wrapper">
-			<label class="editclub__imgbox" :class="{ 'editclub__imgbox-ondrag': isOnDragOver }" @drop="onImageDrop" @dragover="onImageDropOver" @dragleave="isOnDragOver = false">
+			<label
+				class="editclub__imgbox"
+				:class="{ 'editclub__imgbox-ondrag': isOnDragOver }"
+				@drop="onImageDrop"
+				@dragover="onImageDropOver"
+				@dragleave="isOnDragOver = false"
+			>
 				<img :src="getClubImage" alt="club_logo" />
 				<p>
 					<b>
 						<input type="file" @change="onImageChange" />
-						동아리 이미지 수정 </b
-					>하기 <br />또는 <b>드래그 앤 드롭</b>으로 이미지 업로드
+						동아리 이미지 수정
+					</b>하기
+					<br />또는
+					<b>드래그 앤 드롭</b>으로 이미지 업로드
 				</p>
 			</label>
 			<div class="editclub__content">
@@ -22,13 +30,27 @@
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
-					<input v-model="introduction" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
+					<input
+						v-model="introduction"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리 소개를 입력하세요"
+					/>
 				</div>
 				<div class="action">
-					<button class="delete" :class="{ 'delete-active': deleteClubName == name }" @click="isDeleteAble = true">
+					<button
+						class="delete"
+						:class="{ 'delete-active': deleteClubName == name }"
+						@click="isDeleteAble = true"
+					>
 						<span @click="deleteClub" v-if="isOwner">동아리 폐쇄</span>
 
-						<input v-if="isDeleteAble" @input="deleteClubName = $event.target.value" type="text" placeholder="동아리 명 확인" />
+						<input
+							v-if="isDeleteAble"
+							@input="deleteClubName = $event.target.value"
+							type="text"
+							placeholder="동아리 명 확인"
+						/>
 					</button>
 					<button class="save" @click="save">저장</button>
 				</div>
@@ -102,6 +124,7 @@ export default Vue.extend({
 				})
 				.then(club => {
 					this.$store.commit("clearLoading", "CLUB_MODIFICATION");
+					this.$store.commit("showNotice", `동아리 정보 수정 성공`);
 					if (this.imageFileBase64) {
 						this.$store.commit("pushLoading", {
 							name: "SET_CLUB_IMAGE",
@@ -112,12 +135,19 @@ export default Vue.extend({
 								img: this.imageFileBase64
 							})
 							.then(data => {
-								this.$store.commit("clearLoading", "SET_CLUB_IMAGE");
-								this.$router.replace(`/${this.name}/community/editclub`);
+								this.$store.commit(
+									"clearLoading",
+									"SET_CLUB_IMAGE"
+								);
+								this.$router.replace(
+									`/${this.name}/community/editclub`
+								);
 							})
 							.catch(err => console.dir(err));
 					} else {
-						this.$router.replace(`/${this.name}/community/editclub`);
+						this.$router.replace(
+							`/${this.name}/community/editclub`
+						);
 					}
 				})
 				.catch(err => console.dir(err));
@@ -150,18 +180,27 @@ export default Vue.extend({
 					name: "encodeBase64ImageFile",
 					message: "동아리 사이트 수정 중"
 				});
-				this.encodeBase64ImageFile(this.imageFile).then((imagebase64: string) => {
-					this.imageFileBase64 = imagebase64;
-					this.$store.commit("clearLoading", "encodeBase64ImageFile");
-				});
+				this.encodeBase64ImageFile(this.imageFile).then(
+					(imagebase64: string) => {
+						this.imageFileBase64 = imagebase64;
+						this.$store.commit(
+							"clearLoading",
+							"encodeBase64ImageFile"
+						);
+					}
+				);
 			}
 		}
 	},
 	computed: {
 		getClubImage(): string {
 			if (this.imageFileBase64) return this.imageFileBase64;
-			else if (this.$store.state.club.imgPath) return this.$store.state.mainPath + this.$store.state.club.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			else if (this.$store.state.club.imgPath)
+				return (
+					this.$store.state.mainPath + this.$store.state.club.imgPath
+				);
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
 		getClub() {
 			return this.$store.state.club;
