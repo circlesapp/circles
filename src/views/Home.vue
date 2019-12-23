@@ -71,6 +71,16 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="home__medalwrapper">
+			<div class="home__medal__title">메달</div>
+			<div class="home__medal__content">
+				<img src="../assets/medal01.png" />
+				<img src="../assets/medal02.png" />
+				<img src="../assets/medal03.png" />
+			</div>
+		</div>
+
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
@@ -441,6 +451,29 @@ export default Vue.extend({
 	color: #868686;
 
 	word-break: keep-all;
+}
+
+.home__medalwrapper {
+	width: 100%;
+	color: #273142;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 600px;
+}
+.home__medal__title {
+	font-family: NanumSquareEB;
+	font-size: 61px;
+}
+.home__medal__content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.home__medal__content img {
+	width: 20vw;
+	height: auto;
 }
 
 .home__footer {
