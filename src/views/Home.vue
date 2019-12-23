@@ -309,6 +309,7 @@ export default Vue.extend({
 	cursor: pointer;
 }
 .home__start:hover {
+	opacity: 0.8;
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4);
 }
 
@@ -575,6 +576,9 @@ export default Vue.extend({
 	font-size: 30px;
 }
 .home__login__profile__selectclub__header button {
+	width: 50px;
+	height: 50px;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -586,13 +590,12 @@ export default Vue.extend({
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	background-color: #538fff;
 	color: white;
-	padding: 4px 10px;
 
 	cursor: pointer;
 	transition: 0.2s;
 }
 .home__login__profile__selectclub__header button:hover {
-	background-color: #538fffe1;
+	background-color: #6c9fff;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
 }
 .home__login__profile__selectclub__search {
