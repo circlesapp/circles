@@ -542,7 +542,8 @@ input:-webkit-autofill {
 	color: white;
 	background-color: #353535;
 }
-#app.darkTheme * {
+#app.darkTheme *,
+#app.slimMode * {
 	transition: 0.5s;
 }
 .menu {
