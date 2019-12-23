@@ -377,12 +377,12 @@ export default Vue.extend({
 </script>
 
 <style>
-/* @font-face {
+@font-face {
 	font-family: "AvenirBlack";
-	src: url("./assets/AvenirBlack Black.ttf") format("truetype");
+	src: url("./assets/AvenirBlack.ttf") format("truetype");
 	font-display: swap;
 }
-@font-face {
+/* @font-face {
 	font-family: "NanumSquareB";
 	src: url("./assets/NanumSquareB.ttf") format("truetype");
 	font-display: swap;
