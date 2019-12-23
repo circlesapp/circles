@@ -39,6 +39,10 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			this.datas = data.data.datas;
 			this.dates = data.data.dates;
 		},
+		attendance_createAttendance(this: any, data) {
+			this.datas = data.data.datas;
+			this.dates = data.data.dates;
+		},
 		attendance_getAttendanceByClubName(this: any, data) {
 			console.log(data);
 			if (data.result) {
@@ -46,14 +50,9 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 				this.dates = data.data.dates;
 			} else {
 				this.$socket.client.emit("attendance_createAttendance", {
-					clubname: this.getClub.name,
-					dates: this.dates,
-					datas: this.datas
+					clubname: this.getClub.name
 				});
 			}
-		},
-		attendance_createAttendance(data) {
-			console.log(data);
 		}
 	},
 	components: {
@@ -70,90 +69,90 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 				purple: "#6834b7",
 				black: "#444"
 			},
-			// datas: [] as any,
-			// dates: [] as any,
-			dates: [
-				{ date: "2019-12-01", label: "출석부1" },
-				{ date: "2019-12-02", label: "출석부2" },
-				{ date: "2019-12-03", label: "출석부3" }
-			] as any[],
-			datas: [
-				{
-					_id: "5dcde7e2ea5d132a98c914ba",
-					name: "박종훈",
-					role: "대표",
-					attendance: [
-						{
-							name: "2019-12-01",
-							state: 1,
-							color: "",
-							comment: ``
-						},
-						{
-							name: "2019-12-02",
-							state: 3,
-							color: "orange",
-							comment: `인정 결석`
-						},
-						{
-							name: "2019-12-03",
-							state: 2,
-							color: "",
-							comment: ``
-						}
-					]
-				},
-				{
-					_id: "5dcd86c7ea5d132a98c9148b",
-					name: "김현우",
-					role: "멤버",
-					attendance: [
-						{
-							name: "2019-12-01",
-							state: 1,
-							color: "",
-							comment: ``
-						},
-						{
-							name: "2019-12-02",
-							state: 0,
-							color: "",
-							comment: ``
-						},
-						{
-							name: "2019-12-03",
-							state: 2,
-							color: "",
-							comment: ``
-						}
-					]
-				},
-				{
-					_id: "5dcd86c7ea5d132aa8c9148b",
-					name: "표영우",
-					role: "멤버",
-					attendance: [
-						{
-							name: "2019-12-01",
-							state: 1,
-							color: "",
-							comment: ``
-						},
-						{
-							name: "2019-12-02",
-							state: 0,
-							color: "",
-							comment: ``
-						},
-						{
-							name: "2019-12-03",
-							state: 2,
-							color: "#444",
-							comment: `외부활동`
-						}
-					]
-				}
-			] as any[],
+			datas: [] as any,
+			dates: [] as any,
+			// dates: [
+			// 	{ date: "2019-12-01", label: "출석부1" },
+			// 	{ date: "2019-12-02", label: "출석부2" },
+			// 	{ date: "2019-12-03", label: "출석부3" }
+			// ] as any[],
+			// datas: [
+			// 	{
+			// 		_id: "5dcde7e2ea5d132a98c914ba",
+			// 		name: "박종훈",
+			// 		role: "대표",
+			// 		attendance: [
+			// 			{
+			// 				name: "2019-12-01",
+			// 				state: 1,
+			// 				color: "",
+			// 				comment: ``
+			// 			},
+			// 			{
+			// 				name: "2019-12-02",
+			// 				state: 3,
+			// 				color: "orange",
+			// 				comment: `인정 결석`
+			// 			},
+			// 			{
+			// 				name: "2019-12-03",
+			// 				state: 2,
+			// 				color: "",
+			// 				comment: ``
+			// 			}
+			// 		]
+			// 	},
+			// 	{
+			// 		_id: "5dcd86c7ea5d132a98c9148b",
+			// 		name: "김현우",
+			// 		role: "멤버",
+			// 		attendance: [
+			// 			{
+			// 				name: "2019-12-01",
+			// 				state: 1,
+			// 				color: "",
+			// 				comment: ``
+			// 			},
+			// 			{
+			// 				name: "2019-12-02",
+			// 				state: 0,
+			// 				color: "",
+			// 				comment: ``
+			// 			},
+			// 			{
+			// 				name: "2019-12-03",
+			// 				state: 2,
+			// 				color: "",
+			// 				comment: ``
+			// 			}
+			// 		]
+			// 	},
+			// 	{
+			// 		_id: "5dcd86c7ea5d132aa8c9148b",
+			// 		name: "표영우",
+			// 		role: "멤버",
+			// 		attendance: [
+			// 			{
+			// 				name: "2019-12-01",
+			// 				state: 1,
+			// 				color: "",
+			// 				comment: ``
+			// 			},
+			// 			{
+			// 				name: "2019-12-02",
+			// 				state: 0,
+			// 				color: "",
+			// 				comment: ``
+			// 			},
+			// 			{
+			// 				name: "2019-12-03",
+			// 				state: 2,
+			// 				color: "#444",
+			// 				comment: `외부활동`
+			// 			}
+			// 		]
+			// 	}
+			// ] as any[],
 			showEditor: false,
 			currentId: ""
 		};

@@ -1,7 +1,6 @@
 <template>
 	<tr class="attendanceSheetItem">
 		<td>{{ data.name }}</td>
-		<td>{{ data.role }}</td>
 		<td v-for="(day, idx) in dates" :key="idx">
 			<div class="attendanceSheetItem__state">
 				<i :class="getState(idx)"></i>
