@@ -77,7 +77,7 @@ export default Vue.extend({
 	align-items: center;
 	width: 48px;
 	height: 48px;
-	background: url("../assets/circles_logo.png") no-repeat center;
+	background: url("../assets/logo.svg") no-repeat center;
 	background-size: 100%;
 }
 .noticebar__content p {

@@ -7,7 +7,7 @@
 					<router-link tag="h1" class="menu__left__title" to="/">circles.</router-link>
 					<nav class="menu__left__list" :class="{ 'menu__left__list-show': showMenu }" @click="toggleMenu">
 						<div class="menu__left__list__circles">
-							<img src="./assets/circles_logo.png" alt="circles_logo" />
+							<img src="./assets/logo.svg" alt="circles_logo" />
 							<router-link tag="h1" to="/">circles.</router-link>
 						</div>
 						<div class="menu__left__list__profile" v-if="getUserInformation.name" style="color:black;">
