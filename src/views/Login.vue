@@ -13,32 +13,15 @@
 			</h2>
 			<div class="login__inputwrapper">
 				<h3>이메일</h3>
-				<input
-					minlength="4"
-					autocomplete="email"
-					type="email"
-					name="email"
-					placeholder="이메일을 입력하세요."
-					v-model="email"
-					required
-				/>
+				<input minlength="4" autocomplete="email" type="email" name="email" placeholder="이메일을 입력하세요." v-model="email" required />
 			</div>
 			<div class="login__inputwrapper">
 				<h3>비밀번호</h3>
-				<input
-					required
-					autocomplete="new-password"
-					minlength="4"
-					maxlength="24"
-					type="password"
-					name="password"
-					placeholder="비밀번호를 입력하세요."
-					v-model="password"
-				/>
+				<input required autocomplete="new-password" minlength="4" maxlength="24" type="password" name="password" placeholder="비밀번호를 입력하세요." v-model="password" />
 			</div>
 			<p class="login__alert" v-if="errorAlert">
 				<i class="mdi mdi-alert-circle"></i>
-				{{errorAlert}}
+				{{ errorAlert }}
 			</p>
 			<button class="login__button" type="submit">로그인</button>
 			<router-link to="/register" class="login__option">계정 만들기 ></router-link>
@@ -46,7 +29,6 @@
 		</form>
 	</div>
 </template>
-
 
 <script lang="ts">
 import Vue from "vue";
@@ -75,9 +57,7 @@ export default Vue.extend({
 					this.$store
 						.dispatch("GET_USER_PROFILE", {
 							token,
-							pushSubscription: localStorage.getItem(
-								"circles.pushSubscription"
-							)
+							pushSubscription: localStorage.getItem("circles.pushSubscription")
 						})
 						.then(user => {
 							localStorage.setItem("circles.loginToken", token);
@@ -86,8 +66,7 @@ export default Vue.extend({
 						})
 						.catch(err => {
 							this.$store.commit("clearLoading", "LOGIN");
-							this.errorAlert =
-								err.response.data.message || "서버 에러";
+							this.errorAlert = err.response.data.message || "서버 에러";
 						});
 				})
 				.catch(err => {
@@ -165,7 +144,7 @@ export default Vue.extend({
 .login__title {
 	font-size: 50px;
 	margin: 20px;
-	font-family: "AvenirBlack";
+	font-family: "Avenir";
 	text-align: center;
 }
 .login__text {

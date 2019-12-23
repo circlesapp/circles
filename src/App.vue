@@ -377,8 +377,8 @@ export default Vue.extend({
 </script>
 
 <style>
-@font-face {
-	font-family: "AvenirBlack";
+/* @font-face {
+	font-family: "Avenir";
 	src: url("./assets/Avenir Black.ttf") format("truetype");
 	font-display: swap;
 }
@@ -401,7 +401,7 @@ export default Vue.extend({
 	font-family: "NanumSquareL";
 	src: url("./assets/NanumSquareL.ttf") format("truetype");
 	font-display: swap;
-}
+} */
 .menu-animation-enter-active,
 .menu-animation-leave-active {
 	transition: 0.5s;
@@ -588,7 +588,7 @@ input:-webkit-autofill {
 }
 .menu__left__title {
 	margin-left: 40px;
-	font-family: "AvenirBlack";
+	font-family: "Avenir";
 	font-weight: 900;
 	font-size: 38px;
 

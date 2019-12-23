@@ -161,7 +161,7 @@ export default Vue.extend({
 .passwordchange__title {
 	font-size: 50px;
 	margin: 20px;
-	font-family: "AvenirBlack";
+	font-family: "Avenir";
 	text-align: center;
 }
 .passwordchange__text {
