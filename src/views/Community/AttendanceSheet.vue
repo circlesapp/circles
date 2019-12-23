@@ -106,14 +106,14 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		});
 	},
 	watch: {
-		datas() {
+		dates() {
 			this.$socket.client.emit("attendance_updateAttendance", {
 				clubname: this.getClub.name,
 				dates: this.dates,
 				datas: this.datas
 			});
 		},
-		dates() {
+		datas() {
 			this.$socket.client.emit("attendance_updateAttendance", {
 				clubname: this.getClub.name,
 				dates: this.dates,
