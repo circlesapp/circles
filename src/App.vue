@@ -648,14 +648,14 @@ input:-webkit-autofill {
 	padding-top: 20px;
 }
 .menu__left__list__circles img {
-	width: 120px;
-	height: 120px;
+	width: 60px;
+	height: 60px;
+	margin-right: 15px;
 }
 .menu__left__list__circles h1 {
 	font-size: 50px;
 	font-family: Avenir;
 	font-weight: bold;
-	margin-bottom: 20px;
 }
 .darkTheme .menu__left__list__circles h1 {
 	color: white;
