@@ -41,6 +41,37 @@
 					>
 					<div class="clubs__list__item__link__select"></div>
 				</div>
+				<div class="clubs__list__item__indent" v-if="isAdmin(club)">
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/attendanceSheet`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>출석부</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/calendar`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>캘린더</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/editor`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>사이트편집</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/editclub`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>동아리관리</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/members`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>멤버관리</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/application`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>채용관리</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+					<div class="clubs__list__item__wrapper">
+						<router-link :to="`/${club.name}/community/interview`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>면접관리</router-link>
+						<div class="clubs__list__item__link__select"></div>
+					</div>
+				</div>
+
 				<div class="clubs__list__item__wrapper">
 					<router-link :to="`/${club.name}`" class="clubs__list__item__link"><i class="mdi mdi-chevron-right"></i>사이트</router-link>
 					<div class="clubs__list__item__link__select"></div>
@@ -70,13 +101,14 @@ export default Vue.extend({
 				this.clubs = clubs;
 			})
 			.catch(err => {});
+		console.log(this.$store.state.club);
 	},
 	methods: {
 		getImgPath(imgPath: string) {
 			if (imgPath) return this.$store.state.mainPath + imgPath;
 			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		},
-		isAdmin(club: string): number {
+		isAdmin(currentClub: string): number {
 			let acceptPermissions = [32, 42];
 			if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
 				let user = this.$store.state.club.members.find((member: any) => {
