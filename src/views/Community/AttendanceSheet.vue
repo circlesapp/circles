@@ -9,13 +9,7 @@
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable
-			:colors="colors"
-			:dates="dates"
-			:datas="datas"
-			@click="createEditor($event)"
-			@changeState="changeState"
-		/>
+		<AttendanceSheetTable :colors="colors" :dates="dates" :datas="datas" @changeState="changeState" />
 	</div>
 </template>
 
@@ -47,7 +41,13 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 				this.$store.dispatch("GET_CLUB_MEMBERS").then(members => {
 					this.$socket.client.emit("attendance_createAttendance", {
 						clubname: this.getClub.name,
+						dates: [
+							{ idx: 0, date: "2019-12-01", label: "출석부1" },
+							{ idx: 1, date: "2019-12-02", label: "출석부2" },
+							{ idx: 2, date: "2019-12-03", label: "출석부3" }
+						],
 						datas: members.map(member => {
+							console.log(member);
 							let filterMember = {
 								_id: member._id,
 								name: member.name,
@@ -74,82 +74,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 								]
 							};
 							return filterMember;
-						}),
-						/*
-                        [
-							{
-								_id: "5dcde7e2ea5d132a98c914ba",
-								name: "박종훈",
-								role: "대표",
-								attendances: {
-									"2019-12-01": {
-										state: 1,
-										color: "",
-										comment: ``
-									},
-									"2019-12-02": {
-										state: 3,
-										color: "orange",
-										comment: `인정 결석`
-									},
-									"2019-12-03": {
-										state: 2,
-										color: "",
-										comment: ``
-									}
-								}
-							},
-							{
-								_id: "5dcd86c7ea5d132a98c9148b",
-								name: "김현우",
-								role: "멤버",
-								attendances: {
-									"2019-12-01": {
-										state: 2,
-										color: "",
-										comment: ``
-									},
-									"2019-12-02": {
-										state: 1,
-										color: "",
-										comment: ``
-									},
-									"2019-12-03": {
-										state: 0,
-										color: "",
-										comment: ``
-									}
-								}
-							},
-							{
-								_id: "5dcd86c7ea5d132aa8c9148b",
-								name: "표영우",
-								role: "멤버",
-								attendances: {
-									"2019-12-01": {
-										state: 0,
-										color: "",
-										comment: ``
-									},
-									"2019-12-02": {
-										state: 0,
-										color: "",
-										comment: ``
-									},
-									"2019-12-03": {
-										state: 3,
-										color: "#444",
-										comment: `외부 활동`
-									}
-								}
-							}
-                        ]
-                        */
-						dates: [
-							{ idx: 0, date: "2019-12-01", label: "출석부1" },
-							{ idx: 1, date: "2019-12-02", label: "출석부2" },
-							{ idx: 2, date: "2019-12-03", label: "출석부3" }
-						]
+						})
 					});
 				});
 			}
@@ -184,26 +109,23 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		datas() {
 			this.$socket.client.emit("attendance_updateAttendance", {
 				clubname: this.getClub.name,
-				datas: this.datas,
-				dates: this.dates
+				dates: this.dates,
+				datas: this.datas
 			});
 		},
 		dates() {
 			this.$socket.client.emit("attendance_updateAttendance", {
 				clubname: this.getClub.name,
-				datas: this.datas,
-				dates: this.dates
+				dates: this.dates,
+				datas: this.datas
 			});
 		}
 	},
 	methods: {
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
-			this.datas[idx].attendances[this.dates[e.day].date].state = e.state;
-			if (e.state !== 3)
-				this.datas[idx].attendances[
-					this.dates[e.day].date
-				].comment = ``;
+			this.datas[idx].attendance[e.day].state = e.state;
+			if (e.state !== 3) this.datas[idx].attendances[e.day].comment = ``;
 
 			// this.datas[idx].attendances[this.dates[e.day].date].state++;
 			// if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
