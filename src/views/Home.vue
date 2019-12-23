@@ -65,8 +65,8 @@
 						<h3><span style="font-family:AvenirBlack">circles.</span> Editor</h3>
 					</div>
 					<p>
-						동아리 페이지를 자신이 원하는 대로 만들 수 있는 <span style="font-family:AvenirBlack">circles.</span> Editor는 멤버소개, 동아리일정 예산공지, 수상실적 등 정보를 선택해서 페이지를
-						제작하고, 지원하기 버튼을 통해 동아리의 지원을 받을 수 있습니다.
+						동아리 페이지를 자신이 원하는 대로 만들 수 있는 <span style="font-family:AvenirBlack">circles.</span> Editor는 멤버소개, 동아리일정 예산공지, 수상실적 등 정보를 선택해서
+						페이지를 제작하고, 지원하기 버튼을 통해 동아리의 지원을 받을 수 있습니다.
 					</p>
 				</div>
 			</div>
@@ -75,9 +75,9 @@
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
-				<img src="../assets/medal01.webp" />
-				<img src="../assets/medal02.webp" />
-				<img src="../assets/medal03.webp" />
+				<img src="../assets/medal01.webp" alt="Medal for GitHub 500+ Commits" />
+				<img src="../assets/medal02.webp" alt="Medal for 400K+ Total Code Bytes" />
+				<img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
 				<a href="mailto:admin@circlesapp.kr" style="margin-right:10px">
 					<i class="mdi mdi-email">&nbsp;</i>
 				</a>
