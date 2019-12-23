@@ -9,7 +9,13 @@
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable :colors="colors" :dates="dates" :datas="datas" @click="createEditor($event)" @changeState="changeState" />
+		<AttendanceSheetTable
+			:colors="colors"
+			:dates="dates"
+			:datas="datas"
+			@click="createEditor($event)"
+			@changeState="changeState"
+		/>
 	</div>
 </template>
 
@@ -22,8 +28,133 @@
 	3: 사용자화
 */
 import Vue from "vue";
+import VueSocketIOExt from "vue-socket.io-extended";
+import io from "socket.io-client";
+
 import AttendanceSheetTable from "../../components/Community/AttendanceSheetTable.vue";
-export default Vue.extend({
+
+export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
+	sockets: {
+		attendance_updateAttendance(this: any, data) {
+			this.datas = data.datas;
+			this.dates = data.dates;
+		},
+		attendance_getAttendanceByClubName(this: any, data) {
+			if (data.result) {
+				this.datas = data.data.datas;
+				this.dates = data.data.dates;
+			} else {
+				this.$store.dispatch("GET_CLUB_MEMBERS").then(members => {
+					this.$socket.client.emit("attendance_createAttendance", {
+						clubname: this.getClub.name,
+						datas: members.map(member => {
+							let filterMember = {
+								_id: member._id,
+								name: member.name,
+								role: "-",
+								attendance: [
+									{
+										name: "2019-12-01",
+										state: 1,
+										color: "",
+										comment: ``
+									},
+									{
+										name: "2019-12-02",
+										state: 3,
+										color: "orange",
+										comment: `인정 결석`
+									},
+									{
+										name: "2019-12-03",
+										state: 2,
+										color: "",
+										comment: ``
+									}
+								]
+							};
+							return filterMember;
+						}),
+						/*
+                        [
+							{
+								_id: "5dcde7e2ea5d132a98c914ba",
+								name: "박종훈",
+								role: "대표",
+								attendances: {
+									"2019-12-01": {
+										state: 1,
+										color: "",
+										comment: ``
+									},
+									"2019-12-02": {
+										state: 3,
+										color: "orange",
+										comment: `인정 결석`
+									},
+									"2019-12-03": {
+										state: 2,
+										color: "",
+										comment: ``
+									}
+								}
+							},
+							{
+								_id: "5dcd86c7ea5d132a98c9148b",
+								name: "김현우",
+								role: "멤버",
+								attendances: {
+									"2019-12-01": {
+										state: 2,
+										color: "",
+										comment: ``
+									},
+									"2019-12-02": {
+										state: 1,
+										color: "",
+										comment: ``
+									},
+									"2019-12-03": {
+										state: 0,
+										color: "",
+										comment: ``
+									}
+								}
+							},
+							{
+								_id: "5dcd86c7ea5d132aa8c9148b",
+								name: "표영우",
+								role: "멤버",
+								attendances: {
+									"2019-12-01": {
+										state: 0,
+										color: "",
+										comment: ``
+									},
+									"2019-12-02": {
+										state: 0,
+										color: "",
+										comment: ``
+									},
+									"2019-12-03": {
+										state: 3,
+										color: "#444",
+										comment: `외부 활동`
+									}
+								}
+							}
+                        ]
+                        */
+						dates: [
+							{ idx: 0, date: "2019-12-01", label: "출석부1" },
+							{ idx: 1, date: "2019-12-02", label: "출석부2" },
+							{ idx: 2, date: "2019-12-03", label: "출석부3" }
+						]
+					});
+				});
+			}
+		}
+	},
 	components: {
 		AttendanceSheetTable
 	},
@@ -38,97 +169,41 @@ export default Vue.extend({
 				purple: "#6834b7",
 				black: "#444"
 			},
-			dates: [
-				{ idx: 0, date: "2019-12-01", label: "나눔축제" },
-				{ idx: 1, date: "2019-12-02", label: "DDP" },
-				{ idx: 2, date: "2019-12-03", label: "SETEC" }
-			],
-			members: [] as any[],
-			datas: [
-				{
-					_id: "5dcde7e2ea5d132a98c914ba",
-					name: "박종훈",
-					role: "대표",
-					attendances: {
-						"2019-12-01": {
-							state: 1,
-							color: "",
-							comment: ``
-						},
-						"2019-12-02": {
-							state: 3,
-							color: "orange",
-							comment: `인정 결석`
-						},
-						"2019-12-03": {
-							state: 2,
-							color: "",
-							comment: ``
-						}
-					}
-				},
-				{
-					_id: "5dcd86c7ea5d132a98c9148b",
-					name: "김현우",
-					role: "멤버",
-					attendances: {
-						"2019-12-01": {
-							state: 2,
-							color: "",
-							comment: ``
-						},
-						"2019-12-02": {
-							state: 1,
-							color: "",
-							comment: ``
-						},
-						"2019-12-03": {
-							state: 0,
-							color: "",
-							comment: ``
-						}
-					}
-				},
-				{
-					_id: "5dcd86c7ea5d132aa8c9148b",
-					name: "표영우",
-					role: "멤버",
-					attendances: {
-						"2019-12-01": {
-							state: 0,
-							color: "",
-							comment: ``
-						},
-						"2019-12-02": {
-							state: 0,
-							color: "",
-							comment: ``
-						},
-						"2019-12-03": {
-							state: 3,
-							color: "#444",
-							comment: `외부 활동`
-						}
-					}
-				}
-			],
+			dates: [] as any[],
+			datas: [] as any[],
 			showEditor: false,
 			currentId: ""
 		};
 	},
 	created() {
-		this.$store
-			.dispatch("GET_CLUB_MEMBERS")
-			.then(members => {
-				this.members = members;
-			})
-			.catch(err => {});
+		this.$socket.client.emit("attendance_getAttendanceByClubName", {
+			clubname: this.getClub.name
+		});
+	},
+	watch: {
+		datas() {
+			this.$socket.client.emit("attendance_updateAttendance", {
+				clubname: this.getClub.name,
+				datas: this.datas,
+				dates: this.dates
+			});
+		},
+		dates() {
+			this.$socket.client.emit("attendance_updateAttendance", {
+				clubname: this.getClub.name,
+				datas: this.datas,
+				dates: this.dates
+			});
+		}
 	},
 	methods: {
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
 			this.datas[idx].attendances[this.dates[e.day].date].state = e.state;
-			if (e.state !== 3) this.datas[idx].attendances[this.dates[e.day].date].comment = ``;
+			if (e.state !== 3)
+				this.datas[idx].attendances[
+					this.dates[e.day].date
+				].comment = ``;
 
 			// this.datas[idx].attendances[this.dates[e.day].date].state++;
 			// if (this.datas[idx].attendances[this.dates[e.day].date].state > 2) {
@@ -184,6 +259,9 @@ export default Vue.extend({
 		// }
 	},
 	computed: {
+		getClub() {
+			return this.$store.state.club;
+		}
 		// isCreateAble() {
 		// 	if (this.$store.state.club.ranks) {
 		// 		let user = this.$store.state.club.members.find(
