@@ -79,10 +79,10 @@
 				<img src="../assets/medal02.webp" alt="Medal for 400K+ Total Code Bytes" />
 				<img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
 				<a href="mailto:admin@circlesapp.kr" style="margin-right:10px">
-					<i class="mdi mdi-email">&nbsp;</i>
+					<i class="mdi mdi-email"><span>Contact via Email</span></i>
 				</a>
 				<a href="https://github.com/CirclesApp/">
-					<i class="mdi mdi-github-circle">&nbsp;</i>
+					<i class="mdi mdi-github-circle"><span>GitHub</span></i>
 				</a>
 			</div>
 		</footer>
@@ -509,11 +509,13 @@ export default Vue.extend({
 }
 .home__footer__right a {
 	text-decoration: none;
-	font-size: 0;
 }
-.home__footer__right i {
+.home__footer__right a i {
 	color: #1b1c30;
 	font-size: 50px;
+}
+.home__footer__right a span {
+	display: none;
 }
 
 .home__login__profile {
