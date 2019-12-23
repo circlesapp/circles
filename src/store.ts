@@ -118,7 +118,7 @@ export default new Vuex.Store({
 						}
 					})
 					.then(user => {
-						commit(`setUserToken`, user.data.data);
+						commit(`setUserInformation`, user.data.data);
 						event("action", "CHANGE_INFORMATION", "changeinfomation", user.data.data);
 						resolve(user.data.data);
 					})

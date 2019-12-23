@@ -1,7 +1,11 @@
 <template>
 	<div class="budget__createpopup">
-		<div class="budget__createpopup__content">
-			<button class="budget__createpopup__content__clear" @click="$emit('isUpdated', false)">
+		<form class="budget__createpopup__content" action="javascript:void(0);" @submit="create">
+			<button
+				class="budget__createpopup__content__clear"
+				type="button"
+				@click="$emit('isUpdated', false)"
+			>
 				<i class="mdi mdi-close"></i>
 			</button>
 			<h3>예산 집행 내역 등록</h3>
@@ -14,37 +18,56 @@
 						class="inputfield__input"
 						type="text"
 						placeholder="품목을 입력하세요"
+						required
 					/>
 				</div>
 				<div class="inputfield">
 					<h4>규격</h4>
-					<input v-model="size" class="inputfield__input" type="text" placeholder="규격을 입력하세요" />
+					<input v-model="size" class="inputfield__input" type="text" placeholder="규격을 입력하세요" required />
 				</div>
 				<div class="inputfield">
 					<h4>단가</h4>
-					<input v-model="price" class="inputfield__input" type="number" placeholder="단가를 입력하세요" />
+					<input
+						v-model="price"
+						class="inputfield__input"
+						type="number"
+						placeholder="단가를 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>수량</h4>
-					<input v-model="quantity" class="inputfield__input" type="number" placeholder="수량을 입력하세요" />
+					<input
+						v-model="quantity"
+						class="inputfield__input"
+						type="number"
+						placeholder="수량을 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>배송료</h4>
-					<input v-model="shopping" class="inputfield__input" type="number" placeholder="배송료를 입력하세요" />
+					<input
+						v-model="shopping"
+						class="inputfield__input"
+						type="number"
+						placeholder="배송료를 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>URL</h4>
-					<input v-model="url" class="inputfield__input" type="text" placeholder="URL을 입력하세요" />
+					<input v-model="url" class="inputfield__input" type="text" placeholder="URL을 입력하세요" required />
 				</div>
 				<div class="inputfield">
 					<h4>비고</h4>
-					<input v-model="date" class="inputfield__input" type="date" placeholder="비고를 입력하세요" />
+					<input v-model="date" class="inputfield__input" type="date" placeholder="비고를 입력하세요" required />
 				</div>
 			</div>
 			<div class="budget__createpopup__content__actions">
-				<button class="create" @click="create">등록</button>
+				<button class="create" type="submit">등록</button>
 			</div>
-		</div>
+		</form>
 	</div>
 </template>
 

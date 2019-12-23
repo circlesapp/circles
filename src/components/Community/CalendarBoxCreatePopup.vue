@@ -1,7 +1,15 @@
 <template>
-	<div class="calendar__createpopup" @contextmenu="$emit('contextmenu',$event)">
-		<div class="calendar__createpopup__content">
-			<button class="calendar__createpopup__content__clear" @click="$emit('isUpdated', false)">
+	<div
+		class="calendar__createpopup"
+		action="javascript:void(0);"
+		@contextmenu="$emit('contextmenu',$event)"
+	>
+		<form class="calendar__createpopup__content" action="javascript:void(0);" @submit="create">
+			<button
+				class="calendar__createpopup__content__clear"
+				type="button"
+				@click="$emit('isUpdated', false)"
+			>
 				<i class="mdi mdi-close"></i>
 			</button>
 			<h3>일정 생성하기</h3>
@@ -14,14 +22,15 @@
 						class="inputfield__input"
 						type="text"
 						placeholder="일정 설명을 입력하세요"
-						@keydown="pressEnter"
+                        minlength="4"
+						required
 					/>
 				</div>
 			</div>
 			<div class="calendar__createpopup__content__actions">
-				<button class="create" @click="create">만들기</button>
+				<button class="create" type="submit">만들기</button>
 			</div>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -44,9 +53,6 @@ export default Vue.extend({
 		});
 	},
 	methods: {
-		pressEnter(e: KeyboardEvent) {
-			if (e.keyCode == 13) this.create();
-		},
 		create() {
 			if (this.start && this.end) {
 				this.$store.commit("pushLoading", {

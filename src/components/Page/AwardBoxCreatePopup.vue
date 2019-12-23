@@ -1,7 +1,11 @@
 <template>
 	<div class="award__createpopup">
-		<div class="award__createpopup__content">
-			<button class="award__createpopup__content__clear" @click="$emit('isUpdated', false)">
+		<form class="award__createpopup__content" action="javascript:void(0);" @submit="create">
+			<button
+				class="award__createpopup__content__clear"
+				type="button"
+				@click="$emit('isUpdated', false)"
+			>
 				<i class="mdi mdi-close"></i>
 			</button>
 			<h3>수상 실적 등록</h3>
@@ -14,15 +18,22 @@
 						class="inputfield__input"
 						type="text"
 						placeholder="대회명을 입력하세요"
+						required
 					/>
 				</div>
 				<div class="inputfield">
 					<h4>부문</h4>
-					<input v-model="subtitle" class="inputfield__input" type="text" placeholder="부문을 입력하세요" />
+					<input
+						v-model="subtitle"
+						class="inputfield__input"
+						type="text"
+						placeholder="부문을 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>등급</h4>
-					<input v-model="level" class="inputfield__input" type="text" placeholder="등급을 입력하세요" />
+					<input v-model="level" class="inputfield__input" type="text" placeholder="등급을 입력하세요" required />
 				</div>
 				<div class="inputfield">
 					<h4>참가자</h4>
@@ -60,9 +71,9 @@
 				</div>
 			</div>
 			<div class="award__createpopup__content__actions">
-				<button class="create" @click="create">등록</button>
+				<button class="create" type="submit">등록</button>
 			</div>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -290,8 +301,8 @@ export default Vue.extend({
 	background: none;
 	min-width: 100px;
 }
-.darkTheme .inputfield__input__userfield{
-    color: white;
+.darkTheme .inputfield__input__userfield {
+	color: white;
 }
 .inputfield__input__userfield__autocomplete {
 	position: absolute;
@@ -378,9 +389,9 @@ export default Vue.extend({
 	align-items: center;
 	margin-right: 10px;
 }
-.darkTheme .inputfield__input__member{
-    background-color: #3a3a3a;
-    color: white;
+.darkTheme .inputfield__input__member {
+	background-color: #3a3a3a;
+	color: white;
 }
 .inputfield__input__member img {
 	width: 1.25em;

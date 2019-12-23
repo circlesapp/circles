@@ -1,14 +1,25 @@
 <template>
 	<div class="circles__createpopup">
-		<div class="circles__createpopup__content">
-			<button class="circles__createpopup__content__clear" @click="$emit('isUpdated', false)">
+		<form class="circles__createpopup__content" action="javascript:void(0);" @submit="create">
+			<button
+				class="circles__createpopup__content__clear"
+				type="button"
+				@click="$emit('isUpdated', false)"
+			>
 				<i class="mdi mdi-close"></i>
 			</button>
 			<h3>동아리 만들기</h3>
 			<div class="circles__createpopup__content__inputs">
 				<div class="inputfield">
 					<h4>동아리명</h4>
-					<input ref="startInput" v-model="name" class="inputfield__input" type="text" placeholder="동아리명을 입력하세요" />
+					<input
+						ref="startInput"
+						v-model="name"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리명을 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>소속학교</h4>
@@ -22,6 +33,7 @@
 							@blur="hideSchoolSearch"
 							@focus="showSchoolSearch"
 							@keydown="schoolKeyPress"
+							required
 						/>
 						<div class="inputfield__searchSchool__list" v-if="schoolList.length && isShowSearchSchool">
 							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>
@@ -31,18 +43,25 @@
 								v-for="(school, idx) in schoolList"
 								:key="school.name"
 								@click="selectSchool(school.name)"
-							>
-								{{ school.name }}
-							</div>
+							>{{ school.name }}</div>
 						</div>
-						<div class="inputfield__searchSchool__list inputfield__searchSchool__list-nosearch" v-else-if="isShowSearchSchool">
+						<div
+							class="inputfield__searchSchool__list inputfield__searchSchool__list-nosearch"
+							v-else-if="isShowSearchSchool"
+						>
 							<TopLoadingBar class="inputfield__searchSchool__list__loading" v-if="isSchoolLoading"></TopLoadingBar>검색할 학교를 입력하세요
 						</div>
 					</div>
 				</div>
 				<div class="inputfield">
 					<h4>동아리 소개</h4>
-					<input v-model="introduction" class="inputfield__input" type="text" placeholder="동아리 소개를 입력하세요" />
+					<input
+						v-model="introduction"
+						class="inputfield__input"
+						type="text"
+						placeholder="동아리 소개를 입력하세요"
+						required
+					/>
 				</div>
 				<div class="inputfield">
 					<h4>동아리 로고</h4>
@@ -64,9 +83,9 @@
 				{{ errorAlert }}
 			</div>
 			<div class="circles__createpopup__content__actions">
-				<button class="create" @click="create">만들기</button>
+				<button class="create" type="submit">만들기</button>
 			</div>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -146,18 +165,22 @@ export default Vue.extend({
 			});
 		},
 		schoolKeyPress(e: any) {
-			if (this.schoolCurrentIndex >= this.schoolList.length) this.schoolCurrentIndex = this.schoolList.length;
+			if (this.schoolCurrentIndex >= this.schoolList.length)
+				this.schoolCurrentIndex = this.schoolList.length;
 			switch (e.keyCode) {
 				case 13:
 					if (this.isShowSearchSchool && this.schoolList.length) {
-						this.selectSchool(this.schoolList[this.schoolCurrentIndex].name);
+						this.selectSchool(
+							this.schoolList[this.schoolCurrentIndex].name
+						);
 					}
 					break;
 				case 38:
 					if (this.schoolCurrentIndex > 0) this.schoolCurrentIndex--;
 					break;
 				case 40:
-					if (this.schoolCurrentIndex < this.schoolList.length - 1) this.schoolCurrentIndex++;
+					if (this.schoolCurrentIndex < this.schoolList.length - 1)
+						this.schoolCurrentIndex++;
 					break;
 			}
 		},
