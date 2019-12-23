@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import VueAnalytics from "vue-analytics";
+import Home from "@/views/Home.vue";
 
 Vue.use(Router);
 
@@ -11,7 +12,7 @@ const router = new Router({
 		{
 			path: "/",
 			name: "home",
-			component: () => import("./views/Home.vue")
+			component: Home
 		},
 		{
 			path: "/profile",
