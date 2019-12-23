@@ -108,6 +108,24 @@ export default new Vuex.Store({
 					});
 			});
 		},
+		CHANGE_INFORMATION({ commit, state }, data) {
+			return new Promise<any>((resolve, reject) => {
+				axios
+					.post(`${state.mainPath}auth/changeInformation`, data, {
+						headers: {
+							Authorization: state.userToken
+						}
+					})
+					.then(user => {
+						commit(`setUserToken`, user.data.data);
+						event("action", "CHANGE_INFORMATION", "changeinfomation", user.data.data);
+						resolve(user.data.data);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		},
 		CHANGE_PASSWORD({ commit, state }, data) {
 			return new Promise<any>((resolve, reject) => {
 				axios
