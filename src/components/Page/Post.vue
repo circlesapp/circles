@@ -68,7 +68,7 @@
 		</div>
 		<div class="post__comments" v-if="!isModifPost && isShowComments">
 			<div class="post__comments__editwrapper">
-				<input type="text" v-model="comment" @keydown="pressEnterCommnet" />
+				<input type="text" v-model="comment" @keydown="pressEnterComment" />
 				<button @click="createComment">작성</button>
 			</div>
 			<div class="post__comments__list">
@@ -159,49 +159,51 @@ export default Vue.extend({
 			this.isModifPost = !this.isModifPost;
 		},
 		changeContentSave() {
-			this.isLoading = true;
-			if (this.isCreate) {
-				if (this.images) {
-					this.encodeBase64ImageFiles(this.images)
-						.then(base64images => {
-							this.$store
-								.dispatch("POST_WRITE", {
-									content: this.modifContent,
-									img: base64images
-								})
-								.then(data => {
-									this.isLoading = false;
-									this.modifContent = "";
-									this.$emit("isChange", false);
-								})
-								.catch(err => console.log(err));
-						})
-						.catch(err => console.log(err));
+			if (this.modifContent.trim().length > 0) {
+				this.isLoading = true;
+				if (this.isCreate) {
+					if (this.images) {
+						this.encodeBase64ImageFiles(this.images)
+							.then(base64images => {
+								this.$store
+									.dispatch("POST_WRITE", {
+										content: this.modifContent,
+										img: base64images
+									})
+									.then(data => {
+										this.isLoading = false;
+										this.modifContent = "";
+										this.$emit("isChange", false);
+									})
+									.catch(err => console.log(err));
+							})
+							.catch(err => console.log(err));
+					} else {
+						this.$store
+							.dispatch("POST_WRITE", {
+								content: this.modifContent
+							})
+							.then(data => {
+								this.isLoading = false;
+								this.modifContent = "";
+								this.$emit("isChange", false);
+							})
+							.catch(err => console.log(err));
+					}
 				} else {
 					this.$store
-						.dispatch("POST_WRITE", {
+						.dispatch("POST_MODIFICATION", {
+							_id: this.data._id,
 							content: this.modifContent
 						})
 						.then(data => {
 							this.isLoading = false;
-							this.modifContent = "";
+							this.isShowOption = false;
+							this.isModifPost = false;
 							this.$emit("isChange", false);
 						})
 						.catch(err => console.log(err));
 				}
-			} else {
-				this.$store
-					.dispatch("POST_MODIFICATION", {
-						_id: this.data._id,
-						content: this.modifContent
-					})
-					.then(data => {
-						this.isLoading = false;
-						this.isShowOption = false;
-						this.isModifPost = false;
-						this.$emit("isChange", false);
-					})
-					.catch(err => console.log(err));
 			}
 		},
 		pressEnter(e: any) {
@@ -209,13 +211,13 @@ export default Vue.extend({
 				this.changeContentSave();
 			}
 		},
-		pressEnterCommnet(e: any) {
+		pressEnterComment(e: any) {
 			if (e.keyCode == 13) {
 				this.createComment();
 			}
 		},
 		createComment() {
-			if (!this.isLoading) {
+			if (!this.isLoading && this.comment.trim().length > 0) {
 				this.isLoading = true;
 				this.$store
 					.dispatch("POST_COMMENT_WRITE", {
