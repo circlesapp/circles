@@ -1,5 +1,5 @@
 <template>
-	<div id="app" :class="{ darkTheme: $store.state.darkTheme }">
+	<div id="app" :class="{ darkTheme: $store.state.darkTheme, slimMode: $store.state.slimMode }">
 		<transition name="menu-animation">
 			<div class="menu" v-if="isShowMenuRoute">
 				<header class="menu__left">
@@ -24,6 +24,13 @@
 									<span class="menu__right__list__item__text">다크 테마</span>
 								</div>
 								<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
+							</div>
+							<div class="menu__right__list__item menu__right__slimmode menu__moblieprofile__dark" @click="$store.state.slimMode = !$store.state.slimMode">
+								<div class="menu__right__slimmode__left">
+									<i class="mdi mdi-unfold-less-horizontal"></i>
+									<span class="menu__right__list__item__text">슬림 모드</span>
+								</div>
+								<SwitchButton v-model="$store.state.slimMode"></SwitchButton>
 							</div>
 						</div>
 						<router-link to="/" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 0 }">메인</router-link>
@@ -96,6 +103,13 @@
 												<span class="menu__right__list__item__text">다크 테마</span>
 											</div>
 											<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
+										</div>
+										<div class="menu__right__list__item menu__right__slimmode" @click="$store.state.slimMode = !$store.state.slimMode">
+											<div class="menu__right__slimmode__left">
+												<i class="mdi mdi-unfold-less-horizontal"></i>
+												<span class="menu__right__list__item__text">슬림 모드</span>
+											</div>
+											<SwitchButton v-model="$store.state.slimMode"></SwitchButton>
 										</div>
 										<div class="menu__right__list__item menu__right__profile__logout" @click="$router.push('/profile')">
 											<i class="mdi mdi-account-edit"></i>
@@ -542,9 +556,13 @@ input:-webkit-autofill {
 	z-index: 1000;
 
 	position: relative;
+	transition: 0.5s;
 }
 .darkTheme .menu {
 	background-color: #232323;
+}
+.slimMode .menu {
+	height: 55px;
 }
 .menu__menubutton {
 	display: none;
@@ -570,6 +588,9 @@ input:-webkit-autofill {
 	font-size: 38px;
 
 	cursor: pointer;
+}
+.slimMode .menu__left__title {
+	margin-left: 20px;
 }
 .menu__left__list {
 	position: relative;
@@ -765,6 +786,9 @@ input:-webkit-autofill {
 	margin-left: 20px;
 	margin-right: 20px;
 }
+.slimMode .menu__right {
+	margin-right: 10px;
+}
 .menu__right > img {
 	width: 34px;
 	height: 34px;
@@ -847,68 +871,15 @@ input:-webkit-autofill {
 	font-family: "NanumSquareL";
 	font-size: 18px;
 }
-.menu__right__darktheme {
+.menu__right__darktheme,
+.menu__right__slimmode {
 	justify-content: space-between;
 }
-.menu__right__darktheme__left {
+.menu__right__darktheme__left,
+.menu__right__slimmode__left {
 	display: inline-flex;
 	justify-content: flex-start;
 	align-items: center;
-}
-.menu__right__darktheme__slider__wrapper {
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	width: 36px;
-	height: 14px;
-}
-.menu__right__darktheme input {
-	width: 0;
-	height: 0;
-	visibility: hidden;
-}
-.menu__right__darktheme__slider {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #eaeaea;
-	border-radius: 8px;
-	-webkit-transition: 0.3s;
-	-moz-transition: 0.3s;
-	-o-transition: 0.3s;
-	transition: 0.3s;
-}
-.menu__right__darktheme__slider::before {
-	position: absolute;
-	top: -3px;
-	left: 0;
-	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
-	content: "";
-	width: 20px;
-	height: 20px;
-	background-color: #fafafa;
-	border-radius: 50%;
-	-webkit-transition: 0.3s;
-	-moz-transition: 0.3s;
-	-o-transition: 0.3s;
-	transition: 0.3s;
-}
-input:checked + .menu__right__darktheme__slider {
-	background-color: #222;
-}
-input:focus + .menu__right__darktheme__slider {
-	box-shadow: 0 0 1px #222;
-}
-input:checked + .menu__right__darktheme__slider:before {
-	-webkit-transform: translateX(17px);
-	-ms-transform: translateX(17px);
-	transform: translateX(17px);
-}
-.darkTheme input:checked + .menu__right__darktheme__slider {
-	background-color: #3b4351;
 }
 .menu__moblieprofile__dark {
 	padding: 40px;
@@ -943,6 +914,9 @@ input:checked + .menu__right__darktheme__slider:before {
 }
 .darkTheme .submenu {
 	background-color: #282828;
+}
+.slimMode .submenu {
+	height: 55px;
 }
 .submenu__list {
 	width: 100%;
