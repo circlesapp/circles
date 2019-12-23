@@ -407,6 +407,7 @@ export default Vue.extend({
 	z-index: 1;
 
 	cursor: pointer;
+    transition: 0.5s;
 }
 .calendar__content__day__bar-create {
 	background-color: #1ed400;
