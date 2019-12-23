@@ -72,23 +72,17 @@
 			</div>
 		</div>
 
-		<div class="home__medalwrapper">
-			<div class="home__medal__title">메달</div>
-			<div class="home__medal__content">
-				<img src="../assets/medal01.png" />
-				<img src="../assets/medal02.png" />
-				<img src="../assets/medal03.png" />
-			</div>
-		</div>
-
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
+				<img src="../assets/medal01.png" />
+				<img src="../assets/medal02.png" />
+				<img src="../assets/medal03.png" />
 				<a href="mailto:admin@circlesapp.kr" style="margin-right:10px">
 					<i class="mdi mdi-email">&nbsp;</i>
 				</a>
 				<a href="https://github.com/CirclesApp/">
-					<i class="mdi mdi-github-circle"></i>
+					<i class="mdi mdi-github-circle">&nbsp;</i>
 				</a>
 			</div>
 		</footer>
@@ -493,6 +487,26 @@ export default Vue.extend({
 	font-size: 42px;
 	font-weight: 900;
 }
+.home__footer__right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+}
+.home__footer__right img {
+	display: block;
+	width: 40px;
+	height: auto;
+
+	margin-right: 20px;
+	transition: 0.3s;
+	z-index: 100;
+	transform-origin: bottom;
+}
+.home__footer__right img:hover {
+	transform: scale(3);
+	transform: translate3d(0, -100, 0);
+}
 .home__footer__right a {
 	text-decoration: none;
 	font-size: 0;
@@ -500,7 +514,6 @@ export default Vue.extend({
 .home__footer__right i {
 	color: #1b1c30;
 	font-size: 50px;
-	content: "";
 }
 
 .home__login__profile {
