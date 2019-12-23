@@ -34,7 +34,7 @@
 						<div class="ranks__wrapper">
 							<ul class="ranks">
 								<li :class="{ 'ranks__item-active': currentRank == idx }" v-for="(rank, idx) in getClub.ranks" :key="idx" @click="currentRank = idx">
-									<input type="text" v-if="getClub.ranks[idx].name != 'admin' && getClub.ranks[idx].name != 'default'" v-model="rank.name" />
+									<input type="text" v-if="getClub.ranks[idx].name != 'admin' && getClub.ranks[idx].name != 'default'" v-model="rank.name" placeholder="권한명" />
 									<span v-else>{{ rank.name }}</span>
 								</li>
 								<li class="rankcreate" @click="appendRank">+</li>
@@ -127,7 +127,7 @@
 					<div class="userInformation__item isPass">
 						<h3>합격</h3>
 						<p>
-							결과 확인에 띄우기
+							결과 확인에 보이기
 							<SwitchButton v-model="getOrderedMembers[currentUser].isPass"></SwitchButton>
 						</p>
 					</div>
@@ -200,23 +200,29 @@ export default Vue.extend({
 			return this.getClub.ranks.find((x: any) => x.id == id).name;
 		},
 		commit() {
-			this.$store.commit("pushLoading", {
-				name: "CLUB_MODIFICATION",
-				message: "동아리 맴버 수정 중"
+			let isValid = true;
+			this.getClub.ranks.map((x: any) => {
+				if (x.name.trim().length <= 0) isValid = false;
 			});
-			this.$store
-				.dispatch("CLUB_MODIFICATION", {
-					ranks: this.getClub.ranks,
-					members: this.members.map((x: any) => {
-						x.user = x.user._id;
-						return x;
+			if (isValid) {
+				this.$store.commit("pushLoading", {
+					name: "CLUB_MODIFICATION",
+					message: "동아리 맴버 수정 중"
+				});
+				this.$store
+					.dispatch("CLUB_MODIFICATION", {
+						ranks: this.getClub.ranks,
+						members: this.members.map((x: any) => {
+							x.user = x.user._id;
+							return x;
+						})
 					})
-				})
-				.then(club => {
-					this.$store.commit("clearLoading", "CLUB_MODIFICATION");
-					this.reload();
-				})
-				.catch(err => console.log(err));
+					.then(club => {
+						this.$store.commit("clearLoading", "CLUB_MODIFICATION");
+						this.reload();
+					})
+					.catch(err => console.log(err));
+			}
 		},
 		fire() {
 			this.$store.commit("pushLoading", {
