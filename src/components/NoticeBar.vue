@@ -52,10 +52,11 @@ export default Vue.extend({
 	width: 600px;
 	max-width: 600px;
 	margin-bottom: 8px;
+	height: 40px;
 
 	padding: 0 10px;
 
-	border-radius: 20px;
+	border-radius: 18px;
 	background-color: white;
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
 
@@ -75,8 +76,8 @@ export default Vue.extend({
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 48px;
-	height: 48px;
+	width: 26px;
+	height: 26px;
 	background: url("../assets/logo.svg") no-repeat center;
 	background-size: 100%;
 }
