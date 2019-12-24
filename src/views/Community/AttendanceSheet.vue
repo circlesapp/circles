@@ -7,18 +7,15 @@
 			<div class="attendanceSheet__head__wrapper">
 				<h2 class="attendanceSheet__title">
 					출석부
-					<i class="mdi mdi-reload" @click="restart"></i>
+					<div class="attendanceSheet__title__reload" :class="{ 'attendanceSheet__title__reload-active': isReloading }" @click="reload">
+						<i class="mdi mdi-reload" v-if="!isReloading"></i>
+						<i class="mdi mdi-loading" v-else></i>
+					</div>
 				</h2>
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
-		<AttendanceSheetTable
-			@change="update"
-			:colors="colors"
-			:dates="dates"
-			:datas="datas"
-			@changeState="changeState"
-		/>
+		<AttendanceSheetTable @change="update" :colors="colors" :dates="dates" :datas="datas" @changeState="changeState" />
 	</div>
 </template>
 
@@ -80,7 +77,8 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			datas: [] as any,
 			dates: [] as any,
 			showEditor: false,
-			currentId: ""
+			currentId: "",
+			isReloading: false
 		};
 	},
 	created() {
@@ -88,9 +86,16 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 			clubname: this.getClub.name
 		});
 	},
-	watch: {},
+	watch: {
+		datas() {
+			if (this.datas.length > 0) {
+				this.isReloading = false;
+			}
+		}
+	},
 	methods: {
-		restart() {
+		reload() {
+			this.isReloading = true;
 			this.datas = [];
 			this.dates = [];
 			this.$socket.client.emit("attendance_deleteAttendance", {
@@ -163,11 +168,28 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	font-size: 38px;
 	font-weight: 800;
 }
-.attendanceSheet__title i {
-	position: relative;
+.attendanceSheet__title__reload {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
 	margin-left: 10px;
 	color: #538fff;
+	transition: 0.5s;
 	cursor: pointer;
+}
+.attendanceSheet__title__reload:hover {
+	transform: rotate(120deg);
+}
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.attendanceSheet__title__reload-active {
+	animation: rotate 0.6s linear infinite;
 }
 .attendanceSheet__description {
 	font-size: 16px;
