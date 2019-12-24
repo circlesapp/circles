@@ -5,7 +5,10 @@
 		</div>
 		<div class="attendanceSheet__head">
 			<div class="attendanceSheet__head__wrapper">
-				<h2 class="attendanceSheet__title">출석부</h2>
+				<h2 class="attendanceSheet__title">
+					출석부
+					<i class="mdi mdi-reload" @click="restart"></i>
+				</h2>
 				<p class="attendanceSheet__description">접속된 모든 클라이언트에서 실시간으로 동기화됩니다.</p>
 			</div>
 		</div>
@@ -42,6 +45,11 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 		attendance_createAttendance(this: any, data) {
 			this.datas = data.data.datas;
 			this.dates = data.data.dates;
+		},
+		attendance_deleteAttendance(this: any, data) {
+			this.$socket.client.emit("attendance_createAttendance", {
+				clubname: this.getClub.name
+			});
 		},
 		attendance_getAttendanceByClubName(this: any, data) {
 			console.log(data);
@@ -82,6 +90,13 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	},
 	watch: {},
 	methods: {
+		restart() {
+			this.datas = [];
+			this.dates = [];
+			this.$socket.client.emit("attendance_deleteAttendance", {
+				clubname: this.getClub.name
+			});
+		},
 		changeState(e: any) {
 			let idx = this.datas.findIndex(x => x._id == e.id);
 			this.datas[idx].attendance[e.day].state = e.state;
@@ -147,6 +162,12 @@ export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
 	font-family: "NanumSquareEB";
 	font-size: 38px;
 	font-weight: 800;
+}
+.attendanceSheet__title i {
+	position: relative;
+	margin-left: 10px;
+	color: #538fff;
+	cursor: pointer;
 }
 .attendanceSheet__description {
 	font-size: 16px;
