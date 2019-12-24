@@ -11,7 +11,10 @@
 			</p>
 		</div>
 		<h3 class="post__title" v-if="!isCreate">
-			<img :src="data.owner.imgPath ? getMainPath + data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt="user_profile" />
+			<img
+				:src="data.owner.imgPath ? getMainPath + data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+				alt="user_profile"
+			/>
 			<p>
 				<span class="clubname">{{ data.owner.name }}</span>
 				님이
@@ -20,10 +23,20 @@
 				<br />
 				<span class="moment">{{ data.timeString }}</span>
 			</p>
-			<i class="mdi mdi-dots-horizontal post__menu" @click="toggleOption" v-if="getPermissionModifAndDelete"></i>
+			<i
+				class="mdi mdi-dots-horizontal post__menu"
+				@click="toggleOption"
+				v-if="getPermissionModifAndDelete"
+			></i>
 		</h3>
 		<pre class="post__content" v-if="!isModifPost">{{ data.content }}</pre>
-		<textarea class="post__content create" placeholder="글 작성하기" @keypress="pressEnter" v-model="modifContent" v-else />
+		<textarea
+			class="post__content create"
+			placeholder="글 작성하기"
+			@keypress="pressEnter"
+			v-model="modifContent"
+			v-else
+		/>
 		<article class="post__image" v-if="!isCreate && (data ? data.imgPath.length : false)">
 			<div class="post__image__mainImage">
 				<img :src="getMainPath + data.imgPath[0]" alt="content_image" />
@@ -74,11 +87,18 @@
 			<div class="post__comments__list">
 				<div class="post__comments__list__item" v-for="comment in comments" :key="comment._id">
 					<h4>
-						<img :src="comment.owner.imgPath ? getMainPath + comment.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'" alt />
+						<img
+							:src="comment.owner.imgPath ? getMainPath + comment.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+							alt
+						/>
 						{{ comment.owner.name }}
 					</h4>
 					<p>{{ comment.message }}</p>
-					<div class="post__comments__list__item__remove" v-if="checkOwner(comment.owner)" @click="removeComment(comment._id)">
+					<div
+						class="post__comments__list__item__remove"
+						v-if="checkOwner(comment.owner)"
+						@click="removeComment(comment._id)"
+					>
 						<i class="mdi mdi-close"></i>
 					</div>
 				</div>
@@ -171,6 +191,7 @@ export default Vue.extend({
 										img: base64images
 									})
 									.then(data => {
+										this.images = [];
 										this.isLoading = false;
 										this.modifContent = "";
 										this.$emit("isChange", false);
@@ -303,19 +324,30 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		isLike(): boolean {
-			if (this.getUserInformation) return this.data.likes.indexOf(this.getUserInformation._id) != -1;
+			if (this.getUserInformation)
+				return (
+					this.data.likes.indexOf(this.getUserInformation._id) != -1
+				);
 			else return false;
 		},
 		getPermissionModifAndDelete(): boolean {
 			if (this.getUserInformation._id == this.data.owner._id) return true;
 			else {
 				if (this.getClub.ranks) {
-					if (this.getClub.owner == this.$store.state.userInformation._id) return true;
+					if (
+						this.getClub.owner ==
+						this.$store.state.userInformation._id
+					)
+						return true;
 					let user = this.getClub.members.find((member: any) => {
-						return member.user == this.$store.state.userInformation._id;
+						return (
+							member.user == this.$store.state.userInformation._id
+						);
 					});
 					if (user) {
-						let permission = this.getClub.ranks.find((rank: any) => rank.id == user.rank).permission;
+						let permission = this.getClub.ranks.find(
+							(rank: any) => rank.id == user.rank
+						).permission;
 						return permission.indexOf(3) != -1;
 					} else return false;
 				} else return false;

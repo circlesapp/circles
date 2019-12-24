@@ -1,5 +1,5 @@
 <template>
-	<div class="clubtitleLayout">
+	<div class="clubtitleLayout" @contextmenu="$emit('contextmenu', $event)">
 		<div class="clubtitleLayout__imgwrapper">
 			<img :src="getImgPath" alt="club_logo" />
 		</div>
@@ -16,8 +16,10 @@ export default Vue.extend({
 			return this.$store.state.club;
 		},
 		getImgPath(): string {
-			if (this.getClub.imgPath) return this.$store.state.mainPath + this.getClub.imgPath;
-			else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
+			if (this.getClub.imgPath)
+				return this.$store.state.mainPath + this.getClub.imgPath;
+			else
+				return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
 		}
 	}
 });
