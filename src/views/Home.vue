@@ -74,9 +74,18 @@
 		<footer class="home__footer">
 			<div class="home__footer__left">circles.</div>
 			<div class="home__footer__right">
-				<img src="../assets/medal01.webp" alt="Medal for GitHub 500+ Commits" />
-				<img src="../assets/medal02.webp" alt="Medal for 400K+ Total Code Bytes" />
-				<img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
+				<div class="home__footer__right__tooltip__wrapper">
+					<img src="../assets/medal01.webp" alt="Medal for GitHub 500+ Commits" />
+					<div class="tooltip tooltip01">600+ GitHub 총 커밋(프론트 + 백)</div>
+				</div>
+				<div class="home__footer__right__tooltip__wrapper">
+					<img src="../assets/medal02.webp" alt="Medal for 400K+ Total Code Bytes" />
+					<div class="tooltip tooltip02">400K+ 코드 문자 수(프론트 + 백)</div>
+				</div>
+				<div class="home__footer__right__tooltip__wrapper">
+					<img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
+					<div class="tooltip tooltip03">Progressive Web App</div>
+				</div>
 				<div class="home__footer__right__button" @click="$router.push('/sitemap')"><i class="mdi mdi-sitemap"></i></div>
 				<div class="home__footer__right__button" onclick="window.open('mailto:admin@circlesapp.kr')">
 					<i class="mdi mdi-email"></i>
@@ -458,6 +467,7 @@ export default Vue.extend({
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 30px;
+	user-select: none;
 }
 .home__footer__left {
 	color: #1b1c30;
@@ -478,20 +488,49 @@ export default Vue.extend({
 
 	margin-right: 10px;
 	transition: 0.3s;
-	z-index: 100;
 	transform-origin: bottom;
+	z-index: 100;
 }
 .home__footer__right img:hover {
 	transform: scale(3);
 	transform: translate3d(0, -100, 0);
+	z-index: 101;
 }
 .home__footer__right__button {
+	position: relative;
 	margin-left: 10px;
+}
+.home__footer__right__button:hover {
+	transform: scale(1.05);
+	text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 .home__footer__right__button i {
 	color: #1b1c30;
 	font-size: 50px;
+	transform-origin: center;
 	cursor: pointer;
+}
+.home__footer__right__tooltip__wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.tooltip {
+	display: none;
+	position: absolute;
+	top: 56px;
+
+	padding: 1px 4px;
+	background: #777;
+	border-radius: 20px;
+	color: white;
+	font-size: 10px;
+}
+.home__footer__right__tooltip__wrapper:hover .tooltip.tooltip01,
+.home__footer__right__tooltip__wrapper:hover .tooltip.tooltip02,
+.home__footer__right__tooltip__wrapper:hover .tooltip.tooltip03 {
+	display: block;
 }
 
 .home__login__profile {
