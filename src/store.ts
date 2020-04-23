@@ -15,7 +15,7 @@ export default new Vuex.Store({
     userToken: ``,
     userInformation: {},
     club: {} as any,
-    mainPath: `https://api.circlesapp.kr/`,
+    mainPath: `https://api.circlesapp.kr:3000`,
     loadingStack: [] as LoadingData[],
     pageLoadingStack: [] as LoadingData[],
     showNoticeTimer: 0 as number,
