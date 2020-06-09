@@ -45,7 +45,7 @@ import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
 import draggable from "vuedraggable";
 
-export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/")).extend({
 	components: {
 		draggable
 	},

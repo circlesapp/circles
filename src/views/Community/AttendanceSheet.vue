@@ -33,7 +33,7 @@ import io from "socket.io-client";
 
 import AttendanceSheetTable from "../../components/Community/AttendanceSheetTable.vue";
 
-export default Vue.use(VueSocketIOExt, io("https://circlesapp.kr/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/")).extend({
 	sockets: {
 		attendance_updateAttendance(this: any, data) {
 			this.datas = data.data.datas;

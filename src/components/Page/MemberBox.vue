@@ -7,7 +7,6 @@
 		/>
 		<h3>{{ data.name }}</h3>
 		<h4>멤버</h4>
-		<!-- TODO: 컨텐츠 처리해야함 -->
 		<p>{{data.message || "-"}}</p>
 	</div>
 </template>
