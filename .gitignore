@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-docs
-.firebase
+/dist
+storybook-static
 
 # local env files
 .env.local

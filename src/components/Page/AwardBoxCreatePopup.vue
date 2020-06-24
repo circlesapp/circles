@@ -94,12 +94,13 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$store
-			.dispatch("GET_CLUB_MEMBERS")
-			.then(members => {
-				this.members = members;
-			})
-			.catch(err => {});
+		if (this.$store)
+			this.$store
+				.dispatch("GET_CLUB_MEMBERS")
+				.then(members => {
+					this.members = members;
+				})
+				.catch(err => {});
 	},
 	mounted() {
 		(this.$refs.startInput as HTMLDivElement).focus();

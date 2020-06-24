@@ -16,7 +16,12 @@
 				<br />이용 가능합니다.
 			</p>
 		</div>
-		<router-link v-else tag="div" :to="{ name: 'page/applicant/application' }" class="applicant__main__item">
+		<router-link
+			v-else
+			tag="div"
+			:to="{ name: 'page/applicant/application' }"
+			class="applicant__main__item"
+		>
 			<i class="mdi mdi-file-document"></i>
 			<h2>지원서 {{ getIsModificationText }}</h2>
 			<p>
@@ -27,7 +32,7 @@
 			<div class="modification" v-if="isModification">지원서 수정 ></div>
 		</router-link>
 		<router-link tag="div" :to="{ name: 'page/applicant/recorder' }" class="applicant__main__item">
-			<i class="mdi mdi-voice"></i>
+			<i class="mdi mdi-remote"></i>
 			<h2>페이저 수신기</h2>
 			<p>
 				대기자 원격 호출을 위한
@@ -77,7 +82,11 @@ export default Vue.extend({
 	computed: {
 		isJoinCurrentClub() {
 			try {
-				return this.$store.state.userInformation.clubs.findIndex((x: any) => x._id == this.$store.state.club._id) != -1;
+				return (
+					this.$store.state.userInformation.clubs.findIndex(
+						(x: any) => x._id == this.$store.state.club._id
+					) != -1
+				);
 			} catch (e) {
 				return false;
 			}
