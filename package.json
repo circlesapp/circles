@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "git pull && vue-cli-service build && sudo rm -rf /var/www/html/* && sudo mv docs/* /var/www/html",
+    "deploy": "git pull && vue-cli-service build && sudo rm -rf /var/www/circles/* && sudo mv docs/* /var/www/circles",
     "storybook:build": "vue-cli-service storybook:build -c config/storybook",
     "storybook:serve": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
