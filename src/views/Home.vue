@@ -87,7 +87,7 @@
 					<div class="tooltip tooltip03">Progressive Web App</div>
 				</div>
 				<div class="home__footer__right__button" @click="$router.push('/sitemap')"><i class="mdi mdi-sitemap"></i></div>
-				<div class="home__footer__right__button" onclick="window.open('mailto:admin@circlesapp.kr')">
+				<div class="home__footer__right__button" onclick="window.open('mailto:admin@hyunwoo.kim')">
 					<i class="mdi mdi-email"></i>
 				</div>
 				<div class="home__footer__right__button" onclick="window.open('https://github.com/CirclesApp/')">
