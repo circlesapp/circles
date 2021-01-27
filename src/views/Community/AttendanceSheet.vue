@@ -33,7 +33,7 @@ import io from "socket.io-client";
 
 import AttendanceSheetTable from "../../components/Community/AttendanceSheetTable.vue";
 
-export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circles.hyunwoo.dev/")).extend({
 	sockets: {
 		attendance_updateAttendance(this: any, data) {
 			this.datas = data.data.datas;
@@ -45,7 +45,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 		},
 		attendance_deleteAttendance(this: any, data) {
 			this.$socket.client.emit("attendance_createAttendance", {
-				clubname: this.getClub.name
+				clubname: this.getClub.name,
 			});
 		},
 		attendance_getAttendanceByClubName(this: any, data) {
@@ -55,13 +55,13 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 				this.dates = data.data.dates;
 			} else {
 				this.$socket.client.emit("attendance_createAttendance", {
-					clubname: this.getClub.name
+					clubname: this.getClub.name,
 				});
 			}
-		}
+		},
 	},
 	components: {
-		AttendanceSheetTable
+		AttendanceSheetTable,
 	},
 	data() {
 		return {
@@ -72,18 +72,18 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 				green: "#0f8f50",
 				blue: "#4682f4",
 				purple: "#6834b7",
-				black: "#444"
+				black: "#444",
 			},
 			datas: [] as any,
 			dates: [] as any,
 			showEditor: false,
 			currentId: "",
-			isReloading: false
+			isReloading: false,
 		};
 	},
 	created() {
 		this.$socket.client.emit("attendance_getAttendanceByClubName", {
-			clubname: this.getClub.name
+			clubname: this.getClub.name,
 		});
 	},
 	watch: {
@@ -91,7 +91,7 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 			if (this.datas.length > 0) {
 				this.isReloading = false;
 			}
-		}
+		},
 	},
 	methods: {
 		reload() {
@@ -99,11 +99,11 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 			this.datas = [];
 			this.dates = [];
 			this.$socket.client.emit("attendance_deleteAttendance", {
-				clubname: this.getClub.name
+				clubname: this.getClub.name,
 			});
 		},
 		changeState(e: any) {
-			let idx = this.datas.findIndex(x => x._id == e.id);
+			let idx = this.datas.findIndex((x) => x._id == e.id);
 			this.datas[idx].attendance[e.day].state = e.state;
 			if (e.state !== 3) this.datas[idx].attendance[e.day].comment = ``;
 		},
@@ -111,18 +111,18 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 			this.$socket.client.emit("attendance_updateAttendance", {
 				clubname: this.getClub.name,
 				dates: this.dates,
-				datas: this.datas
+				datas: this.datas,
 			});
 		},
 		createAttendanceSheet() {
 			this.dates.push({});
-		}
+		},
 	},
 	computed: {
 		getClub() {
 			return this.$store.state.club;
-		}
-	}
+		},
+	},
 });
 </script>
 

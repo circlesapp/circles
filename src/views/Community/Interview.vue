@@ -5,28 +5,19 @@
 			<draggable :list="applicants" class="interview__draggable" group="interviewers">
 				<div class="interview__draggable__item" v-for="applicant in applicants" :key="applicant._id">
 					<div class="interview__draggable__item">
-						<p>{{applicant.name}}</p>
-						<p>{{applicant.number}}</p>
+						<p>{{ applicant.name }}</p>
+						<p>{{ applicant.number }}</p>
 					</div>
 				</div>
 			</draggable>
 		</div>
 		<div class="interview__applicant">
 			<h2 class="intreview__title">면접자</h2>
-			<draggable
-				:list="interviewers"
-				class="interview__draggable"
-				group="interviewers"
-				@change="update"
-			>
-				<div
-					class="interview__draggable__item"
-					v-for="(applicant,idx) in interviewers"
-					:key="applicant._id"
-				>
+			<draggable :list="interviewers" class="interview__draggable" group="interviewers" @change="update">
+				<div class="interview__draggable__item" v-for="(applicant, idx) in interviewers" :key="applicant._id">
 					<div class="interview__draggable__item__content">
-						<p>{{idx+1}} | {{applicant.name}}</p>
-						<p>{{applicant.number}}</p>
+						<p>{{ idx + 1 }} | {{ applicant.name }}</p>
+						<p>{{ applicant.number }}</p>
 					</div>
 					<button class="interview__draggable__item__action" @click="interviewerClose(idx)">완료하기</button>
 				</div>
@@ -45,16 +36,13 @@ import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
 import draggable from "vuedraggable";
 
-export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circles.hyunwoo.dev/")).extend({
 	components: {
-		draggable
+		draggable,
 	},
 	sockets: {
 		interview_getInterviewByClubName(this: any, data) {
-			this.$store.commit(
-				"clearLoading",
-				"interview_getInterviewByClubName"
-			);
+			this.$store.commit("clearLoading", "interview_getInterviewByClubName");
 			this.isStart = data.result;
 			if (data.result) this.interviewers = data.data.interviewers;
 		},
@@ -68,69 +56,69 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 		},
 		interview_updateInterviewers(this: any, data) {
 			this.interviewers = data.data.interviewers;
-		}
+		},
 	},
 	data() {
 		return {
 			applicants: [],
 			interviewers: [],
-			isStart: false
+			isStart: false,
 		};
 	},
 	created() {
 		this.$store.commit("pushLoading", {
 			name: "interview_getInterviewByClubName",
-			message: "면접 불러오는 중"
+			message: "면접 불러오는 중",
 		});
 		this.$socket.client.emit("interview_getInterviewByClubName", {
-			clubname: this.getClub.name
+			clubname: this.getClub.name,
 		});
 		this.$store.commit("pushLoading", {
 			name: "GET_CLUB_APPLICANT",
-			message: "동아리 지원서 불러오는 중"
+			message: "동아리 지원서 불러오는 중",
 		});
 		this.$store
 			.dispatch("GET_CLUB_APPLICANT")
-			.then(applicants => {
+			.then((applicants) => {
 				let _ids = this.interviewers.map((x: any) => x._id);
 				this.$store.commit("clearLoading", "GET_CLUB_APPLICANT");
 				this.applicants = applicants
-					.map(x => {
+					.map((x) => {
 						return {
 							name: x.name,
 							number: x.number,
-							_id: x._id
+							_id: x._id,
 						};
 					})
-					.filter(x => _ids.indexOf(x._id) == -1);
+					.filter((x) => _ids.indexOf(x._id) == -1);
 			})
-			.catch(err => {});
+			.catch((err) => {});
 	},
 	methods: {
 		start() {
 			this.$store.commit("pushLoading", {
 				name: "interview_startInterview",
-				message: "면접 시작하는 중"
+				message: "면접 시작하는 중",
 			});
 			this.$socket.client.emit("interview_startInterview", {
 				clubname: this.getClub.name,
-				interviewers: this.interviewers
+				interviewers: this.interviewers,
 			});
 		},
 		close() {
 			this.$store.commit("pushLoading", {
 				name: "interview_closeInterview",
-				message: "면접 끝내는 중"
+				message: "면접 끝내는 중",
 			});
 			this.$socket.client.emit("interview_closeInterview", {
-				clubname: this.getClub.name
+				clubname: this.getClub.name,
 			});
 		},
 		update() {
 			if (this.isStart) {
 				this.$socket.client.emit("interview_updateInterviewers", {
 					clubname: this.getClub.name,
-					interviewers: this.interviewers
+					interviewers: this.interviewers,
 				});
 			}
 		},
@@ -138,13 +126,13 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 			this.applicants.push(this.interviewers[idx]);
 			this.interviewers.splice(idx, 1);
 			this.update();
-		}
+		},
 	},
 	computed: {
 		getClub(): any {
 			return this.$store.state.club;
-		}
-	}
+		},
+	},
 });
 </script>
 

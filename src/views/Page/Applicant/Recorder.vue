@@ -3,29 +3,25 @@
 		<div class="recorder__left">
 			<div class="recorder__item">
 				<div>
-					<p>{{getFirst.number}}</p>
-					<h3>{{getFirst.name}}</h3>
+					<p>{{ getFirst.number }}</p>
+					<h3>{{ getFirst.name }}</h3>
 				</div>
 				<div class="recorder__item__information">현재 면접자</div>
 			</div>
 			<div class="recorder__item">
 				<div>
-					<p>{{getSecond.number}}</p>
-					<h3>{{getSecond.name}}</h3>
+					<p>{{ getSecond.number }}</p>
+					<h3>{{ getSecond.name }}</h3>
 				</div>
 				<div class="recorder__item__information">다음 면접자</div>
 			</div>
 		</div>
 		<div class="recorder__right">
 			<div class="recorder__list">
-				<div
-					class="recorder__list__item"
-					v-for="(interviewer,idx) in interviewers"
-					:key="interviewer._id"
-				>
-					<span>{{idx+1}}</span>
-					<span>{{interviewer.number}}</span>
-					<span>{{interviewer.name}}</span>
+				<div class="recorder__list__item" v-for="(interviewer, idx) in interviewers" :key="interviewer._id">
+					<span>{{ idx + 1 }}</span>
+					<span>{{ interviewer.number }}</span>
+					<span>{{ interviewer.name }}</span>
 				</div>
 			</div>
 		</div>
@@ -36,13 +32,10 @@
 import Vue from "vue";
 import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
-export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circles.hyunwoo.dev/")).extend({
 	sockets: {
 		interview_getInterviewByClubName(this: any, data) {
-			this.$store.commit(
-				"clearLoading",
-				"interview_getInterviewByClubName"
-			);
+			this.$store.commit("clearLoading", "interview_getInterviewByClubName");
 			this.isStart = data.result;
 			if (data.result) this.interviewers = data.data.interviewers;
 		},
@@ -56,21 +49,21 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 		},
 		interview_updateInterviewers(this: any, data) {
 			this.interviewers = data.data.interviewers;
-		}
+		},
 	},
 	data() {
 		return {
 			isStart: false,
-			interviewers: []
+			interviewers: [],
 		};
 	},
 	created() {
 		this.$store.commit("pushLoading", {
 			name: "interview_getInterviewByClubName",
-			message: "면접 불러오는 중"
+			message: "면접 불러오는 중",
 		});
 		this.$socket.client.emit("interview_getInterviewByClubName", {
-			clubname: this.getClub.name
+			clubname: this.getClub.name,
 		});
 	},
 	methods: {},
@@ -83,8 +76,8 @@ export default Vue.use(VueSocketIOExt, io("https://circlesback.herokuapp.com/"))
 		},
 		getClub() {
 			return this.$store.state.club;
-		}
-	}
+		},
+	},
 });
 </script>
 
