@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "arcanis.vscode-zipfs",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "johnsoncodehk.volar",
+    "johnsoncodehk.vscode-typescript-vue-plugin",
+    "wayou.vscode-todo-highlight"
+  ]
+}

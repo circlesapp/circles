@@ -1,16 +1,29 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import axios from "axios";
-const event = require("vue-analytics").event;
+import axios from 'axios';
+import { createStore, StoreOptions } from 'vuex';
+import { useGtag } from 'vue-gtag-next';
 
-Vue.use(Vuex);
+const { event } = useGtag();
 
 interface LoadingData {
   name: string;
   message: string;
 }
 
-export default new Vuex.Store({
+interface RootState {
+  userToken: string;
+  userInformation: any;
+  club: any;
+  mainPath: string;
+  loadingStack: LoadingData[];
+  pageLoadingStack: LoadingData[];
+  showNoticeTimer: any;
+  showNotice: boolean;
+  noticeContent: any;
+  darkTheme: boolean;
+  slimMode: boolean;
+}
+
+const store: StoreOptions<RootState> = {
   state: {
     userToken: ``,
     userInformation: {},
@@ -27,15 +40,24 @@ export default new Vuex.Store({
   mutations: {
     setUserToken(state, data) {
       state.userToken = data;
-      event("mutation", "setUserToken", "userToken", state.userToken);
+      event('setUserToken', {
+        event_category: 'mutation',
+        event_label: state.userToken,
+      });
     },
     setUserInformation(state, data) {
       state.userInformation = data;
-      event("mutation", "setUserInformation", "userInformation", state.userInformation);
+      event('setUserInformation', {
+        event_category: 'mutation',
+        event_label: state.userInformation,
+      });
     },
     setClub(state, data) {
       state.club = data;
-      event("mutation", "setClub", "club", state.club);
+      event('setClub', {
+        event_category: 'mutation',
+        event_label: state.club,
+      });
     },
     pushLoading(state, data: LoadingData) {
       state.loadingStack.push(data);
@@ -73,10 +95,10 @@ export default new Vuex.Store({
               q: data,
             },
           })
-          .then(school => {
+          .then((school) => {
             resolve(school.data.school_infos);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -85,12 +107,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/login`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "LOGIN", "login", user.data.data);
+            event('auth/login', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -99,12 +124,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/withdrawAccount`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "WITHDRAWACCOUNT", "withdrawaccount", user.data.data);
+            event('auth/withdrawAccount', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -117,12 +145,15 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
+          .then((user) => {
             commit(`setUserInformation`, user.data.data);
-            event("action", "CHANGE_INFORMATION", "changeinfomation", user.data.data);
+            event('auth/changeInformation', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -131,12 +162,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/changePassword`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "CHANGE_PASSWORD", "changepassword", user.data.data);
+            event('auth/changePassword', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -145,12 +179,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/requestRegisterdByEmail`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "SEND_REGISTER_EMAIL", "register_email", user.data.data);
+            event('auth/requestRegisterdByEmail', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -159,12 +196,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/requestChangePassworddByEmail`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "SEND_CHANGEPASSWORD_EMAIL", "changepasswrod_email", user.data.data);
+            event('auth/requestChangePassworddByEmail', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -173,12 +213,15 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/register`, data)
-          .then(user => {
+          .then((user) => {
             commit(`setUserToken`, user.data.data);
-            event("action", "REGISTER", "register", user.data.data);
+            event('auth/register', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -191,11 +234,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
-            event("action", "SET_PROFILE_IMAGE", "set_profile_image", user.data.data);
+          .then((user) => {
+            event('auth/changeProfileImage', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -208,11 +254,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
-            event("action", "GET_ALARM", "get_alarm", user.data.data);
+          .then((user) => {
+            event('auth/getAlarm', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -225,11 +274,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
-            event("action", "REMOVE_ALARM", "remove_alarm", user.data.data);
+          .then((user) => {
+            event('auth/removeAlarm', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -242,11 +294,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
-            event("action", "REMOVE_ALL_ALARM", "remove_all_alarm", user.data.data);
+          .then((user) => {
+            event('auth/removeAllAlarm', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -259,11 +314,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(user => {
-            event("action", "SET_CLUB_IMAGE", "set_club_image", user.data.data);
+          .then((user) => {
+            event('admin/changeClubImage', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -272,11 +330,14 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/getAllClubs`)
-          .then(user => {
-            event("action", "GET_ALL_CLUB", "get_all_club", user.data.data);
+          .then((user) => {
+            event('club/getAllClubs', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -293,12 +354,15 @@ export default new Vuex.Store({
               Authorization: data.token,
             },
           })
-          .then(user => {
+          .then((user) => {
             commit(`setUserInformation`, user.data.data);
-            event("action", "GET_USER_PROFILE", "get_user_profile", user.data.data);
+            event('auth/getProfile', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -312,12 +376,15 @@ export default new Vuex.Store({
               name: data,
             },
           })
-          .then(user => {
+          .then((user) => {
             commit(`setClub`, user.data.data);
-            event("action", "GET_CLUB", "get_club", user.data.data);
+            event('club/getClubInformation', {
+              event_category: 'action',
+              event_label: user.data.data,
+            });
             resolve(user.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -330,11 +397,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(posts => {
-            event("action", "GET_CLUB_POSTS", "get_club_posts", posts.data.data);
+          .then((posts) => {
+            event('post/getPublicPosts', {
+              event_category: 'action',
+              event_label: posts.data.data,
+            });
             resolve(posts.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -347,11 +417,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(post => {
-            event("action", "POST_WRITE", "post_write", post.data.data);
+          .then((post) => {
+            event('post/write', {
+              event_category: 'action',
+              event_label: post.data.data,
+            });
             resolve(post.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -364,11 +437,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(post => {
-            event("action", "POST_DELETE", "post_delete", post.data.data);
+          .then((post) => {
+            event('post/delete', {
+              event_category: 'action',
+              event_label: post.data.data,
+            });
             resolve(post.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -381,11 +457,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(post => {
-            event("action", "POST_MODIFICATION", "post_modification", post.data.data);
+          .then((post) => {
+            event('post/modification', {
+              event_category: 'action',
+              event_label: post.data.data,
+            });
             resolve(post.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -398,11 +477,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(result => {
-            event("action", "POST_TOGGLE_LIKE", "post_toggle_like", result.data.data);
+          .then((result) => {
+            event('post/toggleLike', {
+              event_category: 'action',
+              event_label: result.data.data,
+            });
             resolve(result.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -415,11 +497,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(result => {
-            event("action", "POST_COMMENT", "post_comment", result.data.data);
+          .then((result) => {
+            event('post/getPublicPostComments', {
+              event_category: 'action',
+              event_label: result.data.data,
+            });
             resolve(result.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -432,11 +517,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(result => {
-            event("action", "POST_COMMENT_WRITE", "post_comment_write", result.data.data);
+          .then((result) => {
+            event('post/comment/write', {
+              event_category: 'action',
+              event_label: result.data.data,
+            });
             resolve(result.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -449,11 +537,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(result => {
-            event("action", "POST_COMMENT_DELETE", "post_comment_delete", result.data.data);
+          .then((result) => {
+            event('post/comment/delete', {
+              event_category: 'action',
+              event_label: result.data.data,
+            });
             resolve(result.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -466,11 +557,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "GET_MY_APPLICANT", "get_my_applicant", applicant.data.data);
+          .then((applicant) => {
+            event('applicant/getMyApplicant', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -483,11 +577,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applications => {
-            event("action", "GET_CLUB_APPLICANT", "get_club_applicant", applications.data.data);
+          .then((applications) => {
+            event('applicant/getClubApplications', {
+              event_category: 'action',
+              event_label: applications.data.data,
+            });
             resolve(applications.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -500,11 +597,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "APPLICANT", "applicant", applicant.data.data);
+          .then((applicant) => {
+            event('applicant/apply', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -517,11 +617,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "APPLICANT_ACCEPT", "applicant_accept", applicant.data.data);
+          .then((applicant) => {
+            event('applicant/accept', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -534,11 +637,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "APPLICANT_REJECT", "applicant_reject", applicant.data.data);
+          .then((applicant) => {
+            event('applicant/reject', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -551,11 +657,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "APPLICANT_MODIFICATION", "applicant_modification", applicant.data.data);
+          .then((applicant) => {
+            event('applicant/modification', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -568,11 +677,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applications => {
-            event("action", "GET_CLUB_CALENDAR", "get_club_calendar", applications.data.data);
+          .then((applications) => {
+            event('calendar/getPublicCalendars', {
+              event_category: 'action',
+              event_label: applications.data.data,
+            });
             resolve(applications.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -585,11 +697,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "CALENDAR", "calendar", applicant.data.data);
+          .then((applicant) => {
+            event('calendar/write', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -602,11 +717,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(applicant => {
-            event("action", "CALENDAR_DELETE", "calendar_delete", applicant.data.data);
+          .then((applicant) => {
+            event('calendar/delete', {
+              event_category: 'action',
+              event_label: applicant.data.data,
+            });
             resolve(applicant.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -615,10 +733,14 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/award/getPublicAwards`)
-          .then(awards => {
+          .then((awards) => {
+            event('award/getPublicAwards', {
+              event_category: 'action',
+              event_label: awards.data.data,
+            });
             resolve(awards.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -631,11 +753,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(award => {
-            event("action", "AWARD", "award", award.data.data);
+          .then((award) => {
+            event('award/write', {
+              event_category: 'action',
+              event_label: award.data.data,
+            });
             resolve(award.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -648,11 +773,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(award => {
-            event("action", "AWARD_DELETE", "award_delete", award.data.data);
+          .then((award) => {
+            event('award/delete', {
+              event_category: 'action',
+              event_label: award.data.data,
+            });
             resolve(award.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -665,11 +793,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(budget => {
-            event("action", "BUDGET", "budget", budget.data.data);
+          .then((budget) => {
+            event('budget/write', {
+              event_category: 'action',
+              event_label: budget.data.data,
+            });
             resolve(budget.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -682,11 +813,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(budget => {
-            event("action", "BUDGET_DELETE", "budget_delete", budget.data.data);
+          .then((budget) => {
+            event('budget/delete', {
+              event_category: 'action',
+              event_label: budget.data.data,
+            });
             resolve(budget.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -695,11 +829,14 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/member/getPublicMembers`)
-          .then(members => {
-            event("action", "GET_CLUB_MEMBERS", "get_club_members", members.data.data);
+          .then((members) => {
+            event('member/getPublicMembers', {
+              event_category: 'action',
+              event_label: members.data.data,
+            });
             resolve(members.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -712,11 +849,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(members => {
-            event("action", "GET_CLUB_DETAIL_MEMBERS", "get_club_detail_members", members.data.data);
+          .then((members) => {
+            event('member/getDetailMembers', {
+              event_category: 'action',
+              event_label: members.data.data,
+            });
             resolve(members.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -725,11 +865,14 @@ export default new Vuex.Store({
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/budget/getPublicBudgets`)
-          .then(budgets => {
-            event("action", "GET_CLUB_BUDGETS", "get_club_budgets", budgets.data.data);
+          .then((budgets) => {
+            event('budget/getPublicBudgets', {
+              event_category: 'action',
+              event_label: budgets.data.data,
+            });
             resolve(budgets.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -742,12 +885,15 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(club => {
-            commit("setClub", club.data.data);
-            event("action", "CLUB_MODIFICATION", "club_modificaion", club.data.data);
+          .then((club) => {
+            commit('setClub', club.data.data);
+            event('admin/modification', {
+              event_category: 'action',
+              event_label: club.data.data,
+            });
             resolve(club.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -760,11 +906,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(club => {
-            event("action", "CLUB_CREATE", "club_create", club.data.data);
+          .then((club) => {
+            event('club/create', {
+              event_category: 'action',
+              event_label: club.data.data,
+            });
             resolve(club.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -777,11 +926,14 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(club => {
-            event("action", "CLUB_DELETE", "club_delete", club.data.data);
+          .then((club) => {
+            event('admin/closure', {
+              event_category: 'action',
+              event_label: club.data.data,
+            });
             resolve(club.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
@@ -794,14 +946,19 @@ export default new Vuex.Store({
               Authorization: state.userToken,
             },
           })
-          .then(club => {
-            event("action", "CLUB_FIRE_MEMBER", "club_fire_member", club.data.data);
+          .then((club) => {
+            event('admin/fireMember', {
+              event_category: 'action',
+              event_label: club.data.data,
+            });
             resolve(club.data.data);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       });
     },
   },
-});
+};
+
+export default createStore(store);

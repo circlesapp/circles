@@ -1,4 +1,5 @@
 module.exports = {
+	outputDir: "docs"
 	pwa: {
 		name: "circles.",
 		themeColor: "#538fff",
@@ -7,6 +8,4 @@ module.exports = {
 			swSrc: "public/sw.js"
 		}
 	},
-	//publicPath: "/",
-	outputDir: "docs"
 };

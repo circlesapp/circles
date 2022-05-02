@@ -3,47 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "deploy": "git pull && vue-cli-service build && sudo rm -rf /var/www/circles/* && sudo mv docs/* /var/www/circles",
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "deploy": "git pull && vite build && rm -rf /var/www/circles/* && mv docs/* /var/www/circles",
     "storybook:build": "vue-cli-service storybook:build -c config/storybook",
     "storybook:serve": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "core-js": "^2.6.12",
-    "register-service-worker": "^1.7.2",
-    "socket.io-client": "^2.4.0",
-    "vue": "^2.6.12",
-    "vue-analytics": "^5.22.1",
-    "vue-class-component": "^7.2.6",
-    "vue-property-decorator": "^8.5.1",
-    "vue-router": "^3.5.1",
-    "vue-socket.io-extended": "^4.0.6",
-    "vuedraggable": "^2.24.3",
-    "vuex": "^3.6.2"
+    "axios": "latest",
+    "register-service-worker": "latest",
+    "socket.io-client": "latest",
+    "vue": "latest",
+    "vue-class-component": "next",
+    "vue-gtag-next": "latest",
+    "vue-router": "latest",
+    "vue-socket.io-extended": "latest",
+    "vuedraggable": "latest",
+    "vuex": "latest"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.1.15",
-    "@storybook/addon-knobs": "^6.1.15",
-    "@storybook/addon-links": "^6.1.15",
-    "@storybook/addon-notes": "^5.3.21",
-    "@storybook/vue": "^6.1.15",
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-plugin-pwa": "^3.12.1",
-    "@vue/cli-plugin-typescript": "^3.12.1",
-    "@vue/cli-service": "^4.5.11",
-    "typescript": "^3.9.7",
-    "vue-cli-plugin-storybook": "~1.2.2",
-    "vue-template-compiler": "^2.6.12"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
+    "@storybook/addon-actions": "latest",
+    "@storybook/addon-knobs": "latest",
+    "@storybook/addon-links": "latest",
+    "@storybook/addon-notes": "latest",
+    "@storybook/builder-vite": "latest",
+    "@storybook/vue": "latest",
+    "@types/node": "^17.0.31",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "prettier": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vite-plugin-pwa": "^0.12.0",
+    "vue-tsc": "latest"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "packageManager": "yarn@3.2.0"
 }
