@@ -9,7 +9,7 @@ interface LoadingData {
   message: string;
 }
 
-interface RootState {
+export interface RootState {
   userToken: string;
   userInformation: any;
   club: any;

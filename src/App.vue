@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ darkTheme: store.state.darkTheme, slimMode: store.state.slimMode }">
+  <div id="app" :class="{ darkTheme: $store.state.darkTheme, slimMode: $store.state.slimMode }">
     <transition name="menu-animation">
       <div class="menu" v-if="isShowMenuRoute">
         <header class="menu__left">
@@ -18,19 +18,19 @@
                   <p class="clubs">{{ getClub.name }} {{ getRank }}</p>
                 </div>
               </div>
-              <div class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark" @click="store.state.darkTheme = !store.state.darkTheme">
+              <div class="menu__right__list__item menu__right__darktheme menu__moblieprofile__dark" @click="$store.state.darkTheme = !$store.state.darkTheme">
                 <div class="menu__right__darktheme__left">
                   <i class="mdi mdi-theme-light-dark"></i>
                   <span class="menu__right__list__item__text">다크 테마</span>
                 </div>
-                <SwitchButton v-model="store.state.darkTheme"></SwitchButton>
+                <SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
               </div>
-              <div class="menu__right__list__item menu__right__slimmode menu__moblieprofile__dark" @click="store.state.slimMode = !store.state.slimMode">
+              <div class="menu__right__list__item menu__right__slimmode menu__moblieprofile__dark" @click="$store.state.slimMode = !$store.state.slimMode">
                 <div class="menu__right__slimmode__left">
                   <i class="mdi mdi-unfold-less-horizontal"></i>
                   <span class="menu__right__list__item__text">슬림 모드</span>
                 </div>
-                <SwitchButton v-model="store.state.slimMode"></SwitchButton>
+                <SwitchButton v-model="$store.state.slimMode"></SwitchButton>
               </div>
             </div>
             <router-link to="/" class="menu__left__list__item" :class="{ 'menu__left__list__item-active': idx == 0 }">메인</router-link>
@@ -93,19 +93,19 @@
                     </router-link>
                   </div>
                   <div class="menu__right__list menu__right__list__last">
-                    <div class="menu__right__list__item menu__right__darktheme" @click="store.state.darkTheme = !store.state.darkTheme">
+                    <div class="menu__right__list__item menu__right__darktheme" @click="$store.state.darkTheme = !$store.state.darkTheme">
                       <div class="menu__right__darktheme__left">
                         <i class="mdi mdi-theme-light-dark"></i>
                         <span class="menu__right__list__item__text">다크 테마</span>
                       </div>
-                      <SwitchButton v-model="store.state.darkTheme"></SwitchButton>
+                      <SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
                     </div>
-                    <div class="menu__right__list__item menu__right__slimmode" @click="store.state.slimMode = !store.state.slimMode">
+                    <div class="menu__right__list__item menu__right__slimmode" @click="$store.state.slimMode = !$store.state.slimMode">
                       <div class="menu__right__slimmode__left">
                         <i class="mdi mdi-unfold-less-horizontal"></i>
                         <span class="menu__right__list__item__text">슬림 모드</span>
                       </div>
-                      <SwitchButton v-model="store.state.slimMode"></SwitchButton>
+                      <SwitchButton v-model="$store.state.slimMode"></SwitchButton>
                     </div>
                     <div class="menu__right__list__item menu__right__profile__logout" @click="$router.push('/profile')">
                       <i class="mdi mdi-account-edit"></i>
@@ -140,13 +140,11 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import SwitchButton from "./components/SwitchButton.vue";
-import Offline from "./components/Offline.vue";
-import NoticeBar from "./components/NoticeBar.vue";
-import LoadingBar from "./components/LoadingBar.vue";
-import TopLoadingBar from "./components/TopLoadingBar.vue";
-import { Store, useStore } from 'vuex'
-import router from '@/router'
+import SwitchButton from './components/SwitchButton.vue';
+import Offline from './components/Offline.vue';
+import NoticeBar from './components/NoticeBar.vue';
+import LoadingBar from './components/LoadingBar.vue';
+import TopLoadingBar from './components/TopLoadingBar.vue';
 
 @Options({
   components: {
@@ -155,54 +153,51 @@ import router from '@/router'
     NoticeBar,
     LoadingBar,
     TopLoadingBar,
-  }
+  },
   watch: {
     $route(next, prev) {
-      this.idx = ["home", "page", "community"].indexOf(next.name.split("/")[0]);
+      this.idx = ['home', 'page', 'community'].indexOf(next.name.split('/')[0]);
       if (this.idx != -1) {
         if (this.$refs.bar as HTMLDivElement) {
           this.setBarPosition();
         }
       }
-    }
-    "store.state.darkTheme"(next, prev) {
-      localStorage.setItem("circles.darkTheme", next);
-    }
-  }
+    },
+    '$store.state.darkTheme'(next, prev) {
+      localStorage.setItem('circles.darkTheme', next);
+    },
+  },
 })
 export default class App extends Vue {
-  store:Store<any> = useStore();
+  isOffline: boolean = false;
+  showMenu: boolean = false;
+  showProfile: boolean = false;
+  showAlarm: boolean = false;
+  deferredPrompt: any = null;
+  routerAnimation: string = '';
 
-      isOffline: boolean = false;
-      showMenu: boolean=false
-      showProfile: boolean=false
-      showAlarm: boolean=false
-      deferredPrompt: any = null
-      routerAnimation: string = ""
+  isMounteRequired: boolean = false;
+  idx: number = 0;
+  barPositionX: string = '';
 
-      isMounteRequired: boolean = false
-      idx: number = 0;
-      barPositionX: string =""
-
-      isAlarmLoading: boolean = false;
-
+  isAlarmLoading: boolean = false;
 
   created() {
-    let darkTheme = localStorage.getItem("circles.darkTheme");
-    this.store.state.darkTheme = darkTheme == "true";
+    let darkTheme = localStorage.getItem('circles.darkTheme');
+    this.$store.state.darkTheme = darkTheme == 'true';
     this.loginCheck();
   }
   mounted() {
     let startX = 0;
     let endX = 0;
-    addEventListener("touchstart", (e: TouchEvent) => {
+    addEventListener('touchstart', (e: TouchEvent) => {
       startX = e.touches[0].clientX;
       endX = e.touches[0].clientX;
     });
-    addEventListener("touchmove", (e: TouchEvent) => {
+    addEventListener('touchmove', (e: TouchEvent) => {
       endX = e.touches[0].clientX;
     });
-    addEventListener("touchend", (e: TouchEvent) => {
+    addEventListener('touchend', (e: TouchEvent) => {
       let gap = endX - startX;
       if (gap < -200) {
         this.showMenu = false;
@@ -211,161 +206,161 @@ export default class App extends Vue {
         this.showMenu = true;
       }
     });
-    addEventListener("offline", () => {
+    addEventListener('offline', () => {
       this.isOffline = true;
     });
-    addEventListener("online", () => {
+    addEventListener('online', () => {
       this.isOffline = false;
     });
 
     this.setBarPosition();
 
-    window.addEventListener("beforeinstallprompt", (e: any) => {
+    window.addEventListener('beforeinstallprompt', (e: any) => {
       e.preventDefault();
       this.deferredPrompt = e;
       e.prompt();
     });
 
     let routeList = [this.$route.name] as any[];
-    router.beforeEach((to, from, next) => {
-      this.store.state.loadingStack = [];
+    this.$router.beforeEach((to, from, next) => {
+      this.$store.state.loadingStack = [];
       if (routeList.length > 1 && to.name == routeList[routeList.length - 2]) {
-        this.routerAnimation = "routerdown-animation";
+        this.routerAnimation = 'routerdown-animation';
         routeList.splice(routeList.length - 1, 1);
         setTimeout(function () {
           next();
-        } 15);
+        }, 15);
         return;
       } else {
-        this.routerAnimation = "routerup-animation";
+        this.routerAnimation = 'routerup-animation';
         routeList.push(to.name);
         next();
       }
     });
   }
 
-closeNotice() {
-      this.store.commit("closeNotice");
-    }
-    setBarPosition() {
-      if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + "px";
-    }
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    }
-    toggleProfile() {
-      this.showAlarm = false;
-      this.showProfile = !this.showProfile;
-    }
-    toggleAlarm() {
-      this.showProfile = false;
-      this.showAlarm = !this.showAlarm;
-      if (this.showAlarm) {
-        this.isAlarmLoading = true;
-        this.store.dispatch("GET_ALARM").then(alarms => {
-          this.getUserInformation.alarms = alarms;
-          this.isAlarmLoading = false;
-        });
-      }
-    }
-    closeAll() {
-      this.showMenu = false;
-      this.showProfile = false;
-      this.showAlarm = false;
-    }
-    getDate(date: Date): string {
-      return new Date(date).toISOString().slice(0, 10);
-    }
-    deleteAlarm(id: number) {
+  closeNotice() {
+    this.$store.commit('closeNotice');
+  }
+  setBarPosition() {
+    if (this.isShowMenuRoute) this.barPositionX = 120 * this.idx + 'px';
+  }
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
+  toggleProfile() {
+    this.showAlarm = false;
+    this.showProfile = !this.showProfile;
+  }
+  toggleAlarm() {
+    this.showProfile = false;
+    this.showAlarm = !this.showAlarm;
+    if (this.showAlarm) {
       this.isAlarmLoading = true;
-      this.store.dispatch("REMOVE_ALARM", { id }).then(alarms => {
-        this.isAlarmLoading = false;
+      this.$store.dispatch('GET_ALARM').then((alarms) => {
         this.getUserInformation.alarms = alarms;
+        this.isAlarmLoading = false;
       });
     }
-    showPWA() {
-      this.deferredPrompt.prompt();
-    }
-    loginCheck() {
-      let token = localStorage.getItem("circles.loginToken");
-      let pushSubscription = localStorage.getItem("circles.pushSubscription");
-      if (token) {
-        this.store.commit("pushLoading", {
-          name: "GET_USER_PROFILE",
-          message: "로그인 중",
+  }
+  closeAll() {
+    this.showMenu = false;
+    this.showProfile = false;
+    this.showAlarm = false;
+  }
+  getDate(date: Date): string {
+    return new Date(date).toISOString().slice(0, 10);
+  }
+  deleteAlarm(id: number) {
+    this.isAlarmLoading = true;
+    this.$store.dispatch('REMOVE_ALARM', { id }).then((alarms) => {
+      this.isAlarmLoading = false;
+      this.getUserInformation.alarms = alarms;
+    });
+  }
+  showPWA() {
+    this.deferredPrompt.prompt();
+  }
+  loginCheck() {
+    let token = localStorage.getItem('circles.loginToken');
+    let pushSubscription = localStorage.getItem('circles.pushSubscription');
+    if (token) {
+      this.$store.commit('pushLoading', {
+        name: 'GET_USER_PROFILE',
+        message: '로그인 중',
+      });
+      this.$store
+        .dispatch('GET_USER_PROFILE', { token, pushSubscription })
+        .then((user) => {
+          this.$store.state.userToken = token ?? '';
+          this.$store.commit('clearLoading', 'GET_USER_PROFILE');
+        })
+        .catch((err) => {
+          this.$store.state.userToken = '';
+          this.$store.commit('clearLoading', 'GET_USER_PROFILE');
         });
-        this.store
-          .dispatch("GET_USER_PROFILE", { token, pushSubscription })
-          .then(user => {
-            this.store.state.userToken = token;
-            this.store.commit("clearLoading", "GET_USER_PROFILE");
-          })
-          .catch(err => {
-            this.store.state.userToken = "";
-            this.store.commit("clearLoading", "GET_USER_PROFILE");
-          });
-      }
     }
-    logout() {
-      localStorage.removeItem("circles.loginToken");
-      this.showProfile = false;
-      this.store.state.userToken = "";
-      this.store.state.userInformation = {};
-      router.replace("/");
-    }
+  }
+  logout() {
+    localStorage.removeItem('circles.loginToken');
+    this.showProfile = false;
+    this.$store.state.userToken = '';
+    this.$store.state.userInformation = {};
+    this.$router.replace('/');
+  }
 
-get isNoticeOn() {
-      return this.store.state.showNotice;
-    }
-    get isLoading() {
-      return this.store.state.loadingStack.length > 0;
-    }
-    get getBar() {
-      return this.$refs.bar;
-    }
-    get getUserInformation(): any {
-      return this.store.state.userInformation;
-    }
-    get getUserImage() {
-      if (this.store.state.userInformation.imgPath) return this.store.state.mainPath + this.store.state.userInformation.imgPath;
-      else return "https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg";
-    }
-    get getClub() {
-      return this.store.state.club;
-    }
-    get isShowMenuRoute(): boolean {
-      return ["login", "register", "passwordchange", "page404", "community/editor", "site"].indexOf(String(router.currentRoute.value.name) || "") == -1 && !(this.$route.name == "home" && !this.getUserInformation.name);
-    }
-    get getRank() {
-      if (this.store.state.club.name) {
-        try {
-          return this.store.state.club.ranks.find((x: any) => this.store.state.club.members.find((x: any) => x.user == this.store.state.userInformation._id).rank == x.id).name;
-        } catch (e) {
-          return "-";
-        }
-      } else {
-        return "-";
+  get isNoticeOn() {
+    return this.$store.state.showNotice;
+  }
+  get isLoading() {
+    return this.$store.state.loadingStack.length > 0;
+  }
+  get getBar() {
+    return this.$refs.bar;
+  }
+  get getUserInformation(): any {
+    return this.$store.state.userInformation;
+  }
+  get getUserImage() {
+    if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
+    else return 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg';
+  }
+  get getClub() {
+    return this.$store.state.club;
+  }
+  get isShowMenuRoute(): boolean {
+    return ['login', 'register', 'passwordchange', 'page404', 'community/editor', 'site'].indexOf(String(this.$route.name) || '') == -1 && !(this.$route.name == 'home' && !this.getUserInformation.name);
+  }
+  get getRank() {
+    if (this.$store.state.club.name) {
+      try {
+        return this.$store.state.club.ranks.find((x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id).name;
+      } catch (e) {
+        return '-';
       }
+    } else {
+      return '-';
     }
-    get isAdmin(): number {
-      let acceptPermissions = [32, 42];
-      if (this.store.state.club.ranks && this.store.state.userInformation._id) {
-        let user = this.store.state.club.members.find((member: any) => {
-          return member.user == this.store.state.userInformation._id;
-        });
-        if (user) {
-          let rank = this.store.state.club.ranks.find((rank: any) => rank.id == user.rank);
-          if (rank.isAdmin) {
-            return 1000;
-          } else {
-            return this.store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.find((permission: string) => acceptPermissions.indexOf(parseInt(permission)) != -1);
-          }
-        } else return 0;
+  }
+  get isAdmin(): number {
+    let acceptPermissions = [32, 42];
+    if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
+      let user = this.$store.state.club.members.find((member: any) => {
+        return member.user == this.$store.state.userInformation._id;
+      });
+      if (user) {
+        let rank = this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank);
+        if (rank.isAdmin) {
+          return 1000;
+        } else {
+          return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.find((permission: string) => acceptPermissions.indexOf(parseInt(permission)) != -1);
+        }
       } else return 0;
-    }
-    get communityPermissionRoute(): string {
-      return this.isAdmin == 1000 ? "editclub" : this.isAdmin == 32 ? "application" : this.isAdmin == 42 ? "calendar" : "";
-    }
+    } else return 0;
+  }
+  get communityPermissionRoute(): string {
+    return this.isAdmin == 1000 ? 'editclub' : this.isAdmin == 32 ? 'application' : this.isAdmin == 42 ? 'calendar' : '';
+  }
 }
 </script>
 

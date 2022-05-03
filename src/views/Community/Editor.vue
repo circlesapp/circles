@@ -1,327 +1,299 @@
 <template>
-	<div class="editor">
-		<div class="editor__menu">
-			<button class="editor__back" @click="$router.back()">
-				<i class="mdi mdi-arrow-left"></i>
-			</button>
-			<h1>
-				circles
-				<span>editor.</span>
-				<sup>
-					<i class="mdi mdi-beta"></i>
-				</sup>
-			</h1>
-			<div class="inputfield">
-				<h2>어두운 테마 미리보기</h2>
-				<SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
-			</div>
-			<div class="editor__menu__components">
-				<h2>컴포넌트 추가</h2>
-				<div class="editor__menu__components__list">
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event, 'ClubTitleLayout')"
-						draggable
-					>동아리 타이틀</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event, 'InformationLayout')"
-						draggable
-					>동아리 소개</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event, 'MembersLayout')"
-						draggable
-					>멤버 소개</div>
-					<div
-						class="editor__menu__components__list__item"
-						@click="componentAdd($event, 'ApplyButtonLayout')"
-						draggable
-					>지원하기 버튼</div>
-				</div>
-			</div>
-			<div class="editor__menu__action">
-				<button class="exit" @click="$router.push({ name: 'home' })">나가기</button>
-				<button class="save" @click="commit">저장</button>
-			</div>
-		</div>
-		<div class="editor__content" ref="components">
-			<draggable
-				tag="div"
-				class="editor__content__wrapper"
-				v-model="componentList"
-				v-bind="dragOptions"
-				@start="drag = true"
-				@end="drag = false"
-			>
-				<transition-group type="transition" :name="!drag ? 'componentGrop' : null">
-					<component
-						class="editor__content__component"
-						:class="{ 'editor__content__component-gap': component.isDragGap }"
-						v-for="(component, idx) in componentList"
-						:key="component.id"
-						:is="component.component"
-						@contextmenu="onContextMenu($event, idx)"
-						ref="component"
-					>{{ component }}</component>
-				</transition-group>
-			</draggable>
-		</div>
-	</div>
+  <div class="editor">
+    <div class="editor__menu">
+      <button class="editor__back" @click="$router.back()">
+        <i class="mdi mdi-arrow-left"></i>
+      </button>
+      <h1>
+        circles
+        <span>editor.</span>
+        <sup>
+          <i class="mdi mdi-beta"></i>
+        </sup>
+      </h1>
+      <div class="inputfield">
+        <h2>어두운 테마 미리보기</h2>
+        <SwitchButton v-model="$store.state.darkTheme"></SwitchButton>
+      </div>
+      <div class="editor__menu__components">
+        <h2>컴포넌트 추가</h2>
+        <div class="editor__menu__components__list">
+          <div class="editor__menu__components__list__item" @click="componentAdd($event, 'ClubTitleLayout')" draggable>동아리 타이틀</div>
+          <div class="editor__menu__components__list__item" @click="componentAdd($event, 'InformationLayout')" draggable>동아리 소개</div>
+          <div class="editor__menu__components__list__item" @click="componentAdd($event, 'MembersLayout')" draggable>멤버 소개</div>
+          <div class="editor__menu__components__list__item" @click="componentAdd($event, 'ApplyButtonLayout')" draggable>지원하기 버튼</div>
+        </div>
+      </div>
+      <div class="editor__menu__action">
+        <button class="exit" @click="$router.push({ name: 'home' })">나가기</button>
+        <button class="save" @click="commit">저장</button>
+      </div>
+    </div>
+    <div class="editor__content" ref="components">
+      <draggable tag="div" class="editor__content__wrapper" v-model="componentList" v-bind="dragOptions" @start="drag = true" @end="drag = false">
+        <transition-group type="transition" :name="!drag ? 'componentGroup' : ''">
+          <component
+            class="editor__content__component"
+            :class="{ 'editor__content__component-gap': component.isDragGap }"
+            v-for="(component, idx) in componentList"
+            :key="component.id"
+            :is="component.component"
+            @contextmenu="onContextMenu($event, idx)"
+            ref="component"
+            >{{ component }}</component
+          >
+        </transition-group>
+      </draggable>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-// @ts-ignore
-import draggable from "vuedraggable";
+import { Options, Vue } from 'vue-class-component';
+import SwitchButton from '../../components/SwitchButton.vue';
+import ClubTitleLayout from '../../components/Editor/Functional/ClubTitleLayout.vue';
+import InformationLayout from '../../components/Editor/Functional/InformationLayout.vue';
+import MembersLayout from '../../components/Editor/Functional/MembersLayout.vue';
+import ApplyButtonLayout from '../../components/Editor/Functional/ApplyButtonLayout.vue';
+import draggable from 'vuedraggable';
 
-import SwitchButton from "../../components/SwitchButton.vue";
+@Options({
+  components: {
+    SwitchButton,
 
-import ClubTitleLayout from "../../components/Editor/Functional/ClubTitleLayout.vue";
-import InformationLayout from "../../components/Editor/Functional/InformationLayout.vue";
-import MembersLayout from "../../components/Editor/Functional/MembersLayout.vue";
-import ApplyButtonLayout from "../../components/Editor/Functional/ApplyButtonLayout.vue";
+    ClubTitleLayout,
+    InformationLayout,
+    MembersLayout,
+    ApplyButtonLayout,
+    draggable,
+  },
+})
+export default class Editor extends Vue {
+  componentList: any[] = [];
+  drag: boolean = false;
 
-export default Vue.extend({
-	components: {
-		SwitchButton,
+  created() {
+    this.componentList = this.getClub.page || [];
+  }
 
-		ClubTitleLayout,
-		InformationLayout,
-		MembersLayout,
-		ApplyButtonLayout,
-		draggable
-	},
-	data() {
-		return {
-			componentList: [] as any,
-			drag: false
-		};
-	},
-	created() {
-		this.componentList = this.getClub.page || [];
-	},
-	methods: {
-		onContextMenu(e: Event, idx: number) {
-			e.preventDefault();
-			this.componentList.splice(idx, 1);
-		},
-		componentAdd(e: MouseEvent, componentName: string) {
-			this.componentList.push({
-				component: componentName,
-				data: {},
-				id: new Date().getTime()
-			});
-		},
-		commit() {
-			this.$store.commit("pushLoading", {
-				name: "CLUB_MODIFICATION",
-				message: "동아리 사이트 수정 중"
-			});
-			this.$store
-				.dispatch("CLUB_MODIFICATION", {
-					page: this.componentList
-				})
-				.then(club => {
-					this.$store.commit("clearLoading", "CLUB_MODIFICATION");
-				})
-				.catch(err => console.log(err));
-		}
-	},
-	computed: {
-		getClub(): any {
-			return this.$store.state.club;
-		},
-		dragOptions() {
-			return {
-				animation: 400,
-				disabled: false,
-				group: "description",
-				ghostClass: "ghost"
-			};
-		}
-	}
-});
+  onContextMenu(e: Event, idx: number) {
+    e.preventDefault();
+    this.componentList.splice(idx, 1);
+  }
+  componentAdd(e: MouseEvent, componentName: string) {
+    this.componentList.push({
+      component: componentName,
+      data: {},
+      id: new Date().getTime(),
+    });
+  }
+  commit() {
+    this.$store.commit('pushLoading', {
+      name: 'CLUB_MODIFICATION',
+      message: '동아리 사이트 수정 중',
+    });
+    this.$store
+      .dispatch('CLUB_MODIFICATION', {
+        page: this.componentList,
+      })
+      .then((club) => {
+        this.$store.commit('clearLoading', 'CLUB_MODIFICATION');
+      })
+      .catch((err) => console.log(err));
+  }
+
+  get getClub(): any {
+    return this.$store.state.club;
+  }
+  get dragOptions() {
+    return {
+      animation: 400,
+      disabled: false,
+      group: 'description',
+      ghostClass: 'ghost',
+    };
+  }
+}
 </script>
 
 <style>
-.componentGrop-move {
-	transition: 0.5s;
+.componentGroup-move {
+  transition: 0.5s;
 }
-.componentGrop-enter-active,
-.componentGrop-leave-active {
-	transition: 0.5s;
+.componentGroup-enter-active,
+.componentGroup-leave-active {
+  transition: 0.5s;
 }
-.componentGrop-leave-active {
-	position: absolute !important;
+.componentGroup-leave-active {
+  position: absolute !important;
 }
-.componentGrop-enter,
-.componentGrop-leave-to {
-	transform: scale(0);
-	opacity: 0;
+.componentGroup-enter,
+.componentGroup-leave-to {
+  transform: scale(0);
+  opacity: 0;
 }
-.componentGrop-enter-to,
-.componentGrop-leave {
-	opacity: 1;
+.componentGroup-enter-to,
+.componentGroup-leave {
+  opacity: 1;
 }
 
 .editor {
-	display: flex;
+  display: flex;
 
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .editor__menu {
-	min-width: 300px;
-	width: 100%;
-	height: 100%;
-	flex: 1;
+  min-width: 300px;
+  width: 100%;
+  height: 100%;
+  flex: 1;
 
-	padding: 40px;
+  padding: 40px;
 
-	background-color: white;
-	box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.09);
+  background-color: white;
+  box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.09);
 
-	overflow-y: auto;
+  overflow-y: auto;
 
-	z-index: 500;
+  z-index: 500;
 }
 .darkTheme .editor__menu {
-	background-color: #282828;
+  background-color: #282828;
 }
 .editor__back {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-	border: none;
-	border-radius: 50%;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-	background-color: #999;
-	color: white;
-	width: 36px;
-	height: 36px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: #999;
+  color: white;
+  width: 36px;
+  height: 36px;
 
-	cursor: pointer;
-	transition: 0.2s;
+  cursor: pointer;
+  transition: 0.2s;
 }
 .editor__back:hover {
-	background-color: #538fffe1;
-	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+  background-color: #538fffe1;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
 }
 .editor__menu h1 {
-	font-size: 38px;
-	font-weight: 300;
-	margin-bottom: 40px;
+  font-size: 38px;
+  font-weight: 300;
+  margin-bottom: 40px;
 }
 .editor__menu h1 > span {
-	font-family: AvenirBlack;
-	font-weight: 800;
+  font-family: AvenirBlack;
+  font-weight: 800;
 }
 .editor__menu i {
-	font-size: 20px;
+  font-size: 20px;
 }
 .editor__menu .inputfield {
-	margin-top: 40px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .editor__menu .inputfield:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 .editor__menu .inputfield h2,
 .editor__menu__components h2 {
-	font-family: NanumSquareL;
-	font-size: 24px;
+  font-family: NanumSquareL;
+  font-size: 24px;
 }
 .editor__menu__components h2 {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .editor__menu .inputfield input {
-	padding: 10px 15px;
-	border-radius: 8px;
-	border: solid 1px #eeeeee;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: solid 1px #eeeeee;
 
-	font-size: 24px;
+  font-size: 24px;
 
-	width: 100%;
+  width: 100%;
 }
 .editor__menu .inputfield input::placeholder {
-	color: #999999;
+  color: #999999;
 }
 .editor__menu__components {
-	margin-top: 30px;
+  margin-top: 30px;
 }
 
 .editor__menu__components__list__item {
-	border: solid 1px #ebebeb;
+  border: solid 1px #ebebeb;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-	height: 200px;
-	margin-bottom: 40px;
+  height: 200px;
+  margin-bottom: 40px;
 
-	font-family: NanumSquareB;
-	font-size: 28px;
+  font-family: NanumSquareB;
+  font-size: 28px;
 }
 .darkTheme .editor__menu__components__list__item {
-	border: none;
-	background-color: #353535;
+  border: none;
+  background-color: #353535;
 }
 .editor__menu__action {
-	display: flex;
+  display: flex;
 }
 .editor__menu__action button {
-	flex: 1;
+  flex: 1;
 
-	border: none;
+  border: none;
 
-	background-color: #eeeeee;
-	color: white;
+  background-color: #eeeeee;
+  color: white;
 
-	margin: 10px;
-	padding: 10px;
+  margin: 10px;
+  padding: 10px;
 
-	font-size: 20px;
+  font-size: 20px;
 
-	border-radius: 100px;
+  border-radius: 100px;
 
-	cursor: pointer;
+  cursor: pointer;
 }
 .editor__menu__action button.exit {
-	background-color: #ff4475;
+  background-color: #ff4475;
 }
 .editor__menu__action button.save {
-	background-color: #538fff;
+  background-color: #538fff;
 }
 .editor__content {
-	flex: 4;
+  flex: 4;
 
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 
-	overflow-y: auto;
-	margin-left: 10px;
+  overflow-y: auto;
+  margin-left: 10px;
 }
 .editor__content__wrapper {
-	position: relative;
+  position: relative;
 }
 .editor__content__component {
-	margin-top: 10px;
+  margin-top: 10px;
 
-	width: 100%;
+  width: 100%;
 }
 
 .editor__content__component-gap {
-	box-shadow: 0 2px 20px 0 rgba(99, 99, 99, 0.4);
-	opacity: 0.5;
+  box-shadow: 0 2px 20px 0 rgba(99, 99, 99, 0.4);
+  opacity: 0.5;
 }
 
 .ghost {
-	opacity: 0.5;
+  opacity: 0.5;
 }
 </style>
