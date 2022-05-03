@@ -1,6 +1,10 @@
 <template>
-	<div class="titleLayout" @contextmenu="$emit('contextmenu',$event)"></div>
+  <div class="titleLayout" @contextmenu="$emit('contextmenu', $event)"></div>
 </template>
 
-<style scoped>
-</style>
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+
+@Options({})
+export default class TitleLayout extends Vue {}
+</script>

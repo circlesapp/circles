@@ -1,157 +1,149 @@
 <template>
-	<div class="attendanceSheetTable" v-if="dates">
-		<table>
-			<thead>
-				<tr>
-					<th class="sortable" @click="orderBy('name')">
-						성명
-						<i
-							class="mdi mdi-arrow-down"
-							:class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"
-						></i>
-					</th>
-					<th v-for="(day, idx) in dates" :key="idx">
-						<input type="date" :value="day.date" @change="changeDate($event,idx)" />
-						<br />
-						<input type="text" v-model="dates[idx].label" placeholder="레이블 입력" />
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<AttendanceSheetItem
-					@change="$emit('change', $event)"
-					:colors="colors"
-					:dates="dates"
-					v-for="data in getOrderedItems"
-					:key="data._id"
-					:data="data"
-					@changeState="changeState"
-				/>
-			</tbody>
-		</table>
-	</div>
+  <div class="attendanceSheetTable" v-if="dates">
+    <table>
+      <thead>
+        <tr>
+          <th class="sortable" @click="orderBy('name')">
+            성명
+            <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"></i>
+          </th>
+          <th v-for="(day, idx) in dates" :key="idx">
+            <input type="date" :value="day.date" @change="changeDate($event, idx)" />
+            <br />
+            <input type="text" v-model="dates[idx].label" placeholder="레이블 입력" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <AttendanceSheetItem
+          @change="$emit('change', $event)"
+          :colors="colors"
+          :dates="dates"
+          v-for="data in getOrderedItems"
+          :key="data._id"
+          :data="data"
+          @changeState="changeState"
+        />
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import AttendanceSheetItem from "./AttendanceSheetItem.vue";
-export default Vue.extend({
-	components: {
-		AttendanceSheetItem
-	},
-	props: {
-		colors: Object,
-		dates: Array,
-		datas: Array
-	},
-	data() {
-		return {
-			sortKey: "",
-			sortBy: false
-		};
-	},
-	methods: {
-		orderBy(key: string) {
-			if (this.sortKey == key) {
-				this.sortBy = !this.sortBy;
-			} else {
-				this.sortKey = key;
-			}
-		},
-		changeState(e: any) {
-			this.$emit("changeState", { id: e.id, day: e.day, state: e.state });
-		},
-		changeDate(e: KeyboardEvent, idx: number) {
-			let next = (e.target as HTMLInputElement).value;
-			let prevString = "" + (this.dates[idx] as any).date;
-			(this.dates[idx] as any).date = next.toString();
-			this.datas.forEach(member => {
-				let idx = (member as any).attendance.findIndex(
-					x => x.name == prevString
-				);
-				(member as any).attendance[idx].name = next.toString();
-			});
-			this.$emit("change", e);
-		},
-		stringToDate(str: string) {
-			console.log(new Date(str));
-			return new Date(str);
-		}
-	},
-	computed: {
-		getOrderedItems(): any {
-			if (this.sortKey == "") {
-				return this.datas;
-			} else {
-				return this.datas.sort((a: any, b: any): any => {
-					if (this.sortBy)
-						return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
-					else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
-				});
-			}
-		}
-	}
-});
+import { Options, prop, Vue } from 'vue-class-component';
+import AttendanceSheetItem from './AttendanceSheetItem.vue';
+
+class Props {
+  colors: any = prop({});
+  dates: any = prop({});
+  datas: any = prop({});
+}
+
+@Options({
+  components: {
+    AttendanceSheetItem,
+  },
+})
+export default class AttendanceSheetTable extends Vue.with(Props) {
+  sortKey: string = '';
+  sortBy: boolean = false;
+
+  orderBy(key: string) {
+    if (this.sortKey == key) {
+      this.sortBy = !this.sortBy;
+    } else {
+      this.sortKey = key;
+    }
+  }
+  changeState(e: any) {
+    this.$emit('changeState', { id: e.id, day: e.day, state: e.state });
+  }
+  changeDate(e: Event, idx: number) {
+    let next = (e.target as HTMLInputElement).value;
+    let prevString = '' + (this.dates[idx] as any).date;
+    (this.dates[idx] as any).date = next.toString();
+    this.datas.forEach((member) => {
+      let idx = (member as any).attendance.findIndex((x) => x.name == prevString);
+      (member as any).attendance[idx].name = next.toString();
+    });
+    this.$emit('change', e);
+  }
+  stringToDate(str: string) {
+    console.log(new Date(str));
+    return new Date(str);
+  }
+
+  get getOrderedItems(): any {
+    if (this.sortKey == '') {
+      return this.datas;
+    } else {
+      return this.datas.sort((a: any, b: any): any => {
+        if (this.sortBy) return b[this.sortKey] > a[this.sortKey] ? 1 : -1;
+        else return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
+      });
+    }
+  }
+}
 </script>
 
 <style>
 .attendanceSheetTable {
-	width: 100%;
-	min-width: 1400px;
+  width: 100%;
+  min-width: 1400px;
 
-	background-color: white;
-	font-family: "NanumSquareEB";
-	color: #9cb2cd;
+  background-color: white;
+  font-family: 'NanumSquareEB';
+  color: #9cb2cd;
 }
 .darkTheme .attendanceSheetTable {
-	background-color: #282828;
+  background-color: #282828;
 }
 .attendanceSheetTable th {
-	padding: 20px;
-	position: relative;
-	user-select: none;
+  padding: 20px;
+  position: relative;
+  user-select: none;
 }
 .attendanceSheetTable .sortable {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .attendanceSheetTable thead i {
-	position: absolute;
-	right: 10%;
+  position: absolute;
+  right: 10%;
 
-	opacity: 0;
-	transition: 0.2s;
+  opacity: 0;
+  transition: 0.2s;
 }
 
 .attendanceSheetTable thead th:hover i {
-	opacity: 0.5;
+  opacity: 0.5;
 }
 .attendanceSheetTable thead i.order-active {
-	display: inline-block;
-	opacity: 1 !important;
-	transform: rotate(180deg);
+  display: inline-block;
+  opacity: 1 !important;
+  transform: rotate(180deg);
 }
 .attendanceSheetTable thead i.order-rotate {
-	transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
 .attendanceSheetTable th span {
-	cursor: pointer;
+  cursor: pointer;
 }
 .attendanceSheetTable th input {
-	max-width: 180px;
+  max-width: 180px;
 
-	border: none;
-	background: transparent;
-	text-align: center;
-	font-size: 20px;
-	color: #9cb0cd;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 20px;
+  color: #9cb0cd;
 }
 .order-active {
-	opacity: 1 !important;
-	transform: rotate(180deg);
+  opacity: 1 !important;
+  transform: rotate(180deg);
 }
 .order-rotate {
-	transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 </style>
