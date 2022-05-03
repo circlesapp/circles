@@ -3723,13 +3723,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/socket.io-client@npm:1.4.36":
-  version: 1.4.36
-  resolution: "@types/socket.io-client@npm:1.4.36"
-  checksum: 08a40365bb5497ec7195add34d40ce067baf4fdc2b4bb67e608942b88f290f4e555aece97263179c7fcc0108200777793a2f771b445bd1725b122169b1c5bd81
-  languageName: node
-  linkType: hard
-
 "@types/source-list-map@npm:*":
   version: 0.1.2
   resolution: "@types/source-list-map@npm:0.1.2"
@@ -5627,7 +5620,6 @@ __metadata:
     vue-class-component: next
     vue-gtag-next: latest
     vue-router: latest
-    vue-socket.io-extended: latest
     vue-tsc: latest
     vuedraggable: latest
     vuex: latest
@@ -15093,15 +15085,6 @@ __metadata:
   peerDependencies:
     vue: ^3.2.0
   checksum: 694f6a85f82c11321ecbbb181db9b1a63fe99f781f33feab56c6ed1924370553b9d4325a9bdc1fbd3bfacb4cea12ef37cee77bc91974c1c6314e07fe8193941b
-  languageName: node
-  linkType: hard
-
-"vue-socket.io-extended@npm:latest":
-  version: 4.2.0
-  resolution: "vue-socket.io-extended@npm:4.2.0"
-  dependencies:
-    "@types/socket.io-client": 1.4.36
-  checksum: 0a753e3162bcf7b190b868c91e1f334a4ad7b941e41d87df5244934320c7a190020c5882fe15a7106bb62aa05d04588d2415807056bffede33e159d2f3a08c05
   languageName: node
   linkType: hard
 

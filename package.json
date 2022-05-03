@@ -17,7 +17,6 @@
     "vue-class-component": "next",
     "vue-gtag-next": "latest",
     "vue-router": "latest",
-    "vue-socket.io-extended": "latest",
     "vuedraggable": "latest",
     "vuex": "latest"
   },

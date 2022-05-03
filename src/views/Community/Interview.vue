@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { Socket } from 'vue-socket.io-extended';
 import draggable from 'vuedraggable';
 
 @Options({
@@ -41,30 +40,6 @@ import draggable from 'vuedraggable';
   },
 })
 export default class Interview extends Vue {
-  @Socket()
-  interview_getInterviewByClubName(this: any, data) {
-    this.$store.commit('clearLoading', 'interview_getInterviewByClubName');
-    this.isStart = data.result;
-    if (data.result) this.interviewers = data.data.interviewers;
-  }
-
-  @Socket()
-  interview_startInterview(this: any, data) {
-    this.$store.commit('clearLoading', 'interview_startInterview');
-    this.isStart = data.result;
-  }
-
-  @Socket()
-  interview_closeInterview(this: any, data) {
-    this.$store.commit('clearLoading', 'interview_closeInterview');
-    this.isStart = !data.result;
-  }
-
-  @Socket()
-  interview_updateInterviewers(this: any, data) {
-    this.interviewers = data.data.interviewers;
-  }
-
   applicants: any[] = [];
   interviewers: any[] = [];
   isStart: boolean = false;
@@ -97,6 +72,25 @@ export default class Interview extends Vue {
           .filter((x) => _ids.indexOf(x._id) == -1);
       })
       .catch((err) => {});
+  }
+
+  mounted() {
+    this.$socket.on('interview_getInterviewByClubName', (data) => {
+      this.$store.commit('clearLoading', 'interview_getInterviewByClubName');
+      this.isStart = data.result;
+      if (data.result) this.interviewers = data.data.interviewers;
+    });
+    this.$socket.on('interview_startInterview', (data) => {
+      this.$store.commit('clearLoading', 'interview_startInterview');
+      this.isStart = data.result;
+    });
+    this.$socket.on('interview_closeInterview', (data) => {
+      this.$store.commit('clearLoading', 'interview_closeInterview');
+      this.isStart = !data.result;
+    });
+    this.$socket.on('interview_updateInterviewers', (data) => {
+      this.interviewers = data.data.interviewers;
+    });
   }
 
   start() {

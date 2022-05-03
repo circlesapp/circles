@@ -29,7 +29,6 @@
 */
 
 import { Options, Vue } from 'vue-class-component';
-import { Socket } from 'vue-socket.io-extended';
 import AttendanceSheetTable from '../../components/Community/AttendanceSheetTable.vue';
 
 @Options({
@@ -45,38 +44,6 @@ import AttendanceSheetTable from '../../components/Community/AttendanceSheetTabl
   },
 })
 export default class Calendar extends Vue {
-  @Socket()
-  attendance_updateAttendance(this: any, data) {
-    this.datas = data.data.datas;
-    this.dates = data.data.dates;
-  }
-
-  @Socket()
-  attendance_createAttendance(this: any, data) {
-    this.datas = data.data.datas;
-    this.dates = data.data.dates;
-  }
-
-  @Socket()
-  attendance_deleteAttendance(this: any, data) {
-    this.$socket.client.emit('attendance_createAttendance', {
-      clubname: this.getClub.name,
-    });
-  }
-
-  @Socket()
-  attendance_getAttendanceByClubName(this: any, data) {
-    console.log(data);
-    if (data.result) {
-      this.datas = data.data.datas;
-      this.dates = data.data.dates;
-    } else {
-      this.$socket.client.emit('attendance_createAttendance', {
-        clubname: this.getClub.name,
-      });
-    }
-  }
-
   colors: { [key: string]: string } = {
     red: '#db4437',
     orange: '#fe9900',
@@ -95,6 +62,32 @@ export default class Calendar extends Vue {
   created() {
     this.$socket.emit('attendance_getAttendanceByClubName', {
       clubname: this.getClub.name,
+    });
+  }
+
+  mounted() {
+    this.$socket.on('attendance_updateAttendance', (data) => {
+      this.datas = data.data.datas;
+      this.dates = data.data.dates;
+    });
+    this.$socket.on('attendance_createAttendance', (data) => {
+      this.datas = data.data.datas;
+      this.dates = data.data.dates;
+    });
+    this.$socket.on('attendance_deleteAttendance', (data) => {
+      this.$socket.emit('attendance_createAttendance', {
+        clubname: this.getClub.name,
+      });
+    });
+    this.$socket.on('attendance_getAttendanceByClubName', (data) => {
+      if (data.result) {
+        this.datas = data.data.datas;
+        this.dates = data.data.dates;
+      } else {
+        this.$socket.emit('attendance_createAttendance', {
+          clubname: this.getClub.name,
+        });
+      }
     });
   }
 

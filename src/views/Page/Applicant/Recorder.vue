@@ -30,34 +30,9 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { Socket } from 'vue-socket.io-extended';
 
 @Options({})
 export default class Recorder extends Vue {
-  @Socket()
-  interview_getInterviewByClubName(this: any, data) {
-    this.$store.commit('clearLoading', 'interview_getInterviewByClubName');
-    this.isStart = data.result;
-    if (data.result) this.interviewers = data.data.interviewers;
-  }
-
-  @Socket()
-  interview_startInterview(this: any, data) {
-    if (data.result) this.interviewers = data.data.interviewers;
-    this.isStart = data.result;
-  }
-
-  @Socket()
-  interview_closeInterview(this: any, data) {
-    if (data.result) this.interviewers = [];
-    this.isStart = !data.result;
-  }
-
-  @Socket()
-  interview_updateInterviewers(this: any, data) {
-    this.interviewers = data.data.interviewers;
-  }
-
   isStart: boolean = false;
   interviewers: any[] = [];
 
@@ -70,6 +45,26 @@ export default class Recorder extends Vue {
       clubname: this.getClub.name,
     });
   }
+
+  mounted() {
+    this.$socket.on('interview_getInterviewByClubName', (data) => {
+      this.$store.commit('clearLoading', 'interview_getInterviewByClubName');
+      this.isStart = data.result;
+      if (data.result) this.interviewers = data.data.interviewers;
+    });
+    this.$socket.on('interview_startInterview', (data) => {
+      if (data.result) this.interviewers = data.data.interviewers;
+      this.isStart = data.result;
+    });
+    this.$socket.on('interview_closeInterview', (data) => {
+      if (data.result) this.interviewers = [];
+      this.isStart = !data.result;
+    });
+    this.$socket.on('interview_updateInterviewers', (data) => {
+      this.interviewers = data.data.interviewers;
+    });
+  }
+
   get getFirst(): any {
     return this.interviewers[0] || { name: '-', number: '-' };
   }
