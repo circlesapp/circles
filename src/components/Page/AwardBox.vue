@@ -1,5 +1,9 @@
 <template>
-  <div class="awardbox" :class="{ 'awardbox-created': data.isCreated }" @contextmenu="$emit('contextmenu', $event)">
+  <div
+    class="awardbox"
+    :class="{ 'awardbox-created': data.isCreated }"
+    @contextmenu="$emit('contextmenu', $event)"
+  >
     <div>
       <h2>{{ data.title }}</h2>
       <p>
@@ -15,7 +19,7 @@
 import { Options, prop, Vue } from 'vue-class-component';
 
 class Props {
-  data: any = prop({});
+  data = prop<any>({});
 }
 
 @Options({})

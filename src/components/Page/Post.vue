@@ -12,7 +12,11 @@
     </div>
     <h3 class="post__title" v-if="!isCreate">
       <img
-        :src="data.owner.imgPath ? getMainPath + data.owner.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+        :src="
+          data.owner.imgPath
+            ? getMainPath + data.owner.imgPath
+            : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'
+        "
         alt="user_profile"
       />
       <p>
@@ -23,10 +27,20 @@
         <br />
         <span class="moment">{{ data.timeString }}</span>
       </p>
-      <i class="mdi mdi-dots-horizontal post__menu" @click="toggleOption" v-if="getPermissionModifAndDelete"></i>
+      <i
+        class="mdi mdi-dots-horizontal post__menu"
+        @click="toggleOption"
+        v-if="getPermissionModifAndDelete"
+      ></i>
     </h3>
     <pre class="post__content" v-if="!isModifPost">{{ data.content }}</pre>
-    <textarea class="post__content create" placeholder="글 작성하기" @keypress="pressEnter" v-model="modifContent" v-else />
+    <textarea
+      class="post__content create"
+      placeholder="글 작성하기"
+      @keypress="pressEnter"
+      v-model="modifContent"
+      v-else
+    />
     <article class="post__image" v-if="!isCreate && (data ? data.imgPath.length : false)">
       <div class="post__image__mainImage">
         <img :src="getMainPath + data.imgPath[0]" alt="content_image" />
@@ -49,13 +63,19 @@
               <i class="mdi mdi-image-plus"></i>
             </div>
             <div class="post__modification__image__imagenames">
-              <span v-for="(image, idx) in getImages" :key="idx" class="imagename">{{ image.name }}</span>
+              <span v-for="(image, idx) in getImages" :key="idx" class="imagename">{{
+                image.name
+              }}</span>
             </div>
           </label>
         </span>
         <div>
-          <span style="color: #e02020; margin-right: 20px" v-if="!isCreate" @click="modifPost">취소</span>
-          <span style="color: #538fff" @click="changeContentSave">{{ isCreate ? '작성' : '확인' }}</span>
+          <span style="color: #e02020; margin-right: 20px" v-if="!isCreate" @click="modifPost"
+            >취소</span
+          >
+          <span style="color: #538fff" @click="changeContentSave">{{
+            isCreate ? '작성' : '확인'
+          }}</span>
         </div>
       </div>
     </div>
@@ -88,7 +108,11 @@
             {{ comment.owner.name }}
           </h4>
           <p>{{ comment.message }}</p>
-          <div class="post__comments__list__item__remove" v-if="checkOwner(comment.owner)" @click="removeComment(comment._id)">
+          <div
+            class="post__comments__list__item__remove"
+            v-if="checkOwner(comment.owner)"
+            @click="removeComment(comment._id)"
+          >
             <i class="mdi mdi-close"></i>
           </div>
         </div>
@@ -103,8 +127,8 @@ import { Options, prop, Vue } from 'vue-class-component';
 import TopLoadingBar from '@/components/TopLoadingBar.vue';
 
 class Props {
-  data: any = prop({});
-  isCreate: boolean = prop({ required: true });
+  data = prop<any>({});
+  isCreate = prop<boolean>({});
 }
 @Options({
   components: {
@@ -143,11 +167,11 @@ export default class Post extends Vue.with(Props) {
       .dispatch('POST_COMMENT', {
         _id: this.data._id,
       })
-      .then((data) => {
+      .then(data => {
         this.isLoading = false;
         this.comments = data.reverse();
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }
   deletePost() {
     if (!this.isLoading) {
@@ -156,11 +180,11 @@ export default class Post extends Vue.with(Props) {
         .dispatch('POST_DELETE', {
           _id: this.data._id,
         })
-        .then((data) => {
+        .then(data => {
           this.isLoading = false;
           this.$emit('isChange', false);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   }
   modifPost() {
@@ -174,32 +198,32 @@ export default class Post extends Vue.with(Props) {
       if (this.isCreate) {
         if (this.images) {
           this.encodeBase64ImageFiles(this.images)
-            .then((base64images) => {
+            .then(base64images => {
               this.$store
                 .dispatch('POST_WRITE', {
                   content: this.modifContent,
                   img: base64images,
                 })
-                .then((data) => {
+                .then(data => {
                   this.images = [];
                   this.isLoading = false;
                   this.modifContent = '';
                   this.$emit('isChange', false);
                 })
-                .catch((err) => console.log(err));
+                .catch(err => console.log(err));
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
         } else {
           this.$store
             .dispatch('POST_WRITE', {
               content: this.modifContent,
             })
-            .then((data) => {
+            .then(data => {
               this.isLoading = false;
               this.modifContent = '';
               this.$emit('isChange', false);
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
         }
       } else {
         this.$store
@@ -207,13 +231,13 @@ export default class Post extends Vue.with(Props) {
             _id: this.data._id,
             content: this.modifContent,
           })
-          .then((data) => {
+          .then(data => {
             this.isLoading = false;
             this.isShowOption = false;
             this.isModifPost = false;
             this.$emit('isChange', false);
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     }
   }
@@ -240,7 +264,7 @@ export default class Post extends Vue.with(Props) {
           this.comment = '';
           this.commentReload();
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   }
   removeComment(id: string) {
@@ -255,7 +279,7 @@ export default class Post extends Vue.with(Props) {
           this.isLoading = false;
           this.commentReload();
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   }
   toggleLike() {
@@ -270,7 +294,7 @@ export default class Post extends Vue.with(Props) {
 
           this.$emit('isChange', false);
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   }
   onImageChange(e: any) {
@@ -284,14 +308,14 @@ export default class Post extends Vue.with(Props) {
       reader.onload = (event: any) => {
         resolve(event.target.result);
       };
-      reader.onerror = (error) => {
+      reader.onerror = error => {
         reject(error);
       };
     });
   }
   encodeBase64ImageFiles(images: File[]) {
     let buffer: Promise<string>[] = [];
-    [...images].forEach((image) => {
+    [...images].forEach(image => {
       buffer.push(this.encodeBase64ImageFile(image));
     });
     return Promise.all(buffer);

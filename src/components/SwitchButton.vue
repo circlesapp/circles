@@ -9,7 +9,7 @@
 import { Options, prop, Vue } from 'vue-class-component';
 
 class Props {
-  checked: boolean = prop({ required: true });
+  checked = prop<boolean>({});
 }
 
 @Options({})

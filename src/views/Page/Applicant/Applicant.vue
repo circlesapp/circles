@@ -16,7 +16,7 @@
         <br />이용 가능합니다.
       </p>
     </div>
-    <router-link v-else tag="div" :to="{ name: 'page/applicant/application' }" class="applicant__main__item">
+    <div v-else class="applicant__main__item" @click="$router.push({ name: 'page/applicant/application' })">
       <i class="mdi mdi-file-document"></i>
       <h2>지원서 {{ getIsModificationText }}</h2>
       <p>
@@ -25,23 +25,23 @@
         지원서를 {{ getIsModificationText }}합니다.
       </p>
       <div class="modification" v-if="isModification">지원서 수정 ></div>
-    </router-link>
-    <router-link tag="div" :to="{ name: 'page/applicant/recorder' }" class="applicant__main__item">
+    </div>
+    <div class="applicant__main__item" @click="$router.push({ name: 'page/applicant/recorder' })">
       <i class="mdi mdi-remote"></i>
       <h2>페이저 수신기</h2>
       <p>
         대기자 원격 호출을 위한
         <br />페이저 수신기입니다.
       </p>
-    </router-link>
-    <router-link tag="div" :to="{ name: 'page/applicant/result' }" class="applicant__main__item">
+    </div>
+    <div class="applicant__main__item" @click="$router.push({ name: 'page/applicant/result' })" >
       <i class="mdi mdi-clipboard-check"></i>
       <h2>결과 확인</h2>
       <p>
         지원 결과를 확인하는
         <br />페이지 입니다.
       </p>
-    </router-link>
+    </div>
   </div>
 </template>
 

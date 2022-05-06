@@ -1,7 +1,15 @@
 <template>
-  <div class="calendar__createpopup" action="javascript:void(0);" @contextmenu="$emit('contextmenu', $event)">
+  <div
+    class="calendar__createpopup"
+    action="javascript:void(0);"
+    @contextmenu="$emit('contextmenu', $event)"
+  >
     <form class="calendar__createpopup__content" action="javascript:void(0);" @submit="create">
-      <button class="calendar__createpopup__content__clear" type="button" @click="$emit('isUpdated', false)">
+      <button
+        class="calendar__createpopup__content__clear"
+        type="button"
+        @click="$emit('isUpdated', false)"
+      >
         <i class="mdi mdi-close"></i>
       </button>
       <h3>일정 생성하기</h3>
@@ -30,8 +38,8 @@
 import { Options, prop, Vue } from 'vue-class-component';
 
 class Props {
-  start: Date = prop({ required: true });
-  end: Date = prop({ required: true });
+  start = prop<Date>({});
+  end = prop<Date>({});
 }
 
 @Options({})
@@ -40,7 +48,7 @@ export default class CalendarBoxCreatePopup extends Vue.with(Props) {
 
   mounted() {
     (this.$refs.startInput as HTMLDivElement).focus();
-    addEventListener('keydown', (e) => {
+    addEventListener('keydown', e => {
       if (e.keyCode == 27) this.$emit('isUpdated', false);
     });
   }
@@ -57,12 +65,12 @@ export default class CalendarBoxCreatePopup extends Vue.with(Props) {
           start: this.start,
           end: this.end,
         })
-        .then((calendar) => {
+        .then(calendar => {
           this.$store.commit('clearLoading', 'CALENDAR');
           this.$emit('isUpdated', false);
           this.content = '';
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   }
 }

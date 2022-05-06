@@ -21,6 +21,7 @@
     "vuex": "latest"
   },
   "devDependencies": {
+    "@babel/core": "latest",
     "@storybook/addon-actions": "latest",
     "@storybook/addon-essentials": "latest",
     "@storybook/addon-knobs": "latest",
@@ -31,6 +32,7 @@
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
     "@vue/runtime-core": "latest",
+    "babel-loader": "latest",
     "prettier": "latest",
     "sass": "latest",
     "typescript": "latest",
@@ -41,6 +43,5 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "packageManager": "yarn@3.2.0"
+  ]
 }

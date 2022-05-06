@@ -5,7 +5,10 @@
         <tr>
           <th class="sortable" @click="orderBy('name')">
             성명
-            <i class="mdi mdi-arrow-down" :class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"></i>
+            <i
+              class="mdi mdi-arrow-down"
+              :class="{ 'order-active': sortKey == 'name', 'order-rotate': sortBy }"
+            ></i>
           </th>
           <th v-for="(day, idx) in dates" :key="idx">
             <input type="date" :value="day.date" @change="changeDate($event, idx)" />
@@ -34,9 +37,9 @@ import { Options, prop, Vue } from 'vue-class-component';
 import AttendanceSheetItem from './AttendanceSheetItem.vue';
 
 class Props {
-  colors: any = prop({});
-  dates: any = prop({});
-  datas: any = prop({});
+  colors = prop<any>({});
+  dates = prop<any>({});
+  datas = prop<any>({});
 }
 
 @Options({
@@ -60,11 +63,11 @@ export default class AttendanceSheetTable extends Vue.with(Props) {
   }
   changeDate(e: Event, idx: number) {
     let next = (e.target as HTMLInputElement).value;
-    let prevString = '' + (this.dates[idx] as any).date;
-    (this.dates[idx] as any).date = next.toString();
-    this.datas.forEach((member) => {
-      let idx = (member as any).attendance.findIndex((x) => x.name == prevString);
-      (member as any).attendance[idx].name = next.toString();
+    let prevString = '' + this.dates[idx].date;
+    this.dates[idx].date = next.toString();
+    this.datas.forEach(member => {
+      let idx = member.attendance.findIndex(x => x.name == prevString);
+      member.attendance[idx].name = next.toString();
     });
     this.$emit('change', e);
   }

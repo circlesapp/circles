@@ -1,8 +1,10 @@
 <template>
   <div class="applicant">
-    <transition name="routerfade-animation">
-      <router-view class="applicant__router"></router-view>
-    </transition>
+    <router-view class="applicant__router" v-slot="{ Component }">
+      <transition name="routerfade-animation">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 <script lang="ts">

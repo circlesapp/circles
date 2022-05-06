@@ -2,7 +2,11 @@
   <div class="memberbox">
     <img
       class="memberbox__img"
-      :src="data.imgPath ? getMainPath + data.imgPath : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'"
+      :src="
+        data.imgPath
+          ? getMainPath + data.imgPath
+          : 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg'
+      "
       alt="member_profile"
     />
     <h3>{{ data.name }}</h3>
@@ -14,7 +18,7 @@
 import { Options, prop, Vue } from 'vue-class-component';
 
 class Props {
-  data: any = prop({});
+  data = prop<any>({});
 }
 
 @Options({})

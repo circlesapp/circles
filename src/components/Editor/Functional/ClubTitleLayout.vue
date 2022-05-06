@@ -4,7 +4,7 @@
       <img :src="getImgPath" alt="club_logo" />
     </div>
     <h1>{{ getClub.name }}</h1>
-    <router-link :to="{ name: 'page/timeline' }" tag="p">타임라인으로 이동하기</router-link>
+    <p @click="$router.push({ name: 'page/timeline' })">타임라인으로 이동하기</p>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createStore, StoreOptions } from 'vuex';
 import { useGtag } from 'vue-gtag-next';
+import { Club, User } from './types';
 
 const { event } = useGtag();
 
@@ -11,8 +12,8 @@ interface LoadingData {
 
 export interface RootState {
   userToken: string;
-  userInformation: any;
-  club: any;
+  userInformation: User;
+  club: Club;
   mainPath: string;
   loadingStack: LoadingData[];
   pageLoadingStack: LoadingData[];
@@ -26,12 +27,24 @@ export interface RootState {
 const store: StoreOptions<RootState> = {
   state: {
     userToken: ``,
-    userInformation: {},
+    userInformation: {
+      _id: '',
+      clubs: [],
+      email: '',
+      password: '',
+      name: '',
+      message: '',
+      applicants: [],
+      alarms: [],
+      imgPath: '',
+      pushSubscription: null,
+      isWithdraw: false,
+    },
     club: {} as any,
-    mainPath: `/api/`,
-    loadingStack: [] as LoadingData[],
-    pageLoadingStack: [] as LoadingData[],
-    showNoticeTimer: 0 as number,
+    mainPath: `https://circles.hyunwoo.dev/api/`,
+    loadingStack: [],
+    pageLoadingStack: [],
+    showNoticeTimer: 0,
     showNotice: false,
     noticeContent: ``,
     darkTheme: false,
@@ -63,14 +76,18 @@ const store: StoreOptions<RootState> = {
       state.loadingStack.push(data);
     },
     clearLoading(state, data: string) {
-      let idx = state.loadingStack.findIndex((loadingData: LoadingData) => loadingData.name == data);
+      let idx = state.loadingStack.findIndex(
+        (loadingData: LoadingData) => loadingData.name == data
+      );
       if (idx != -1) state.loadingStack.splice(idx, 1);
     },
     pushPageLoading(state, data: LoadingData) {
       state.pageLoadingStack.push(data);
     },
     clearPageLoading(state, data: string) {
-      let idx = state.pageLoadingStack.findIndex((pageLoadingData: LoadingData) => pageLoadingData.name == data);
+      let idx = state.pageLoadingStack.findIndex(
+        (pageLoadingData: LoadingData) => pageLoadingData.name == data
+      );
       if (idx != -1) state.pageLoadingStack.splice(idx, 1);
     },
     showNotice(state, data: any) {
@@ -95,10 +112,10 @@ const store: StoreOptions<RootState> = {
               q: data,
             },
           })
-          .then((school) => {
+          .then(school => {
             resolve(school.data.school_infos);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -107,7 +124,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/login`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/login', {
               event_category: 'action',
@@ -115,7 +132,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -124,7 +141,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/withdrawAccount`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/withdrawAccount', {
               event_category: 'action',
@@ -132,7 +149,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -145,7 +162,7 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             commit(`setUserInformation`, user.data.data);
             event('auth/changeInformation', {
               event_category: 'action',
@@ -153,7 +170,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -162,7 +179,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/changePassword`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/changePassword', {
               event_category: 'action',
@@ -170,7 +187,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -179,7 +196,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/requestRegisterdByEmail`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/requestRegisterdByEmail', {
               event_category: 'action',
@@ -187,7 +204,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -196,7 +213,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/requestChangePassworddByEmail`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/requestChangePassworddByEmail', {
               event_category: 'action',
@@ -204,7 +221,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -213,7 +230,7 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .post(`${state.mainPath}auth/register`, data)
-          .then((user) => {
+          .then(user => {
             commit(`setUserToken`, user.data.data);
             event('auth/register', {
               event_category: 'action',
@@ -221,7 +238,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -234,14 +251,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             event('auth/changeProfileImage', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -254,14 +271,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             event('auth/getAlarm', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -274,14 +291,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             event('auth/removeAlarm', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -294,14 +311,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             event('auth/removeAllAlarm', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -314,14 +331,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((user) => {
+          .then(user => {
             event('admin/changeClubImage', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -330,14 +347,14 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/getAllClubs`)
-          .then((user) => {
+          .then(user => {
             event('club/getAllClubs', {
               event_category: 'action',
               event_label: user.data.data,
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -354,7 +371,7 @@ const store: StoreOptions<RootState> = {
               Authorization: data.token,
             },
           })
-          .then((user) => {
+          .then(user => {
             commit(`setUserInformation`, user.data.data);
             event('auth/getProfile', {
               event_category: 'action',
@@ -362,7 +379,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -376,7 +393,7 @@ const store: StoreOptions<RootState> = {
               name: data,
             },
           })
-          .then((user) => {
+          .then(user => {
             commit(`setClub`, user.data.data);
             event('club/getClubInformation', {
               event_category: 'action',
@@ -384,7 +401,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(user.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -397,14 +414,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((posts) => {
+          .then(posts => {
             event('post/getPublicPosts', {
               event_category: 'action',
               event_label: posts.data.data,
             });
             resolve(posts.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -417,14 +434,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((post) => {
+          .then(post => {
             event('post/write', {
               event_category: 'action',
               event_label: post.data.data,
             });
             resolve(post.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -437,14 +454,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((post) => {
+          .then(post => {
             event('post/delete', {
               event_category: 'action',
               event_label: post.data.data,
             });
             resolve(post.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -457,14 +474,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((post) => {
+          .then(post => {
             event('post/modification', {
               event_category: 'action',
               event_label: post.data.data,
             });
             resolve(post.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -477,14 +494,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((result) => {
+          .then(result => {
             event('post/toggleLike', {
               event_category: 'action',
               event_label: result.data.data,
             });
             resolve(result.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -497,14 +514,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((result) => {
+          .then(result => {
             event('post/getPublicPostComments', {
               event_category: 'action',
               event_label: result.data.data,
             });
             resolve(result.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -517,14 +534,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((result) => {
+          .then(result => {
             event('post/comment/write', {
               event_category: 'action',
               event_label: result.data.data,
             });
             resolve(result.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -537,14 +554,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((result) => {
+          .then(result => {
             event('post/comment/delete', {
               event_category: 'action',
               event_label: result.data.data,
             });
             resolve(result.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -557,14 +574,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('applicant/getMyApplicant', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -577,14 +594,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applications) => {
+          .then(applications => {
             event('applicant/getClubApplications', {
               event_category: 'action',
               event_label: applications.data.data,
             });
             resolve(applications.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -597,14 +614,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('applicant/apply', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -617,14 +634,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('applicant/accept', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -637,14 +654,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('applicant/reject', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -657,14 +674,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('applicant/modification', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -677,14 +694,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applications) => {
+          .then(applications => {
             event('calendar/getPublicCalendars', {
               event_category: 'action',
               event_label: applications.data.data,
             });
             resolve(applications.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -697,14 +714,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('calendar/write', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -717,14 +734,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((applicant) => {
+          .then(applicant => {
             event('calendar/delete', {
               event_category: 'action',
               event_label: applicant.data.data,
             });
             resolve(applicant.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -733,14 +750,14 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/award/getPublicAwards`)
-          .then((awards) => {
+          .then(awards => {
             event('award/getPublicAwards', {
               event_category: 'action',
               event_label: awards.data.data,
             });
             resolve(awards.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -753,14 +770,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((award) => {
+          .then(award => {
             event('award/write', {
               event_category: 'action',
               event_label: award.data.data,
             });
             resolve(award.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -773,14 +790,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((award) => {
+          .then(award => {
             event('award/delete', {
               event_category: 'action',
               event_label: award.data.data,
             });
             resolve(award.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -793,14 +810,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((budget) => {
+          .then(budget => {
             event('budget/write', {
               event_category: 'action',
               event_label: budget.data.data,
             });
             resolve(budget.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -813,14 +830,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((budget) => {
+          .then(budget => {
             event('budget/delete', {
               event_category: 'action',
               event_label: budget.data.data,
             });
             resolve(budget.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -829,14 +846,14 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/member/getPublicMembers`)
-          .then((members) => {
+          .then(members => {
             event('member/getPublicMembers', {
               event_category: 'action',
               event_label: members.data.data,
             });
             resolve(members.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -849,14 +866,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((members) => {
+          .then(members => {
             event('member/getDetailMembers', {
               event_category: 'action',
               event_label: members.data.data,
             });
             resolve(members.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -865,14 +882,14 @@ const store: StoreOptions<RootState> = {
       return new Promise<any>((resolve, reject) => {
         axios
           .get(`${state.mainPath}club/${state.club.name}/budget/getPublicBudgets`)
-          .then((budgets) => {
+          .then(budgets => {
             event('budget/getPublicBudgets', {
               event_category: 'action',
               event_label: budgets.data.data,
             });
             resolve(budgets.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -885,7 +902,7 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((club) => {
+          .then(club => {
             commit('setClub', club.data.data);
             event('admin/modification', {
               event_category: 'action',
@@ -893,7 +910,7 @@ const store: StoreOptions<RootState> = {
             });
             resolve(club.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -906,14 +923,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((club) => {
+          .then(club => {
             event('club/create', {
               event_category: 'action',
               event_label: club.data.data,
             });
             resolve(club.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -926,14 +943,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((club) => {
+          .then(club => {
             event('admin/closure', {
               event_category: 'action',
               event_label: club.data.data,
             });
             resolve(club.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });
@@ -946,14 +963,14 @@ const store: StoreOptions<RootState> = {
               Authorization: state.userToken,
             },
           })
-          .then((club) => {
+          .then(club => {
             event('admin/fireMember', {
               event_category: 'action',
               event_label: club.data.data,
             });
             resolve(club.data.data);
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
           });
       });

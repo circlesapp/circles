@@ -25,7 +25,7 @@
 import { Options, prop, Vue } from 'vue-class-component';
 
 class Props {
-  data: any = prop({});
+  data = prop<any>({});
 }
 
 @Options({})

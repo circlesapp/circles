@@ -3,26 +3,71 @@
     <transition name="submenuAnimation">
       <div class="submenu" v-if="$route.name != 'community/editor'">
         <div class="submenu__list">
-          <router-link :to="{ name: 'community/attendanceSheet' }" class="submenu__list__item" v-if="isAdmin">출석부</router-link>
-          <router-link :to="{ name: 'community/calendar' }" class="submenu__list__item" v-if="checkPermission(42)">캘린더</router-link>
-          <router-link :to="{ name: 'community/editor' }" class="submenu__list__item" v-if="isAdmin">사이트편집</router-link>
-          <router-link :to="{ name: 'community/editclub' }" class="submenu__list__item" v-if="isAdmin">동아리관리</router-link>
-          <router-link :to="{ name: 'community/members' }" class="submenu__list__item" v-if="isAdmin">맴버관리</router-link>
-          <router-link :to="{ name: 'community/application' }" class="submenu__list__item" v-if="checkPermission(32)">채용관리</router-link>
-          <router-link :to="{ name: 'community/interview' }" class="submenu__list__item" v-if="isAdmin">면접관리</router-link>
+          <router-link
+            :to="{ name: 'community/attendanceSheet' }"
+            class="submenu__list__item"
+            v-if="isAdmin"
+          >
+            출석부
+          </router-link>
+          <router-link
+            :to="{ name: 'community/calendar' }"
+            class="submenu__list__item"
+            v-if="checkPermission(42)"
+          >
+            캘린더
+          </router-link>
+          <router-link
+            :to="{ name: 'community/editor' }"
+            class="submenu__list__item"
+            v-if="isAdmin"
+          >
+            사이트편집
+          </router-link>
+          <router-link
+            :to="{ name: 'community/editclub' }"
+            class="submenu__list__item"
+            v-if="isAdmin"
+          >
+            동아리관리
+          </router-link>
+          <router-link
+            :to="{ name: 'community/members' }"
+            class="submenu__list__item"
+            v-if="isAdmin"
+          >
+            멤버관리
+          </router-link>
+          <router-link
+            :to="{ name: 'community/application' }"
+            class="submenu__list__item"
+            v-if="checkPermission(32)"
+          >
+            채용관리
+          </router-link>
+          <router-link
+            :to="{ name: 'community/interview' }"
+            class="submenu__list__item"
+            v-if="isAdmin"
+          >
+            면접관리
+          </router-link>
         </div>
       </div>
     </transition>
 
     <div class="community__content">
-      <transition name="routerfade-animation">
-        <router-view v-if="getClub.name"></router-view>
-      </transition>
+      <router-view v-if="getClub.name" v-slot="{ Component }">
+        <transition name="routerfade-animation">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { Member, Rank } from '@/types';
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
@@ -38,18 +83,21 @@ export default class Community extends Vue {
   }
 
   reload() {
-    if (!this.getClub.name || this.getClub.name.toLowerCase() != String(this.$route.params.club).toLowerCase()) {
+    if (
+      !this.getClub.name ||
+      this.getClub.name.toLowerCase() != String(this.$route.params.club).toLowerCase()
+    ) {
       this.$store.commit('pushLoading', {
         name: 'GET_CLUB',
         message: '동아리 불러오는 중',
       });
       this.$store
         .dispatch('GET_CLUB', this.$route.params.club)
-        .then((club) => {
+        .then(club => {
           this.$store.commit('clearLoading', 'GET_CLUB');
           if (!club) this.$router.push('/');
         })
-        .catch((err) => {
+        .catch(err => {
           this.$store.commit('clearLoading', 'GET_CLUB');
           this.$router.push('/');
         });
@@ -60,7 +108,13 @@ export default class Community extends Vue {
       let user = this.$store.state.club.members.find((member: any) => {
         return member.user == this.$store.state.userInformation._id;
       });
-      if (user) return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin || this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).permission.indexOf('' + permission) != -1;
+      if (user)
+        return (
+          this.$store.state.club.ranks.find((rank: Rank) => rank.id == user?.rank)?.isAdmin ||
+          this.$store.state.club.ranks
+            .find((rank: Rank) => rank.id == user?.rank)
+            ?.permission.indexOf(permission) != -1
+        );
       else return false;
     } else return false;
   }
@@ -73,11 +127,11 @@ export default class Community extends Vue {
   }
   get isAdmin() {
     if (this.$store.state.club.ranks && this.$store.state.userInformation._id) {
-      let user = this.$store.state.club.members.find((member: any) => {
+      let user = this.$store.state.club.members.find((member: Member) => {
         return member.user == this.$store.state.userInformation._id;
       });
       if (user) {
-        return this.$store.state.club.ranks.find((rank: any) => rank.id == user.rank).isAdmin;
+        return this.$store.state.club.ranks.find((rank: Rank) => rank.id === user?.rank)?.isAdmin;
       } else return false;
     } else return false;
   }
@@ -85,12 +139,12 @@ export default class Community extends Vue {
 </script>
 
 <style>
-.submenuAnimation-enter,
+.submenuAnimation-enter-from,
 .submenuAnimation-leave-to {
   height: 0px !important;
 }
 .submenuAnimation-enter-to,
-.submenuAnimation-leave {
+.submenuAnimation-leave-from {
   height: 90px !important;
 }
 .submenuAnimation-enter-active,
@@ -107,7 +161,7 @@ export default class Community extends Vue {
   width: 100%;
   height: 100%;
 }
-.routerfade-animation-enter {
+.routerfade-animation-enter-from {
   opacity: 0;
   transform: scale(0.95);
 }
@@ -115,7 +169,7 @@ export default class Community extends Vue {
   opacity: 1;
   transform: scale(1);
 }
-.routerfade-animation-leave {
+.routerfade-animation-leave-from {
   opacity: 1;
   transform: scale(1);
 }

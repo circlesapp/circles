@@ -12,8 +12,19 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import ClubTitleLayout from "../components/Editor/Functional/ClubTitleLayout.vue";
+import InformationLayout from "../components/Editor/Functional/InformationLayout.vue";
+import MembersLayout from "../components/Editor/Functional/MembersLayout.vue";
+import ApplyButtonLayout from "../components/Editor/Functional/ApplyButtonLayout.vue";
 
-@Options({})
+@Options({
+  components: {
+		ClubTitleLayout,
+		InformationLayout,
+		MembersLayout,
+		ApplyButtonLayout
+	},
+})
 export default class Site extends Vue {
   componentList: any = [];
   isLoading: boolean = false;

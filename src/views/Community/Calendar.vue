@@ -14,16 +14,39 @@
         </button>
       </div>
     </div>
-    <div class="calendar__content" @mousedown="onClick" @mousemove="onClickDrag" @mouseup="onClickUp" @touchstart="onClick" @touchmove="onClickDrag" @touchend="onClickUp" @contextmenu="$event.preventDefault()" ref="calendar">
-      <CalendarBoxCreatePopup :start="start" :end="end" v-if="isCreatePopup" @isUpdated="reload"></CalendarBoxCreatePopup>
-      <div class="calendar__content__day" v-for="(day, idx) in getDays" :key="idx" ref="calendarItem" @click="isCreatePopup = false">
+    <div
+      class="calendar__content"
+      @mousedown="onClick"
+      @mousemove="onClickDrag"
+      @mouseup="onClickUp"
+      @touchstart="onClick"
+      @touchmove="onClickDrag"
+      @touchend="onClickUp"
+      @contextmenu="$event.preventDefault()"
+      ref="calendar"
+    >
+      <CalendarBoxCreatePopup
+        :start="start"
+        :end="end"
+        v-if="isCreatePopup"
+        @isUpdated="reload"
+      ></CalendarBoxCreatePopup>
+      <div
+        class="calendar__content__day"
+        v-for="(day, idx) in getDays"
+        :key="idx"
+        ref="calendarItem"
+        @click="isCreatePopup = false"
+      >
         <transition-group name="barAnimation">
           <div
             v-for="sc in lineData[idx] ? lineData[idx] : []"
             :key="sc.content._id"
             class="calendar__content__day__bar"
             @click="removeCalendar(sc.content._id)"
-            :style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 + 20}px; background-color:${sc.color}`"
+            :style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${
+              sc.height * 30 + 20
+            }px; background-color:${sc.color}`"
           >
             {{ sc.content.content }}
           </div>
@@ -32,12 +55,20 @@
             v-for="sc in tmpLineData[idx] ? tmpLineData[idx] : []"
             :key="idx + sc"
             class="calendar__content__day__bar calendar__content__day__bar-create"
-            :style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${sc.height * 30 + 20}px; background-color:${sc.color}`"
+            :style="`width: ${sc.width * calendarItemWidth + sc.width * 2}px; bottom: ${
+              sc.height * 30 + 20
+            }px; background-color:${sc.color}`"
           >
             CREATE
           </div>
         </transition-group>
-        <span :class="{ 'calendar__content__day-today': day == currentDay && month == currentMonth && year == currentYear }">{{ day == 0 ? '' : day }}</span>
+        <span
+          :class="{
+            'calendar__content__day-today':
+              day == currentDay && month == currentMonth && year == currentYear,
+          }"
+          >{{ day == 0 ? '' : day }}</span
+        >
       </div>
     </div>
   </div>
@@ -134,7 +165,7 @@ export default class Calendar extends Vue {
       name: 'GET_CLUB_CALENDAR',
       message: '캘린더 불러오는 중',
     });
-    this.$store.dispatch('GET_CLUB_CALENDAR').then((calendars) => {
+    this.$store.dispatch('GET_CLUB_CALENDAR').then(calendars => {
       this.lineData = [];
       this.tmpLineData = [];
       this.$store.commit('clearLoading', 'GET_CLUB_CALENDAR');
@@ -145,7 +176,14 @@ export default class Calendar extends Vue {
           let start = startDate.getDate() + this.startDay.getDay();
           let endDate = new Date(calendar.end);
           let end = endDate.getDate() + this.startDay.getDay();
-          this.drawLine((start - 1) % 7, Math.floor((start - 1) / 7), end % 7, Math.floor((end - 1) / 7), false, calendar);
+          this.drawLine(
+            (start - 1) % 7,
+            Math.floor((start - 1) / 7),
+            end % 7,
+            Math.floor((end - 1) / 7),
+            false,
+            calendar
+          );
         }
       });
     });
@@ -164,8 +202,10 @@ export default class Calendar extends Vue {
   onClick(e: MouseEvent | TouchEvent) {
     if (!this.isCreatePopup) {
       this.getSize();
-      this.startPointX = ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
-      this.startPointY = ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
+      this.startPointX =
+        ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
+      this.startPointY =
+        ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
       let position = this.getPosition(this.startPointX, this.startPointY);
       this.isClick = true;
     }
@@ -176,14 +216,20 @@ export default class Calendar extends Vue {
       this.isCreatePopup = true;
       let startPosition = this.getPosition(this.startPointX, this.startPointY);
       let endPosition = this.getPosition(this.endPointX, this.endPointY);
-      this.start = new Date(this.year, this.month, this.getDays[startPosition[1] * 7 + startPosition[0]]);
+      this.start = new Date(
+        this.year,
+        this.month,
+        this.getDays[startPosition[1] * 7 + startPosition[0]]
+      );
       this.end = new Date(this.year, this.month, this.getDays[endPosition[1] * 7 + endPosition[0]]);
     }
   }
   onClickDrag(e: MouseEvent | TouchEvent) {
     if (this.isClick) {
-      this.endPointX = ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
-      this.endPointY = ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
+      this.endPointX =
+        ((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX) - this.calendarLeft;
+      this.endPointY =
+        ((e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY) - this.calendarTop;
       let startPosition = this.getPosition(this.startPointX, this.startPointY);
       let endPosition = this.getPosition(this.endPointX, this.endPointY);
 
@@ -194,11 +240,19 @@ export default class Calendar extends Vue {
   getPosition(x: number, y: number) {
     return [Math.floor(x / this.calendarItemWidth), Math.floor(y / this.calendarItemHeight)];
   }
-  drawLine(startX: number, startY: number, endX: number, endY: number, tmpMode: boolean = false, content: string = '') {
+  drawLine(
+    startX: number,
+    startY: number,
+    endX: number,
+    endY: number,
+    tmpMode: boolean = false,
+    content: string = ''
+  ) {
     let lineHeight = [0, 0, 0, 0, 0];
     for (let i = startY; i <= endY; i++) {
       let startJ = startY == i ? startX : 0;
-      for (let j = 0; j < (i == endY ? endX : 7); j++) if (this.lineData[i * 7 + j]) lineHeight[i]++;
+      for (let j = 0; j < (i == endY ? endX : 7); j++)
+        if (this.lineData[i * 7 + j]) lineHeight[i]++;
     }
     if (tmpMode) {
       for (let i = startY; i <= endY; i++) {
@@ -233,11 +287,11 @@ export default class Calendar extends Vue {
       .dispatch('CALENDAR_DELETE', {
         _id: id,
       })
-      .then((calendar) => {
+      .then(calendar => {
         this.$store.commit('clearLoading', 'CALENDAR_DELETE');
         this.reload();
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }
 
   get getDays(): any[] {
@@ -253,7 +307,7 @@ export default class Calendar extends Vue {
 
 <style>
 .barAnimation-leave-to,
-.barAnimation-enter {
+.barAnimation-enter-from {
   width: 0 !important;
 }
 .calendar {

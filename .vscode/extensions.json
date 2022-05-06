@@ -1,3 +1,9 @@
 {
-  "recommendations": ["arcanis.vscode-zipfs", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "vue.volar", "vue.vscode-typescript-vue-plugin", "wayou.vscode-todo-highlight"]
+  "recommendations": [
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
+    "wayou.vscode-todo-highlight"
+  ]
 }

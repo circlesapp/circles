@@ -7,10 +7,11 @@
           <br />동아리를 관리하고 <br />홍보해보세요
         </h2>
         <div class="home__content">
-          <b style="font-family: AvenirBlack">circles.</b>는 빠르고 편리한 동아리 웹사이트 빌더 &amp; 동아리 관리 솔루션
+          <b style="font-family: AvenirBlack">circles.</b>는 빠르고 편리한 동아리 웹사이트 빌더
+          &amp; 동아리 관리 솔루션
           <span>
-            으로, 자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트, 지원 페이지, 그리고 동아리 맴버만이 사용할 수 있는
-            내부 커뮤니티를 제작할 수 있습니다.
+            으로, 자체 에디터와 빌더를 활용하여 직접 손쉽게 여러분이 원하는 동아리 홍보 웹사이트,
+            지원 페이지, 그리고 동아리 맴버만이 사용할 수 있는 내부 커뮤니티를 제작할 수 있습니다.
           </span>
         </div>
         <router-link custom to="/login" v-slot="{ navigate }">
@@ -47,8 +48,9 @@
             <h3>동아리 페이지</h3>
           </div>
           <p>
-            <span style="font-family: AvenirBlack">circles.</span> 에디터를 통해 쉽고 빠르게 동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물,
-            수상 실적, 멤버 소개, 채용 공고, 그리고 예산안의 공개 및 작성이 가능합니다.
+            <span style="font-family: AvenirBlack">circles.</span> 에디터를 통해 쉽고 빠르게
+            동아리를 홍보하는 페이지를 제작하여 간편한 홍보 게시물, 수상 실적, 멤버 소개, 채용 공고,
+            그리고 예산안의 공개 및 작성이 가능합니다.
           </p>
         </div>
         <div class="home__function__content__item">
@@ -56,7 +58,10 @@
             <i class="mdi mdi-account-multiple"></i>
             <h3>동아리 커뮤니티</h3>
           </div>
-          <p>동아리 멤버만을 위한 내부 커뮤니티로, 출석부, 캘린더, 멤버 관리, 채용 관리, 면접 관리 등의 기능이 포함되어 있습니다.</p>
+          <p>
+            동아리 멤버만을 위한 내부 커뮤니티로, 출석부, 캘린더, 멤버 관리, 채용 관리, 면접 관리
+            등의 기능이 포함되어 있습니다.
+          </p>
         </div>
         <div class="home__function__content__item">
           <div>
@@ -64,8 +69,10 @@
             <h3><span style="font-family: AvenirBlack">circles.</span> Editor</h3>
           </div>
           <p>
-            동아리 페이지를 자신이 원하는 대로 만들 수 있는 <span style="font-family: AvenirBlack">circles.</span> Editor는 멤버소개, 동아리일정
-            예산공지, 수상실적 등 정보를 선택해서 페이지를 제작하고, 지원하기 버튼을 통해 동아리의 지원을 받을 수 있습니다.
+            동아리 페이지를 자신이 원하는 대로 만들 수 있는
+            <span style="font-family: AvenirBlack">circles.</span> Editor는 멤버소개, 동아리일정
+            예산공지, 수상실적 등 정보를 선택해서 페이지를 제작하고, 지원하기 버튼을 통해 동아리의
+            지원을 받을 수 있습니다.
           </p>
         </div>
       </div>
@@ -86,11 +93,16 @@
           <img src="../assets/medal03.webp" alt="Medal for Progressive Web App" />
           <div class="tooltip tooltip03">Progressive Web App</div>
         </div>
-        <div class="home__footer__right__button" @click="$router.push('/sitemap')"><i class="mdi mdi-sitemap"></i></div>
+        <div class="home__footer__right__button" @click="$router.push('/sitemap')">
+          <i class="mdi mdi-sitemap"></i>
+        </div>
         <div class="home__footer__right__button" onclick="window.open('mailto:admin@hyunwoo.kim')">
           <i class="mdi mdi-email"></i>
         </div>
-        <div class="home__footer__right__button" onclick="window.open('https://github.com/CirclesApp/')">
+        <div
+          class="home__footer__right__button"
+          onclick="window.open('https://github.com/CirclesApp/')"
+        >
           <i class="mdi mdi-github-circle"></i>
         </div>
       </div>
@@ -105,25 +117,31 @@
       </div>
     </div>
     <div class="home__login__list">
-      <div class="home__login__list__applicant" :class="{ 'home__login__list__applicant-disable': getUserInformation.applicants.length == 0 }">
+      <div
+        class="home__login__list__applicant"
+        :class="{
+          'home__login__list__applicant-disable': getUserInformation.applicants.length == 0,
+        }"
+      >
         <h2>신청한 동아리</h2>
         <span class="time"></span>
         <ul>
-          <router-link
-            tag="li"
-            :to="`/${applicant.club.name}/page/applicant/application`"
-            class="home__login__list__applicant__item"
+          <li
             v-for="applicant in getUserInformation.applicants"
             :key="applicant._id"
+            class="home__login__list__applicant__item"
+            @click="$router.push(`/${applicant.club.name}/page/applicant/application`)"
           >
             <span>{{ applicant.club.name }}</span>
             <span class="date">{{ new Date(applicant.createAt).toLocaleDateString() }}</span>
-          </router-link>
+          </li>
         </ul>
       </div>
       <div
         class="home__login__profile__selectclub"
-        :class="{ 'home__login__profile__selectclub-disable': getUserInformation.applicants.length == 0 }"
+        :class="{
+          'home__login__profile__selectclub-disable': getUserInformation.applicants.length == 0,
+        }"
       >
         <div class="home__login__profile__selectclub__header">
           <h2>가입한 동아리</h2>
@@ -131,7 +149,12 @@
             <i class="mdi mdi-plus"></i>
           </button>
         </div>
-        <input @keydown="userInputKeyPress" v-model="searchClub" type="text" class="home__login__profile__selectclub__search" />
+        <input
+          @keydown="userInputKeyPress"
+          v-model="searchClub"
+          type="text"
+          class="home__login__profile__selectclub__search"
+        />
         <div class="home__login__profile__selectclub__list">
           <div
             class="home__login__profile__selectclub__list__item"
@@ -186,13 +209,14 @@ export default class Home extends Vue {
         token: this.$store.state.userToken,
         pushSubscription: localStorage.getItem('circles.pushSubscription'),
       })
-      .then((user) => {
+      .then(user => {
         this.$store.commit('clearLoading', 'GET_USER_PROFILE');
       })
-      .catch((err) => {});
+      .catch(err => {});
   }
   userInputKeyPress(e: any) {
-    if (this.targetCurrentIndex >= this.getClubs.length) this.targetCurrentIndex = this.getClubs.length;
+    if (this.targetCurrentIndex >= this.getClubs.length)
+      this.targetCurrentIndex = this.getClubs.length;
     switch (e.keyCode) {
       case 13:
         this.selectClub(this.targetCurrentIndex);
@@ -215,12 +239,12 @@ export default class Home extends Vue {
       });
       this.$store
         .dispatch('GET_CLUB', club.name)
-        .then((club) => {
+        .then(club => {
           this.$store.commit('clearLoading', 'GET_CLUB');
           if (!club) this.$router.push('/');
           else this.$router.push(`/${club.name}/page/timeline`);
         })
-        .catch((err) => {
+        .catch(err => {
           this.$store.commit('clearLoading', 'GET_CLUB');
           this.$router.push('/');
         });
@@ -243,7 +267,10 @@ export default class Home extends Vue {
     if (this.$store.state.club.name) {
       try {
         return this.$store.state.club.ranks.find(
-          (x: any) => this.$store.state.club.members.find((x: any) => x.user == this.$store.state.userInformation._id).rank == x.id,
+          (x: any) =>
+            this.$store.state.club.members.find(
+              (x: any) => x.user == this.$store.state.userInformation._id
+            ).rank == x.id
         ).name;
       } catch (e) {
         return '-';
@@ -253,11 +280,14 @@ export default class Home extends Vue {
     }
   }
   get getUserImage() {
-    if (this.$store.state.userInformation.imgPath) return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
+    if (this.$store.state.userInformation.imgPath)
+      return this.$store.state.mainPath + this.$store.state.userInformation.imgPath;
     else return 'https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg';
   }
   get getClubs(): any[] {
-    return this.getUserInformation.clubs.filter((club: any) => club.name.indexOf(this.searchClub) != -1);
+    return this.getUserInformation.clubs.filter(
+      (club: any) => club.name.indexOf(this.searchClub) != -1
+    );
   }
 }
 </script>
