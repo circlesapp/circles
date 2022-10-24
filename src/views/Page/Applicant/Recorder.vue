@@ -32,7 +32,7 @@
 import Vue from "vue";
 import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
-export default Vue.use(VueSocketIOExt, io("https://circles.hyunwoo.dev/")).extend({
+export default Vue.use(VueSocketIOExt, io("https://circles-api.hyunwoo.dev/")).extend({
 	sockets: {
 		interview_getInterviewByClubName(this: any, data) {
 			this.$store.commit("clearLoading", "interview_getInterviewByClubName");
