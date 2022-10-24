@@ -15,7 +15,7 @@ export default new Vuex.Store({
     userToken: ``,
     userInformation: {},
     club: {} as any,
-    mainPath: `/api/`,
+    mainPath: `https://circles-api.hyunwoo.dev/`,
     loadingStack: [] as LoadingData[],
     pageLoadingStack: [] as LoadingData[],
     showNoticeTimer: 0 as number,
