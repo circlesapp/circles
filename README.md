@@ -19,7 +19,7 @@
 
 > 빠르고 편리한 동아리 웹사이트 빌더 & 동아리 관리 솔루션
 
-> 선린인터넷등학교 디지털콘텐츠개발대회 대상 수상작
+> 선린인터넷고등학교 디지털콘텐츠개발대회 대상 수상작
 
 ![circles.](https://github.com/circlesapp/assets/raw/master/circles_screenshot.png)
 
